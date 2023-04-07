@@ -39,7 +39,7 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "pro": {
               "budgets": [
                 {
                   "type": "initial",
@@ -54,7 +54,13 @@
               ],
               "outputHashing": "all"
             },
-            "development": {
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -63,19 +69,19 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "pro"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "browserTarget": "personal-web:build:production"
+            "pro": {
+              "browserTarget": "personal-web:build:pro"
             },
-            "development": {
-              "browserTarget": "personal-web:build:development"
+            "dev": {
+              "browserTarget": "personal-web:build:dev"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "dev"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
