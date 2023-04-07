@@ -1,0 +1,78 @@
+<!--<p-galleria
+  [(value)]="fotos"
+
+  [containerStyle]="{'width': '100%'}"
+  style="width: 100%;"
+  [numVisible]="5">
+  <ng-template pTemplate="item" let-item style="width: 100%;">
+    <img [src]="item.datos | transformBase64ToSrc" style="width: 100%;" />
+  </ng-template>
+  <ng-template
+    pTemplate="thumbnail"
+    let-item>
+
+    <div class="p-grid p-nogutter p-justify-center">
+      <img
+        style="height: 100px; max-width:100%;"
+        [src]="item.datos | transformBase64ToSrc" />
+    </div>
+  </ng-template>
+</p-galleria>-->
+
+<!-- [responsiveOptions]="responsiveOptions" -->
+
+<p-galleria
+  [value]="fotos"
+  [(visible)]="displayCustom"
+  [responsiveOptions]="responsiveOptions"
+  [numVisible]="7"
+  [circular]="true"
+  [fullScreen]="true"
+  [containerStyle]="{ 'max-width': '70%' }"
+  [showItemNavigators]="true"
+  [showThumbnails]="false"
+  [baseZIndex]="100000"
+  [fullScreen]="true"
+  [(activeIndex)]="activeIndex"
+>
+  <ng-template pTemplate="item" let-foto>
+    <div
+      class="flex justify-content-center align-items-center bg-primary h-full"
+    >
+      <img
+        [src]="foto.url"
+        class="myimg"
+        style="width: 100%; height: 100% !important; display: block"
+      />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="thumbnail" let-foto>
+    <div
+      class="flex justify-content-center align-items-center p-grid p-nogutter p-justify-center"
+      style="max-height: 90% !important"
+    >
+      <img [src]="foto.url" style="display: block; height: 100% !important" />
+    </div>
+  </ng-template>
+</p-galleria>
+<div *ngIf="fotos" class="grid align-content-center" style="width: 100%">
+  <div
+    *ngFor="let foto of fotos; let index = index"
+    class="xs:col-12 md:col-6 lg:col-4"
+    key="index"
+  >
+    <img
+      [src]="foto.url"
+      [alt]="foto.nombre"
+      style="cursor: pointer; width: 100%; height: 300px; object-fit: cover"
+      (click)="imageClick(index)"
+    />
+  </div>
+</div>
+
+<app-ningun-resultado
+  *ngIf="!(loading$ | async) && fotos?.length == 0"
+  [text]="'No Hay Ninguna Foto'"
+  [icon]="'pi pi-camera'"
+  [height]="'100vh'"
+></app-ningun-resultado>

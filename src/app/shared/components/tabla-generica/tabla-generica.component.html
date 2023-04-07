@@ -1,0 +1,496 @@
+<div style="text-align: right">
+  <div
+    *ngFor="let buttonConfig of tableConfig?.topButtons"
+    style="margin-bottom: 10px; margin-left: 10px; display: inline-block"
+  >
+    <button
+      type="button"
+      (click)="buttonEvent({ type: buttonConfig.action })"
+      pButton
+      label="{{ buttonConfig.label }}"
+      icon="{{ buttonConfig.icon }}"
+      class="p-button-primary p-button-sm"
+    ></button>
+  </div>
+</div>
+
+<p-table
+  #dt
+  [value]="entities"
+  [dataKey]="tableConfig?.dataKey ? tableConfig?.dataKey : 'id'"
+  [rowHover]="true"
+  [lazy]="lazy"
+  [lazyLoadOnInit]="!lazy"
+  [responsive]="true"
+  (onLazyLoad)="loadEntitiesLazy($event)"
+  [loading]="loading"
+  sortMode="multiple"
+  [resizableColumns]="true"
+  [paginator]="true"
+  [rows]="requestFilter ? requestFilter.size : 10"
+  [totalRecords]="totalRecords"
+  [rowsPerPageOptions]="paginators"
+  [(selection)]="selection"
+  (onRowSelect)="onRowSelect($event)"
+  (onRowUnselect)="onRowUnselect($event)"
+  styleClass="p-datatable-responsive-demo"
+>
+  <ng-template pTemplate="header" let-columns>
+    <!-- Titulo de la columna -->
+    <tr>
+      <th *ngIf="tableConfig?.selectionMode == 'radio'" style="width: 3em"></th>
+      <th *ngIf="tableConfig?.selectionMode == 'checkbox'" style="width: 3em">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th *ngIf="tableConfig?.expandedConfig" style="width: 3em"></th>
+      <ng-container *ngFor="let fieldConfig of tableConfig?.fieldConfig">
+        <div *ngIf="fieldConfig.sort; then thenBlock; else elseBlock"></div>
+
+        <ng-template #thenBlock>
+          <th
+            style="text-align: center"
+            [style.width]="fieldConfig.width"
+            *ngIf="
+              fieldConfig.permisos == undefined ||
+              contienePermisos(fieldConfig.permisos)
+            "
+            [pSortableColumn]="fieldConfig.sort ? fieldConfig.field : undefined"
+          >
+            {{ fieldConfig.nombre }}
+            <p-sortIcon [field]="fieldConfig.field"></p-sortIcon>
+          </th>
+        </ng-template>
+        <ng-template #elseBlock>
+          <th
+            *ngIf="
+              fieldConfig.permisos == undefined ||
+              contienePermisos(fieldConfig.permisos)
+            "
+            [style.width]="fieldConfig.width"
+          >
+            {{ fieldConfig.nombre }}
+          </th>
+        </ng-template>
+      </ng-container>
+      <th
+        style="text-align: center"
+        [style.width]="calculareOptionsWidth()"
+        *ngIf="tableConfig?.optionButtons?.length > 0"
+      >
+        {{ 'general.opciones' | translate }}
+      </th>
+    </tr>
+
+    <!-- Filtro de la columna -->
+    <!--ng-model="filersRow"-->
+    <tr *ngIf="hasFilters()">
+      <th
+        *ngIf="
+          tableConfig?.selectionMode == 'checkbox' ||
+          tableConfig?.selectionMode == 'radio'
+        "
+        style="width: 3em"
+      ></th>
+      <th *ngIf="tableConfig?.expandedConfig" style="width: 3rem"></th>
+      <th
+        *ngFor="
+          let fieldConfig of tableConfig?.fieldConfig;
+          let fieldConfigIndex = index
+        "
+        style="padding: 0.5em"
+        [style.width]="fieldConfig.width"
+      >
+        <!-- sdsad -->
+        <!-- {{columns[fieldConfigIndex].header}} -->
+
+        <div [ngSwitch]="fieldConfig.tipo" *ngIf="fieldConfig.filter">
+          <div *ngSwitchCase="tipos.TEXTO">
+            <input
+              pInputText
+              type="text"
+              placeholder="{{ fieldConfig.nombre }}"
+              [value]="filters[fieldConfig.field]?.value"
+              style="width: 100%; margin-top: 0px; text-align: center"
+              class="p-column-filter"
+              (input)="
+                dt.filter(handleInput($event), fieldConfig.field, 'contains')
+              "
+            />
+          </div>
+          <div *ngSwitchCase="tipos.FECHA">
+            <p-calendar
+              [ngModel]="filters[fieldConfig.field + '_inicio']?.value"
+              (onSelect)="
+                dt.filter(
+                  formatDate($event, 'dd-MM-yyyy'),
+                  fieldConfig.field + '_inicio',
+                  'dateInicio'
+                )
+              "
+              appendTo="body"
+              (onClearClick)="
+                dt.filter('', fieldConfig.field + '_inicio', 'dateInicio')
+              "
+              [baseZIndex]="100"
+              [showButtonBar]="true"
+              styleClass="p-column-filter"
+              placeholder="Fecha inicial"
+              [readonlyInput]="true"
+              dateFormat="dd-mm-yy"
+              [style.width]="fieldConfig.width"
+            ></p-calendar>
+            <br style="margin-bottom: 8px" />
+            <p-calendar
+              [ngModel]="filters[fieldConfig.field + '_fin']?.value"
+              (onSelect)="
+                dt.filter(
+                  formatDate($event, 'dd-MM-yyyy'),
+                  fieldConfig.field + '_fin',
+                  'dateFin'
+                )
+              "
+              appendTo="body"
+              (onClearClick)="
+                dt.filter('', fieldConfig.field + '_fin', 'dateFin')
+              "
+              [baseZIndex]="100"
+              [showButtonBar]="true"
+              styleClass="p-column-filter"
+              placeholder="Fecha final"
+              [readonlyInput]="true"
+              dateFormat="dd-mm-yy"
+              [style.width]="fieldConfig.width"
+            ></p-calendar>
+          </div>
+          <div *ngSwitchCase="tipos.FECHA_HORA">
+            <p-calendar
+              [ngModel]="filters[fieldConfig.field + '_inicio']?.value"
+              (onSelect)="
+                dt.filter(
+                  formatDate($event, 'dd-MM-yyyy-HH:mm'),
+                  fieldConfig.field + '_inicio',
+                  'dateInicio'
+                )
+              "
+              appendTo="body"
+              (onClearClick)="
+                dt.filter('', fieldConfig.field + '_inicio', 'dateInicio')
+              "
+              [baseZIndex]="100"
+              [showButtonBar]="true"
+              styleClass="p-column-filter"
+              placeholder="Fecha inicial"
+              [showTime]="true"
+              [readonlyInput]="true"
+              dateFormat="dd-mm-yy"
+              [style.width]="fieldConfig.width"
+            >
+            </p-calendar>
+            <br style="margin-bottom: 8px" />
+            <p-calendar
+              [ngModel]="filters[fieldConfig.field + '_fin']?.value"
+              (onSelect)="
+                dt.filter(
+                  formatDate($event, 'dd-MM-yyyy-HH:mm'),
+                  fieldConfig.field + '_fin',
+                  'dateFin'
+                )
+              "
+              appendTo="body"
+              (onClearClick)="
+                dt.filter('', fieldConfig.field + '_fin', 'dateFin')
+              "
+              [baseZIndex]="100"
+              [showButtonBar]="true"
+              styleClass="p-column-filter"
+              placeholder="Fecha final"
+              [showTime]="true"
+              [readonlyInput]="true"
+              dateFormat="dd-mm-yy"
+              [style.width]="fieldConfig.width"
+            >
+            </p-calendar>
+          </div>
+          <div *ngSwitchCase="tipos.ACTIVO">
+            <p-dropdown
+              [ngModel]="filters[fieldConfig.field]?.value"
+              [options]="statuses"
+              (onChange)="dt.filter($event.value, fieldConfig.field, 'equals')"
+              styleClass="p-column-filter"
+              placeholder="Actiu"
+              [showClear]="true"
+              appendTo="body"
+              [style.width]="fieldConfig.width"
+            >
+              <ng-template let-option pTemplate="item">
+                <span
+                  [class]="
+                    'badge status-' +
+                    (option.value == 'true'
+                      ? 'activo'
+                      : option.value == 'false'
+                      ? 'inactivo'
+                      : 'nothing')
+                  "
+                  >{{ option.label }}</span
+                >
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <div *ngSwitchCase="tipos.IMAGENES"></div>
+          <div *ngSwitchCase="tipos.OBJECTO">
+            <p-dropdown
+              [ngModel]="filters[fieldConfig.field]?.value"
+              [style]="{ width: '100%' }"
+              placeholder="{{ fieldConfig.nombre }}"
+              [showClear]="true"
+              appendTo="body"
+              (onChange)="dt.filter($event.value, fieldConfig.field, 'equals')"
+              optionLabel="{{ fieldConfig.propiedadParaTipoObjecto }}"
+              optionValue="id"
+              [options]="fieldConfig.opcionesParaElTipoObjecto | async"
+            >
+            </p-dropdown>
+          </div>
+          <div *ngSwitchCase="tipos.OBJECTO_ARRAY">
+            <p-dropdown
+              [ngModel]="filters[fieldConfig.field]?.value"
+              [style]="{ width: '100%' }"
+              placeholder="{{ fieldConfig.nombre }}"
+              [showClear]="true"
+              appendTo="body"
+              (onChange)="dt.filter($event.value, fieldConfig.field, 'equals')"
+              optionLabel="{{ fieldConfig.propiedadParaTipoObjecto }}"
+              optionValue="id"
+              [options]="fieldConfig.opcionesParaElTipoObjecto | async"
+            >
+            </p-dropdown>
+          </div>
+          <div *ngSwitchDefault>
+            <input
+              pInputText
+              type="text"
+              [value]="filters[fieldConfig.field]?.value"
+              placeholder="{{ fieldConfig.nombre }}"
+              style="width: 100%; margin-top: 0px"
+              class="p-column-filter p-inputtext-sm"
+              (input)="
+                dt.filter(handleInput($event), fieldConfig.field, 'contains')
+              "
+              [style.width]="fieldConfig.width"
+            />
+          </div>
+        </div>
+      </th>
+      <th
+        *ngIf="tableConfig?.optionButtons?.length > 0"
+        style="padding: 0.5em; min-width: 6em"
+        [style.width]="optionsWidth"
+      ></th>
+    </tr>
+  </ng-template>
+
+  <!-- Datos de la tabla -->
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-expanded="expanded"
+    *ngIf="loading"
+  >
+    <tr
+      [pSelectableRow]="
+        tableConfig?.selectionMode != 'checkbox' ||
+        tableConfig?.selectionMode != 'radio'
+          ? rowData
+          : undefined
+      "
+    >
+      <td *ngIf="tableConfig?.selectionMode == 'radio'">
+        <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+      </td>
+      <td *ngIf="tableConfig?.selectionMode == 'checkbox'">
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+      <td *ngIf="tableConfig?.expandedConfig">
+        <a href="#" [pRowToggler]="rowData">
+          <i
+            [ngClass]="
+              expanded
+                ? 'pi pi-chevron-down text-primary'
+                : 'pi pi-chevron-right text-secondary'
+            "
+          ></i>
+        </a>
+      </td>
+      <ng-container *ngFor="let fieldConfig of tableConfig?.fieldConfig">
+        <td
+          *ngIf="
+            fieldConfig == undefined || contienePermisos(fieldConfig.permisos)
+          "
+        >
+          <span class="p-column-title">{{ fieldConfig.nombre }}</span>
+          <app-campo
+            [dato]="byString(rowData, fieldConfig.field)"
+            [tipo]="fieldConfig.tipo"
+            [propiedadParaTipoObjecto]="fieldConfig?.propiedadParaTipoObjecto"
+            [propiedadParaTipoImagen]="fieldConfig?.propiedadParaTipoImagen"
+          ></app-campo>
+        </td>
+      </ng-container>
+      <td
+        *ngIf="tableConfig?.optionButtons?.length > 0"
+        style="text-align: center"
+        style="min-width: 200%"
+      >
+        <div
+          *ngFor="let buttonConfig of tableConfig?.optionButtons"
+          class="option-button"
+        >
+          <button
+            class="p-button-sm"
+            type="button"
+            (click)="buttonEvent({ type: buttonConfig.action, data: rowData })"
+            icon="{{ buttonConfig.icon }}"
+            style="margin: 0 0.25em 0 0.25em"
+            pButton
+          ></button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!-- Subtabla -->
+  <ng-template pTemplate="rowexpansion" let-subData *ngIf="loading">
+    <tr>
+      <td
+        [attr.colspan]="
+          tableConfig?.fieldConfig.length +
+          1 +
+          (tableConfig?.optionButtons?.length > 0 ? 1 : 0)
+        "
+      >
+        <p-table
+          [value]="subData[tableConfig?.expandedConfig?.dataPath]"
+          [rows]="5"
+          [paginator]="true"
+        >
+          <ng-template pTemplate="header">
+            <ng-container
+              *ngFor="
+                let fieldConfig of tableConfig?.expandedConfig?.fieldConfig
+              "
+            >
+              <div
+                *ngIf="fieldConfig.sort; then thenBlock; else elseBlock"
+              ></div>
+
+              <ng-template #thenBlock>
+                <th
+                  style="text-align: center"
+                  *ngIf="
+                    fieldConfig.permisos == undefined ||
+                    contienePermisos(fieldConfig.permisos)
+                  "
+                  [pSortableColumn]="
+                    fieldConfig.sort ? fieldConfig.field : undefined
+                  "
+                >
+                  {{ fieldConfig.nombre }}
+                  <p-sortIcon [field]="fieldConfig.field"></p-sortIcon>
+                </th>
+              </ng-template>
+              <ng-template #elseBlock>
+                <th
+                  *ngIf="
+                    fieldConfig.permisos == undefined ||
+                    contienePermisos(fieldConfig.permisos)
+                  "
+                >
+                  {{ fieldConfig.nombre }}
+                </th>
+              </ng-template>
+            </ng-container>
+            <th
+              style="text-align: center"
+              *ngIf="tableConfig?.expandedConfig?.optionButtons?.length > 0"
+            >
+              {{ 'general.opciones' | translate }}
+            </th>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowExpandedData *ngIf="loading">
+            <tr>
+              <ng-container
+                *ngFor="
+                  let fieldConfig of tableConfig?.expandedConfig?.fieldConfig
+                "
+              >
+                <td
+                  *ngIf="
+                    fieldConfig == undefined ||
+                    contienePermisos(fieldConfig.permisos)
+                  "
+                >
+                  <app-campo
+                    [dato]="byString(rowExpandedData, fieldConfig.field)"
+                    [tipo]="fieldConfig.tipo"
+                    [propiedadParaTipoObjecto]="
+                      fieldConfig?.propiedadParaTipoObjecto
+                    "
+                    [propiedadParaTipoImagen]="
+                      fieldConfig?.propiedadParaTipoImagen
+                    "
+                  ></app-campo>
+                </td>
+              </ng-container>
+              <td
+                *ngIf="tableConfig?.expandedConfig?.optionButtons?.length > 0"
+                style="text-align: center"
+              >
+                <div
+                  *ngFor="
+                    let buttonConfig of tableConfig?.expandedConfig
+                      ?.optionButtons
+                  "
+                  class="option-button"
+                >
+                  <button
+                    class="p-button-sm"
+                    type="button"
+                    (click)="
+                      buttonEvent({
+                        type: buttonConfig.action,
+                        data: rowExpandedData
+                      })
+                    "
+                    icon="{{ buttonConfig.icon }}"
+                    style="margin-right: 0.5em"
+                    pButton
+                  ></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </td>
+    </tr>
+  </ng-template>
+  <!-- Footer -->
+  <ng-template pTemplate="footer"> </ng-template>
+  <!-- Paginado -->
+  <ng-template pTemplate="paginatorleft" let-state>
+    <!-- <button  *ngIf="hasFilters()" type="button" class="p-button-sm" pButton style="margin: 0 .25em 0 .25em;" >
+            <span class="p-button-icon pi pi-filter"></span>
+        </button> -->
+    <br />
+  </ng-template>
+  <!-- Paginado -->
+  <ng-template pTemplate="paginatorright" let-state>
+    <span
+      >{{ 'general.pagina' | translate }} {{ state.page + 1 }}
+      {{ 'general.de' | translate }} {{ state.pageCount }}</span
+    >
+    <span style="margin-left: 24px"
+      >{{ 'general.total' | translate }} {{ totalRecords }}</span
+    >
+  </ng-template>
+</p-table>

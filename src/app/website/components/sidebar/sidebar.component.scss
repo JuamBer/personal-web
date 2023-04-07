@@ -1,0 +1,187 @@
+header {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 2.5%;
+
+  .me {
+    width: 100%;
+    margin-bottom: 3.5%;
+
+    div {
+      display: flex;
+      justify-content: center;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      max-width: 100px;
+      max-height: 100px;
+      border-radius: 50%;
+      padding: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #345;
+      font-weight: 800;
+    }
+
+    span {
+      font-size: 17px;
+      font-weight: 400;
+      background-color: #4a9e98;
+      padding: 5px;
+      border-radius: 5px;
+      color: white;
+    }
+  }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+
+    ul {
+      display: flex;
+      width: 100%;
+      max-width: 500px;
+      justify-content: space-between;
+      align-items: center;
+
+      li {
+        width: 250px;
+        text-align: center;
+        a {
+          font-size: 30px;
+          text-decoration: none;
+          color: #d0dadc;
+        }
+
+        a.active {
+          color: #345;
+          border-bottom: #4a9e98 solid 3px;
+        }
+      }
+    }
+  }
+}
+
+.my-container {
+  width: 80%;
+  padding-left: 10%;
+  padding-right: 10%;
+  display: flex;
+  justify-content: center;
+
+  .max-width {
+    width: 100%;
+    max-width: 1700px;
+  }
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  padding: 8px;
+  margin-top: 10px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+
+  &.active {
+    color: #f1f1f1;
+  }
+}
+
+.overlay a:hover,
+.overlay a:focus {
+  color: #f1f1f1;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+.hamburguesa {
+  display: none;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay a {
+    font-size: 20px;
+  }
+
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .hamburguesa {
+    display: inline;
+    width: 15%;
+  }
+  .my-container {
+    display: none;
+  }
+
+  header {
+    margin-bottom: 0% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .me {
+      width: 85%;
+
+      img {
+        width: 60px;
+      }
+      h1 {
+        font-size: 18px;
+      }
+
+      span {
+        margin-top: -10px;
+        font-size: 12px;
+        text-align: center;
+      }
+    }
+
+    .hamburguesa {
+      font-size: 25px !important;
+      cursor: pointer;
+    }
+  }
+}

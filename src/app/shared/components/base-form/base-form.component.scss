@@ -1,0 +1,46 @@
+.form-title {
+  padding: 12px 0 0 12px;
+  color: whitesmoke;
+}
+
+:host ::ng-deep {
+  .p-card-header {
+    background-color: #007bff;
+    height: 48px;
+    border-radius: 3px 3px 0 0;
+  }
+
+  .p-calendar,
+  .p-multiselect,
+  .p-dropdown {
+    width: 100%;
+  }
+
+  .p-inputnumber {
+    width: 100%;
+    .p-inputtext {
+      max-width: 100%;
+    }
+  }
+
+  .p-card-title {
+    h4 {
+      font-size: 1.25em;
+    }
+    h5 {
+      font-size: 1.1em;
+      color: #333;
+    }
+    h6 {
+      font-size: 0.9em;
+      font-weight: 300;
+    }
+  }
+
+  .button-card {
+    .p-card-content {
+      padding-top: 0em !important;
+      padding-bottom: 0em !important;
+    }
+  }
+}

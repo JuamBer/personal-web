@@ -30,6 +30,10 @@
               "src/assets"
             ],
             "styles": [
+               "./node_modules/primeng/resources/primeng.min.css",
+              "./node_modules/primeflex/primeflex.css",
+              "./node_modules/primeicons/primeicons.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -100,5 +104,11 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "1241864f-3741-4cb1-83e3-4717bc51e8c5",
+    "schematicCollections": [
+      "@ngrx/schematics"
+    ]
   }
 }

@@ -1,0 +1,146 @@
+<p-dialog
+  [draggable]="false"
+  [resizable]="false"
+  [modal]="true"
+  [maximizable]="true"
+  [(visible)]="visible"
+  (onHide)="onHide()"
+  [style]="{ width: '100%', maxWidth: '40rem' }"
+>
+  <div class="loading-modal p-component-overlay" *ngIf="loading$ | async">
+    <i class="pi pi-spin pi-spinner"></i>
+  </div>
+
+  <p-tabView>
+    <p-tabPanel header="{{ 'tabs.info' | translate }}">
+      <div class="grid p-fluid">
+        <form [formGroup]="form" (ngSubmit)="send()" class="col-12 p-3">
+          <div class="grid">
+            <div class="xs:col-12 lg:col-6">
+              <span class="p-float-label">
+                <input
+                  type="text"
+                  class="p-inputtext-sm"
+                  [ngClass]="{
+                    'ng-invalid': form.controls['name'].invalid,
+                    'ng-dirty': form.controls['name'].dirty
+                  }"
+                  formControlName="name"
+                  pInputText
+                />
+                <label>{{ 'columns.name' | translate }} *</label>
+              </span>
+              <small *ngIf="!form.controls['name'].valid" class="p-error">
+                {{ errores['name'] }}
+              </small>
+            </div>
+            <div class="xs:col-12 lg:col-6">
+              <span class="p-float-label">
+                <p-dropdown
+                  class="p-inputtext-sm"
+                  [autoDisplayFirst]="false"
+                  [options]="companies$ | async"
+                  formControlName="company"
+                  optionLabel="name"
+                  filterBy="name"
+                  appendTo="body"
+                  [filter]="true"
+                ></p-dropdown>
+                <label
+                  >{{
+                    'tables.' + companyNames.camelCase.singular + '.singular'
+                      | translate
+                  }}
+                  *</label
+                >
+              </span>
+              <small *ngIf="!form.controls['company'].valid" class="p-error">
+                {{ errores['company'] }}
+              </small>
+            </div>
+            <div class="xs:col-12 lg:col-12">
+              <span class="p-float-label">
+                <textarea
+                  formControlName="description"
+                  class="p-inputtext-sm"
+                  [ngClass]="{
+                    'ng-invalid': form.controls['description'].invalid,
+                    'ng-dirty': form.controls['description'].dirty
+                  }"
+                  pInputTextarea
+                ></textarea>
+                <label>{{ 'columns.description' | translate }} *</label>
+              </span>
+              <small
+                *ngIf="!form.controls['description'].valid"
+                class="p-error"
+              >
+                {{ errores['description'] }}
+              </small>
+            </div>
+
+            <div class="xs:col-12 lg:col-6">
+              <span class="p-float-label">
+                <p-calendar
+                  class="p-inputtext-sm"
+                  formControlName="dateFrom"
+                  [showIcon]="true"
+                  appendTo="body"
+                ></p-calendar>
+                <label>{{ 'columns.dateFrom' | translate }} *</label>
+              </span>
+              <small *ngIf="!form.controls['dateFrom'].valid" class="p-error">
+                {{ errores['dateFrom'] }}
+              </small>
+            </div>
+            <div class="xs:col-12 lg:col-6">
+              <span class="p-float-label">
+                <p-calendar
+                  class="p-inputtext-sm"
+                  formControlName="dateTo"
+                  [showIcon]="true"
+                  appendTo="body"
+                ></p-calendar>
+                <label>{{ 'columns.dateTo' | translate }}</label>
+              </span>
+              <small *ngIf="!form.controls['dateTo'].valid" class="p-error">
+                {{ errores['dateTo'] }}
+              </small>
+            </div>
+          </div>
+
+          <div class="button-container my-3">
+            <button
+              pButton
+              type="submit"
+              [label]="
+                'buttons.create'
+                  | translate
+                    : {
+                        name:
+                          'tables.' + names.camelCase.singular + '.singular'
+                          | translate
+                      }
+              "
+              *ngIf="modalMode === 'create'"
+            ></button>
+            <button
+              pButton
+              type="submit"
+              [label]="
+                'buttons.update'
+                  | translate
+                    : {
+                        name:
+                          'tables.' + names.camelCase.singular + '.singular'
+                          | translate
+                      }
+              "
+              *ngIf="modalMode === 'update'"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</p-dialog>

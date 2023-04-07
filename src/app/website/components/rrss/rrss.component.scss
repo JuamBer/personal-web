@@ -1,0 +1,31 @@
+.rrss {
+  p {
+    font-size: 20px;
+    font-weight: lighter;
+    margin-bottom: 30px;
+  }
+
+  ul {
+    display: flex;
+    justify-content: start;
+    gap: 2em;
+    list-style: none;
+
+    a {
+      text-decoration: none;
+    }
+
+    i {
+      color: black;
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  ul {
+    li {
+      i {
+        font-size: 30px;
+      }
+    }
+  }
+}

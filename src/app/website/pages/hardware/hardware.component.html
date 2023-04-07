@@ -1,0 +1,36 @@
+<div class="hardware">
+  <div class="item" *ngFor="let mount of mounts">
+    <div class="top">
+      <div class="title">
+        <h2>{{ mount.user }}</h2>
+      </div>
+      <div class="description">
+        <p>{{ mount.description }}</p>
+      </div>
+    </div>
+    <div class="bottom" *ngIf="mount.images || mount.video || mount.components">
+      <div class="left">
+        <div class="fotos" *ngIf="mount.images">
+          <div class="foto" *ngFor="let foto of mount.images">
+            <img src="{{ foto }}" alt="" />
+          </div>
+        </div>
+        <div class="videos" *ngIf="mount.video">
+          <div class="video">
+            <iframe [src]="mount.video | safe"> </iframe>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="components" *ngIf="mount.components">
+          <ul>
+            <li class="title">{{ 'hardware.componentes' | translate }}</li>
+            <li *ngFor="let componenete of mount.components">
+              {{ componenete }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<div class="w-full" *ngIf="show && !loading">
+  <h3>{{ title }}</h3>
+</div>
+<div class="w-full" *ngIf="loading">
+  <p-skeleton width="20%" height="2rem"></p-skeleton>
+</div>

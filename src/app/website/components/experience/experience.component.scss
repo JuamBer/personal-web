@@ -1,0 +1,76 @@
+.experience {
+
+  .header {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+
+    .icon {
+      padding: 3.5px;
+    }
+
+    .organization {
+      h3 {
+        font-weight: bold;
+        margin-left: 7.5px;
+        font-size: 20px;
+      }
+    }
+  }
+
+  .items {
+    .item {
+      list-style:disc;
+      font-size: 25px;
+      margin-left: 50px;
+      margin-bottom: 5px;
+
+      .position {
+        span {
+          font-size: 20px;
+          font-weight:lighter;
+        }
+      }
+
+      .date {
+        span {
+          font-size: 17px;
+          font-weight: lighter;
+          font-style: italic;
+        }
+      }
+    }
+
+  }
+}
+
+@media screen and (max-width: 800px) {
+  h3 {
+    font-size: 16px !important;
+  }
+  .experience {
+    margin-bottom: 25px !important;
+    .header {
+      .organization {
+        h3 {
+          font-size: 16px !important;
+        }
+      }
+    }
+    .items {
+      .item {
+        font-size: 16px !important;
+        .position {
+          span {
+            font-size: 16px !important;
+          }
+        }
+        .date {
+          span {
+            font-size: 16px !important;
+          }
+        }
+      }
+    }
+  }
+}

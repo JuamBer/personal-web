@@ -1,0 +1,12 @@
+<div class="rrss">
+  <p>
+    {{ 'home.rrss' | translate }}
+  </p>
+  <ul>
+    <li *ngFor="let rs of rrss">
+      <a [href]="rs.url" target="_blank">
+        <div><i [class]="rs.icon + ' fa-2x'"></i></div>
+      </a>
+    </li>
+  </ul>
+</div>

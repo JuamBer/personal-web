@@ -1,0 +1,15 @@
+.language-item {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+
+  .banderita {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nombre {
+    margin-bottom: 2.2px;
+  }
+}

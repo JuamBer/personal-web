@@ -1,0 +1,20 @@
+.cv {
+  padding-right: 5%;
+  p {
+    font-size: 20px;
+    font-weight: lighter;
+  }
+}
+.button {
+  border: none;
+  font-size: 16px;
+  color: #fff;
+  padding: 8px 16px;
+  background-color: #4a9e98;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.button:hover {
+  background: black;
+}

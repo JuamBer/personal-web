@@ -1,0 +1,59 @@
+<div class="experience">
+  <ul *ngIf="!(loadingPositions$ | async)">
+    <li *ngFor="let positionGrouped of positionsGrouped$ | async">
+      <div class="header">
+        <div class="icon">
+          <i
+            *ngIf="positionGrouped.company.name !== 'Odec'"
+            class="fa-solid fa-graduation-cap"
+          ></i>
+          <i
+            *ngIf="positionGrouped.company.name === 'Odec'"
+            class="fa-solid fa-briefcase"
+          ></i>
+        </div>
+        <div class="organization">
+          <h3>{{ positionGrouped.company.name }}</h3>
+        </div>
+      </div>
+      <div class="items">
+        <ul>
+          <li class="item" *ngFor="let position of positionGrouped.positions">
+            <div class="position">
+              <span>{{ position.name }}</span>
+            </div>
+            <div class="date">
+              <span>{{
+                (position.dateFrom | date : 'MM-yyyy') +
+                  ' - ' +
+                  (position.dateTo
+                    ? (position.dateTo | date : 'MM-yyyy')
+                    : 'Actualidad')
+              }}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+
+  <ul *ngIf="loadingPositions$ | async">
+    <li *ngFor="let skeleton of [0, 0, 0, 0]">
+      <div class="header">
+        <p-skeleton width="100%" height="10px"></p-skeleton>
+      </div>
+      <div class="items">
+        <ul>
+          <li class="item" *ngFor="let position of [0, 0]">
+            <div class="position pb-1">
+              <p-skeleton width="80%"></p-skeleton>
+            </div>
+            <div class="date">
+              <p-skeleton width="60%"></p-skeleton>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>

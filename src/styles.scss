@@ -1,1 +1,256 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./reset.scss";
+
+// @import '~bootstrap/dist/css/bootstrap.min.css';
+@import "./assets/images/flags/flags.scss";
+
+@import "./assets/sass/layout-cav.scss";
+@import "./assets/sass/theme-cav.scss";
+@import "./assets/sass/responsive_overrides.scss";
+@import "swiper/scss";
+@import "swiper/scss/navigation";
+@import "swiper/scss/pagination";
+
+@font-face {
+  font-family: "Fixture";
+  src: local("Fixture"),
+    url(./assets/fonts/Fixture-Regular.otf) format("truetype");
+}
+
+.hide-tabs-headers .p-tabview-nav {
+  display: none;
+}
+
+.hide-element {
+  display: none;
+}
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Fixture";
+}
+
+.isDisabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+body {
+  background: transparent;
+  // height: 100% !important;
+  margin: 0;
+  padding: 0;
+  max-height: 100%;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+:host ::ng-deep {
+  .p-inputtext {
+    border-top: none !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-radius: 0px;
+  }
+}
+
+//MODAL CARGANDO
+.loading-modal {
+  position: absolute;
+  background-color: #fff;
+  z-index: 15;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  i {
+    font-size: 2rem;
+  }
+
+  &.arriba {
+    top: 10;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-top: 100px;
+    align-items: flex-start;
+  }
+}
+
+//FILE UPLOAD FOTOS
+.lista-imagenes {
+  .p-orderlist-header {
+    display: none !important;
+  }
+
+  .p-orderlist-filter-container {
+    display: none !important;
+  }
+
+  .p-orderlist-controls {
+    display: none !important;
+  }
+
+  .fotos {
+    th {
+      display: flex !important;
+      justify-content: center !important;
+    }
+  }
+}
+
+// MULTISELECT EDIFICIOS
+.edificio-custom {
+  .p-multiselect-label {
+    display: flex;
+    align-items: center;
+    margin-top: 2.5px;
+  }
+}
+
+.public-body {
+  // height: 100vh !important;
+  overflow: hidden;
+}
+
+.p-galleria-indicators {
+  background: none !important;
+}
+
+.p-galleria {
+  margin-top: -100px !important;
+}
+
+.dialogPoliticas {
+  z-index: 900 !important;
+  margin-left: 500px;
+  margin-right: 50px;
+  width: 100%;
+}
+
+@media (max-width: 960px) {
+  .dialogPoliticas {
+    margin: 5%;
+  }
+}
+.p-sidebar-mask {
+  background: none !important;
+  z-index: 1 !important;
+}
+
+.translate-input {
+  .p-inputgroup {
+    .p-dropdown {
+      width: 100%;
+      border-radius: 4px 0px 0px 4px;
+    }
+    input {
+      width: 85%;
+    }
+  }
+
+  .p-sidebar-right {
+    width: 50%;
+  }
+  &.textarea {
+    .p-sidebar-right {
+      width: 85%;
+    }
+  }
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 30px;
+  bottom: 0 !important;
+  color: #000 !important;
+  fill: black !important;
+  stroke: black !important;
+}
+
+#myNav {
+  z-index: 9999;
+}
+
+* {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+/*
+PALETA COLORES
+#F9546B
+#FC7651
+#FFDB60
+#42CFCA
+#009F93
+
+#FF9BB2
+#FFB5A4
+#FDEEB8
+#A0CDCF
+#4A9E98
+#CECFD3
+*/
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Roboto", "Helvetica Neue", "sans-serif";
+  //background: #FDEEB8;
+}
+
+.title * {
+  font-size: 25px;
+}
+@media screen and (max-width: 800px) {
+  .title * {
+    font-size: 20px !important;
+  }
+
+  p {
+    font-size: 15px !important;
+  }
+
+  button {
+    font-size: 15px !important;
+  }
+
+  span {
+    font-size: 15px !important;
+  }
+
+  li {
+    font-size: 15px !important;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.my-container {
+  width: 100% !important;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  .max-width {
+    width: 100%;
+    max-width: 1200px !important;
+  }
+}

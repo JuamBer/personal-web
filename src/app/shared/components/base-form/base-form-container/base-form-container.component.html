@@ -1,0 +1,174 @@
+<div [formGroup]="formGroup" class="formgrid grid" #fields>
+  <ng-container *ngFor="let field of container?.content">
+    <ng-container
+      *ngIf="isField(field); then thenBlock; else elseBlock"
+    ></ng-container>
+    <ng-template #thenBlock>
+      <div class="field {{ field.width }}">
+        <span class="p-float-label">
+          <!-- Tipos de inputs -->
+          <ng-container [ngSwitch]="field?.type">
+            <!-- Texto plano -->
+            <ng-container *ngSwitchCase="'text'">
+              <input
+                type="text"
+                [id]="field.formControlName"
+                [formControlName]="field.formControlName"
+                class="inputfield w-full {{ field.size }}"
+                pInputText
+              />
+            </ng-container>
+
+            <!-- Fecha -->
+            <ng-container *ngSwitchCase="'date'">
+              <p-calendar
+                [inputId]="field.formControlName"
+                [formControlName]="field.formControlName"
+                dateFormat="dd-mm-yy"
+                [showIcon]="true"
+                [showTime]="false"
+                class="inputfield w-full {{ field.size }}"
+              >
+              </p-calendar>
+            </ng-container>
+
+            <!-- Fecha y hora -->
+            <ng-container *ngSwitchCase="'datetime'">
+              <p-calendar
+                [inputId]="field.formControlName"
+                [formControlName]="field.formControlName"
+                dateFormat="dd-mm-yy"
+                [showIcon]="true"
+                [showTime]="true"
+                hourFormat="24"
+                class="inputfield w-full {{ field.size }}"
+                class="w-full"
+              >
+              </p-calendar>
+            </ng-container>
+
+            <!-- Numero -->
+            <ng-container *ngSwitchCase="'number'">
+              <p-inputNumber
+                [inputId]="field.formControlName"
+                [useGrouping]="false"
+                [formControlName]="field.formControlName"
+                class="inputfield w-full {{ field.size }}"
+              >
+              </p-inputNumber>
+            </ng-container>
+
+            <!-- Tabla -->
+            <ng-container *ngSwitchCase="'table'">
+              <h5>{{ field.name }}</h5>
+              <app-tabla-generica
+                [entities]="field.data?.values"
+                [totalRecords]="field.data?.values?.length"
+                [permisos]="field.data?.permisos"
+                [tableConfig]="field.data?.config"
+              ></app-tabla-generica>
+            </ng-container>
+
+            <!-- Select -->
+            <ng-container *ngSwitchCase="'select'">
+              <p-dropdown
+                [dataKey]="field?.data?.dataKey"
+                [options]="field?.data?.options"
+                [inputId]="field.formControlName"
+                [formControlName]="field.formControlName"
+                [optionLabel]="field.data.optionLabel"
+                [filter]="true"
+                class="inputfield w-full {{ field.size }}"
+              ></p-dropdown>
+            </ng-container>
+
+            <!-- Custom Select -->
+            <ng-container *ngSwitchCase="'select_custom'">
+              <p-dropdown
+                [dataKey]="field?.data?.dataKey"
+                [options]="field?.data?.options"
+                [inputId]="field.formControlName"
+                [formControlName]="field.formControlName"
+                [filter]="true"
+                class="inputfield w-full {{ field.size }}"
+              >
+                <ng-container *ngFor="let temp of templates">
+                  <ng-container *ngIf="temp.control == field.formControlName">
+                    <ng-template [pTemplate]="temp.type" let-node>
+                      <ng-template
+                        [ngTemplateOutlet]="temp.template"
+                        [ngTemplateOutletContext]="{ node: node }"
+                      >
+                      </ng-template>
+                    </ng-template>
+                  </ng-container>
+                </ng-container>
+              </p-dropdown>
+            </ng-container>
+
+            <!-- MultiSelect -->
+            <ng-container *ngSwitchCase="'multiselect'">
+              <p-multiSelect
+                [dataKey]="field?.data?.dataKey"
+                [options]="field?.data?.options"
+                [inputId]="field.formControlName"
+                [formControlName]="field.formControlName"
+                [optionLabel]="field.data.optionLabel"
+                display="chip"
+                class="inputfield w-full {{ field.size }}"
+              ></p-multiSelect>
+            </ng-container>
+
+            <!-- MultiSelect Custom -->
+            <ng-container *ngSwitchCase="'multiselect_custom'">
+              <p-multiSelect
+                [dataKey]="field?.data?.dataKey"
+                [options]="field?.data?.options"
+                [inputId]="field.formControlName"
+                [formControlName]="field.formControlName"
+                class="inputfield w-full {{ field.size }}"
+              >
+                <ng-container *ngFor="let temp of templates">
+                  <ng-container *ngIf="temp.control == field.formControlName">
+                    <ng-template [pTemplate]="temp.type" let-node>
+                      <ng-template
+                        [ngTemplateOutlet]="temp.template"
+                        [ngTemplateOutletContext]="{ node: node }"
+                      >
+                      </ng-template>
+                    </ng-template>
+                  </ng-container>
+                </ng-container>
+              </p-multiSelect>
+            </ng-container>
+          </ng-container>
+          <label *ngIf="field.formControlName" [for]="field.formControlName"
+            >{{ field.name }}
+            {{ required(field.formControlName) ? '*' : '' }}</label
+          >
+        </span>
+        <small *ngIf="field.info">{{ field.info }}</small>
+        <small *ngIf="errors[field.formControlName]" class="p-error">{{
+          errors[field.formControlName]
+        }}</small>
+      </div>
+    </ng-template>
+    <ng-template #elseBlock>
+      <div class="sm:col-12">
+        <span class="p-card-title">
+          <h4 *ngIf="level == 0">{{ field?.title }}</h4>
+          <h5 *ngIf="level == 1">{{ field?.title }}</h5>
+          <h6 *ngIf="level >= 2">{{ field?.title }}</h6>
+          <hr />
+        </span>
+        <base-form-container
+          [templates]="templates"
+          [container]="handleField(field)"
+          [errors]="errors"
+          [formGroup]="formGroup"
+          [level]="level + 1"
+        ></base-form-container>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>

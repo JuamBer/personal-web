@@ -1,0 +1,23 @@
+.idioma-item {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+
+  .banderita {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nombre {
+    margin-bottom: 2.2px;
+  }
+}
+
+.idiomas-lista {
+  width: 100%;
+  .idioma-item {
+    display: inline-flex;
+    margin-right: 0.5rem;
+  }
+}

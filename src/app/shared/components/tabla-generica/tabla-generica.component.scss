@@ -1,0 +1,26 @@
+.badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+
+  &.status-activo {
+    background-color: #c8e6c9;
+    color: #256029;
+  }
+
+  &.status-inactivo {
+    background-color: #ffcdd2;
+    color: #c63737;
+  }
+}
+
+.option-button {
+  display: inline-block;
+}
+
+.p-inputtext {
+  padding: 0.5rem 0.5rem;
+}

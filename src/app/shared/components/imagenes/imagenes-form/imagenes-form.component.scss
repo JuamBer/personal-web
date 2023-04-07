@@ -1,0 +1,15 @@
+:host ::ng-deep .p-fileupload-content .p-progressbar {
+  width: 0px;
+}
+
+:host ::ng-deep .p-fileupload .p-fileupload-content {
+  padding: 0px;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  text-align: center;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  text-align: center;
+}

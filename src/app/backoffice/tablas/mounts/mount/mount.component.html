@@ -1,0 +1,20 @@
+<div class="ui-g">
+  <div class="p-col-12">
+    <div class="card card-w-title">
+      <h1>
+        {{ 'tables.' + names.camelCase.singular + '.plural' | translate }}
+      </h1>
+      <app-tabla-generica
+        [entities]="entities$ | async"
+        [loading]="loading$ | async"
+        [totalRecords]="count$ | async"
+        [permisos]="permisos"
+        [tableConfig]="tableConfig"
+        [(requestFilter)]="requestFilter"
+        (loadAll)="getAll()"
+        (onButtonClick)="onClick($event)"
+      ></app-tabla-generica>
+    </div>
+  </div>
+</div>
+<app-mount-modal></app-mount-modal>

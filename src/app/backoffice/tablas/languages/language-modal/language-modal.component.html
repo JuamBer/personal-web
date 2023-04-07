@@ -1,0 +1,128 @@
+<p-dialog
+  [draggable]="false"
+  [resizable]="false"
+  [modal]="true"
+  [maximizable]="true"
+  [(visible)]="visible"
+  (onHide)="onHide()"
+  [style]="{ width: '100%', maxWidth: '40rem' }"
+>
+  <div class="loading-modal p-component-overlay" *ngIf="loading$ | async">
+    <i class="pi pi-spin pi-spinner"></i>
+  </div>
+
+  <p-tabView>
+    <p-tabPanel header="{{ 'tabs.info' | translate }}">
+      <div class="grid p-fluid">
+        <form [formGroup]="form" (ngSubmit)="send()" class="col-12 p-3">
+          <div class="grid">
+            <div class="xs:col-12 lg:col-6">
+              <span class="p-float-label">
+                <input
+                  type="text"
+                  class="p-inputtext-sm"
+                  [ngClass]="{
+                    'ng-invalid': form.controls['name'].invalid,
+                    'ng-dirty': form.controls['name'].dirty
+                  }"
+                  formControlName="name"
+                  pInputText
+                />
+                <label>{{ 'columns.name' | translate }} *</label>
+              </span>
+              <small *ngIf="!form.controls['name'].valid" class="p-error">
+                {{ errores['name'] }}
+              </small>
+            </div>
+            <div class="xs:col-12 lg:col-6">
+              <span class="p-float-label">
+                <input
+                  type="text"
+                  class="p-inputtext-sm"
+                  [ngClass]="{
+                    'ng-invalid': form.controls['nativeName'].invalid,
+                    'ng-dirty': form.controls['nativeName'].dirty
+                  }"
+                  formControlName="nativeName"
+                  pInputText
+                />
+                <label>{{ 'columns.nativeName' | translate }} *</label>
+              </span>
+              <small *ngIf="!form.controls['nativeName'].valid" class="p-error">
+                {{ errores['nativeName'] }}
+              </small>
+            </div>
+            <div class="xs:col-12 lg:col-6">
+              <span class="p-float-label">
+                <input
+                  type="text"
+                  class="p-inputtext-sm"
+                  [ngClass]="{
+                    'ng-invalid': form.controls['acronym'].invalid,
+                    'ng-dirty': form.controls['acronym'].dirty
+                  }"
+                  formControlName="acronym"
+                  pInputText
+                />
+                <label>{{ 'columns.acronym' | translate }} *</label>
+              </span>
+              <small *ngIf="!form.controls['acronym'].valid" class="p-error">
+                {{ errores['acronym'] }}
+              </small>
+            </div>
+            <div class="xs:col-12 lg:col-6">
+              <span
+                class="flex align-items-center justify-content-center gap-4 h-full"
+              >
+                <label>{{ 'columns.active' | translate }} *</label>
+
+                <p-inputSwitch
+                  class="p-inputtext-sm"
+                  [ngClass]="{
+                    'ng-invalid': form.controls['active'].invalid,
+                    'ng-dirty': form.controls['active'].dirty
+                  }"
+                  formControlName="active"
+                ></p-inputSwitch>
+              </span>
+              <small *ngIf="!form.controls['active'].valid" class="p-error">
+                {{ errores['active'] }}
+              </small>
+            </div>
+          </div>
+
+          <div class="button-container my-3">
+            <button
+              pButton
+              type="submit"
+              [label]="
+                'buttons.create'
+                  | translate
+                    : {
+                        name:
+                          'tables.' + names.camelCase.singular + '.singular'
+                          | translate
+                      }
+              "
+              *ngIf="modalMode === 'create'"
+            ></button>
+            <button
+              pButton
+              type="submit"
+              [label]="
+                'buttons.update'
+                  | translate
+                    : {
+                        name:
+                          'tables.' + names.camelCase.singular + '.singular'
+                          | translate
+                      }
+              "
+              *ngIf="modalMode === 'update'"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</p-dialog>

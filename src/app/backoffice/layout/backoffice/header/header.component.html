@@ -1,0 +1,51 @@
+<div class="topbar clearfix">
+  <a href="#" class="logo">
+    <!-- <img src="assets/layout/images/logo.png" /> -->
+  </a>
+
+  <a
+    id="topbar-menu-button"
+    href="#"
+    (click)="app.onTopbarMenuButtonClick($event)"
+  >
+    <i class="fa-solid fa-bars"></i>
+  </a>
+
+  <ul
+    class="topbar-menu fadeInDown"
+    [ngClass]="{ 'topbar-menu-visible': app.topbarMenuActive }"
+  >
+    <li
+      #profile
+      class="profile-item"
+      [ngClass]="{ 'active-topmenuitem': app.activeTopbarItem === profile }"
+    >
+      <a href="#" (click)="app.onTopbarItemClick($event, profile)">
+        <div class="profile-info">
+          <span *ngIf="user" class="topbar-item-name profile-name">{{
+            user.email
+          }}</span>
+          <span class="topbar-item-name profile-role"></span>
+        </div>
+        <div class="profile-image">
+          <img src="assets/images/profile-image.png" />
+        </div>
+      </a>
+      <ul class="fadeInDown">
+        <li role="menuitem">
+          <a
+            id="logout"
+            style="cursor: pointer"
+            (click)="app.onTopbarSubItemClick('logout')"
+          >
+            <i class="fa-solid fa-sign-out"></i>
+            <span>{{ 'general.salir' | translate }}</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="language-header-item">
+      <!-- <app-language-select></app-language-select> -->
+    </li>
+  </ul>
+</div>

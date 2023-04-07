@@ -1,0 +1,58 @@
+<div class="home">
+  <div class="container-info" style="margin-bottom: 60px">
+    <div class="test">
+      <div class="item vertical">
+        <div class="vertical-item">
+          <div class="title">
+            <h3>{{ 'home.cv' | translate }}</h3>
+          </div>
+          <app-cv></app-cv>
+        </div>
+        <div class="vertical-item">
+          <div class="title">
+            <h3>{{ 'home.contacto' | translate }}</h3>
+          </div>
+          <app-rrss [rrss]="rrss"></app-rrss>
+        </div>
+      </div>
+      <div class="item">
+        <div class="title">
+          <h3>{{ 'home.trayectoria' | translate }}</h3>
+        </div>
+        <app-experience></app-experience>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="!(loadingSkillTypes$ | async)">
+  <div
+    class="my-container"
+    style="margin-bottom: 60px"
+    *ngFor="let skillType of skillTypes$ | async"
+  >
+    <div class="container-info">
+      <div class="title">
+        <h3>{{ skillType.name }}</h3>
+      </div>
+      <app-tools [entities]="(getSkills(skillType) | async)!"></app-tools>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="loadingSkillTypes$ | async">
+  <div
+    class="my-container"
+    style="margin-bottom: 60px"
+    *ngFor="let skillType of [0, 0, 0]"
+  >
+    <div class="container-info">
+      <div class="title pb-5">
+        <p-skeleton width="50%" height="1.25em"></p-skeleton>
+      </div>
+      <app-tools [entities]="[]" [loading]="true"></app-tools>
+    </div>
+  </div>
+</ng-container>
+
+<br /><br /><br />
+<br /><br /><br />
