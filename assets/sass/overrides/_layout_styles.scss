@@ -1,0 +1,201 @@
+/* Add your customizations of layout here */
+
+//login
+.login-body {
+  background: rgba($color: $primaryTextColor, $alpha: 0.5);
+  height: 100vh;
+
+  a {
+    color: black;
+  }
+
+  .login-image {
+    background-color: white;
+    border-radius: 4px;
+    margin-top: -8px;
+    padding: 8px;
+    width: 116px !important;
+  }
+
+  .languages {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    max-height: 60px;
+    height: 100%;
+    // margin-right: 25px;
+
+    .p-dropdown,
+    .p-inputtext,
+    p-dropdown {
+      border: 0px solid black;
+    }
+  }
+
+  h1,
+  h2 {
+    color: black;
+  }
+}
+
+//backoffice
+.layout-wrapper {
+  &.layout-wrapper-menu-active .layout-sidebar {
+    width: calc(390px + 60px);
+  }
+
+  .layout-sidebar .layout-tabmenu .layout-tabmenu-nav li.active-item {
+    border-left: none;
+  }
+
+  .layout-sidebar {
+    top: 0px;
+    box-shadow: none;
+
+    .layout-tabmenu .layout-tabmenu-contents {
+      width: 390px;
+
+      .layout-tabmenu-content .layout-submenu-title {
+        box-sizing: border-box;
+        color: $textColor;
+        font-weight: bold;
+        font-size: 32px;
+        max-width: 390px;
+        padding: 5%;
+      }
+    }
+  }
+
+  .topbar .topbar-menu > li > ul {
+    width: 250px;
+  }
+}
+
+.layout-sidebar {
+  max-width: 95vw;
+}
+
+.layout-tabmenu-contents {
+  max-width: calc(95vw - 60px);
+}
+
+.languages {
+  .p-dropdown {
+    border: 0px solid black;
+
+    div.p-dropdown-trigger {
+      span {
+        color: black;
+      }
+    }
+  }
+
+  .p-dropdown:not(.p-disabled).p-focus {
+    box-shadow: none;
+  }
+
+  .p-dropdown-open {
+    border: none;
+
+    div.p-dropdown-trigger {
+      transform: rotateX(3.142rad);
+    }
+  }
+
+  .p-dropdown-label {
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.layout-wrapper .topbar .topbar-menu > li > ul {
+  background: $primaryColor;
+  right: -9px;
+}
+
+.layout-wrapper .topbar .topbar-menu > li > a:hover {
+  color: #000000;
+}
+
+.layout-wrapper
+  .topbar
+  .topbar-menu
+  > li.profile-item
+  a:hover
+  .profile-info
+  .topbar-item-name.profile-role {
+  font-size: 12px;
+  color: $textColor;
+}
+
+.layout-wrapper
+  .layout-sidebar
+  .layout-tabmenu
+  .layout-tabmenu-contents
+  .layout-tabmenu-content {
+  height: 100%;
+  display: none;
+  overflow: scroll;
+}
+
+.layout-wrapper
+  .layout-sidebar
+  .layout-tabmenu
+  .layout-tabmenu-contents
+  .layout-tabmenu-content::-webkit-scrollbar {
+  display: none;
+}
+
+.login-body {
+  .login-panel {
+    .login-header {
+      margin-bottom: 0px;
+      display: inline;
+
+      // justify-content: space-around;
+      // align-items: center;
+      img {
+        width: 64px;
+        position: relative;
+        top: auto;
+        right: auto;
+      }
+
+      &.p-col-12 {
+        padding: 20px 30px;
+        padding-top: 3rem;
+      }
+    }
+
+    .custom-login-header {
+      h1: {
+        font-size: 0.5rem;
+      }
+
+      h2: {
+        font-size: 0.25rem;
+      }
+    }
+  }
+}
+
+.custom-login-header {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+  }
+}
+
+.login-body .login-panel {
+  padding-bottom: 4rem;
+}
+
+.login-panel {
+  padding: 4rem;
+}

@@ -1,0 +1,181 @@
+{
+  "sidebar": {
+    "description": "Web Application Developer"
+  },
+  "pages": {
+    "home": "Resume",
+    "certificates": "Certificates"
+  },
+  "home": {
+    "cv": "Curriculum",
+    "contacto": "Contact",
+    "trayectoria": "Trajectory",
+    "rrss": "Send me an email to this address contacto@juamber.com or write me through one of my profiles"
+  },
+  "cv": {
+    "title": "Write me an email",
+    "button": "Download Curriculum",
+    "info": "Download my last resume summarized in one page in English"
+  },
+  "paginas": {
+    "login": {
+      "titulo": "LOGIN",
+      "subtitulo": "Welcome to {{name}}",
+      "navegacion": "have you forgotten your password?",
+      "success": "You have successfully logged in",
+      "error": "Failed to login!",
+      "enviar": "Log in",
+      "model": {
+        "username": "Username",
+        "password": "Password"
+      }
+    },
+    "recuperarPassword": {
+      "titulo": "RECOVER PASSWORD",
+      "subtitulo": "Enter your email",
+      "navegacion": "Return",
+      "success": "Recovery email sent successfully",
+      "error": "Error sending recovery email!",
+      "enviar": "Send mail",
+      "model": {
+        "correo": "Mail"
+      }
+    },
+    "formularioRecuperacion": {
+      "titulo": "RECOVERY FORM",
+      "subtitulo": "Enter your new password",
+      "navegacion": "Return",
+      "success": "Password changed successfully",
+      "error": "Failed to change password!",
+      "enviar": "Change Password",
+      "equalPasswordError": "Both passwords must be the same",
+      "model": {
+        "password": "New Password",
+        "repeat_password": "Repeat New Password"
+      }
+    },
+    "log": {
+      "title": "Logger"
+    }
+  },
+  "errors": {
+    "url": "/",
+    "urlText": "Go to the main page",
+    "types": {
+      "ERROR": {
+        "title": "ERROR",
+        "subtitle": "Something has gone wrong",
+        "text": ""
+      },
+      "ERROR_404": {
+        "title": "ERROR 404",
+        "subtitle": "Page not found",
+        "text": "The page you are looking for does not exist or is not available at the moment"
+      },
+      "ERROR_500": {
+        "title": "ERROR 500",
+        "subtitle": "Internal Server Error",
+        "text": "The problem is probably not with your computer or internet connection but with the server"
+      }
+    }
+  },
+  "messages": {
+    "confirmation": {
+      "message": "¿Do you want to delete the {{name}}?",
+      "header": "Delete Confirmation",
+      "rejectLabel": "No",
+      "acceptLabel": "Si"
+    },
+    "toastDelete": "The {{name}} has been successfully deleted",
+    "toastSuccess": "The {{name}} has been successfully created",
+    "toastUpdate": "The {{name}} has been successfully modified"
+  },
+  "buttons": {
+    "detail": "See {{name}}",
+    "new": "New/a {{name}}",
+    "create": "Create {{name}}",
+    "add": "Add {{name}}",
+    "edit": "Update {{name}}",
+    "update": "Update {{name}}",
+    "delete": "Delete {{name}}",
+    "send": "Send {{name}}",
+    "open": "Open",
+    "refresh": "Refresh",
+    "reject": "No",
+    "accept": "Yes"
+  },
+  "tabs": {
+    "info": "Main information",
+    "fotos": "Photos",
+    "edificios": "Buildings",
+    "intervenciones": "Interventions"
+  },
+  "secciones": {
+    "informacionPrincipal": "Main information",
+    "otraInformacion": "Other information",
+    "fotos": "Photos",
+    "ubicacion": "Location",
+    "control": "Control",
+    "permisos": "Permissions"
+  },
+  "tables": {
+
+  },
+  "columns": {
+
+  },
+  "general": {
+    "form": {
+      "usuario": "User",
+      "contraseña": "Password"
+    },
+    "opciones": "Options",
+    "total": "Total",
+    "de": "of",
+    "pagina": "Page",
+    "salir": "Logout"
+  },
+  "calendar": {
+    "dayNames": [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado"
+    ],
+    "dayNamesShort": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+    "dayNamesMin": ["D", "L", "M", "X", "J", "V", "S"],
+    "monthNames": [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ],
+    "monthNamesShort": [
+      "ene",
+      "feb",
+      "mar",
+      "abr",
+      "may",
+      "jun",
+      "jul",
+      "ago",
+      "sep",
+      "oct",
+      "nov",
+      "dic"
+    ],
+    "today": "Hoy",
+    "clear": "Delete"
+  }
+}
