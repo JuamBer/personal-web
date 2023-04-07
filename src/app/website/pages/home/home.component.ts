@@ -43,24 +43,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       icon: 'fa-brands fa-linkedin',
     },
     {
-      name: 'Instagram',
-      url: 'https://www.instagram.com/juamber/',
-      icon: 'fa-brands fa-instagram',
-    },
-    {
-      name: 'Twitter',
-      url: 'https://twitter.com/JuanSaezGarcia',
-      icon: 'fa-brands fa-twitter',
-    },
-    {
       name: 'StackOverflow',
       url: 'https://stackoverflow.com/users/8794462/juamber?tab=profile',
       icon: 'fa-brands fa-stack-overflow',
-    },
-    {
-      name: 'YouTube',
-      url: 'https://www.youtube.com/channel/UCnwQce1OREgFG9Mve5oHlMg/playlists?view_as=subscriber',
-      icon: 'fa-brands fa-youtube',
     },
   ];
 
