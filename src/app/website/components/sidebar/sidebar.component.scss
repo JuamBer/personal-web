@@ -3,6 +3,21 @@ header {
   padding: 10px;
   margin-bottom: 2.5%;
 
+  .cms {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+
+    a {
+      padding: 2.5px;
+      border-radius: 2px;
+      transition: 0.25s;
+
+      &:hover {
+        background-color: #4a9e98;
+      }
+    }
+  }
   .me {
     width: 100%;
     margin-bottom: 3.5%;
