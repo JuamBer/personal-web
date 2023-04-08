@@ -1,19 +1,25 @@
 # Personal Website Portfolio - Juan Sáez García
 
-Welcome to my personal website portfolio! This website showcases my skills and projects as a web developer.
+Welcome to my [personal website](https://juamber.com/home) portfolio! This website showcases my skills and projects as a web developer.
 
 ## Table of Contents
-- [Personal Website Portfolio - Juan Sáez García](#personal-website-portfolio---juan-sáez-garcía)
-  - [Table of Contents](#table-of-contents)
   - [Technologies Used](#technologies-used)
   - [License](#license)
 
 ## Technologies Used
-- Angular 15.0.0
-- NGRX 15.4.0
-- Supabase
-- Git & GitHub
-- GitHub Actions for CI & GitHub Pages
+  - Front-End
+    - [Angular](https://angular.io/)
+    - [NGRX](https://ngrx.io/)
+  - Back-End
+    - [Supabase](https://supabase.com/)
+  - Database
+    - [PostgreSQL](https://www.postgresql.org/)
+  - Version Control
+    - [Git](https://git-scm.com/)
+    - [GitHub](https://github.com/)
+  - Others
+    - [GitHub Pages](https://pages.github.com/)
+    - [CI/CD: GitHub Actions](https://github.com/readme/guides/sothebys-github-actions)
 
 ## License
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use and modify the code as you see fit.
