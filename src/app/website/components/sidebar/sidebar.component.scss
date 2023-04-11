@@ -151,6 +151,10 @@ body {
 }
 
 @media screen and (max-height: 450px) {
+  .cms {
+    display: none;
+    background-color: red;
+  }
   .overlay a {
     font-size: 20px;
   }
@@ -163,6 +167,9 @@ body {
 }
 
 @media screen and (max-width: 800px) {
+  .cms {
+    display: none;
+  }
   .hamburguesa {
     display: inline;
     width: 15%;
@@ -176,7 +183,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-around;
-
+    .cms {
+      display: none;
+    }
     .me {
       width: 85%;
 
