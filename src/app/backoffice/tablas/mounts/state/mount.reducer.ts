@@ -1,3 +1,4 @@
+import { defaultCommonState } from '@app/shared/state/common/common-state';
 import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
 import { Mount } from '../models/mount.model';
@@ -6,11 +7,7 @@ import { mountNames } from './mount.names';
 import { MountState } from './mount.state';
 
 const initialState: MountState = {
-  entities: [],
-  selectedId: null,
-  count: 0,
-  loading: false,
-  message: null,
+  ...(defaultCommonState as MountState),
 };
 
 const otherReducers: ReducerTypes<any, any>[] = [];
@@ -19,12 +16,7 @@ class MountReducer extends CommonReducer<Mount, MountState> {
   private static instance: MountReducer;
 
   private constructor() {
-    super(
-      mountNames.kebabCase.plural.normal,
-      mountActions,
-      initialState,
-      otherReducers,
-    );
+    super(mountNames.kebabCase.plural.normal, mountActions, initialState, otherReducers);
   }
 
   public static getInstance(): MountReducer {

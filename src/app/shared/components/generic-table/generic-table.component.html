@@ -1,0 +1,87 @@
+<p-table
+  #dt
+  [value]="entities"
+  [loading]="loading"
+  [totalRecords]="count"
+  [styleClass]="styleClass"
+  [rows]="requestFilter.size"
+  [rowHover]="true"
+  [frozenValue]="[]"
+  [frozenColumns]="[]"
+  [responsive]="true"
+  responsiveLayout="scroll"
+  [resizableColumns]="true"
+  [showCurrentPageReport]="tableConfig.showCurrentPageReport"
+  [rowsPerPageOptions]="tableConfig.rowsPerPageOptions"
+  [dataKey]="tableConfig.dataKey"
+  [paginator]="tableConfig.paginator"
+  selectionMode="single"
+  [filterDelay]="0"
+  [showFirstLastIcon]="true"
+  paginatorPosition="bottom"
+  [lazy]="true"
+  [lazyLoadOnInit]="true"
+  sortMode="single"
+  (onLazyLoad)="onLazyLoad($event)"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-end align-items-center gap-3">
+      <app-generic-table-button
+        *ngFor="let button of tableConfig.buttons.top"
+        [position]="'top'"
+        [button]="button"
+        [entity]="null"
+        (tableEvent)="onTableEvent($event)"
+      ></app-generic-table-button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngIf="tableConfig.buttons.start.length > 0"></th>
+      <th *ngFor="let field of tableConfig.fields">
+        <app-generic-table-header-column
+          [field]="field"
+          [lazyLoadEvent]="requestSpec.lazyLoadEvent"
+          (filter)="onFilter($event)"
+          (sort)="onSort($event)"
+        ></app-generic-table-header-column>
+      </th>
+      <th *ngIf="tableConfig.buttons.end.length > 0"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-entity>
+    <tr class="p-selectable-row">
+      <th class="button-column" *ngIf="tableConfig.buttons.start.length > 0">
+        <div class="button-container">
+          <app-generic-table-button
+            *ngFor="let button of tableConfig.buttons.start"
+            [position]="'start'"
+            [button]="button"
+            [entity]="entity"
+            (tableEvent)="onTableEvent($event)"
+          ></app-generic-table-button>
+        </div>
+      </th>
+      <td *ngFor="let field of tableConfig.fields">
+        <app-generic-table-column [field]="field" [value]="entity"></app-generic-table-column>
+      </td>
+      <th class="button-column" *ngIf="tableConfig.buttons.end.length > 0">
+        <div class="button-container">
+          <app-generic-table-button
+            *ngFor="let button of tableConfig.buttons.end"
+            [position]="'end'"
+            [button]="button"
+            [entity]="entity"
+            (tableEvent)="onTableEvent($event)"
+          ></app-generic-table-button>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="8">No customers found.</td>
+    </tr>
+  </ng-template>
+</p-table>

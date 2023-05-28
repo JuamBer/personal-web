@@ -1,3 +1,4 @@
+import { defaultCommonState } from '@app/shared/state/common/common-state';
 import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
 import { Proyect } from '../models/proyect.model';
@@ -6,11 +7,7 @@ import { proyectNames } from './proyect.names';
 import { ProyectState } from './proyect.state';
 
 const initialState: ProyectState = {
-  entities: [],
-  selectedId: null,
-  count: 0,
-  loading: false,
-  message: null,
+  ...(defaultCommonState as ProyectState),
 };
 
 const otherReducers: ReducerTypes<any, any>[] = [];
@@ -19,12 +16,7 @@ class ProyectReducer extends CommonReducer<Proyect, ProyectState> {
   private static instance: ProyectReducer;
 
   private constructor() {
-    super(
-      proyectNames.kebabCase.plural.normal,
-      proyectActions,
-      initialState,
-      otherReducers,
-    );
+    super(proyectNames.kebabCase.plural.normal, proyectActions, initialState, otherReducers);
   }
 
   public static getInstance(): ProyectReducer {

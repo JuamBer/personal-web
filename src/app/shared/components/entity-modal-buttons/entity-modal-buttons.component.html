@@ -1,0 +1,51 @@
+<form [formGroup]="form">
+  <div class="grid mt-2">
+    <div class="col-6 sm:col-12 flex justify-content-start align-items-center gap-2">
+      <button
+        pButton
+        type="button"
+        [label]="'buttons.cancel' | translate"
+        class="p-button-secondary"
+        icon="fa-solid fa-xmark"
+        (click)="cancel.emit(true)"
+      ></button>
+      <button
+        pButton
+        type="reset"
+        [label]="'buttons.reset' | translate"
+        class="p-button-secondary"
+        *ngIf="modalMode === 'create' || modalMode === 'update'"
+        icon="fa-solid fa-broom"
+      ></button>
+    </div>
+
+    <div class="col-6 sm:col-12 flex justify-content-end align-items-center">
+      <button
+        pButton
+        type="submit"
+        [label]="
+          'buttons.create'
+            | translate
+              : {
+                  name: 'tables.' + name + '.singular' | translate
+                }
+        "
+        icon="fa-solid fa-plus"
+        *ngIf="modalMode === 'create'"
+      ></button>
+      <button
+        pButton
+        type="submit"
+        [label]="
+          'buttons.update'
+            | translate
+              : {
+                  name: 'tables.' + name + '.singular' | translate
+                }
+        "
+        icon="fa-solid fa-floppy-disk"
+        *ngIf="modalMode === 'update'"
+      ></button>
+    </div>
+  </div>
+</form>

@@ -111,6 +111,8 @@
     "toastError": "ERR"
   },
   "buttons": {
+    "cancel":"Cancelar",
+    "reset":"Limpiar",
     "detail": "Ver {{name}}",
     "new": "Nuevo/a {{name}}",
     "create": "Crear {{name}}",
@@ -122,7 +124,9 @@
     "open": "Abrir",
     "refresh": "Refrescar",
     "reject": "No",
-    "accept": "Si"
+    "accept": "Si",
+    "deleteFilters":"Borrar Filtros",
+    "filter":"Filtrar"
   },
   "general": {
     "reordenar": "Reordenar",
@@ -224,7 +228,37 @@
     "github": "GitHub",
     "web": "Web",
     "playStore": "Play Store",
-    "microsoftStore": "Microsoft Store"
+    "microsoftStore": "Microsoft Store",
+    "filterType":"Tipo de Filtro",
+    "value":"Valor"
+  },
+  "genericTable":{
+    "filters":{
+      "START_WITH":{
+        "name":"Comienza con",
+        "description": "Indica que se desea filtrar los elementos que comiencen con un valor específico"
+      },
+      "ENDS_WITH":{
+        "name":"Termina con",
+        "description": "Indica que se desea filtrar los elementos que comiencen con un valor específico"
+      },
+      "CONTAINS":{
+        "name":"Contiene",
+        "description": "Indica que se desea filtrar los elementos que contengan un valor específico"
+      },
+      "NOT_CONTAINS":{
+        "name":"No contiene",
+        "description": "Indica que se desea filtrar los elementos que no contengan un valor específico"
+      },
+      "EQUAL":{
+        "name":"Igual",
+        "description": "Indica que se desea filtrar los elementos que sean iguales a un valor específico"
+      },
+      "NOT_EQUAL":{
+        "name":"Distinto de",
+        "description": "Indica que se desea filtrar los elementos que no sean iguales a un valor específico"
+      }
+    }
   },
 
   "calendar": {

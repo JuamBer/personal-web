@@ -45,8 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
       // }
     });
     this.supabaseSrv.authChanges((_, session) => {
-      console.log('authChanges(): ', session);
-
+      // console.log('authChanges(): ', session);
       // this.accountStore.dispatch(
       //   AccountActions.loadUsuarioSuccess({ payload: session.user }),
       // );

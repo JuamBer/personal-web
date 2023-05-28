@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import {
-  AuthChangeEvent,
-  AuthSession,
-  createClient,
-  Session,
-  SupabaseClient,
-  User,
-} from '@supabase/supabase-js';
+import { AuthChangeEvent, AuthSession, createClient, Session, SupabaseClient, User } from '@supabase/supabase-js';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface Profile {
@@ -21,8 +14,7 @@ export class AuthService {
   private supabase: SupabaseClient;
 
   _session: AuthSession | null = null;
-  private currentUser: BehaviorSubject<User | boolean> | any =
-    new BehaviorSubject(null);
+  private currentUser: BehaviorSubject<User | boolean> | any = new BehaviorSubject(null);
 
   constructor() {
     console.log('environment: ', environment);
@@ -43,7 +35,7 @@ export class AuthService {
     this.loadUser();
 
     this.supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
+      // console.log(event, session);
     });
   }
 
@@ -69,16 +61,10 @@ export class AuthService {
   }
 
   profile(user: User) {
-    return this.supabase
-      .from('profiles')
-      .select(`username, website, avatar_url`)
-      .eq('id', user.id)
-      .single();
+    return this.supabase.from('profiles').select(`username, website, avatar_url`).eq('id', user.id).single();
   }
 
-  authChanges(
-    callback: (event: AuthChangeEvent, session: Session | null) => void,
-  ) {
+  authChanges(callback: (event: AuthChangeEvent, session: Session | null) => void) {
     return this.supabase.auth.onAuthStateChange(callback);
   }
 

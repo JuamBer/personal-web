@@ -1,0 +1,19 @@
+<div class="ui-g">
+  <div class="p-col-12">
+    <div class="card card-w-title">
+      <h1>
+        {{ 'tables.certificate-group.plural' | translate }}
+      </h1>
+      <app-generic-table
+        [entities]="entities$ | async"
+        [loading]="loading$ | async"
+        [count]="count$ | async"
+        [tableConfig]="tableConfig$ | async"
+        [requestFilter]="requestFilter$ | async"
+        (requestSpecification)="onRequestSpecification($event)"
+        (tableEvent)="onTableEvent($event)"
+      ></app-generic-table>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

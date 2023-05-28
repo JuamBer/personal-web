@@ -1,3 +1,4 @@
+import { defaultCommonState } from '@app/shared/state/common/common-state';
 import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
 import { Position } from '../models/position.model';
@@ -6,23 +7,14 @@ import { positionNames } from './position.names';
 import { PositionState } from './position.state';
 
 const initialState: PositionState = {
-  entities: [],
-  selectedId: null,
-  count: 0,
-  loading: false,
-  message: null,
+  ...(defaultCommonState as PositionState),
 };
 const otherReducers: ReducerTypes<any, any>[] = [];
 class PositionReducer extends CommonReducer<Position, PositionState> {
   private static instance: PositionReducer;
 
   private constructor() {
-    super(
-      positionNames.kebabCase.plural.normal,
-      positionActions,
-      initialState,
-      otherReducers,
-    );
+    super(positionNames.kebabCase.plural.normal, positionActions, initialState, otherReducers);
   }
 
   public static getInstance(): PositionReducer {

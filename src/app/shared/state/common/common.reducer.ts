@@ -1,11 +1,5 @@
 import { ToastMessageType } from '@app/shared/models/toast-message';
-import {
-  createFeatureSelector,
-  createReducer,
-  createSelector,
-  on,
-  ReducerTypes,
-} from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on, ReducerTypes } from '@ngrx/store';
 import * as fromRoot from '../../../shared/state/app-state';
 import { CommonState } from './common-state';
 
@@ -198,29 +192,23 @@ export class CommonReducer<T, S extends CommonState<T>> {
       selectedId: null,
     })),
 
+    on(this.actions.requestFilterChange, (state, requestFilter) => ({
+      ...state,
+      requestFilter,
+    })),
+
     ...this.reducers,
   );
 
   public getCommonFetureState = createFeatureSelector<S>(this.name);
-  public getAll = createSelector(
-    this.getCommonFetureState,
-    (state: S) => state.entities,
-  );
+  public getAll = createSelector(this.getCommonFetureState, (state: S) => state.entities);
   public getOne = createSelector(this.getCommonFetureState, (state: S) =>
     state.entities?.find((i: any) => i?.id === state.selectedId),
   );
-  public getCount = createSelector(
-    this.getCommonFetureState,
-    (state: S) => state.count,
-  );
-  public getLoading = createSelector(
-    this.getCommonFetureState,
-    (state: S) => state.loading,
-  );
-  public getMessage = createSelector(
-    this.getCommonFetureState,
-    (state: S) => state.message,
-  );
+  public getCount = createSelector(this.getCommonFetureState, (state: S) => state.count);
+  public getLoading = createSelector(this.getCommonFetureState, (state: S) => state.loading);
+  public getMessage = createSelector(this.getCommonFetureState, (state: S) => state.message);
+  public getRequestFilter = createSelector(this.getCommonFetureState, (state: S) => state.requestFilter);
 }
 namespace CommonReducer {
   export interface AppState extends fromRoot.AppState {

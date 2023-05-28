@@ -1,0 +1,9 @@
+<button
+  pButton
+  [label]="button.label"
+  [icon]="'pi ' + button.icon"
+  [class]="buttonClasses"
+  [pTooltip]="button.tooltip"
+  [tooltipPosition]="tooltipPosition"
+  (click)="onTableEvent({ value: entity, type: button.event })"
+></button>

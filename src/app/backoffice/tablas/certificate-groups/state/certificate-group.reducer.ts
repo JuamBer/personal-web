@@ -1,3 +1,4 @@
+import { defaultCommonState } from '@app/shared/state/common/common-state';
 import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
 import { CertificateGroup } from '../models/certificate-group.model';
@@ -6,28 +7,16 @@ import { certificateGroupNames } from './certificate-group.names';
 import { CertificateGroupState } from './certificate-group.state';
 
 const initialState: CertificateGroupState = {
-  entities: [],
-  selectedId: null,
-  count: 0,
-  loading: false,
-  message: null,
+  ...(defaultCommonState as CertificateGroupState),
 };
 
 const otherReducers: ReducerTypes<any, any>[] = [];
 
-class CertificateGroupReducer extends CommonReducer<
-  CertificateGroup,
-  CertificateGroupState
-> {
+class CertificateGroupReducer extends CommonReducer<CertificateGroup, CertificateGroupState> {
   private static instance: CertificateGroupReducer;
 
   private constructor() {
-    super(
-      certificateGroupNames.kebabCase.plural.normal,
-      certificateGroupActions,
-      initialState,
-      otherReducers,
-    );
+    super(certificateGroupNames.kebabCase.plural.normal, certificateGroupActions, initialState, otherReducers);
   }
 
   public static getInstance(): CertificateGroupReducer {
@@ -37,5 +26,4 @@ class CertificateGroupReducer extends CommonReducer<
     return CertificateGroupReducer.instance;
   }
 }
-export const certificateGroupReducer: CertificateGroupReducer =
-  CertificateGroupReducer.getInstance();
+export const certificateGroupReducer: CertificateGroupReducer = CertificateGroupReducer.getInstance();

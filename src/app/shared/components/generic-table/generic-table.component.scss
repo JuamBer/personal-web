@@ -1,0 +1,13 @@
+th.button-column {
+  vertical-align: middle;
+  padding: 0;
+  border-bottom: 1px solid #dee2e6;
+
+  div.button-container {
+    padding: 0.25em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5em;
+  }
+}

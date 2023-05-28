@@ -25,7 +25,7 @@
   </div>
 </div>
 
-<ng-container *ngIf="!(loadingSkillTypes$ | async)">
+<ng-container *ngIf="(loadingSkillTypes$ | async) === false">
   <div
     class="my-container"
     style="margin-bottom: 60px"

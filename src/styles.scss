@@ -1,20 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
-@import "./reset.scss";
+@import './reset.scss';
 
 // @import '~bootstrap/dist/css/bootstrap.min.css';
-@import "./assets/images/flags/flags.scss";
+@import './assets/images/flags/flags.scss';
 
-@import "./assets/sass/layout-cav.scss";
-@import "./assets/sass/theme-cav.scss";
-@import "./assets/sass/responsive_overrides.scss";
-@import "swiper/scss";
-@import "swiper/scss/navigation";
-@import "swiper/scss/pagination";
+@import './assets/sass/layout-cav.scss';
+@import 'primeng/resources/themes/lara-light-blue/theme.css';
+@import 'primeng/resources/primeng.css';
+@import './assets/sass/responsive_overrides.scss';
+@import 'swiper/scss';
+@import 'swiper/scss/navigation';
+@import 'swiper/scss/pagination';
 
 @font-face {
-  font-family: "Fixture";
-  src: local("Fixture"),
-    url(./assets/fonts/Fixture-Regular.otf) format("truetype");
+  font-family: 'Fixture';
+  src: local('Fixture'), url(./assets/fonts/Fixture-Regular.otf) format('truetype');
+}
+body {
+  font-family: var(--font-family);
 }
 
 .hide-tabs-headers .p-tabview-nav {
@@ -27,7 +30,7 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: "Fixture";
+  font-family: 'Fixture';
 }
 
 .isDisabled {
@@ -180,7 +183,7 @@ body {
 }
 
 * {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 /*
@@ -205,7 +208,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: "Roboto", "Helvetica Neue", "sans-serif";
+  font-family: 'Roboto', 'Helvetica Neue', 'sans-serif';
   //background: #FDEEB8;
 }
 
@@ -240,7 +243,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .my-container {
@@ -252,5 +255,25 @@ body {
   .max-width {
     width: 100%;
     max-width: 1200px !important;
+  }
+}
+
+.app-ghost {
+  --app-ghost-color-dark: rgba(0, 0, 0, 0.2);
+  --app-ghost-color-light: rgba(255, 255, 255, 0.33);
+
+  background-color: var(--app-ghost-color-dark);
+  background-image: linear-gradient(90deg, transparent 0%, var(--app-ghost-color-light) 50%, transparent 100%);
+  background-size: 50%;
+  background-repeat: no-repeat;
+  animation: app-ghost-flash-animation 0.5s linear infinite;
+}
+
+@keyframes app-ghost-flash-animation {
+  0% {
+    background-position: -150%;
+  }
+  100% {
+    background-position: 150%;
   }
 }

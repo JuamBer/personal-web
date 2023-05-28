@@ -10,11 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {
-  ConfirmationService,
-  MessageService,
-  PrimeNGConfig,
-} from 'primeng/api';
+import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -33,6 +29,7 @@ import { LoadingDataModule } from './shared/components/loading-data/loading-data
 import { LanguagesModule } from './shared/modules/languages.module';
 import { AccountStateModule } from './shared/state/account/account.module';
 import { PublicLanguageStateModule } from './shared/state/languages/public-language-state.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -75,6 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     AccountModule,
     BackofficeModule,
+    FontAwesomeModule,
   ],
 })
 export class AppModule {}

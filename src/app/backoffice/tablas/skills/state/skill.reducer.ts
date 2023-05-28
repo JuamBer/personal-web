@@ -1,3 +1,4 @@
+import { defaultCommonState } from '@app/shared/state/common/common-state';
 import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
 import { Skill } from '../models/skill.model';
@@ -6,11 +7,7 @@ import { skillNames } from './skill.names';
 import { SkillState } from './skill.state';
 
 const initialState: SkillState = {
-  entities: [],
-  selectedId: null,
-  count: 0,
-  loading: false,
-  message: null,
+  ...(defaultCommonState as SkillState),
 };
 
 const otherReducers: ReducerTypes<any, any>[] = [];
@@ -19,12 +16,7 @@ class SkillReducer extends CommonReducer<Skill, SkillState> {
   private static instance: SkillReducer;
 
   private constructor() {
-    super(
-      skillNames.kebabCase.plural.normal,
-      skillActions,
-      initialState,
-      otherReducers,
-    );
+    super(skillNames.kebabCase.plural.normal, skillActions, initialState, otherReducers);
   }
 
   public static getInstance(): SkillReducer {
