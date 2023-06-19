@@ -111,8 +111,8 @@
     "toastError": "ERR"
   },
   "buttons": {
-    "cancel":"Cancelar",
-    "reset":"Limpiar",
+    "cancel": "Cancelar",
+    "reset": "Limpiar",
     "detail": "Ver {{name}}",
     "new": "Nuevo/a {{name}}",
     "create": "Crear {{name}}",
@@ -125,8 +125,13 @@
     "refresh": "Refrescar",
     "reject": "No",
     "accept": "Si",
-    "deleteFilters":"Borrar Filtros",
-    "filter":"Filtrar"
+    "deleteFilters": "Borrar Filtros",
+    "filter": "Filtrar"
+  },
+  "form": {
+    "errors": {
+      "required": "Es requerido"
+    }
   },
   "general": {
     "reordenar": "Reordenar",
@@ -229,48 +234,44 @@
     "web": "Web",
     "playStore": "Play Store",
     "microsoftStore": "Microsoft Store",
-    "filterType":"Tipo de Filtro",
-    "value":"Valor"
+    "filterType": "Tipo de Filtro",
+    "value": "Valor",
+    "createdAt": "Creado en",
+    "updatedAt": "Actualizado en"
   },
-  "genericTable":{
-    "filters":{
-      "START_WITH":{
-        "name":"Comienza con",
+  "genericTable": {
+    "currentPageReport": "Mostrando {first} hasta {last} de {totalRecords} entradas",
+    "emptyMessage": "No se ha encontrado ninguna entrada",
+    "filters": {
+      "START_WITH": {
+        "name": "Comienza con",
         "description": "Indica que se desea filtrar los elementos que comiencen con un valor específico"
       },
-      "ENDS_WITH":{
-        "name":"Termina con",
+      "ENDS_WITH": {
+        "name": "Termina con",
         "description": "Indica que se desea filtrar los elementos que comiencen con un valor específico"
       },
-      "CONTAINS":{
-        "name":"Contiene",
+      "CONTAINS": {
+        "name": "Contiene",
         "description": "Indica que se desea filtrar los elementos que contengan un valor específico"
       },
-      "NOT_CONTAINS":{
-        "name":"No contiene",
+      "NOT_CONTAINS": {
+        "name": "No contiene",
         "description": "Indica que se desea filtrar los elementos que no contengan un valor específico"
       },
-      "EQUAL":{
-        "name":"Igual",
+      "EQUAL": {
+        "name": "Igual",
         "description": "Indica que se desea filtrar los elementos que sean iguales a un valor específico"
       },
-      "NOT_EQUAL":{
-        "name":"Distinto de",
+      "NOT_EQUAL": {
+        "name": "Distinto de",
         "description": "Indica que se desea filtrar los elementos que no sean iguales a un valor específico"
       }
     }
   },
 
   "calendar": {
-    "dayNames": [
-      "Domingo",
-      "Lunes",
-      "Martes",
-      "Miércoles",
-      "Jueves",
-      "Viernes",
-      "Sábado"
-    ],
+    "dayNames": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
     "dayNamesShort": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
     "dayNamesMin": ["D", "L", "M", "X", "J", "V", "S"],
     "monthNames": [
@@ -287,20 +288,7 @@
       "Noviembre",
       "Diciembre"
     ],
-    "monthNamesShort": [
-      "ene",
-      "feb",
-      "mar",
-      "abr",
-      "may",
-      "jun",
-      "jul",
-      "ago",
-      "sep",
-      "oct",
-      "nov",
-      "dic"
-    ],
+    "monthNamesShort": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
     "today": "Hoy",
     "clear": "Borrar"
   },

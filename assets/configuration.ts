@@ -1,15 +1,29 @@
-export const configuration = {
+import { GenericTableConfig } from '@app/shared/components/generic-table/models/generic-table.models';
+import { RequestFilter } from '@app/shared/models/request-filter';
+
+interface Configuration {
+  defaultRequestFilter: RequestFilter;
+  defaultGenericTableConfig: GenericTableConfig<any>;
+}
+
+export const configuration: Configuration = {
   defaultRequestFilter: {
-    size: 10,
+    size: 5,
     page: 0,
     sort: [],
     filter: [],
   },
-  colorPrimario: '#1976d2',
-  nombre: 'JuamBer Personal Web',
-  configuration: 'assets/configuration.ts',
-  favicon: 'assets/images/app-icon.png',
-  logo: 'assets/images/app-icon.png',
-  defaultPaginator: 10,
-  paginators: [10, 25, 50],
+  defaultGenericTableConfig: {
+    dataKey: 'id',
+    rowsPerPageOptions: [5, 10, 25, 50, 100],
+    showCurrentPageReport: true,
+    paginator: true,
+    size: 'normal',
+    fields: [],
+    buttons: {
+      top: [],
+      start: [],
+      end: [],
+    },
+  },
 };
