@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CertificateGroup } from '@app/backoffice/tablas/certificate-groups/models/certificate-group.model';
-import { certificateGroupActions } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.actions';
-import { certificateGroupReducer } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.reducer';
+import { CertificateGroupActions } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.actions';
+import { CertificateGroupReducer } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.reducer';
 import { CertificateGroupState } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.state';
 import { CertificateType } from '@app/backoffice/tablas/certificate-types/models/certificate-type.model';
 import { certificateTypeReducer } from '@app/backoffice/tablas/certificate-types/state/certificate-type.reducer';
@@ -11,14 +11,7 @@ import { certificateReducer } from '@app/backoffice/tablas/certificates/state/ce
 import { CertificateState } from '@app/backoffice/tablas/certificates/state/certificate.state';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import Swiper, {
-  A11y,
-  Autoplay,
-  Navigation,
-  Pagination,
-  Scrollbar,
-  SwiperOptions,
-} from 'swiper';
+import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOptions } from 'swiper';
 
 Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
 
@@ -28,21 +21,20 @@ Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
   styleUrls: ['./certificates.component.scss'],
 })
 export class CertificatesComponent implements OnInit {
-  certificates$: Observable<Certificate[]> = this.certificateStore.select(
-    certificateReducer.getAll,
-  );
-  loadingCertificates$: Observable<boolean> = this.certificateStore.select(
-    certificateReducer.getLoading,
-  );
-  certificateTypes$: Observable<CertificateType[]> =
-    this.certificateTypeStore.select(certificateTypeReducer.getAll);
-  loadingCertificateTypes$: Observable<boolean> =
-    this.certificateTypeStore.select(certificateTypeReducer.getLoading);
+  private certificateGroupActions = inject(CertificateGroupActions);
+  private certificateGroupReducer = inject(CertificateGroupReducer);
 
-  certificateGroups$: Observable<CertificateGroup[]> =
-    this.certificateGroupStore.select(certificateGroupReducer.getAll);
-  loadingCertificateGroups$: Observable<boolean> =
-    this.certificateGroupStore.select(certificateGroupReducer.getLoading);
+  certificates$: Observable<Certificate[]> = this.certificateStore.select(certificateReducer.getAll);
+  loadingCertificates$: Observable<boolean> = this.certificateStore.select(certificateReducer.getLoading);
+  certificateTypes$: Observable<CertificateType[]> = this.certificateTypeStore.select(certificateTypeReducer.getAll);
+  loadingCertificateTypes$: Observable<boolean> = this.certificateTypeStore.select(certificateTypeReducer.getLoading);
+
+  certificateGroups$: Observable<CertificateGroup[]> = this.certificateGroupStore.select(
+    this.certificateGroupReducer.getAll,
+  );
+  loadingCertificateGroups$: Observable<boolean> = this.certificateGroupStore.select(
+    this.certificateGroupReducer.getLoading,
+  );
 
   tabIndexes: { groupId: any; value: number }[] = [];
 
@@ -83,9 +75,7 @@ export class CertificatesComponent implements OnInit {
   ngOnInit(): void {
     this.certificateGroups$.subscribe((certificateGroups) => {
       if (!certificateGroups.length) {
-        this.certificateGroupStore.dispatch(
-          certificateGroupActions.loadAll({ payload: null }),
-        );
+        this.certificateGroupStore.dispatch(this.certificateGroupActions.loadAll({ payload: null }));
       }
       certificateGroups.forEach((certificateGroup) => {
         this.tabIndexes.push({
@@ -103,18 +93,14 @@ export class CertificatesComponent implements OnInit {
   }
 
   getTabIndex(certificateGroup: CertificateGroup) {
-    return this.tabIndexes.find(
-      (tabIndex) => tabIndex.groupId === certificateGroup.id,
-    );
+    return this.tabIndexes.find((tabIndex) => tabIndex.groupId === certificateGroup.id);
   }
   getIndex(certificateGroup: CertificateGroup) {
     this.getTabIndex(certificateGroup)!.value;
   }
 
   slideNext(certificateGroup: CertificateGroup) {
-    const swiper = document.getElementById(
-      '.swiper' + certificateGroup.id,
-    ) as unknown as Swiper;
+    const swiper = document.getElementById('.swiper' + certificateGroup.id) as unknown as Swiper;
     swiper.slideNext();
     console.log(swiper.slideNext);
 

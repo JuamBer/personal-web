@@ -1,22 +1,31 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { EntityList } from '@app/backoffice/models/entity-list.model';
 import {
   GenericFieldType,
   GenericTableConfig,
-  RequestSpecification,
   TableEvent,
   TableEventType,
 } from '@app/shared/components/generic-table/models/generic-table.models';
-import { RequestFilter } from '@app/shared/models/request-filter';
+import { ModalMode } from '@app/shared/models/modal-config/modal-mode';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
-import { Store } from '@ngrx/store';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { Observable, Subject, filter } from 'rxjs';
+import { environment } from '@env/environment';
+import { Action, Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
+import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
+import { Observable, Subject, filter, startWith } from 'rxjs';
 import { CertificateGroup } from '../models/certificate-group.model';
-import { certificateGroupActions } from '../state/certificate-group.actions';
-import { certificateGroupReducer } from '../state/certificate-group.reducer';
+import { CertificateGroupActions } from '../state/certificate-group.actions';
+import { certificateGroupNames } from '../state/certificate-group.names';
+import { CertificateGroupReducer } from '../state/certificate-group.reducer';
+
+export const certificateGroupListTitleResolver: ResolveFn<string> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  return `Juan Sáez García | Certificate Groups`;
+};
 
 @Component({
   selector: 'app-certificate-group-list',
@@ -25,68 +34,65 @@ import { certificateGroupReducer } from '../state/certificate-group.reducer';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CertificateGroupListComponent implements OnInit, EntityList<CertificateGroup> {
-  entities$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
-  loading$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
-  count$: Observable<number> = this.store.select(certificateGroupReducer.getCount);
-  requestFilter$: Observable<RequestFilter> = this.store.select(certificateGroupReducer.getRequestFilter);
+  get Number(): any {
+    throw new Error('Method not implemented.');
+  }
+  private store = inject(Store);
+  private confirmationSrv = inject(ConfirmationService);
+  private router = inject(Router);
+  private translateSrv = inject(TranslateService);
+  private certificateGroupActions = inject(CertificateGroupActions);
+  private certificateGroupReducer = inject(CertificateGroupReducer);
+
+  entities$: Observable<CertificateGroup[]> = this.store.select(this.certificateGroupReducer.getAll);
+  loading$: Observable<boolean> = this.store.select(this.certificateGroupReducer.getLoading);
+  count$: Observable<number> = this.store.select(this.certificateGroupReducer.getCount);
+  action$: Observable<Action> = this.store.select(this.certificateGroupReducer.getAction);
   tableConfig$: Subject<GenericTableConfig<CertificateGroup>> = new Subject<GenericTableConfig<CertificateGroup>>();
 
-  constructor(
-    private store: Store,
-    private confirmationSrv: ConfirmationService,
-    private messageSrv: MessageService,
-    private toastSrv: MessageService,
-    private router: Router,
-    private translateSrv: TranslateService,
-  ) {}
-
   ngOnInit(): void {
-    this.tableConfig$.subscribe(console.log);
+    this.store.dispatch(this.certificateGroupActions.count());
     this.store
       .select(publicLanguageReducer.getOne)
       .pipe(filter((i) => i != null))
       .subscribe((language) => {
         this.translateSrv.use(language.acronym);
       });
-    this.translateSrv.onLangChange.subscribe((event: LangChangeEvent) => {
+
+    this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadTableConfig();
     });
   }
 
-  onRequestSpecification(event: RequestSpecification<CertificateGroup>) {
-    this.store.dispatch(certificateGroupActions.loadAll({ payload: event }));
+  onLazyLoadEvent(event: LazyLoadEvent) {
+    this.store.dispatch(this.certificateGroupActions.loadAll({ payload: event }));
   }
 
   onTableEvent(event: TableEvent<CertificateGroup>) {
     switch (event.type) {
       case TableEventType.CREATE: {
-        this.router.navigate(['backoffice', 'certificate-groups', 'modal', { modalMode: 'CREATE' }]);
+        this.router.navigate([this.router.url, 'modal', { modalMode: ModalMode.CREATE }]);
         break;
       }
       case TableEventType.VIEW: {
-        this.router.navigate(['backoffice', 'certificate-groups', 'modal', { modalMode: 'VIEW', id: event.value.id }]);
+        this.router.navigate([this.router.url, 'modal', { modalMode: ModalMode.VIEW, id: event.value.id }]);
         break;
       }
       case TableEventType.UPDATE: {
-        this.router.navigate([
-          'backoffice',
-          'certificate-groups',
-          'modal',
-          { modalMode: 'UPDATE', id: event.value.id },
-        ]);
+        this.router.navigate([this.router.url, 'modal', { modalMode: ModalMode.UPDATE, id: event.value.id }]);
         break;
       }
       case TableEventType.DELETE: {
         this.confirmationSrv.confirm({
           message: this.translateSrv.instant('messages.confirmation.message', {
-            name: this.translateSrv.instant(`tables.${'certificate-group'}.singular`),
+            name: this.translateSrv.instant(`tables.${'certificateGroup'}.singular`),
           }),
           header: this.translateSrv.instant('messages.confirmation.header'),
           icon: 'pi pi-info-circle',
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            this.store.dispatch(certificateGroupActions.delete({ id: event.value.id }));
+            this.store.dispatch(this.certificateGroupActions.delete({ id: event.value.id }));
           },
         });
 
@@ -103,7 +109,7 @@ export class CertificateGroupListComponent implements OnInit, EntityList<Certifi
       action: 'add',
       icon: 'pi pi-plus',
       label: this.translateSrv.instant('buttons.new', {
-        name: this.translateSrv.instant(`tables.${'certificate-group'}.singular`),
+        name: this.translateSrv.instant(`tables.${'certificateGroup'}.singular`),
       }),
     });
 
@@ -112,11 +118,7 @@ export class CertificateGroupListComponent implements OnInit, EntityList<Certifi
     optionButtons.push({ action: 'delete', icon: 'pi pi-trash' });
 
     this.tableConfig$.next({
-      dataKey: 'id',
-      rowsPerPageOptions: [5, 10, 25],
-      showCurrentPageReport: true,
-      paginator: true,
-      size: 'normal',
+      ...environment.defaultGenericTableConfig,
       fields: [
         {
           field: 'name',
@@ -141,10 +143,10 @@ export class CertificateGroupListComponent implements OnInit, EntityList<Certifi
             style: 'raised',
             icon: 'pi-plus',
             label: this.translateSrv.instant('buttons.create', {
-              name: this.translateSrv.instant('tables.certificate-group.singular'),
+              name: this.translateSrv.instant('tables.certificateGroup.singular'),
             }),
             tooltip: this.translateSrv.instant('buttons.create', {
-              name: this.translateSrv.instant('tables.certificate-group.singular'),
+              name: this.translateSrv.instant('tables.certificateGroup.singular'),
             }),
             event: TableEventType.CREATE,
           },
@@ -156,7 +158,7 @@ export class CertificateGroupListComponent implements OnInit, EntityList<Certifi
             style: 'raised',
             icon: 'pi-eye',
             tooltip: this.translateSrv.instant('buttons.view', {
-              name: this.translateSrv.instant('tables.certificate-group.singular'),
+              name: this.translateSrv.instant('tables.certificateGroup.singular'),
             }),
             event: TableEventType.VIEW,
           },
@@ -165,7 +167,7 @@ export class CertificateGroupListComponent implements OnInit, EntityList<Certifi
             style: 'raised',
             icon: 'pi-file-edit',
             tooltip: this.translateSrv.instant('buttons.update', {
-              name: this.translateSrv.instant('tables.certificate-group.singular'),
+              name: this.translateSrv.instant('tables.certificateGroup.singular'),
             }),
             event: TableEventType.UPDATE,
           },
@@ -174,12 +176,21 @@ export class CertificateGroupListComponent implements OnInit, EntityList<Certifi
             style: 'raised',
             icon: 'pi-trash',
             tooltip: this.translateSrv.instant('buttons.delete', {
-              name: this.translateSrv.instant('tables.certificate-group.singular'),
+              name: this.translateSrv.instant('tables.certificateGroup.singular'),
             }),
             event: TableEventType.DELETE,
           },
         ],
       },
     });
+  }
+  get NumberMode() {
+    return NumberMode;
+  }
+  get Naming() {
+    return Naming;
+  }
+  get names() {
+    return certificateGroupNames;
   }
 }

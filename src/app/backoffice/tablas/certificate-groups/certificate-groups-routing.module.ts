@@ -1,18 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CertificateGroupListComponent } from './certificate-group-list/certificate-group-list.component';
-import { CertificateGroupModalComponent } from './certificate-group-modal/certificate-group-modal.component';
+import {
+  CertificateGroupListComponent,
+  certificateGroupListTitleResolver,
+} from './certificate-group-list/certificate-group-list.component';
+import {
+  CertificateGroupModalComponent,
+  certificateGroupModalTitleResolver,
+} from './certificate-group-modal/certificate-group-modal.component';
 
 const routes: Routes = [
   {
     path: '',
+    title: certificateGroupListTitleResolver,
     component: CertificateGroupListComponent,
-    canActivate: [],
     children: [
       {
         path: 'modal',
+        title: certificateGroupModalTitleResolver,
         component: CertificateGroupModalComponent,
-        canActivate: [],
       },
     ],
   },

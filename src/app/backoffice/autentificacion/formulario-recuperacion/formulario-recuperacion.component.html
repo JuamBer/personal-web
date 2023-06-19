@@ -8,7 +8,7 @@
           <h2>{{ 'paginas.formularioRecuperacion.subtitulo' | translate }}</h2>
         </div>
         <div class="col-3">
-          <img [src]="logoUrl" />
+          <!-- <img [src]="logoUrl" /> -->
         </div>
       </div>
       <form [formGroup]="form" (ngSubmit)="recuperar()">
@@ -41,14 +41,9 @@
                 }"
                 pInputText
               />
-              <label for="password_repeat">{{
-                'columns.repeat_password' | translate
-              }}</label>
+              <label for="password_repeat">{{ 'columns.repeat_password' | translate }}</label>
             </div>
-            <small
-              *ngIf="!form.controls['repeat_password'].valid"
-              class="p-error"
-            >
+            <small *ngIf="!form.controls['repeat_password'].valid" class="p-error">
               {{ errores['repeat_password'] }}
             </small>
           </div>
@@ -71,9 +66,7 @@
                 [label]="'paginas.formularioRecuperacion.enviar' | translate"
                 icon="ui-icon-person"
               ></button>
-              <a [routerLink]="['/backoffice/login']">{{
-                'paginas.formularioRecuperacion.navegacion' | translate
-              }}</a>
+              <a [routerLink]="['/backoffice/login']">{{ 'paginas.formularioRecuperacion.navegacion' | translate }}</a>
             </div>
           </div>
           <div class="col-12" *ngIf="res">

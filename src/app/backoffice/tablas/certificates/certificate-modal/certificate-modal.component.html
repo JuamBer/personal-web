@@ -62,10 +62,7 @@
                 ></textarea>
                 <label>{{ 'columns.description' | translate }} *</label>
               </span>
-              <small
-                *ngIf="!form.controls['description'].valid"
-                class="p-error"
-              >
+              <small *ngIf="!form.controls['description'].valid" class="p-error">
                 {{ errores['description'] }}
               </small>
             </div>
@@ -82,13 +79,7 @@
                   appendTo="body"
                   [filter]="true"
                 ></p-dropdown>
-                <label
-                  >{{
-                    'tables.' + companyNames.camelCase.singular + '.singular'
-                      | translate
-                  }}
-                  *</label
-                >
+                <label>{{ 'tables.' + companyNames.camelCase.singular + '.singular' | translate }} *</label>
               </span>
             </div>
             <div class="xs:col-12 lg:col-4">
@@ -104,14 +95,7 @@
                   appendTo="body"
                   [filter]="true"
                 ></p-dropdown>
-                <label
-                  >{{
-                    'tables.' +
-                      certificateTypeNames.camelCase.singular +
-                      '.singular' | translate
-                  }}
-                  *</label
-                >
+                <label>{{ 'tables.' + certificateTypeNames.camelCase.singular + '.singular' | translate }} *</label>
               </span>
             </div>
             <div class="xs:col-12 lg:col-4">
@@ -127,14 +111,7 @@
                   appendTo="body"
                   [filter]="true"
                 ></p-dropdown>
-                <label
-                  >{{
-                    'tables.' +
-                      certificateGroupNames.camelCase.singular +
-                      '.singular' | translate
-                  }}
-                  *</label
-                >
+                <!-- <label>{{ 'tables.' + certificateGroupNames.camelCase.singular + '.singular' | translate }} *</label> -->
               </span>
             </div>
 
@@ -268,10 +245,7 @@
                 />
                 <label>{{ 'columns.microsoftStore' | translate }} *</label>
               </span>
-              <small
-                *ngIf="!form.controls['microsoftStore'].valid"
-                class="p-error"
-              >
+              <small *ngIf="!form.controls['microsoftStore'].valid" class="p-error">
                 {{ errores['microsoftStore'] }}
               </small>
             </div>
@@ -284,12 +258,10 @@
                 'buttons.create'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'create'"
+              *ngIf="modalMode === ModalMode.CREATE"
             ></button>
             <button
               pButton
@@ -298,12 +270,10 @@
                 'buttons.update'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'update'"
+              *ngIf="modalMode === ModalMode.UPDATE"
             ></button>
           </div>
         </form>

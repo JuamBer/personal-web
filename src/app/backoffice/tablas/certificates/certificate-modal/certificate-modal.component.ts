@@ -1,12 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 //CERTIFICATE
 import { ImagenesFormComponent } from '@app/shared/components/imagenes/imagenes-form/imagenes-form.component';
-import {
-  ModalMode,
-  ModalParams,
-} from '@app/shared/models/modal-config/modal-mode';
+import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
 import { CommonNames } from '@app/shared/state/common/common.names';
 import { MessageHandlerType, ToastUtils } from '@app/shared/utils/ToastUtils';
@@ -16,9 +13,8 @@ import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CertificateGroup } from '../../certificate-groups/models/certificate-group.model';
-import { certificateGroupActions } from '../../certificate-groups/state/certificate-group.actions';
-import { certificateGroupNames } from '../../certificate-groups/state/certificate-group.names';
-import { certificateGroupReducer } from '../../certificate-groups/state/certificate-group.reducer';
+import { CertificateGroupActions } from '../../certificate-groups/state/certificate-group.actions';
+import { CertificateGroupReducer } from '../../certificate-groups/state/certificate-group.reducer';
 import { CertificateGroupState } from '../../certificate-groups/state/certificate-group.state';
 import { CertificateType } from '../../certificate-types/models/certificate-type.model';
 import { certificateTypeActions } from '../../certificate-types/state/certificate-type.actions';
@@ -42,6 +38,9 @@ import { CertificateState } from '../state/certificate.state';
   styleUrls: ['./certificate-modal.component.scss'],
 })
 export class CertificateModalComponent implements OnInit {
+  private certificateGroupActions = inject(CertificateGroupActions);
+  private certificateGroupReducer = inject(CertificateGroupReducer);
+
   id: number;
 
   @ViewChild('createImagenesForm') createImagenesForm: ImagenesFormComponent;
@@ -49,26 +48,19 @@ export class CertificateModalComponent implements OnInit {
 
   visible: boolean = false;
 
-  certificate$: Observable<Certificate> = this.certificateStore.select(
-    certificateReducer.getOne,
-  );
-  loading$: Observable<boolean> = this.certificateStore.select(
-    certificateReducer.getLoading,
-  );
+  certificate$: Observable<Certificate> = this.certificateStore.select(certificateReducer.getOne);
+  loading$: Observable<boolean> = this.certificateStore.select(certificateReducer.getLoading);
   message$: Observable<ToastMessage> = this.certificateStore
     .select(certificateReducer.getMessage)
     .pipe(filter((i) => !!i));
   names: CommonNames = certificateNames;
 
-  certificateTypes$: Observable<CertificateType[]> =
-    this.certificateTypeStore.select(certificateTypeReducer.getAll);
+  certificateTypes$: Observable<CertificateType[]> = this.certificateTypeStore.select(certificateTypeReducer.getAll);
   certificateTypeNames: CommonNames = certificateTypeNames;
-  certificateGroups$: Observable<CertificateGroup[]> =
-    this.certificateGroupStore.select(certificateGroupReducer.getAll);
-  certificateGroupNames: CommonNames = certificateGroupNames;
-  companies$: Observable<Company[]> = this.companyStore.select(
-    companyReducer.getAll,
+  certificateGroups$: Observable<CertificateGroup[]> = this.certificateGroupStore.select(
+    this.certificateGroupReducer.getAll,
   );
+  companies$: Observable<Company[]> = this.companyStore.select(companyReducer.getAll);
   companyNames: CommonNames = companyNames;
   errores: string[] = [];
 
@@ -109,9 +101,7 @@ export class CertificateModalComponent implements OnInit {
             break;
         }
         if (params.modalMode !== 'CREATE') {
-          this.certificateStore.dispatch(
-            certificateActions.loadOne({ id: Number(params.id) }),
-          );
+          this.certificateStore.dispatch(certificateActions.loadOne({ id: Number(params.id) }));
         }
       }
     });
@@ -122,12 +112,8 @@ export class CertificateModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.certificateGroupStore.dispatch(
-      certificateGroupActions.loadAll({ payload: null }),
-    );
-    this.certificateTypeStore.dispatch(
-      certificateTypeActions.loadAll({ payload: null }),
-    );
+    this.certificateGroupStore.dispatch(this.certificateGroupActions.loadAll({ payload: null }));
+    this.certificateTypeStore.dispatch(certificateTypeActions.loadAll({ payload: null }));
     this.companyStore.dispatch(companyActions.loadAll({ payload: null }));
     this.form = this.formBuilder.group({
       id: [Date.now()],
@@ -146,33 +132,27 @@ export class CertificateModalComponent implements OnInit {
       playStore: [undefined],
     });
 
-    const certificatesubscription: Subscription = this.certificate$.subscribe(
-      (certificate) => {
-        this.patchValue(certificate);
-      },
-    );
+    const certificatesubscription: Subscription = this.certificate$.subscribe((certificate) => {
+      this.patchValue(certificate);
+    });
     this.subscriptions.push(certificatesubscription);
 
-    const messageSubscription = this.message$.subscribe(
-      async (message: ToastMessage) => {
-        const res = await this.toastUtils.messageHandler(
-          this.names.camelCase.singular,
-          MessageHandlerType.HIDE_MODAL,
-          message,
-        );
-        if (res !== null) {
-          this.visible = res;
-        }
-      },
-    );
+    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
+      const res = await this.toastUtils.messageHandler(
+        this.names.camelCase.singular,
+        MessageHandlerType.HIDE_MODAL,
+        message,
+      );
+      if (res !== null) {
+        this.visible = res;
+      }
+    });
     this.subscriptions.push(messageSubscription);
   }
 
   translate(lang: string) {
     this.translateSrv.use(lang);
-    this.translateSrv
-      .get('calendar')
-      .subscribe((res) => this.config.setTranslation(res));
+    this.translateSrv.get('calendar').subscribe((res) => this.config.setTranslation(res));
   }
 
   send() {
@@ -195,14 +175,10 @@ export class CertificateModalComponent implements OnInit {
 
     switch (this.modalMode) {
       case ModalMode.CREATE:
-        this.certificateStore.dispatch(
-          certificateActions.create({ payload: this.form.value }),
-        );
+        this.certificateStore.dispatch(certificateActions.create({ payload: this.form.value }));
         break;
       case ModalMode.UPDATE:
-        this.certificateStore.dispatch(
-          certificateActions.update({ payload: this.form.value }),
-        );
+        this.certificateStore.dispatch(certificateActions.update({ payload: this.form.value }));
         break;
     }
   }
@@ -224,10 +200,7 @@ export class CertificateModalComponent implements OnInit {
     this.form.reset();
     this.createImagenesForm?.reset();
     this.updateImagenesForm?.reset();
-    this.router.navigate([
-      'backoffice',
-      certificateNames.kebabCase.plural.normal,
-    ]);
+    this.router.navigate(['backoffice', certificateNames.kebabCase.plural.normal]);
   }
 
   patchValue(certificate: Certificate) {
@@ -269,5 +242,8 @@ export class CertificateModalComponent implements OnInit {
         microsoftStore: undefined,
       });
     }
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

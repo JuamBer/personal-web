@@ -1,0 +1,15 @@
+<ng-container *ngIf="modalMode !== ModalMode.CREATE">
+  <section class="audit-fields flex justify-content-end mt-3" *ngIf="!loading; else loadingTemplate">
+    <ng-container *ngIf="entity">
+      <span class="info">
+        <b class="title">{{ ('columns.createdAt' | translate) + ': ' }}</b>
+        <span class="data">{{ entity.createdAt | date }}</span>
+      </span>
+    </ng-container>
+  </section>
+  <ng-template #loadingTemplate>
+    <div class="w-full mt-3 flex justify-content-end">
+      <p-skeleton width="10em" height="1em"></p-skeleton>
+    </div>
+  </ng-template>
+</ng-container>

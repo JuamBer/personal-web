@@ -3,10 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 //SKILL
 import { ImagenesFormComponent } from '@app/shared/components/imagenes/imagenes-form/imagenes-form.component';
-import {
-  ModalMode,
-  ModalParams,
-} from '@app/shared/models/modal-config/modal-mode';
+import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
 import { CommonNames } from '@app/shared/state/common/common.names';
 import { MessageHandlerType, ToastUtils } from '@app/shared/utils/ToastUtils';
@@ -40,12 +37,8 @@ export class SkillModalComponent implements OnInit {
   visible: boolean = false;
 
   skill$: Observable<Skill> = this.skillStore.select(skillReducer.getOne);
-  loading$: Observable<boolean> = this.skillStore.select(
-    skillReducer.getLoading,
-  );
-  message$: Observable<ToastMessage> = this.skillStore
-    .select(skillReducer.getMessage)
-    .pipe(filter((i) => !!i));
+  loading$: Observable<boolean> = this.skillStore.select(skillReducer.getLoading);
+  message$: Observable<ToastMessage> = this.skillStore.select(skillReducer.getMessage).pipe(filter((i) => !!i));
   names: CommonNames = skillNames;
   skillTypeNames: CommonNames = skillTypeNames;
   skillTypes: SkillType[] = [];
@@ -86,9 +79,7 @@ export class SkillModalComponent implements OnInit {
             break;
         }
         if (params.modalMode !== 'CREATE') {
-          this.skillStore.dispatch(
-            skillActions.loadOne({ id: Number(params.id) }),
-          );
+          this.skillStore.dispatch(skillActions.loadOne({ id: Number(params.id) }));
         }
       }
     });
@@ -100,9 +91,7 @@ export class SkillModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.skillTypeStore.dispatch(skillTypeActions.loadAll({ payload: null }));
-    this.skillTypeStore
-      .select(skillTypeReducer.getAll)
-      .subscribe((skillTypes) => (this.skillTypes = skillTypes));
+    this.skillTypeStore.select(skillTypeReducer.getAll).subscribe((skillTypes) => (this.skillTypes = skillTypes));
     this.form = this.formBuilder.group({
       id: [Date.now()],
       name: [undefined, [Validators.required]],
@@ -115,26 +104,22 @@ export class SkillModalComponent implements OnInit {
     });
     this.subscriptions.push(skillSubscription);
 
-    const messageSubscription = this.message$.subscribe(
-      async (message: ToastMessage) => {
-        const res = await this.toastUtils.messageHandler(
-          this.names.camelCase.singular,
-          MessageHandlerType.HIDE_MODAL,
-          message,
-        );
-        if (res !== null) {
-          this.visible = res;
-        }
-      },
-    );
+    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
+      const res = await this.toastUtils.messageHandler(
+        this.names.camelCase.singular,
+        MessageHandlerType.HIDE_MODAL,
+        message,
+      );
+      if (res !== null) {
+        this.visible = res;
+      }
+    });
     this.subscriptions.push(messageSubscription);
   }
 
   translate(lang: string) {
     this.translateSrv.use(lang);
-    this.translateSrv
-      .get('calendar')
-      .subscribe((res) => this.config.setTranslation(res));
+    this.translateSrv.get('calendar').subscribe((res) => this.config.setTranslation(res));
   }
 
   send() {
@@ -157,14 +142,10 @@ export class SkillModalComponent implements OnInit {
 
     switch (this.modalMode) {
       case ModalMode.CREATE:
-        this.skillStore.dispatch(
-          skillActions.create({ payload: this.form.value }),
-        );
+        this.skillStore.dispatch(skillActions.create({ payload: this.form.value }));
         break;
       case ModalMode.UPDATE:
-        this.skillStore.dispatch(
-          skillActions.update({ payload: this.form.value }),
-        );
+        this.skillStore.dispatch(skillActions.update({ payload: this.form.value }));
         break;
     }
   }
@@ -208,5 +189,8 @@ export class SkillModalComponent implements OnInit {
         skillType: undefined,
       });
     }
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

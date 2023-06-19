@@ -12,8 +12,8 @@ export const environment = {
   preproduccion: false,
   local: true,
   name: 'LOCAL',
-  // webUrl: 'http://localhost:4200',
-  webUrl: 'https://juamber.com',
+  webUrl: 'http://localhost:4201',
+  // webUrl: 'https://juamber.com',
 };
 
 /*

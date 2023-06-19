@@ -18,7 +18,7 @@ export class GenericTableButtonComponent<T> {
   }
 
   get buttonClasses() {
-    let res = 'p-button';
+    let res = 'p-button-sm';
 
     switch (this.tableConfig?.size) {
       case 'small':

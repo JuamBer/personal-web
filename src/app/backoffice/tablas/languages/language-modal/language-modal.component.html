@@ -71,9 +71,7 @@
               </small>
             </div>
             <div class="xs:col-12 lg:col-6">
-              <span
-                class="flex align-items-center justify-content-center gap-4 h-full"
-              >
+              <span class="flex align-items-center justify-content-center gap-4 h-full">
                 <label>{{ 'columns.active' | translate }} *</label>
 
                 <p-inputSwitch
@@ -99,12 +97,10 @@
                 'buttons.create'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'create'"
+              *ngIf="modalMode === ModalMode.CREATE"
             ></button>
             <button
               pButton
@@ -113,12 +109,10 @@
                 'buttons.update'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'update'"
+              *ngIf="modalMode === ModalMode.UPDATE"
             ></button>
           </div>
         </form>

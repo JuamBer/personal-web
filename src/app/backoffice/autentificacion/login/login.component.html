@@ -4,10 +4,10 @@
     <div class="custom-login-header grid">
       <div class="col-9">
         <h1>{{ 'paginas.login.titulo' | translate }}</h1>
-        <h2>{{ 'paginas.login.subtitulo' | translate : { name: nombre } }}</h2>
+        <!-- <h2>{{ 'paginas.login.subtitulo' | translate : { name: nombre } }}</h2> -->
       </div>
       <div class="col-3">
-        <img [src]="logoUrl" />
+        <!-- <img [src]="logoUrl" /> -->
       </div>
     </div>
     <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -117,12 +117,9 @@
               icon="pi pi-spin pi-spinner"
               style="width: 100%"
             ></button>
-            <a
-              [routerLink]="['/reset-password']"
-              class="my-5"
-              style="font-size: 12px"
-              >{{ 'paginas.login.navegacion' | translate }}</a
-            >
+            <a [routerLink]="['/reset-password']" class="my-5" style="font-size: 12px">{{
+              'paginas.login.navegacion' | translate
+            }}</a>
           </div>
         </div>
         <div class="col-12" *ngIf="res">

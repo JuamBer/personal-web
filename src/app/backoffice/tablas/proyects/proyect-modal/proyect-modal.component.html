@@ -78,10 +78,7 @@
                 ></textarea>
                 <label>{{ 'columns.description' | translate }} *</label>
               </span>
-              <small
-                *ngIf="!form.controls['description'].valid"
-                class="p-error"
-              >
+              <small *ngIf="!form.controls['description'].valid" class="p-error">
                 {{ errores['description'] }}
               </small>
             </div>
@@ -121,12 +118,10 @@
                 'buttons.create'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'create'"
+              *ngIf="modalMode === ModalMode.CREATE"
             ></button>
             <button
               pButton
@@ -135,12 +130,10 @@
                 'buttons.update'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'update'"
+              *ngIf="modalMode === ModalMode.UPDATE"
             ></button>
           </div>
         </form>

@@ -3,10 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 //PROYECT
 import { ImagenesFormComponent } from '@app/shared/components/imagenes/imagenes-form/imagenes-form.component';
-import {
-  ModalMode,
-  ModalParams,
-} from '@app/shared/models/modal-config/modal-mode';
+import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
 import { CommonNames } from '@app/shared/state/common/common.names';
 import { MessageHandlerType, ToastUtils } from '@app/shared/utils/ToastUtils';
@@ -34,15 +31,9 @@ export class ProyectModalComponent implements OnInit {
 
   visible: boolean = false;
 
-  proyect$: Observable<Proyect> = this.proyectstore.select(
-    proyectReducer.getOne,
-  );
-  loading$: Observable<boolean> = this.proyectstore.select(
-    proyectReducer.getLoading,
-  );
-  message$: Observable<ToastMessage> = this.proyectstore
-    .select(proyectReducer.getMessage)
-    .pipe(filter((i) => !!i));
+  proyect$: Observable<Proyect> = this.proyectstore.select(proyectReducer.getOne);
+  loading$: Observable<boolean> = this.proyectstore.select(proyectReducer.getLoading);
+  message$: Observable<ToastMessage> = this.proyectstore.select(proyectReducer.getMessage).pipe(filter((i) => !!i));
   names: CommonNames = proyectNames;
 
   errores: string[] = [];
@@ -81,9 +72,7 @@ export class ProyectModalComponent implements OnInit {
             break;
         }
         if (params.modalMode !== 'CREATE') {
-          this.proyectstore.dispatch(
-            proyectActions.loadOne({ id: Number(params.id) }),
-          );
+          this.proyectstore.dispatch(proyectActions.loadOne({ id: Number(params.id) }));
         }
       }
     });
@@ -103,33 +92,27 @@ export class ProyectModalComponent implements OnInit {
       links: [undefined, []],
     });
 
-    const proyectsubscription: Subscription = this.proyect$.subscribe(
-      (proyect) => {
-        this.patchValue(proyect);
-      },
-    );
+    const proyectsubscription: Subscription = this.proyect$.subscribe((proyect) => {
+      this.patchValue(proyect);
+    });
     this.subscriptions.push(proyectsubscription);
 
-    const messageSubscription = this.message$.subscribe(
-      async (message: ToastMessage) => {
-        const res = await this.toastUtils.messageHandler(
-          this.names.camelCase.singular,
-          MessageHandlerType.HIDE_MODAL,
-          message,
-        );
-        if (res !== null) {
-          this.visible = res;
-        }
-      },
-    );
+    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
+      const res = await this.toastUtils.messageHandler(
+        this.names.camelCase.singular,
+        MessageHandlerType.HIDE_MODAL,
+        message,
+      );
+      if (res !== null) {
+        this.visible = res;
+      }
+    });
     this.subscriptions.push(messageSubscription);
   }
 
   translate(lang: string) {
     this.translateSrv.use(lang);
-    this.translateSrv
-      .get('calendar')
-      .subscribe((res) => this.config.setTranslation(res));
+    this.translateSrv.get('calendar').subscribe((res) => this.config.setTranslation(res));
   }
 
   send() {
@@ -152,14 +135,10 @@ export class ProyectModalComponent implements OnInit {
 
     switch (this.modalMode) {
       case ModalMode.CREATE:
-        this.proyectstore.dispatch(
-          proyectActions.create({ payload: this.form.value }),
-        );
+        this.proyectstore.dispatch(proyectActions.create({ payload: this.form.value }));
         break;
       case ModalMode.UPDATE:
-        this.proyectstore.dispatch(
-          proyectActions.update({ payload: this.form.value }),
-        );
+        this.proyectstore.dispatch(proyectActions.update({ payload: this.form.value }));
         break;
     }
   }
@@ -207,5 +186,9 @@ export class ProyectModalComponent implements OnInit {
         date: new Date(),
       });
     }
+  }
+
+  get ModalMode() {
+    return ModalMode;
   }
 }

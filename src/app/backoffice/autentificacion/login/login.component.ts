@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SupabaseService } from '@app/shared/services/supabase.service';
 import { AppState } from '@app/shared/state/account/account.reducer';
-import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
@@ -19,8 +18,8 @@ export class LoginComponent implements OnInit {
   returnUrl: string = '/';
   loading: boolean = false;
   errores: string[] = [];
-  nombre: string = environment.nombre;
-  logoUrl: string = environment.logo;
+  // nombre: string = environment.nombre;
+  // logoUrl: string = environment.logo;
   res: string;
   constructor(
     private messageSrv: MessageService,
@@ -33,8 +32,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.returnUrl =
-      this.route.snapshot.queryParams['returnUrl'] || '/backoffice';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/backoffice';
 
     this.form = this.formBuilder.group({
       email: [undefined, Validators.required],

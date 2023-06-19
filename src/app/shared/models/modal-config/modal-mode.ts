@@ -1,10 +1,10 @@
 export enum ModalMode {
-  CREATE = 'create',
-  UPDATE = 'update',
-  VIEW = 'view',
+  CREATE = 'CREATE',
+  UPDATE = 'UPDATE',
+  VIEW = 'VIEW',
 }
 
 export interface ModalParams {
-  id: string;
+  id?: string;
   modalMode: string;
 }

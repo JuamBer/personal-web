@@ -61,10 +61,7 @@
                 ></textarea>
                 <label>{{ 'columns.description' | translate }} *</label>
               </span>
-              <small
-                *ngIf="!form.controls['description'].valid"
-                class="p-error"
-              >
+              <small *ngIf="!form.controls['description'].valid" class="p-error">
                 {{ errores['description'] }}
               </small>
             </div>
@@ -91,12 +88,7 @@
               <ng-container *ngFor="let component of components; let i = index">
                 <div class="col-12">
                   <span class="p-float-label">
-                    <input
-                      type="text"
-                      class="p-inputtext-sm"
-                      formControlName="video"
-                      pInputText
-                    />
+                    <input type="text" class="p-inputtext-sm" formControlName="video" pInputText />
                     <label>{{ 'columns.video' | translate }} *</label>
                   </span>
                   <small *ngIf="!form.controls['video'].valid" class="p-error">
@@ -115,12 +107,10 @@
                 'buttons.create'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'create'"
+              *ngIf="modalMode === ModalMode.CREATE"
             ></button>
             <button
               pButton
@@ -129,12 +119,10 @@
                 'buttons.update'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'update'"
+              *ngIf="modalMode === ModalMode.UPDATE"
             ></button>
           </div>
         </form>

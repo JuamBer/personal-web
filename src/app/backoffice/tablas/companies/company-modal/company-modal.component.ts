@@ -3,10 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 //COMPANY
 import { ImagenesFormComponent } from '@app/shared/components/imagenes/imagenes-form/imagenes-form.component';
-import {
-  ModalMode,
-  ModalParams,
-} from '@app/shared/models/modal-config/modal-mode';
+import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
 import { CommonNames } from '@app/shared/state/common/common.names';
 import { MessageHandlerType, ToastUtils } from '@app/shared/utils/ToastUtils';
@@ -34,15 +31,9 @@ export class CompanyModalComponent implements OnInit {
 
   visible: boolean = false;
 
-  company$: Observable<Company> = this.companyStore.select(
-    companyReducer.getOne,
-  );
-  loading$: Observable<boolean> = this.companyStore.select(
-    companyReducer.getLoading,
-  );
-  message$: Observable<ToastMessage> = this.companyStore
-    .select(companyReducer.getMessage)
-    .pipe(filter((i) => !!i));
+  company$: Observable<Company> = this.companyStore.select(companyReducer.getOne);
+  loading$: Observable<boolean> = this.companyStore.select(companyReducer.getLoading);
+  message$: Observable<ToastMessage> = this.companyStore.select(companyReducer.getMessage).pipe(filter((i) => !!i));
   names: CommonNames = companyNames;
 
   errores: string[] = [];
@@ -81,9 +72,7 @@ export class CompanyModalComponent implements OnInit {
             break;
         }
         if (params.modalMode !== 'CREATE') {
-          this.companyStore.dispatch(
-            companyActions.loadOne({ id: Number(params.id) }),
-          );
+          this.companyStore.dispatch(companyActions.loadOne({ id: Number(params.id) }));
         }
       }
     });
@@ -102,33 +91,27 @@ export class CompanyModalComponent implements OnInit {
       location: [undefined, [Validators.required]],
     });
 
-    const companySubscription: Subscription = this.company$.subscribe(
-      (company) => {
-        this.patchValue(company);
-      },
-    );
+    const companySubscription: Subscription = this.company$.subscribe((company) => {
+      this.patchValue(company);
+    });
     this.subscriptions.push(companySubscription);
 
-    const messageSubscription = this.message$.subscribe(
-      async (message: ToastMessage) => {
-        const res = await this.toastUtils.messageHandler(
-          this.names.camelCase.singular,
-          MessageHandlerType.HIDE_MODAL,
-          message,
-        );
-        if (res !== null) {
-          this.visible = res;
-        }
-      },
-    );
+    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
+      const res = await this.toastUtils.messageHandler(
+        this.names.camelCase.singular,
+        MessageHandlerType.HIDE_MODAL,
+        message,
+      );
+      if (res !== null) {
+        this.visible = res;
+      }
+    });
     this.subscriptions.push(messageSubscription);
   }
 
   translate(lang: string) {
     this.translateSrv.use(lang);
-    this.translateSrv
-      .get('calendar')
-      .subscribe((res) => this.config.setTranslation(res));
+    this.translateSrv.get('calendar').subscribe((res) => this.config.setTranslation(res));
   }
 
   send() {
@@ -151,14 +134,10 @@ export class CompanyModalComponent implements OnInit {
 
     switch (this.modalMode) {
       case ModalMode.CREATE:
-        this.companyStore.dispatch(
-          companyActions.create({ payload: this.form.value }),
-        );
+        this.companyStore.dispatch(companyActions.create({ payload: this.form.value }));
         break;
       case ModalMode.UPDATE:
-        this.companyStore.dispatch(
-          companyActions.update({ payload: this.form.value }),
-        );
+        this.companyStore.dispatch(companyActions.update({ payload: this.form.value }));
         break;
     }
   }
@@ -205,5 +184,8 @@ export class CompanyModalComponent implements OnInit {
         location: undefined,
       });
     }
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

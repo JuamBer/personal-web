@@ -3,10 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 //MOUNT
 import { ImagenesFormComponent } from '@app/shared/components/imagenes/imagenes-form/imagenes-form.component';
-import {
-  ModalMode,
-  ModalParams,
-} from '@app/shared/models/modal-config/modal-mode';
+import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
 import { CommonNames } from '@app/shared/state/common/common.names';
 import { MessageHandlerType, ToastUtils } from '@app/shared/utils/ToastUtils';
@@ -35,12 +32,8 @@ export class MountModalComponent implements OnInit {
   visible: boolean = false;
 
   mount$: Observable<Mount> = this.mountstore.select(mountReducer.getOne);
-  loading$: Observable<boolean> = this.mountstore.select(
-    mountReducer.getLoading,
-  );
-  message$: Observable<ToastMessage> = this.mountstore
-    .select(mountReducer.getMessage)
-    .pipe(filter((i) => !!i));
+  loading$: Observable<boolean> = this.mountstore.select(mountReducer.getLoading);
+  message$: Observable<ToastMessage> = this.mountstore.select(mountReducer.getMessage).pipe(filter((i) => !!i));
   names: CommonNames = mountNames;
 
   errores: string[] = [];
@@ -87,9 +80,7 @@ export class MountModalComponent implements OnInit {
             break;
         }
         if (params.modalMode !== 'CREATE') {
-          this.mountstore.dispatch(
-            mountActions.loadOne({ id: Number(params.id) }),
-          );
+          this.mountstore.dispatch(mountActions.loadOne({ id: Number(params.id) }));
         }
       }
     });
@@ -115,26 +106,22 @@ export class MountModalComponent implements OnInit {
     });
     this.subscriptions.push(mountsubscription);
 
-    const messageSubscription = this.message$.subscribe(
-      async (message: ToastMessage) => {
-        const res = await this.toastUtils.messageHandler(
-          this.names.camelCase.singular,
-          MessageHandlerType.HIDE_MODAL,
-          message,
-        );
-        if (res !== null) {
-          this.visible = res;
-        }
-      },
-    );
+    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
+      const res = await this.toastUtils.messageHandler(
+        this.names.camelCase.singular,
+        MessageHandlerType.HIDE_MODAL,
+        message,
+      );
+      if (res !== null) {
+        this.visible = res;
+      }
+    });
     this.subscriptions.push(messageSubscription);
   }
 
   translate(lang: string) {
     this.translateSrv.use(lang);
-    this.translateSrv
-      .get('calendar')
-      .subscribe((res) => this.config.setTranslation(res));
+    this.translateSrv.get('calendar').subscribe((res) => this.config.setTranslation(res));
   }
 
   send() {
@@ -164,9 +151,7 @@ export class MountModalComponent implements OnInit {
         );
         break;
       case ModalMode.UPDATE:
-        this.mountstore.dispatch(
-          mountActions.update({ payload: this.form.value }),
-        );
+        this.mountstore.dispatch(mountActions.update({ payload: this.form.value }));
         break;
     }
   }
@@ -224,5 +209,8 @@ export class MountModalComponent implements OnInit {
 
   deleteComponent(index: number) {
     // this.components.removeAt(index);
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

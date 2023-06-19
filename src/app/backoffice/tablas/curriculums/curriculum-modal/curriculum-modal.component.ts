@@ -3,10 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 //CURRICULUM
 import { ImagenesFormComponent } from '@app/shared/components/imagenes/imagenes-form/imagenes-form.component';
-import {
-  ModalMode,
-  ModalParams,
-} from '@app/shared/models/modal-config/modal-mode';
+import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
 import { StorageService } from '@app/shared/services/storage.service';
 import { CommonNames } from '@app/shared/state/common/common.names';
@@ -41,20 +38,14 @@ export class CurriculumModalComponent implements OnInit {
 
   visible: boolean = false;
 
-  curriculum$: Observable<Curriculum> = this.curriculumstore.select(
-    curriculumReducer.getOne,
-  );
-  loading$: Observable<boolean> = this.curriculumstore.select(
-    curriculumReducer.getLoading,
-  );
+  curriculum$: Observable<Curriculum> = this.curriculumstore.select(curriculumReducer.getOne);
+  loading$: Observable<boolean> = this.curriculumstore.select(curriculumReducer.getLoading);
   message$: Observable<ToastMessage> = this.curriculumstore
     .select(curriculumReducer.getMessage)
     .pipe(filter((i) => !!i));
   names: CommonNames = curriculumNames;
 
-  languages$: Observable<Language[]> = this.languageStore.select(
-    languageReducer.getAll,
-  );
+  languages$: Observable<Language[]> = this.languageStore.select(languageReducer.getAll);
   languageNames: CommonNames = languageNames;
 
   errores: string[] = [];
@@ -96,9 +87,7 @@ export class CurriculumModalComponent implements OnInit {
             break;
         }
         if (params.modalMode !== 'CREATE') {
-          this.curriculumstore.dispatch(
-            curriculumActions.loadOne({ id: Number(params.id) }),
-          );
+          this.curriculumstore.dispatch(curriculumActions.loadOne({ id: Number(params.id) }));
         }
       }
     });
@@ -117,33 +106,27 @@ export class CurriculumModalComponent implements OnInit {
       pdf: [undefined],
     });
 
-    const curriculumsubscription: Subscription = this.curriculum$.subscribe(
-      (curriculum) => {
-        this.patchValue(curriculum);
-      },
-    );
+    const curriculumsubscription: Subscription = this.curriculum$.subscribe((curriculum) => {
+      this.patchValue(curriculum);
+    });
     this.subscriptions.push(curriculumsubscription);
 
-    const messageSubscription = this.message$.subscribe(
-      async (message: ToastMessage) => {
-        const res = await this.toastUtils.messageHandler(
-          this.names.camelCase.singular,
-          MessageHandlerType.HIDE_MODAL,
-          message,
-        );
-        if (res !== null) {
-          this.visible = res;
-        }
-      },
-    );
+    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
+      const res = await this.toastUtils.messageHandler(
+        this.names.camelCase.singular,
+        MessageHandlerType.HIDE_MODAL,
+        message,
+      );
+      if (res !== null) {
+        this.visible = res;
+      }
+    });
     this.subscriptions.push(messageSubscription);
   }
 
   translate(lang: string) {
     this.translateSrv.use(lang);
-    this.translateSrv
-      .get('calendar')
-      .subscribe((res) => this.config.setTranslation(res));
+    this.translateSrv.get('calendar').subscribe((res) => this.config.setTranslation(res));
   }
 
   async send() {
@@ -164,17 +147,13 @@ export class CurriculumModalComponent implements OnInit {
       return;
     }
 
-    const { data, error } = await this.storageSrv.uploadCurriculumFile(
-      this.form.value.language,
-      this.pdf,
-    );
+    const { data, error } = await this.storageSrv.uploadCurriculumFile(this.form.value.language, this.pdf);
 
     if (error) {
       throw error;
     }
 
-    const url =
-      environment.apiUrl + '/storage/v1/object/public/curriculums/' + data.path;
+    const url = environment.apiUrl + '/storage/v1/object/public/curriculums/' + data.path;
     console.log(url);
 
     switch (this.modalMode) {
@@ -189,9 +168,7 @@ export class CurriculumModalComponent implements OnInit {
         );
         break;
       case ModalMode.UPDATE:
-        this.curriculumstore.dispatch(
-          curriculumActions.update({ payload: this.form.value }),
-        );
+        this.curriculumstore.dispatch(curriculumActions.update({ payload: this.form.value }));
         break;
     }
   }
@@ -217,10 +194,7 @@ export class CurriculumModalComponent implements OnInit {
     this.form.reset();
     this.createImagenesForm?.reset();
     this.updateImagenesForm?.reset();
-    this.router.navigate([
-      'backoffice',
-      curriculumNames.kebabCase.plural.normal,
-    ]);
+    this.router.navigate(['backoffice', curriculumNames.kebabCase.plural.normal]);
   }
 
   patchValue(curriculum: Curriculum) {
@@ -242,5 +216,8 @@ export class CurriculumModalComponent implements OnInit {
         date: new Date(),
       });
     }
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

@@ -12,6 +12,7 @@ import { skillTypeNames } from '@app/backoffice/tablas/skill-types/state/skill-t
 import { skillNames } from '@app/backoffice/tablas/skills/state/skill.names';
 import { AuthGuard } from '@app/shared/guards/auth.guard';
 import { BasicModule } from '@app/shared/modules/basic.module';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
@@ -21,106 +22,78 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () =>
-          import('@app/backoffice/home/home.module').then((m) => m.HomeModule),
+        loadChildren: () => import('@app/backoffice/home/home.module').then((m) => m.HomeModule),
         canActivate: [AuthGuard],
         // pathMatch: 'full',
       },
 
       {
         path: 'companies',
-        loadChildren: () =>
-          import('@app/backoffice/tablas/companies/companies.module').then(
-            (m) => m.CompaniesModule,
-          ),
+        loadChildren: () => import('@app/backoffice/tablas/companies/companies.module').then((m) => m.CompaniesModule),
         canActivate: [AuthGuard],
       },
       {
         path: skillTypeNames.kebabCase.plural.normal,
         loadChildren: () =>
-          import(`@app/backoffice/tablas/skill-types/skill-types.module`).then(
-            (m) => m.SkillTypesModule,
-          ),
+          import(`@app/backoffice/tablas/skill-types/skill-types.module`).then((m) => m.SkillTypesModule),
         canActivate: [AuthGuard],
       },
       {
         path: skillNames.kebabCase.plural.normal,
-        loadChildren: () =>
-          import(`@app/backoffice/tablas/skills/skills.module`).then(
-            (m) => m.SkillsModule,
-          ),
+        loadChildren: () => import(`@app/backoffice/tablas/skills/skills.module`).then((m) => m.SkillsModule),
         canActivate: [AuthGuard],
       },
       {
         path: certificateTypeNames.kebabCase.plural.normal,
         loadChildren: () =>
-          import(
-            `@app/backoffice/tablas/certificate-types/certificate-types.module`
-          ).then((m) => m.CertificateTypesModule),
+          import(`@app/backoffice/tablas/certificate-types/certificate-types.module`).then(
+            (m) => m.CertificateTypesModule,
+          ),
         canActivate: [AuthGuard],
       },
       {
-        path: certificateGroupNames.kebabCase.plural.normal,
+        path: certificateGroupNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
         loadChildren: () =>
-          import(
-            `@app/backoffice/tablas/certificate-groups/certificate-groups.module`
-          ).then((m) => m.CertificateGroupsModule),
+          import(`@app/backoffice/tablas/certificate-groups/certificate-groups.module`).then(
+            (m) => m.CertificateGroupsModule,
+          ),
         canActivate: [AuthGuard],
       },
       {
         path: certificateNames.kebabCase.plural.normal,
         loadChildren: () =>
-          import(
-            `@app/backoffice/tablas/certificates/certificates.module`
-          ).then((m) => m.CertificatesModule),
+          import(`@app/backoffice/tablas/certificates/certificates.module`).then((m) => m.CertificatesModule),
         canActivate: [AuthGuard],
       },
       {
         path: proyectNames.kebabCase.plural.normal,
-        loadChildren: () =>
-          import(`@app/backoffice/tablas/proyects/proyects.module`).then(
-            (m) => m.ProyectsModule,
-          ),
+        loadChildren: () => import(`@app/backoffice/tablas/proyects/proyects.module`).then((m) => m.ProyectsModule),
         canActivate: [AuthGuard],
       },
       {
         path: mountNames.kebabCase.plural.normal,
-        loadChildren: () =>
-          import(`@app/backoffice/tablas/mounts/mounts.module`).then(
-            (m) => m.MountsModule,
-          ),
+        loadChildren: () => import(`@app/backoffice/tablas/mounts/mounts.module`).then((m) => m.MountsModule),
         canActivate: [AuthGuard],
       },
       {
         path: languageNames.kebabCase.plural.normal,
-        loadChildren: () =>
-          import(`@app/backoffice/tablas/languages/languages.module`).then(
-            (m) => m.LanguagesModule,
-          ),
+        loadChildren: () => import(`@app/backoffice/tablas/languages/languages.module`).then((m) => m.LanguagesModule),
         canActivate: [AuthGuard],
       },
       {
         path: curriculumNames.kebabCase.plural.normal,
         loadChildren: () =>
-          import(`@app/backoffice/tablas/curriculums/curriculums.module`).then(
-            (m) => m.CurriculumsModule,
-          ),
+          import(`@app/backoffice/tablas/curriculums/curriculums.module`).then((m) => m.CurriculumsModule),
         canActivate: [AuthGuard],
       },
       {
         path: positionNames.kebabCase.plural.normal,
-        loadChildren: () =>
-          import(`@app/backoffice/tablas/positions/positions.module`).then(
-            (m) => m.PositionsModule,
-          ),
+        loadChildren: () => import(`@app/backoffice/tablas/positions/positions.module`).then((m) => m.PositionsModule),
         canActivate: [AuthGuard],
       },
       {
         path: 'account',
-        loadChildren: () =>
-          import('@app/backoffice/account/account.module').then(
-            (m) => m.AccountModule,
-          ),
+        loadChildren: () => import('@app/backoffice/account/account.module').then((m) => m.AccountModule),
         canActivate: [AuthGuard],
       },
     ],

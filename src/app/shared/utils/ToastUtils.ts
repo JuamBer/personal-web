@@ -3,11 +3,7 @@ import { Language } from '@app/backoffice/tablas/languages/models/language.model
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
-import {
-  ToastMessage,
-  ToastMessageType,
-  ToastSeverity,
-} from '../models/toast-message';
+import { ToastMessage, ToastMessageType, ToastSeverity } from '../models/toast-message';
 import { PublicLanguageStateModule } from '../state/languages/public-language-state.module';
 import { publicLanguageReducer } from '../state/languages/public-language.reducer';
 import { PublicLanguageState } from '../state/languages/public-language.state';
@@ -30,12 +26,10 @@ export class ToastUtils implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.publicLanguageState
-      .select(publicLanguageReducer.getOne)
-      .subscribe((language: any) => {
-        if (language) this.translateSrv.use(language.acronym);
-        if (language) this.language = language;
-      });
+    this.publicLanguageState.select(publicLanguageReducer.getOne).subscribe((language: any) => {
+      if (language) this.translateSrv.use(language.acronym);
+      if (language) this.language = language;
+    });
   }
 
   public async messageHandler(
@@ -45,40 +39,25 @@ export class ToastUtils implements OnInit {
   ): Promise<boolean | null> {
     let message;
     let severity: ToastSeverity = ToastSeverity.SUCCESS;
-    let header = await this.translateSrv
-      .get('messages.headers.success')
-      .toPromise();
-    let name = await this.translateSrv
-      .get('tables.' + entityName + '.singular')
-      .toPromise();
+    let header = await this.translateSrv.get('messages.headers.success').toPromise();
+    let name = await this.translateSrv.get('tables.' + entityName + '.singular').toPromise();
     switch (value.type) {
       case ToastMessageType.CREATED:
-        message = await this.translateSrv
-          .get('messages.toastCreated', { name })
-          .toPromise();
+        message = await this.translateSrv.get('messages.toastCreated', { name }).toPromise();
         break;
       case ToastMessageType.UPDATED:
-        message = await this.translateSrv
-          .get('messages.toastUpdated', { name })
-          .toPromise();
+        message = await this.translateSrv.get('messages.toastUpdated', { name }).toPromise();
         break;
       case ToastMessageType.DELETED:
-        message = await this.translateSrv
-          .get('messages.toastDeleted', { name })
-          .toPromise();
+        message = await this.translateSrv.get('messages.toastDeleted', { name }).toPromise();
         break;
       case ToastMessageType.ERROR:
         message = value.error.message;
-        header = await this.translateSrv
-          .get('messages.headers.error')
-          .toPromise();
+        header = await this.translateSrv.get('messages.headers.error').toPromise();
         severity = ToastSeverity.ERROR;
         break;
     }
-    if (
-      value.type !== ToastMessageType.LOAD_ALL &&
-      value.type !== ToastMessageType.LOAD_ONE
-    ) {
+    if (value.type !== ToastMessageType.LOAD_ALL && value.type !== ToastMessageType.LOAD_ONE) {
       this.toastSrv.add({
         severity: severity,
         summary: header,

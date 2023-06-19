@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  ModalMode,
-  ModalParams,
-} from '@app/shared/models/modal-config/modal-mode';
+import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
 import * as fromAccount from '@app/shared/state/account/account.reducer';
 import { CommonNames } from '@app/shared/state/common/common.names';
@@ -31,9 +28,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy {
 
   loading$: Observable<boolean> = this.store.select(languageReducer.getLoading);
   language$: Observable<Language> = this.store.select(languageReducer.getOne);
-  message$: Observable<ToastMessage> = this.store
-    .select(languageReducer.getMessage)
-    .pipe(filter((i) => !!i));
+  message$: Observable<ToastMessage> = this.store.select(languageReducer.getMessage).pipe(filter((i) => !!i));
   names: CommonNames = languageNames;
 
   errores: string[] = [];
@@ -74,9 +69,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy {
             break;
         }
         if (params.modalMode !== 'CREATE') {
-          this.store.dispatch(
-            languageActions.loadOne({ id: Number(params.id) }),
-          );
+          this.store.dispatch(languageActions.loadOne({ id: Number(params.id) }));
         }
       }
     });
@@ -94,25 +87,21 @@ export class LanguageModalComponent implements OnInit, OnDestroy {
       active: [false, [Validators.required]],
     });
 
-    const languageSubscription: Subscription = this.language$.subscribe(
-      (language) => {
-        this.patchValue(language);
-      },
-    );
+    const languageSubscription: Subscription = this.language$.subscribe((language) => {
+      this.patchValue(language);
+    });
     this.subscriptions.push(languageSubscription);
 
-    const messageSubscription = this.message$.subscribe(
-      async (message: ToastMessage) => {
-        const res = await this.toastUtils.messageHandler(
-          this.names.camelCase.singular,
-          MessageHandlerType.HIDE_MODAL,
-          message,
-        );
-        if (res !== null) {
-          this.visible = res;
-        }
-      },
-    );
+    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
+      const res = await this.toastUtils.messageHandler(
+        this.names.camelCase.singular,
+        MessageHandlerType.HIDE_MODAL,
+        message,
+      );
+      if (res !== null) {
+        this.visible = res;
+      }
+    });
     this.subscriptions.push(messageSubscription);
   }
 
@@ -178,10 +167,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy {
         let control = this.form.controls[name];
         let nameTrad = this.translateSrv.instant('columns.' + name);
 
-        if (
-          (control.invalid && control.value == '') ||
-          (control.invalid && control.value == null)
-        ) {
+        if ((control.invalid && control.value == '') || (control.invalid && control.value == null)) {
           this.errores[name] = errorCampo + nameTrad;
         }
       }
@@ -190,19 +176,18 @@ export class LanguageModalComponent implements OnInit, OnDestroy {
 
     switch (this.modalMode) {
       case ModalMode.CREATE:
-        this.store.dispatch(
-          languageActions.create({ payload: this.form.value }),
-        );
+        this.store.dispatch(languageActions.create({ payload: this.form.value }));
         break;
       case ModalMode.UPDATE:
-        this.store.dispatch(
-          languageActions.update({ payload: this.form.value }),
-        );
+        this.store.dispatch(languageActions.update({ payload: this.form.value }));
         break;
     }
   }
 
   calculateMaxWidth(desktopMaxWidth: string): string {
     return Utils.calculateMaxWidth(desktopMaxWidth);
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

@@ -3,10 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 //SKILLTYPE
 import { ImagenesFormComponent } from '@app/shared/components/imagenes/imagenes-form/imagenes-form.component';
-import {
-  ModalMode,
-  ModalParams,
-} from '@app/shared/models/modal-config/modal-mode';
+import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
 import { CommonNames } from '@app/shared/state/common/common.names';
 import { MessageHandlerType, ToastUtils } from '@app/shared/utils/ToastUtils';
@@ -34,15 +31,9 @@ export class SkillTypeModalComponent implements OnInit {
 
   visible: boolean = false;
 
-  skilltype$: Observable<SkillType> = this.skilltypeStore.select(
-    skillTypeReducer.getOne,
-  );
-  loading$: Observable<boolean> = this.skilltypeStore.select(
-    skillTypeReducer.getLoading,
-  );
-  message$: Observable<ToastMessage> = this.skilltypeStore
-    .select(skillTypeReducer.getMessage)
-    .pipe(filter((i) => !!i));
+  skilltype$: Observable<SkillType> = this.skilltypeStore.select(skillTypeReducer.getOne);
+  loading$: Observable<boolean> = this.skilltypeStore.select(skillTypeReducer.getLoading);
+  message$: Observable<ToastMessage> = this.skilltypeStore.select(skillTypeReducer.getMessage).pipe(filter((i) => !!i));
   names: CommonNames = skillTypeNames;
 
   errores: string[] = [];
@@ -81,9 +72,7 @@ export class SkillTypeModalComponent implements OnInit {
             break;
         }
         if (params.modalMode !== 'CREATE') {
-          this.skilltypeStore.dispatch(
-            skillTypeActions.loadOne({ id: Number(params.id) }),
-          );
+          this.skilltypeStore.dispatch(skillTypeActions.loadOne({ id: Number(params.id) }));
         }
       }
     });
@@ -100,33 +89,27 @@ export class SkillTypeModalComponent implements OnInit {
       description: [undefined, [Validators.required]],
     });
 
-    const skilltypeSubscription: Subscription = this.skilltype$.subscribe(
-      (skilltype) => {
-        this.patchValue(skilltype);
-      },
-    );
+    const skilltypeSubscription: Subscription = this.skilltype$.subscribe((skilltype) => {
+      this.patchValue(skilltype);
+    });
     this.subscriptions.push(skilltypeSubscription);
 
-    const messageSubscription = this.message$.subscribe(
-      async (message: ToastMessage) => {
-        const res = await this.toastUtils.messageHandler(
-          this.names.camelCase.singular,
-          MessageHandlerType.HIDE_MODAL,
-          message,
-        );
-        if (res !== null) {
-          this.visible = res;
-        }
-      },
-    );
+    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
+      const res = await this.toastUtils.messageHandler(
+        this.names.camelCase.singular,
+        MessageHandlerType.HIDE_MODAL,
+        message,
+      );
+      if (res !== null) {
+        this.visible = res;
+      }
+    });
     this.subscriptions.push(messageSubscription);
   }
 
   translate(lang: string) {
     this.translateSrv.use(lang);
-    this.translateSrv
-      .get('calendar')
-      .subscribe((res) => this.config.setTranslation(res));
+    this.translateSrv.get('calendar').subscribe((res) => this.config.setTranslation(res));
   }
 
   send() {
@@ -149,14 +132,10 @@ export class SkillTypeModalComponent implements OnInit {
 
     switch (this.modalMode) {
       case ModalMode.CREATE:
-        this.skilltypeStore.dispatch(
-          skillTypeActions.create({ payload: this.form.value }),
-        );
+        this.skilltypeStore.dispatch(skillTypeActions.create({ payload: this.form.value }));
         break;
       case ModalMode.UPDATE:
-        this.skilltypeStore.dispatch(
-          skillTypeActions.update({ payload: this.form.value }),
-        );
+        this.skilltypeStore.dispatch(skillTypeActions.update({ payload: this.form.value }));
         break;
     }
   }
@@ -178,10 +157,7 @@ export class SkillTypeModalComponent implements OnInit {
     this.form.reset();
     this.createImagenesForm?.reset();
     this.updateImagenesForm?.reset();
-    this.router.navigate([
-      'backoffice',
-      skillTypeNames.kebabCase.plural.normal,
-    ]);
+    this.router.navigate(['backoffice', skillTypeNames.kebabCase.plural.normal]);
   }
 
   patchValue(skilltype: SkillType) {
@@ -201,5 +177,8 @@ export class SkillTypeModalComponent implements OnInit {
         description: undefined,
       });
     }
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

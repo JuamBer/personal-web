@@ -1,14 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { RequestFilter } from '@app/shared/models/request-filter';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ObjectUtils } from '@app/shared/utils/object.utils';
+import { environment } from '@env/environment';
 import { LazyLoadEvent } from 'primeng/api';
-import {
-  FilterEvent,
-  GenericTableConfig,
-  RequestSpecification,
-  SortEvent,
-  TableEvent,
-} from './models/generic-table.models';
+import { FilterEvent, GenericTableConfig, SortEvent, TableEvent } from './models/generic-table.models';
 
 @Component({
   selector: 'app-generic-table',
@@ -16,46 +10,16 @@ import {
   styleUrls: ['./generic-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GenericTableComponent<T> implements OnInit {
-  config: GenericTableConfig<T> = {
-    dataKey: 'id',
-    rowsPerPageOptions: [],
-    showCurrentPageReport: false,
-    paginator: false,
-    size: 'normal',
-    fields: [],
-    buttons: {
-      top: [],
-      start: [],
-      end: [],
-    },
-  };
-  @Input() set tableConfig(tableConfig: GenericTableConfig<T>) {
-    if (tableConfig) {
-      this.config = tableConfig;
-    }
-  }
-  get tableConfig(): GenericTableConfig<T> {
-    return this.config;
-  }
-
+export class GenericTableComponent<T> {
+  @Input() config: GenericTableConfig<T> = environment.defaultGenericTableConfig;
   @Input() loading = true;
   @Input() count = 0;
   @Input() entities: T[] = [];
-  @Input() requestFilter: RequestFilter = {
-    size: 0,
-    page: 0,
-    filter: [],
-    sort: [],
-  };
-  @Output() requestSpecification: EventEmitter<RequestSpecification<T>> = new EventEmitter();
-  requestSpec: RequestSpecification<T> = {
-    lazyLoadEvent: {
-      first: 0,
-      rows: 10,
-      multiSortMeta: [],
-    },
-    filters: [],
+  @Output() lazyLoadEvent: EventEmitter<LazyLoadEvent> = new EventEmitter();
+  lazyLoadEventValue: LazyLoadEvent = {
+    first: 0,
+    rows: 10,
+    multiSortMeta: [],
   };
 
   @Output() tableEvent: EventEmitter<TableEvent<T>> = new EventEmitter();
@@ -63,64 +27,60 @@ export class GenericTableComponent<T> implements OnInit {
 
   filters: FilterEvent<T>[] = [];
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.requestSpecification.emit(this.requestSpec);
-  }
-
   onLazyLoad(event: LazyLoadEvent) {
-    if (this.requestSpec.lazyLoadEvent !== event) {
-      this.requestSpecification.emit({
-        lazyLoadEvent: event,
-        filters: this.filters,
-      });
+    if (!ObjectUtils.areObjectEquals(this.lazyLoadEventValue, event)) {
+      this.lazyLoadEvent.emit(event);
+      this.lazyLoadEventValue = event;
     }
-    this.requestSpec = { ...this.requestSpec, lazyLoadEvent: { ...event } };
   }
 
   onTableEvent(event: TableEvent<T>) {
-    if (this.previousTableEvent !== event) {
+    if (!ObjectUtils.areObjectEquals(this.previousTableEvent, event)) {
       this.tableEvent.emit(event);
+      this.previousTableEvent = event;
     }
-    this.previousTableEvent = event;
   }
 
   onFilter(event: FilterEvent<T>) {
     const lazyLoadEventCopy: LazyLoadEvent = {
-      ...this.requestSpec.lazyLoadEvent,
+      ...this.lazyLoadEventValue,
       filters: {
-        ...this.requestSpec.lazyLoadEvent.filters,
+        ...this.lazyLoadEventValue.filters,
         [event.field.field]: {
           value: event.filter,
         },
       },
     };
 
-    this.requestSpecification.emit({
-      lazyLoadEvent: lazyLoadEventCopy,
-      filters: this.filters,
-    });
-    this.requestSpec = { ...this.requestSpec, lazyLoadEvent: lazyLoadEventCopy };
+    if (!ObjectUtils.areObjectEquals(this.lazyLoadEventValue, lazyLoadEventCopy)) {
+      this.lazyLoadEvent.emit(lazyLoadEventCopy);
+      this.lazyLoadEventValue = lazyLoadEventCopy;
+    }
   }
 
   onSort(event: SortEvent<T>) {
     const lazyLoadEventCopy: LazyLoadEvent = {
-      ...this.requestSpec.lazyLoadEvent,
+      ...this.lazyLoadEventValue,
       sortOrder: event.sortOrder,
       sortField: event.field.field,
     };
+    if (!ObjectUtils.areObjectEquals(this.lazyLoadEventValue, lazyLoadEventCopy)) {
+      this.lazyLoadEvent.emit(lazyLoadEventCopy);
+      this.lazyLoadEventValue = lazyLoadEventCopy;
+    }
+  }
 
-    this.requestSpecification.emit({
-      lazyLoadEvent: lazyLoadEventCopy,
-      filters: this.filters,
-    });
-    this.requestSpec = { ...this.requestSpec, lazyLoadEvent: lazyLoadEventCopy };
+  rowTrackBy(index: number, element: T): number {
+    if (this.config) {
+      return element[this.config.dataKey];
+    } else {
+      return index;
+    }
   }
 
   get styleClass() {
     let size = '';
-    switch (this.tableConfig?.size) {
+    switch (this.config?.size) {
       case 'small':
         size = 'p-datatable-sm';
         break;

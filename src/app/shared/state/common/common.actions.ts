@@ -1,9 +1,8 @@
-import { RequestSpecification } from '@app/shared/components/generic-table/models/generic-table.models';
 import { ColumnMetadata } from '@app/shared/models/metadata/column-metadata';
-import { Page } from '@app/shared/models/page';
 import { RequestFilter } from '@app/shared/models/request-filter';
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
+import { LazyLoadEvent } from 'primeng/api';
 
 export abstract class CommonAction<T> {
   constructor(public entityName: string) {}
@@ -20,10 +19,10 @@ export abstract class CommonAction<T> {
   //LOAD ALL
   loadAll = createAction(
     '[' + this.entityName + '] Load All',
-    props<{ payload: RequestFilter | null | RequestSpecification<T> }>(),
+    props<{ payload: RequestFilter | null | LazyLoadEvent }>(),
   );
 
-  loadAllSuccess = createAction('[' + this.entityName + '] Load All Success', props<{ payload: Page<T> }>());
+  loadAllSuccess = createAction('[' + this.entityName + '] Load All Success', props<{ payload: any }>());
 
   loadAllFail = createAction('[' + this.entityName + '] Load All Fail', props<{ error: any }>());
 

@@ -6,7 +6,6 @@ import { PublicLanguageState } from '@app/shared/state/languages/public-language
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
-import { certificateGroupNames } from '../tablas/certificate-groups/state/certificate-group.names';
 import { certificateTypeNames } from '../tablas/certificate-types/state/certificate-type.names';
 import { certificateNames } from '../tablas/certificates/state/certificate.names';
 import { companyNames } from '../tablas/companies/state/company.names';
@@ -30,7 +29,6 @@ export interface Menu {
 })
 export class HomeComponent implements OnInit {
   names: CommonNames[] = [
-    certificateGroupNames,
     certificateTypeNames,
     certificateNames,
     companyNames,

@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  ModalMode,
-  ModalParams,
-} from '@app/shared/models/modal-config/modal-mode';
+import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
 import * as fromAccount from '@app/shared/state/account/account.reducer';
 import { CommonNames } from '@app/shared/state/common/common.names';
@@ -36,14 +33,10 @@ export class PositionModalComponent implements OnInit, OnDestroy {
 
   loading$: Observable<boolean> = this.store.select(positionReducer.getLoading);
   position$: Observable<Position> = this.store.select(positionReducer.getOne);
-  message$: Observable<ToastMessage> = this.store
-    .select(positionReducer.getMessage)
-    .pipe(filter((i) => !!i));
+  message$: Observable<ToastMessage> = this.store.select(positionReducer.getMessage).pipe(filter((i) => !!i));
   names: CommonNames = positionNames;
   companyNames: CommonNames = companyNames;
-  companies$: Observable<Company[]> = this.companyStore.select(
-    companyReducer.getAll,
-  );
+  companies$: Observable<Company[]> = this.companyStore.select(companyReducer.getAll);
   errores: string[] = [];
   form: FormGroup;
   es: any;
@@ -83,9 +76,7 @@ export class PositionModalComponent implements OnInit, OnDestroy {
             break;
         }
         if (params.modalMode !== 'CREATE') {
-          this.store.dispatch(
-            positionActions.loadOne({ id: Number(params.id) }),
-          );
+          this.store.dispatch(positionActions.loadOne({ id: Number(params.id) }));
         }
       }
     });
@@ -104,25 +95,21 @@ export class PositionModalComponent implements OnInit, OnDestroy {
       dateTo: [new Date()],
     });
 
-    const positionSubscription: Subscription = this.position$.subscribe(
-      (position) => {
-        this.patchValue(position);
-      },
-    );
+    const positionSubscription: Subscription = this.position$.subscribe((position) => {
+      this.patchValue(position);
+    });
     this.subscriptions.push(positionSubscription);
     this.companyStore.dispatch(companyActions.loadAll({ payload: null }));
-    const messageSubscription = this.message$.subscribe(
-      async (message: ToastMessage) => {
-        const res = await this.toastUtils.messageHandler(
-          this.names.camelCase.singular,
-          MessageHandlerType.HIDE_MODAL,
-          message,
-        );
-        if (res !== null) {
-          this.visible = res;
-        }
-      },
-    );
+    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
+      const res = await this.toastUtils.messageHandler(
+        this.names.camelCase.singular,
+        MessageHandlerType.HIDE_MODAL,
+        message,
+      );
+      if (res !== null) {
+        this.visible = res;
+      }
+    });
     this.subscriptions.push(messageSubscription);
   }
 
@@ -194,10 +181,7 @@ export class PositionModalComponent implements OnInit, OnDestroy {
         let control = this.form.controls[name];
         let nameTrad = this.translateSrv.instant('columns.' + name);
 
-        if (
-          (control.invalid && control.value == '') ||
-          (control.invalid && control.value == null)
-        ) {
+        if ((control.invalid && control.value == '') || (control.invalid && control.value == null)) {
           this.errores[name] = errorCampo + nameTrad;
         }
       }
@@ -206,19 +190,18 @@ export class PositionModalComponent implements OnInit, OnDestroy {
 
     switch (this.modalMode) {
       case ModalMode.CREATE:
-        this.store.dispatch(
-          positionActions.create({ payload: this.form.value }),
-        );
+        this.store.dispatch(positionActions.create({ payload: this.form.value }));
         break;
       case ModalMode.UPDATE:
-        this.store.dispatch(
-          positionActions.update({ payload: this.form.value }),
-        );
+        this.store.dispatch(positionActions.update({ payload: this.form.value }));
         break;
     }
   }
 
   calculateMaxWidth(desktopMaxWidth: string): string {
     return Utils.calculateMaxWidth(desktopMaxWidth);
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

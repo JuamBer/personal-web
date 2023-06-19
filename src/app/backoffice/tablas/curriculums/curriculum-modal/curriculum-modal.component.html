@@ -42,13 +42,7 @@
                   [filter]="true"
                   appendTo="body"
                 ></p-dropdown>
-                <label
-                  >{{
-                    'tables.' + languageNames.camelCase.singular + '.singular'
-                      | translate
-                  }}
-                  *</label
-                >
+                <label>{{ 'tables.' + languageNames.camelCase.singular + '.singular' | translate }} *</label>
               </span>
 
               <small *ngIf="!form.controls['language'].valid" class="p-error">
@@ -56,10 +50,7 @@
               </small>
             </div>
             <div class="xs:col-12 lg:col-12">
-              <p-fileUpload
-                [multiple]="false"
-                (onSelect)="upload($event)"
-              ></p-fileUpload>
+              <p-fileUpload [multiple]="false" (onSelect)="upload($event)"></p-fileUpload>
             </div>
           </div>
 
@@ -71,12 +62,10 @@
                 'buttons.create'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'create'"
+              *ngIf="modalMode === ModalMode.CREATE"
             ></button>
             <button
               pButton
@@ -85,12 +74,10 @@
                 'buttons.update'
                   | translate
                     : {
-                        name:
-                          'tables.' + names.camelCase.singular + '.singular'
-                          | translate
+                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
                       }
               "
-              *ngIf="modalMode === 'update'"
+              *ngIf="modalMode === ModalMode.UPDATE"
             ></button>
           </div>
         </form>

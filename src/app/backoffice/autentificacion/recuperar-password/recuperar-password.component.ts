@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@app/shared/services/auth.service';
-import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 @Component({
@@ -14,7 +13,6 @@ export class RecuperarPasswordComponent implements OnInit {
   form: FormGroup;
   loading: boolean = false;
   errores: string[] = [];
-  logoUrl: string = environment.logo;
   res: string;
 
   constructor(
@@ -42,9 +40,7 @@ export class RecuperarPasswordComponent implements OnInit {
     }
     this.loading = true;
 
-    const { data, error } = await this.supabaseSrv.sendResetPassword(
-      this.form.value.correo,
-    );
+    const { data, error } = await this.supabaseSrv.sendResetPassword(this.form.value.correo);
     if (error instanceof Error) {
       this.messageSrv.add({
         severity: 'warn',

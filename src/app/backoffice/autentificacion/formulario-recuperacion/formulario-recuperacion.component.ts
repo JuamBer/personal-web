@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@app/shared/services/auth.service';
-import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
@@ -17,7 +16,7 @@ export class FormularioRecuperacionComponent implements OnInit {
   token: string;
   loading: boolean = false;
   errores: string[] = [];
-  logoUrl: string = environment.logo;
+  // logoUrl: string = environment.logo;
 
   res: string;
 
@@ -47,9 +46,7 @@ export class FormularioRecuperacionComponent implements OnInit {
     }
     this.loading = true;
 
-    const { data, error } = await this.supabaseSrv.updatePassword(
-      this.form.value.password,
-    );
+    const { data, error } = await this.supabaseSrv.updatePassword(this.form.value.password);
     if (error instanceof Error) {
       this.messageSrv.add({
         severity: 'warn',
