@@ -16,7 +16,7 @@ export class CommonService<T> {
 
   async getAll(lazyLoadEvent: RequestFilter | LazyLoadEvent) {
     let request = this.supabase.from(this.table).select(this.getAllSelection);
-    if ('sortField' in lazyLoadEvent) {
+    if (lazyLoadEvent && 'sortField' in lazyLoadEvent) {
       CommonService.applyFiltersAndSorting(request, lazyLoadEvent);
     }
     const { data, error } = await request;

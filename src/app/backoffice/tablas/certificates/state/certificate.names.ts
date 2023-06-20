@@ -1,30 +1,3 @@
-export const certificateNames = {
-  camelCase: {
-    singular: 'certificate',
-    plural: 'certificates',
-  },
-  upperCamelCase: {
-    singular: 'Certificate',
-    plural: 'Certificates',
-  },
-  snakeCase: {
-    singular: {
-      normal: 'certificate',
-      screaming: 'CERTIFICATE',
-    },
-    plural: {
-      normal: 'certificates',
-      screaming: 'CERTIFICATES',
-    },
-  },
-  kebabCase: {
-    singular: {
-      normal: 'certificate',
-      screaming: 'CERTIFICATE',
-    },
-    plural: {
-      normal: 'certificates',
-      screaming: 'CERTIFICATES',
-    },
-  },
-};
+import { CommonNamess } from '@app/shared/state/common/common.names';
+
+export const certificateNames = new CommonNamess('certificate', 'certificates');

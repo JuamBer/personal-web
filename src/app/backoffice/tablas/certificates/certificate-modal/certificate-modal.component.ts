@@ -1,245 +1,159 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 //CERTIFICATE
-import { ImagenesFormComponent } from '@app/shared/components/imagenes/imagenes-form/imagenes-form.component';
+import { EntityModal } from '@app/backoffice/models/entity-modal.model';
 import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
-import { ToastMessage } from '@app/shared/models/toast-message';
-import { CommonNames } from '@app/shared/state/common/common.names';
-import { MessageHandlerType, ToastUtils } from '@app/shared/utils/ToastUtils';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
-import { MessageService, PrimeNGConfig } from 'primeng/api';
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { ActionStatus, ActionType } from '@app/shared/state/common/common-state';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
+import { FormUtils } from '@app/shared/utils/FormUtils';
+import { RouterUtils } from '@app/shared/utils/router.utils';
+import { Action, Store } from '@ngrx/store';
+import { Observable, Subject, from } from 'rxjs';
+import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
 import { CertificateGroup } from '../../certificate-groups/models/certificate-group.model';
 import { certificateGroupActions } from '../../certificate-groups/state/certificate-group.actions';
 import { certificateGroupReducer } from '../../certificate-groups/state/certificate-group.reducer';
-import { CertificateGroupState } from '../../certificate-groups/state/certificate-group.state';
 import { CertificateType } from '../../certificate-types/models/certificate-type.model';
 import { certificateTypeActions } from '../../certificate-types/state/certificate-type.actions';
 import { certificateTypeReducer } from '../../certificate-types/state/certificate-type.reducer';
-import { CertificateTypeState } from '../../certificate-types/state/certificate-type.state';
 import { Company } from '../../companies/models/company.model';
 import { companyActions } from '../../companies/state/company.actions';
-import { companyNames } from '../../companies/state/company.names';
 import { companyReducer } from '../../companies/state/company.reducer';
-import { CompanyState } from '../../companies/state/company.state';
-import { Certificate } from '../models/certificate.model';
+import { Certificate, CertificateFormGroup } from '../models/certificate.model';
+import { CertificateService } from '../services/certificate.service';
 import { certificateActions } from '../state/certificate.actions';
 import { certificateNames } from '../state/certificate.names';
 import { certificateReducer } from '../state/certificate.reducer';
-import { CertificateState } from '../state/certificate.state';
+
+export const certificateModalTitleResolver: ResolveFn<string> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  return from(inject(CertificateService).getTitle(Number(route.paramMap.get('id')))).pipe(
+    map((selected) => 'Juan Sáez García | Certificate Types | ' + selected.name),
+  );
+};
 
 @Component({
   selector: 'app-certificate-modal',
   templateUrl: './certificate-modal.component.html',
   styleUrls: ['./certificate-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CertificateModalComponent implements OnInit {
-  id: number;
+export class CertificateModalComponent implements OnInit, EntityModal<Certificate> {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private store = inject(Store);
+  private fb = inject(FormBuilder);
 
-  @ViewChild('createImagenesForm') createImagenesForm: ImagenesFormComponent;
-  @ViewChild('updateImagenesForm') updateImagenesForm: ImagenesFormComponent;
+  visible = true;
+  form: CertificateFormGroup = this.fb.group({
+    id: this.fb.control<number | undefined>(new Date().getTime()),
+    name: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    description: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    url: this.fb.control<string | undefined>(undefined),
+    image: this.fb.control<string | undefined>(undefined),
+    pdf: this.fb.control<string | undefined>(undefined),
+    date: this.fb.control<Date>(new Date(), [Validators.required]),
+    github: this.fb.control<string | undefined>(undefined),
+    web: this.fb.control<string | undefined>(undefined),
+    microsoftStore: this.fb.control<string | undefined>(undefined),
+    playStore: this.fb.control<string | undefined>(undefined),
+    company: this.fb.control<Company | undefined>(undefined, [Validators.required]),
+    certificateType: this.fb.control<CertificateType | undefined>(undefined, [Validators.required]),
+    certificateGroup: this.fb.control<CertificateGroup | undefined>(undefined, [Validators.required]),
+  });
 
-  visible: boolean = false;
-
-  certificate$: Observable<Certificate> = this.certificateStore.select(certificateReducer.getOne);
-  loading$: Observable<boolean> = this.certificateStore.select(certificateReducer.getLoading);
-  message$: Observable<ToastMessage> = this.certificateStore
-    .select(certificateReducer.getMessage)
-    .pipe(filter((i) => !!i));
-  names: CommonNames = certificateNames;
-
-  certificateTypes$: Observable<CertificateType[]> = this.certificateTypeStore.select(certificateTypeReducer.getAll);
-  certificateTypeNames: CommonNames = certificateNames;
-  certificateGroups$: Observable<CertificateGroup[]> = this.certificateGroupStore.select(
-    certificateGroupReducer.getAll,
+  unsubscribe$: Subject<boolean> = new Subject();
+  params$: Observable<ModalParams> = this.route.params.pipe(
+    takeUntil(this.unsubscribe$),
+    map((params) => params as ModalParams),
   );
-  companies$: Observable<Company[]> = this.companyStore.select(companyReducer.getAll);
-  companyNames: CommonNames = companyNames;
-  errores: string[] = [];
+  loading$: Observable<boolean> = this.store.select(certificateReducer.getLoading).pipe(takeUntil(this.unsubscribe$));
+  modalMode$: Observable<ModalMode> = this.params$.pipe(
+    takeUntil(this.unsubscribe$),
+    map((params) => ModalMode[params.modalMode]),
+  );
+  entity$: Observable<Certificate> = this.store.select(certificateReducer.getOne).pipe(
+    takeUntil(this.unsubscribe$),
+    filter((i) => !!i),
+  );
+  action$: Observable<Action> = this.store.select(certificateReducer.getAction).pipe(
+    takeUntil(this.unsubscribe$),
+    skip(1),
+    filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
+  );
+  certificateTypes$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
+  certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
+  companies$: Observable<Company[]> = this.store.select(companyReducer.getAll);
 
-  form: FormGroup;
-  modalMode: ModalMode;
+  ngOnInit(): void {
+    this.store.dispatch(certificateGroupActions.loadAll({}));
+    this.store.dispatch(certificateTypeActions.loadAll({}));
+    this.store.dispatch(companyActions.loadAll({}));
 
-  subscriptions: Subscription[] = [];
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private certificateStore: Store<CertificateState>,
-    private certificateTypeStore: Store<CertificateTypeState>,
-    private certificateGroupStore: Store<CertificateGroupState>,
-    private companyStore: Store<CompanyState>,
-    private toastSrv: MessageService,
-    private translateSrv: TranslateService,
-    private config: PrimeNGConfig,
-    private route: ActivatedRoute,
-    private router: Router,
-    private toastUtils: ToastUtils,
-  ) {
-    translateSrv.setDefaultLang('es');
-    this.route.params.subscribe((params: ModalParams) => {
-      this.id = Number(params.id);
-      if (params.modalMode) {
-        switch (params.modalMode) {
-          case 'VIEW':
-            this.show(ModalMode.VIEW);
-            break;
-          case 'UPDATE':
-            this.show(ModalMode.UPDATE);
-            break;
-          case 'CREATE':
-            this.show(ModalMode.CREATE);
-            break;
-          default:
-            this.show(ModalMode.VIEW);
-            break;
-        }
-        if (params.modalMode !== 'CREATE') {
-          this.certificateStore.dispatch(certificateActions.loadOne({ id: Number(params.id) }));
-        }
-      }
+    this.params$.subscribe((params) => this.store.dispatch(certificateActions.loadOne({ id: Number(params.id) })));
+    this.action$.subscribe(() => {
+      this.hide();
+    });
+    this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
+      this.form.disable();
+    });
+    this.entity$.subscribe((entity) => {
+      this.form.patchValue({
+        id: entity.id,
+        name: entity.name,
+        description: entity.description,
+        url: entity.url,
+        image: entity.image,
+        pdf: entity.pdf,
+        date: new Date(entity.date),
+        github: entity.github,
+        web: entity.web,
+        microsoftStore: entity.microsoftStore,
+        playStore: entity.playStore,
+        company: entity.company,
+        certificateType: entity.certificateType,
+        certificateGroup: entity.certificateGroup,
+      });
     });
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.unsubscribe$.next(true);
+    this.unsubscribe$.complete();
   }
 
-  ngOnInit(): void {
-    this.certificateGroupStore.dispatch(certificateGroupActions.loadAll({ payload: null }));
-    this.certificateTypeStore.dispatch(certificateTypeActions.loadAll({ payload: null }));
-    this.companyStore.dispatch(companyActions.loadAll({ payload: null }));
-    this.form = this.formBuilder.group({
-      id: [Date.now()],
-      name: [undefined, [Validators.required]],
-      description: [undefined, [Validators.required]],
-      company: [undefined, [Validators.required]],
-      certificateGroup: [undefined, [Validators.required]],
-      certificateType: [undefined, [Validators.required]],
-      image: [undefined, [Validators.required]],
-      pdf: [undefined, [Validators.required]],
-      url: [undefined, [Validators.required]],
-      date: [new Date(), [Validators.required]],
-      github: [undefined],
-      web: [undefined],
-      microsoftStore: [undefined],
-      playStore: [undefined],
-    });
-
-    const certificatesubscription: Subscription = this.certificate$.subscribe((certificate) => {
-      this.patchValue(certificate);
-    });
-    this.subscriptions.push(certificatesubscription);
-
-    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
-      const res = await this.toastUtils.messageHandler(
-        this.names.camelCase.singular,
-        MessageHandlerType.HIDE_MODAL,
-        message,
-      );
-      if (res !== null) {
-        this.visible = res;
-      }
-    });
-    this.subscriptions.push(messageSubscription);
-  }
-
-  translate(lang: string) {
-    this.translateSrv.use(lang);
-    this.translateSrv.get('calendar').subscribe((res) => this.config.setTranslation(res));
+  hide() {
+    this.store.dispatch(certificateActions.unload());
+    this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }
 
   send() {
-    Object.values(this.form.controls).forEach((control) => {
-      control.markAsDirty();
-    });
     if (this.form.invalid) {
-      // this.toastSrv.add({ severity: 'warn', summary: 'Error', detail: this.translateSrv.instant('certificate.modal.invalid') });
-      // let errorCampo = this.translateSrv.instant('certificate.modal.error');
-      // for (let name in this.form.controls) {
-      //   let control = this.form.controls[name];
-      //   let nameTrad = this.translateSrv.instant('columns.' + name)
-
-      //   if (control.invalid && control.value == '' || control.invalid && control.value == null) {
-      //     this.errores[name] = errorCampo + nameTrad
-      //   }
-      // }
-      return;
-    }
-
-    switch (this.modalMode) {
-      case ModalMode.CREATE:
-        this.certificateStore.dispatch(certificateActions.create({ payload: this.form.value }));
-        break;
-      case ModalMode.UPDATE:
-        this.certificateStore.dispatch(certificateActions.update({ payload: this.form.value }));
-        break;
-    }
-  }
-
-  show(modalMode: ModalMode) {
-    this.patchValue(null);
-    this.modalMode = modalMode;
-    if (modalMode == ModalMode.CREATE) {
-      this.certificateStore.dispatch(certificateActions.unload());
-    }
-
-    this.visible = true;
-  }
-
-  onHide() {
-    this.visible = false;
-    this.errores = [];
-    this.certificateStore.dispatch(certificateActions.unload());
-    this.form.reset();
-    this.createImagenesForm?.reset();
-    this.updateImagenesForm?.reset();
-    this.router.navigate(['backoffice', certificateNames.kebabCase.plural.normal]);
-  }
-
-  patchValue(certificate: Certificate) {
-    if (!this.form) {
-      return;
-    }
-    if (certificate) {
-      this.form.patchValue({
-        id: certificate.id,
-        name: certificate.name,
-        description: certificate.description,
-        company: certificate.company,
-        certificateGroup: certificate.certificateGroup,
-        certificateType: certificate.certificateType,
-        image: certificate.image,
-        url: certificate.url,
-        pdf: certificate.pdf,
-        date: new Date(certificate.date),
-        github: certificate.github,
-        web: certificate.web,
-        playStore: certificate.playStore,
-        microsoftStore: certificate.microsoftStore,
-      });
+      FormUtils.markAllAsDirtyAndTouched(this.form);
     } else {
-      this.form.patchValue({
-        id: Date.now(),
-        name: undefined,
-        description: undefined,
-        company: undefined,
-        certificateGroup: undefined,
-        certificateType: undefined,
-        image: undefined,
-        url: undefined,
-        pdf: undefined,
-        date: new Date(),
-        github: undefined,
-        web: undefined,
-        playStore: undefined,
-        microsoftStore: undefined,
+      this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
+        switch (modalMode) {
+          case ModalMode.CREATE:
+            this.store.dispatch(certificateActions.create({ payload: this.form.value }));
+            break;
+          case ModalMode.UPDATE:
+            this.store.dispatch(certificateActions.update({ payload: this.form.value }));
+            break;
+        }
       });
     }
   }
-  get ModalMode() {
-    return ModalMode;
+
+  get NumberMode() {
+    return NumberMode;
+  }
+  get Naming() {
+    return Naming;
+  }
+  get names() {
+    return certificateNames;
   }
 }

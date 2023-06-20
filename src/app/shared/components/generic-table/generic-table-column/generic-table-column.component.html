@@ -1,3 +1,14 @@
-<div class="app-generic-table-column">
-  {{ value[field.field] }}
+<div class="app-generic-table-column" [ngSwitch]="field.type">
+  <ng-container *ngSwitchCase="GenericFieldType.TEXT">
+    {{ value[field.field] }}
+  </ng-container>
+  <ng-container *ngSwitchCase="GenericFieldType.DATE">
+    {{ value[field.field] | date : 'dd/MM/yyyy' }}
+  </ng-container>
+  <ng-container *ngSwitchCase="GenericFieldType.DATETIME">
+    {{ value[field.field] | date : 'dd/MM/yyyy HH:mm' }}
+  </ng-container>
+  <ng-container *ngSwitchCase="GenericFieldType.IMAGE">
+    <img [src]="value[field.field]" [alt]="field.label" />
+  </ng-container>
 </div>

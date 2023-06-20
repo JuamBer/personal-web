@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { GenericFieldConfig } from '../models/generic-table.models';
+import { GenericFieldConfig, GenericFieldType } from '../models/generic-table.models';
 
 @Component({
   selector: 'app-generic-table-column',
@@ -9,4 +9,8 @@ import { GenericFieldConfig } from '../models/generic-table.models';
 export class GenericTableColumnComponent<T> {
   @Input() field: GenericFieldConfig<T>;
   @Input() value: T;
+
+  get GenericFieldType() {
+    return GenericFieldType;
+  }
 }

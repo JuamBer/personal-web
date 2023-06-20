@@ -1,6 +1,9 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EntityModalAuditModule } from '@app/shared/components/entity-modal-audit/entity-modal-audit.module';
+import { EntityModalButtonsModule } from '@app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
+import { GenericTableModule } from '@app/shared/components/generic-table/generic-table.module';
 import { ImagenesModule } from '@app/shared/components/imagenes/imagenes.module';
 import { TablaGenericaModule } from '@app/shared/components/tabla-generica/tabla-generica.module';
 import { BasicModule } from '@app/shared/modules/basic.module';
@@ -25,13 +28,13 @@ import { ToastModule } from 'primeng/toast';
 import { CertificateGroupsStateModule } from '../certificate-groups/state/certificate-group-state.module';
 import { CertificateTypesStateModule } from '../certificate-types/state/certificate-type-state.module';
 import { CompaniesStateModule } from '../companies/state/company-state.module';
+import { CertificateListComponent } from './certificate-list/certificate-list.component';
 import { CertificateModalComponent } from './certificate-modal/certificate-modal.component';
-import { CertificateComponent } from './certificate/certificate.component';
 import { CertificatesRoutingModule } from './certificates-routing.module';
-import { CertificatesStateModule } from './state/certificate-state.module';
+import { CertificateStateModule } from './state/certificate-state.module';
 
 @NgModule({
-  declarations: [CertificateComponent, CertificateModalComponent],
+  declarations: [CertificateListComponent, CertificateModalComponent],
   imports: [
     BasicModule,
     CertificatesRoutingModule,
@@ -61,12 +64,18 @@ import { CertificatesStateModule } from './state/certificate-state.module';
     LanguagesModule,
     AccountStateModule,
 
-    CertificatesStateModule,
     CertificateTypesStateModule,
     CertificateGroupsStateModule,
     CompaniesStateModule,
+
     TablaGenericaModule,
     PipesModule,
+    PipesModule,
+    GenericTableModule,
+    EntityModalButtonsModule,
+    EntityModalAuditModule,
+    CertificateStateModule,
+    CertificatesRoutingModule,
   ],
 })
 export class CertificatesModule {}

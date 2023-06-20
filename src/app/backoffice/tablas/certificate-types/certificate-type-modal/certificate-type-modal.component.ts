@@ -4,7 +4,6 @@ import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateS
 //CERTIFICATEGROUP
 import { EntityModal } from '@app/backoffice/models/entity-modal.model';
 import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
-import { ToastMessage } from '@app/shared/models/toast-message';
 import { Action, ActionStatus, ActionType } from '@app/shared/state/common/common-state';
 import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { FormUtils } from '@app/shared/utils/FormUtils';
@@ -61,10 +60,6 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   entity$: Observable<CertificateType> = this.store.select(certificateTypeReducer.getOne).pipe(
     takeUntil(this.unsubscribe$),
     filter((entity) => !!entity),
-  );
-  message$: Observable<ToastMessage> = this.store.select(certificateTypeReducer.getMessage).pipe(
-    takeUntil(this.unsubscribe$),
-    filter((i) => !!i),
   );
   action$: Observable<Action> = this.store.select(certificateTypeReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),

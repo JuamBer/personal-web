@@ -1,4 +1,5 @@
 import { defaultCommonState } from '@app/shared/state/common/common-state';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
 import { Certificate } from '../models/certificate.model';
@@ -16,7 +17,7 @@ class CertificateReducer extends CommonReducer<Certificate, CertificateState> {
   private static instance: CertificateReducer;
 
   private constructor() {
-    super(certificateNames.kebabCase.plural.normal, certificateActions, initialState, otherReducers);
+    super(certificateNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL), certificateActions, initialState, otherReducers);
   }
 
   public static getInstance(): CertificateReducer {

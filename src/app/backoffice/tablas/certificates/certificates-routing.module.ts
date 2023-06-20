@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CertificateComponent } from './certificate/certificate.component';
+import { CertificateListComponent, certificateListTitleResolver } from './certificate-list/certificate-list.component';
+import {
+  CertificateModalComponent,
+  certificateModalTitleResolver,
+} from './certificate-modal/certificate-modal.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CertificateComponent,
-    canActivate: [],
-    pathMatch: 'full',
-  },
-  {
-    path: 'modal/:modalMode',
-    component: CertificateComponent,
-    canActivate: [],
-  },
-  {
-    path: 'modal/:modalMode/:id',
-    component: CertificateComponent,
-    canActivate: [],
+    title: certificateListTitleResolver,
+    component: CertificateListComponent,
+    children: [
+      {
+        path: 'modal',
+        title: certificateModalTitleResolver,
+        component: CertificateModalComponent,
+      },
+    ],
   },
 ];
 

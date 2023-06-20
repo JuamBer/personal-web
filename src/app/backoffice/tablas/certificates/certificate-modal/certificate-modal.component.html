@@ -1,283 +1,197 @@
 <p-dialog
+  *appLet="modalMode$ | async as modalMode"
   [draggable]="false"
   [resizable]="false"
+  [header]="
+    'buttons.' + modalMode
+      | lowercase
+      | translate
+        : {
+            name: 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.singular' | translate
+          }
+  "
   [modal]="true"
-  [maximizable]="true"
   [(visible)]="visible"
-  (onHide)="onHide()"
-  [style]="{ width: '100%', maxWidth: '60rem' }"
+  (onHide)="hide()"
+  [style]="{ width: '100%', maxWidth: '40rem' }"
 >
-  <div class="loading-modal p-component-overlay" *ngIf="loading$ | async">
-    <i class="pi pi-spin pi-spinner"></i>
-  </div>
-
-  <p-tabView>
-    <p-tabPanel header="{{ 'tabs.info' | translate }}">
-      <div class="grid p-fluid">
-        <form [formGroup]="form" (ngSubmit)="send()" class="col-12 p-3">
-          <div class="grid">
-            <div class="xs:col-12 lg:col-6">
-              <span class="p-float-label">
-                <input
-                  type="text"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['name'].invalid,
-                    'ng-dirty': form.controls['name'].dirty
-                  }"
-                  formControlName="name"
-                  pInputText
-                />
-                <label>{{ 'columns.name' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['name'].valid" class="p-error">
-                {{ errores['name'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-6">
-              <span class="p-float-label">
-                <p-calendar
-                  class="p-inputtext-sm"
-                  formControlName="date"
-                  dateFormat="dd/mm/yy"
-                  [showIcon]="true"
-                  appendTo="body"
-                ></p-calendar>
-                <label>{{ 'columns.date' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['date'].valid" class="p-error">
-                {{ errores['date'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-12">
-              <span class="p-float-label">
-                <textarea
-                  formControlName="description"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['description'].invalid,
-                    'ng-dirty': form.controls['description'].dirty
-                  }"
-                  pInputTextarea
-                ></textarea>
-                <label>{{ 'columns.description' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['description'].valid" class="p-error">
-                {{ errores['description'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-4">
-              <span class="p-float-label">
-                <p-dropdown
-                  dataKey="id"
-                  class="p-inputtext-sm"
-                  [autoDisplayFirst]="false"
-                  [options]="companies$ | async"
-                  formControlName="company"
-                  optionLabel="name"
-                  filterBy="name"
-                  appendTo="body"
-                  [filter]="true"
-                ></p-dropdown>
-                <label>{{ 'tables.' + companyNames.camelCase.singular + '.singular' | translate }} *</label>
-              </span>
-            </div>
-            <div class="xs:col-12 lg:col-4">
-              <span class="p-float-label">
-                <p-dropdown
-                  dataKey="id"
-                  class="p-inputtext-sm"
-                  [autoDisplayFirst]="false"
-                  [options]="certificateTypes$ | async"
-                  formControlName="certificateType"
-                  optionLabel="name"
-                  filterBy="name"
-                  appendTo="body"
-                  [filter]="true"
-                ></p-dropdown>
-                <label>{{ 'tables.' + certificateTypeNames.camelCase.singular + '.singular' | translate }} *</label>
-              </span>
-            </div>
-            <div class="xs:col-12 lg:col-4">
-              <span class="p-float-label">
-                <p-dropdown
-                  dataKey="id"
-                  class="p-inputtext-sm"
-                  [autoDisplayFirst]="false"
-                  [options]="certificateGroups$ | async"
-                  formControlName="certificateGroup"
-                  optionLabel="name"
-                  filterBy="name"
-                  appendTo="body"
-                  [filter]="true"
-                ></p-dropdown>
-                <!-- <label>{{ 'tables.' + certificateGroupNames.camelCase.singular + '.singular' | translate }} *</label> -->
-              </span>
-            </div>
-
-            <div class="xs:col-12 lg:col-4">
-              <span class="p-float-label">
-                <input
-                  type="text"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['url'].invalid,
-                    'ng-dirty': form.controls['url'].dirty
-                  }"
-                  formControlName="url"
-                  pInputText
-                />
-                <label>{{ 'columns.url' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['url'].valid" class="p-error">
-                {{ errores['url'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-4">
-              <span class="p-float-label">
-                <input
-                  type="text"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['pdf'].invalid,
-                    'ng-dirty': form.controls['pdf'].dirty
-                  }"
-                  formControlName="pdf"
-                  pInputText
-                />
-                <label>{{ 'columns.pdf' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['pdf'].valid" class="p-error">
-                {{ errores['pdf'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-4">
-              <span class="p-float-label">
-                <input
-                  type="text"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['github'].invalid,
-                    'ng-dirty': form.controls['github'].dirty
-                  }"
-                  formControlName="github"
-                  pInputText
-                />
-                <label>{{ 'columns.github' | translate }}</label>
-              </span>
-              <small *ngIf="!form.controls['github'].valid" class="p-error">
-                {{ errores['github'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-12">
-              <span class="p-float-label">
-                <input
-                  type="text"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['image'].invalid,
-                    'ng-dirty': form.controls['image'].dirty
-                  }"
-                  formControlName="image"
-                  pInputText
-                />
-                <label>{{ 'columns.image' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['image'].valid" class="p-error">
-                {{ errores['image'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-12">
-              <img
-                *ngIf="form.controls['image'].value"
-                class="w-full"
-                [src]="form.controls['image'].value"
-                alt="image"
-              />
-            </div>
-            <div class="xs:col-12 lg:col-4">
-              <span class="p-float-label">
-                <input
-                  type="text"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['web'].invalid,
-                    'ng-dirty': form.controls['web'].dirty
-                  }"
-                  formControlName="web"
-                  pInputText
-                />
-                <label>{{ 'columns.web' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['web'].valid" class="p-error">
-                {{ errores['web'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-4">
-              <span class="p-float-label">
-                <input
-                  type="text"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['playStore'].invalid,
-                    'ng-dirty': form.controls['playStore'].dirty
-                  }"
-                  formControlName="playStore"
-                  pInputText
-                />
-                <label>{{ 'columns.playStore' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['playStore'].valid" class="p-error">
-                {{ errores['playStore'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-4">
-              <span class="p-float-label">
-                <input
-                  type="text"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['microsoftStore'].invalid,
-                    'ng-dirty': form.controls['microsoftStore'].dirty
-                  }"
-                  formControlName="microsoftStore"
-                  pInputText
-                />
-                <label>{{ 'columns.microsoftStore' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['microsoftStore'].valid" class="p-error">
-                {{ errores['microsoftStore'] }}
-              </small>
-            </div>
-          </div>
-          <div class="button-container my-3">
-            <button
-              pButton
-              type="submit"
-              [label]="
-                'buttons.create'
-                  | translate
-                    : {
-                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
-                      }
-              "
-              *ngIf="modalMode === ModalMode.CREATE"
-            ></button>
-            <button
-              pButton
-              type="submit"
-              [label]="
-                'buttons.update'
-                  | translate
-                    : {
-                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
-                      }
-              "
-              *ngIf="modalMode === ModalMode.UPDATE"
-            ></button>
-          </div>
-        </form>
+  <form [formGroup]="form" (ngSubmit)="send()" *appLet="loading$ | async as loading">
+    <div class="grid p-fluid mt-1">
+      <div *appLet="'name' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-6 lg:col-6 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
       </div>
-    </p-tabPanel>
-  </p-tabView>
+      <div *appLet="'date' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-6 lg:col-6 mt-3">
+        <span class="p-float-label">
+          <p-calendar
+            class="p-calendar-sm"
+            [formControlName]="field"
+            dateFormat="dd/mm/yy"
+            [showIcon]="true"
+            appendTo="body"
+          ></p-calendar>
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'company' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-4 lg:col-4 mt-3">
+        <span class="p-float-label">
+          <p-dropdown
+            dataKey="id"
+            class="p-inputtext-sm"
+            [autoDisplayFirst]="false"
+            [options]="companies$ | async"
+            [formControlName]="field"
+            optionLabel="name"
+            filterBy="name"
+            appendTo="body"
+            [filter]="true"
+          ></p-dropdown>
+          <label [for]="field">
+            {{ 'tables.' + field + '.singular' | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div
+        *appLet="'certificateType' as field"
+        appLoading
+        [appIsLoading]="loading"
+        class="xs:col-12 md:col-4 lg:col-4 mt-3"
+      >
+        <span class="p-float-label">
+          <p-dropdown
+            dataKey="id"
+            class="p-inputtext-sm"
+            [autoDisplayFirst]="false"
+            [options]="certificateTypes$ | async"
+            [formControlName]="field"
+            optionLabel="name"
+            filterBy="name"
+            appendTo="body"
+            [filter]="true"
+          ></p-dropdown>
+          <label [for]="field">
+            {{ 'tables.' + field + '.singular' | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div
+        *appLet="'certificateGroup' as field"
+        appLoading
+        [appIsLoading]="loading"
+        class="xs:col-12 md:col-4 lg:col-4 mt-3"
+      >
+        <span class="p-float-label">
+          <p-dropdown
+            dataKey="id"
+            class="p-inputtext-sm"
+            [autoDisplayFirst]="false"
+            [options]="certificateGroups$ | async"
+            [formControlName]="field"
+            optionLabel="name"
+            filterBy="name"
+            appendTo="body"
+            [filter]="true"
+          ></p-dropdown>
+          <label [for]="field">
+            {{ 'tables.' + field + '.singular' | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'url' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-4 lg:col-4 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'pdf' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-4 lg:col-4 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'github' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-4 lg:col-4 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'web' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-4 lg:col-4 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div
+        *appLet="'microsoftStore' as field"
+        appLoading
+        [appIsLoading]="loading"
+        class="xs:col-12 md:col-4 lg:col-4 mt-3"
+      >
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'playStore' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-4 lg:col-4 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'image' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-12 lg:col-12 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+        <div class="w-full mt-3">
+          <img *ngIf="form.controls['image'].value" class="w-full" [src]="form.controls['image'].value" alt="image" />
+        </div>
+      </div>
+    </div>
+    <app-entity-modal-buttons
+      [loading]="loading"
+      [form]="form"
+      [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
+      [modalMode]="modalMode"
+      (cancel)="hide()"
+      (submit)="send()"
+    ></app-entity-modal-buttons>
+    <app-entity-modal-audit
+      [loading]="loading"
+      [entity]="entity$ | async"
+      [modalMode]="modalMode"
+    ></app-entity-modal-audit>
+  </form>
 </p-dialog>

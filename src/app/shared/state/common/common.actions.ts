@@ -19,7 +19,7 @@ export abstract class CommonAction<T> {
   //LOAD ALL
   loadAll = createAction(
     '[' + this.entityName + '] Load All',
-    props<{ payload: RequestFilter | null | LazyLoadEvent }>(),
+    props<{ payload?: RequestFilter | null | LazyLoadEvent }>(),
   );
 
   loadAllSuccess = createAction('[' + this.entityName + '] Load All Success', props<{ payload: any }>());
