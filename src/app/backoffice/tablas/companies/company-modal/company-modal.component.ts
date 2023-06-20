@@ -1,191 +1,127 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 //COMPANY
-import { ImagenesFormComponent } from '@app/shared/components/imagenes/imagenes-form/imagenes-form.component';
+import { EntityModal } from '@app/backoffice/models/entity-modal.model';
 import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ToastMessage } from '@app/shared/models/toast-message';
-import { CommonNames } from '@app/shared/state/common/common.names';
-import { MessageHandlerType, ToastUtils } from '@app/shared/utils/ToastUtils';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
-import { MessageService, PrimeNGConfig } from 'primeng/api';
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { Company } from '../models/company.model';
+import { ActionStatus, ActionType } from '@app/shared/state/common/common-state';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
+import { FormUtils } from '@app/shared/utils/FormUtils';
+import { RouterUtils } from '@app/shared/utils/router.utils';
+import { Action, Store } from '@ngrx/store';
+import { Observable, Subject, from } from 'rxjs';
+import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { Company, CompanyFormGroup } from '../models/company.model';
+import { CompanyService } from '../services/company.service';
 import { companyActions } from '../state/company.actions';
 import { companyNames } from '../state/company.names';
 import { companyReducer } from '../state/company.reducer';
-import { CompanyState } from '../state/company.state';
+
+export const companyModalTitleResolver: ResolveFn<string> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  return from(inject(CompanyService).getTitle(Number(route.paramMap.get('id')))).pipe(
+    map((selected) => 'Juan Sáez García | Companies | ' + selected.name),
+  );
+};
 
 @Component({
   selector: 'app-company-modal',
   templateUrl: './company-modal.component.html',
   styleUrls: ['./company-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CompanyModalComponent implements OnInit {
-  id: number;
+export class CompanyModalComponent implements OnInit, EntityModal<Company> {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private store = inject(Store);
+  private fb = inject(FormBuilder);
 
-  @ViewChild('createImagenesForm') createImagenesForm: ImagenesFormComponent;
-  @ViewChild('updateImagenesForm') updateImagenesForm: ImagenesFormComponent;
+  visible = true;
+  form: CompanyFormGroup = this.fb.group({
+    id: this.fb.control<number | undefined>(new Date().getTime()),
+    name: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    description: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    location: this.fb.control<string | undefined>(undefined, [Validators.required]),
+  });
 
-  visible: boolean = false;
+  unsubscribe$: Subject<boolean> = new Subject();
+  params$: Observable<ModalParams> = this.route.params.pipe(
+    takeUntil(this.unsubscribe$),
+    map((params) => params as ModalParams),
+  );
+  loading$: Observable<boolean> = this.store.select(companyReducer.getLoading).pipe(takeUntil(this.unsubscribe$));
+  modalMode$: Observable<ModalMode> = this.params$.pipe(
+    takeUntil(this.unsubscribe$),
+    map((params) => ModalMode[params.modalMode]),
+  );
+  entity$: Observable<Company> = this.store.select(companyReducer.getOne).pipe(
+    takeUntil(this.unsubscribe$),
+    filter((entity) => !!entity),
+  );
+  message$: Observable<ToastMessage> = this.store.select(companyReducer.getMessage).pipe(
+    takeUntil(this.unsubscribe$),
+    filter((i) => !!i),
+  );
+  action$: Observable<Action> = this.store.select(companyReducer.getAction).pipe(
+    takeUntil(this.unsubscribe$),
+    skip(1),
+    filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
+  );
 
-  company$: Observable<Company> = this.companyStore.select(companyReducer.getOne);
-  loading$: Observable<boolean> = this.companyStore.select(companyReducer.getLoading);
-  message$: Observable<ToastMessage> = this.companyStore.select(companyReducer.getMessage).pipe(filter((i) => !!i));
-  names: CommonNames = companyNames;
-
-  errores: string[] = [];
-
-  form: FormGroup;
-  modalMode: ModalMode;
-
-  subscriptions: Subscription[] = [];
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private companyStore: Store<CompanyState>,
-    private toastSrv: MessageService,
-    private translateSrv: TranslateService,
-    private config: PrimeNGConfig,
-    private route: ActivatedRoute,
-    private router: Router,
-    private toastUtils: ToastUtils,
-  ) {
-    translateSrv.setDefaultLang('es');
-    this.route.params.subscribe((params: ModalParams) => {
-      this.id = Number(params.id);
-      if (params.modalMode) {
-        switch (params.modalMode) {
-          case 'VIEW':
-            this.show(ModalMode.VIEW);
-            break;
-          case 'UPDATE':
-            this.show(ModalMode.UPDATE);
-            break;
-          case 'CREATE':
-            this.show(ModalMode.CREATE);
-            break;
-          default:
-            this.show(ModalMode.VIEW);
-            break;
-        }
-        if (params.modalMode !== 'CREATE') {
-          this.companyStore.dispatch(companyActions.loadOne({ id: Number(params.id) }));
-        }
-      }
+  ngOnInit(): void {
+    this.params$.subscribe((params) => this.store.dispatch(companyActions.loadOne({ id: Number(params.id) })));
+    this.action$.subscribe(() => {
+      this.hide();
+    });
+    this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
+      this.form.disable();
+    });
+    this.entity$.subscribe((entity) => {
+      this.form.patchValue({
+        id: entity.id,
+        name: entity.name,
+        description: entity.description,
+      });
     });
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.unsubscribe$.next(true);
+    this.unsubscribe$.complete();
   }
 
-  ngOnInit(): void {
-    this.translate('es');
-    this.form = this.formBuilder.group({
-      id: [Date.now()],
-      name: [undefined, [Validators.required]],
-      description: [undefined, [Validators.required]],
-      location: [undefined, [Validators.required]],
-    });
-
-    const companySubscription: Subscription = this.company$.subscribe((company) => {
-      this.patchValue(company);
-    });
-    this.subscriptions.push(companySubscription);
-
-    const messageSubscription = this.message$.subscribe(async (message: ToastMessage) => {
-      const res = await this.toastUtils.messageHandler(
-        this.names.camelCase.singular,
-        MessageHandlerType.HIDE_MODAL,
-        message,
-      );
-      if (res !== null) {
-        this.visible = res;
-      }
-    });
-    this.subscriptions.push(messageSubscription);
-  }
-
-  translate(lang: string) {
-    this.translateSrv.use(lang);
-    this.translateSrv.get('calendar').subscribe((res) => this.config.setTranslation(res));
+  hide() {
+    this.store.dispatch(companyActions.unload());
+    this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }
 
   send() {
-    Object.values(this.form.controls).forEach((control) => {
-      control.markAsDirty();
-    });
     if (this.form.invalid) {
-      // this.toastSrv.add({ severity: 'warn', summary: 'Error', detail: this.translateSrv.instant('company.modal.invalid') });
-      // let errorCampo = this.translateSrv.instant('company.modal.error');
-      // for (let name in this.form.controls) {
-      //   let control = this.form.controls[name];
-      //   let nameTrad = this.translateSrv.instant('columns.' + name)
-
-      //   if (control.invalid && control.value == '' || control.invalid && control.value == null) {
-      //     this.errores[name] = errorCampo + nameTrad
-      //   }
-      // }
-      return;
-    }
-
-    switch (this.modalMode) {
-      case ModalMode.CREATE:
-        this.companyStore.dispatch(companyActions.create({ payload: this.form.value }));
-        break;
-      case ModalMode.UPDATE:
-        this.companyStore.dispatch(companyActions.update({ payload: this.form.value }));
-        break;
-    }
-  }
-
-  show(modalMode: ModalMode) {
-    this.patchValue(null);
-    this.modalMode = modalMode;
-    this.form.enable();
-    if (modalMode == ModalMode.CREATE) {
-      this.companyStore.dispatch(companyActions.unload());
-    }
-    if (modalMode == ModalMode.VIEW) {
-      this.form.disable();
-    }
-    this.visible = true;
-  }
-
-  onHide() {
-    this.visible = false;
-    this.errores = [];
-    this.companyStore.dispatch(companyActions.unload());
-    this.form.reset();
-    this.createImagenesForm?.reset();
-    this.updateImagenesForm?.reset();
-    this.router.navigate(['backoffice', 'companies']);
-  }
-
-  patchValue(company: Company) {
-    if (!this.form) {
-      return;
-    }
-    if (company) {
-      this.form.patchValue({
-        id: company.id,
-        name: company.name,
-        description: company.description,
-        location: company.location,
-      });
+      FormUtils.markAllAsDirtyAndTouched(this.form);
     } else {
-      this.form.patchValue({
-        id: Date.now(),
-        name: undefined,
-        description: undefined,
-        location: undefined,
+      this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
+        switch (modalMode) {
+          case ModalMode.CREATE:
+            this.store.dispatch(companyActions.create({ payload: this.form.value }));
+            break;
+          case ModalMode.UPDATE:
+            this.store.dispatch(companyActions.update({ payload: this.form.value }));
+            break;
+        }
       });
     }
   }
-  get ModalMode() {
-    return ModalMode;
+
+  get NumberMode() {
+    return NumberMode;
+  }
+  get Naming() {
+    return Naming;
+  }
+  get names() {
+    return companyNames;
   }
 }

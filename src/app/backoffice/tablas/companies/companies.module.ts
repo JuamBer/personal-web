@@ -1,6 +1,9 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EntityModalAuditModule } from '@app/shared/components/entity-modal-audit/entity-modal-audit.module';
+import { EntityModalButtonsModule } from '@app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
+import { GenericTableModule } from '@app/shared/components/generic-table/generic-table.module';
 import { ImagenesModule } from '@app/shared/components/imagenes/imagenes.module';
 import { TablaGenericaModule } from '@app/shared/components/tabla-generica/tabla-generica.module';
 import { BasicModule } from '@app/shared/modules/basic.module';
@@ -23,12 +26,12 @@ import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { CompaniesRoutingModule } from './companies-routing.module';
+import { CompanyListComponent } from './company-list/company-list.component';
 import { CompanyModalComponent } from './company-modal/company-modal.component';
-import { CompanyComponent } from './company/company.component';
 import { CompaniesStateModule } from './state/company-state.module';
 
 @NgModule({
-  declarations: [CompanyComponent, CompanyModalComponent],
+  declarations: [CompanyListComponent, CompanyModalComponent],
   imports: [
     BasicModule,
     CompaniesRoutingModule,
@@ -59,9 +62,11 @@ import { CompaniesStateModule } from './state/company-state.module';
     AccountStateModule,
 
     CompaniesStateModule,
-
+    EntityModalButtonsModule,
+    EntityModalAuditModule,
     TablaGenericaModule,
     PipesModule,
+    GenericTableModule,
   ],
 })
 export class CompaniesModule {}

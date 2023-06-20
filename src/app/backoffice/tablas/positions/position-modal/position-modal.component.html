@@ -46,7 +46,7 @@
                   appendTo="body"
                   [filter]="true"
                 ></p-dropdown>
-                <label>{{ 'tables.' + companyNames.camelCase.singular + '.singular' | translate }} *</label>
+                <label>{{ 'tables..singular' | translate }} *</label>
               </span>
               <small *ngIf="!form.controls['company'].valid" class="p-error">
                 {{ errores['company'] }}

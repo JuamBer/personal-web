@@ -13,7 +13,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { companyNames } from '../../companies/state/company.names';
 import { Position } from '../models/position.model';
 import { PositionModalComponent } from '../position-modal/position-modal.component';
 import { positionActions } from '../state/position.actions';
@@ -74,9 +73,7 @@ export class PositionComponent implements OnInit {
       action: 'add',
       icon: 'pi pi-plus',
       label: this.translateSrv.instant('buttons.new', {
-        name: this.translateSrv.instant(
-          `tables.${this.names.camelCase.singular}.singular`,
-        ),
+        name: this.translateSrv.instant(`tables.${this.names.camelCase.singular}.singular`),
       }),
     });
     optionButtons.push({ action: 'view', icon: 'pi pi-search-plus' });
@@ -101,9 +98,7 @@ export class PositionComponent implements OnInit {
         },
         {
           field: 'company',
-          nombre: this.translateSrv.instant(
-            `tables.${companyNames.camelCase.singular}.singular`,
-          ),
+          nombre: '',
           sort: false,
           filter: false,
           tipo: 'OBJECTO',
@@ -130,27 +125,17 @@ export class PositionComponent implements OnInit {
   }
 
   getAll() {
-    this.store.dispatch(
-      positionActions.loadAll({ payload: this.requestFilter }),
-    );
+    this.store.dispatch(positionActions.loadAll({ payload: this.requestFilter }));
   }
 
   onClick(event) {
     switch (event.type) {
       case 'add': {
-        this.router.navigate([
-          'backoffice',
-          this.names.kebabCase.plural.normal,
-          { modalMode: 'CREATE' },
-        ]);
+        this.router.navigate(['backoffice', this.names.kebabCase.plural.normal, { modalMode: 'CREATE' }]);
         break;
       }
       case 'view': {
-        this.router.navigate([
-          'backoffice',
-          this.names.camelCase.plural,
-          { modalMode: 'VIEW', id: event.data.id },
-        ]);
+        this.router.navigate(['backoffice', this.names.camelCase.plural, { modalMode: 'VIEW', id: event.data.id }]);
         break;
       }
       case 'edit': {
@@ -164,9 +149,7 @@ export class PositionComponent implements OnInit {
       case 'delete': {
         this.confirmationSrv.confirm({
           message: this.translateSrv.instant('messages.confirmation.message', {
-            name: this.translateSrv.instant(
-              `tables.${this.names.camelCase.singular}.singular`,
-            ),
+            name: this.translateSrv.instant(`tables.${this.names.camelCase.singular}.singular`),
           }),
           header: this.translateSrv.instant('messages.confirmation.header'),
           icon: 'pi pi-info-circle',

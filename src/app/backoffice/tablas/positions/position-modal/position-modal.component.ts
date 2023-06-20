@@ -14,7 +14,6 @@ import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Company } from '../../companies/models/company.model';
 import { companyActions } from '../../companies/state/company.actions';
-import { companyNames } from '../../companies/state/company.names';
 import { companyReducer } from '../../companies/state/company.reducer';
 import { CompanyState } from '../../companies/state/company.state';
 import { Position } from '../models/position.model';
@@ -35,7 +34,6 @@ export class PositionModalComponent implements OnInit, OnDestroy {
   position$: Observable<Position> = this.store.select(positionReducer.getOne);
   message$: Observable<ToastMessage> = this.store.select(positionReducer.getMessage).pipe(filter((i) => !!i));
   names: CommonNames = positionNames;
-  companyNames: CommonNames = companyNames;
   companies$: Observable<Company[]> = this.companyStore.select(companyReducer.getAll);
   errores: string[] = [];
   form: FormGroup;

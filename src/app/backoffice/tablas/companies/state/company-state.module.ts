@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CompanyEffect } from './company.effects';
@@ -11,10 +12,7 @@ import { companyReducer } from './company.reducer';
   imports: [
     CommonModule,
     EffectsModule.forFeature([CompanyEffect]),
-    StoreModule.forFeature(
-      companyNames.kebabCase.plural.normal,
-      companyReducer.reducer,
-    ),
+    StoreModule.forFeature(companyNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL), companyReducer.reducer),
   ],
 })
 export class CompaniesStateModule {}

@@ -1,4 +1,5 @@
 import { defaultCommonState } from '@app/shared/state/common/common-state';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
 import { Company } from '../models/company.model';
@@ -16,7 +17,7 @@ class CompanyReducer extends CommonReducer<Company, CompanyState> {
   private static instance: CompanyReducer;
 
   private constructor() {
-    super(companyNames.kebabCase.plural.normal, companyActions, initialState, otherReducers);
+    super(companyNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL), companyActions, initialState, otherReducers);
   }
 
   public static getInstance(): CompanyReducer {
