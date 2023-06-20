@@ -1,4 +1,5 @@
 import { defaultCommonState } from '@app/shared/state/common/common-state';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
 import { CertificateType } from '../models/certificate-type.model';
@@ -12,11 +13,16 @@ const initialState: CertificateTypeState = {
 
 const otherReducers: ReducerTypes<any, any>[] = [];
 
-class CertificateTypeReducer extends CommonReducer<CertificateType, CertificateTypeState> {
+export class CertificateTypeReducer extends CommonReducer<CertificateType, CertificateTypeState> {
   private static instance: CertificateTypeReducer;
 
   private constructor() {
-    super(certificateTypeNames.kebabCase.plural.normal, certificateTypeActions, initialState, otherReducers);
+    super(
+      certificateTypeNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+      certificateTypeActions,
+      initialState,
+      otherReducers,
+    );
   }
 
   public static getInstance(): CertificateTypeReducer {

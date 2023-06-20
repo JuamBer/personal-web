@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 //CERTIFICATE
@@ -13,12 +13,11 @@ import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CertificateGroup } from '../../certificate-groups/models/certificate-group.model';
-import { CertificateGroupActions } from '../../certificate-groups/state/certificate-group.actions';
-import { CertificateGroupReducer } from '../../certificate-groups/state/certificate-group.reducer';
+import { certificateGroupActions } from '../../certificate-groups/state/certificate-group.actions';
+import { certificateGroupReducer } from '../../certificate-groups/state/certificate-group.reducer';
 import { CertificateGroupState } from '../../certificate-groups/state/certificate-group.state';
 import { CertificateType } from '../../certificate-types/models/certificate-type.model';
 import { certificateTypeActions } from '../../certificate-types/state/certificate-type.actions';
-import { certificateTypeNames } from '../../certificate-types/state/certificate-type.names';
 import { certificateTypeReducer } from '../../certificate-types/state/certificate-type.reducer';
 import { CertificateTypeState } from '../../certificate-types/state/certificate-type.state';
 import { Company } from '../../companies/models/company.model';
@@ -38,9 +37,6 @@ import { CertificateState } from '../state/certificate.state';
   styleUrls: ['./certificate-modal.component.scss'],
 })
 export class CertificateModalComponent implements OnInit {
-  private certificateGroupActions = inject(CertificateGroupActions);
-  private certificateGroupReducer = inject(CertificateGroupReducer);
-
   id: number;
 
   @ViewChild('createImagenesForm') createImagenesForm: ImagenesFormComponent;
@@ -56,9 +52,9 @@ export class CertificateModalComponent implements OnInit {
   names: CommonNames = certificateNames;
 
   certificateTypes$: Observable<CertificateType[]> = this.certificateTypeStore.select(certificateTypeReducer.getAll);
-  certificateTypeNames: CommonNames = certificateTypeNames;
+  certificateTypeNames: CommonNames = certificateNames;
   certificateGroups$: Observable<CertificateGroup[]> = this.certificateGroupStore.select(
-    this.certificateGroupReducer.getAll,
+    certificateGroupReducer.getAll,
   );
   companies$: Observable<Company[]> = this.companyStore.select(companyReducer.getAll);
   companyNames: CommonNames = companyNames;
@@ -112,7 +108,7 @@ export class CertificateModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.certificateGroupStore.dispatch(this.certificateGroupActions.loadAll({ payload: null }));
+    this.certificateGroupStore.dispatch(certificateGroupActions.loadAll({ payload: null }));
     this.certificateTypeStore.dispatch(certificateTypeActions.loadAll({ payload: null }));
     this.companyStore.dispatch(companyActions.loadAll({ payload: null }));
     this.form = this.formBuilder.group({

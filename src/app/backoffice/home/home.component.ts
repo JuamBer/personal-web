@@ -1,21 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonNames } from '@app/shared/state/common/common.names';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
 import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
+import { certificateGroupNames } from '../tablas/certificate-groups/state/certificate-group.names';
 import { certificateTypeNames } from '../tablas/certificate-types/state/certificate-type.names';
-import { certificateNames } from '../tablas/certificates/state/certificate.names';
-import { companyNames } from '../tablas/companies/state/company.names';
-import { curriculumNames } from '../tablas/curriculums/state/curriculum.names';
-import { languageNames } from '../tablas/languages/state/language.names';
-import { mountNames } from '../tablas/mounts/state/mount.names';
-import { positionNames } from '../tablas/positions/state/position.names';
-import { proyectNames } from '../tablas/proyects/state/proyect.names';
-import { skillTypeNames } from '../tablas/skill-types/state/skill-type.names';
-import { skillNames } from '../tablas/skills/state/skill.names';
 
 export interface Menu {
   name: string;
@@ -28,17 +20,9 @@ export interface Menu {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  names: CommonNames[] = [
-    certificateTypeNames,
-    certificateNames,
-    companyNames,
-    curriculumNames,
-    languageNames,
-    mountNames,
-    positionNames,
-    proyectNames,
-    skillTypeNames,
-    skillNames,
+  names: string[] = [
+    certificateGroupNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+    certificateTypeNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
   ];
   constructor(
     private translateSrv: TranslateService,

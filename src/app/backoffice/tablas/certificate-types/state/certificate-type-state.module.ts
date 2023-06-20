@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CertificateTypeEffect } from './certificate-type.effects';
@@ -12,7 +13,7 @@ import { certificateTypeReducer } from './certificate-type.reducer';
     CommonModule,
     EffectsModule.forFeature([CertificateTypeEffect]),
     StoreModule.forFeature(
-      certificateTypeNames.kebabCase.plural.normal,
+      certificateTypeNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
       certificateTypeReducer.reducer,
     ),
   ],

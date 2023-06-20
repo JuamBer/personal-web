@@ -79,7 +79,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
           if (entity.id === state.selectedId && selected) {
             return {
               ...selected,
-              // ...entity,
+              ...entity,
             };
           } else {
             return entity;

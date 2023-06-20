@@ -10,23 +10,18 @@ import { BasicModule } from '@app/shared/modules/basic.module';
 import { DirectivesModule } from '@app/shared/modules/directives.module';
 import { LanguagesModule } from '@app/shared/modules/languages.module';
 import { PipesModule } from '@app/shared/modules/pipes.module';
-import { AccountStateModule } from '@app/shared/state/account/account.module';
-import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessageModule } from 'primeng/message';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SkeletonModule } from 'primeng/skeleton';
-import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
-import { ToastModule } from 'primeng/toast';
 import { CertificateGroupListComponent } from './certificate-group-list/certificate-group-list.component';
 import { CertificateGroupModalComponent } from './certificate-group-modal/certificate-group-modal.component';
 import { CertificateGroupsRoutingModule } from './certificate-groups-routing.module';
@@ -36,44 +31,33 @@ import { CertificateGroupsStateModule } from './state/certificate-group-state.mo
   declarations: [CertificateGroupListComponent, CertificateGroupModalComponent],
   imports: [
     BasicModule,
-    CertificateGroupsRoutingModule,
     HttpClientModule,
-
     FormsModule,
     ReactiveFormsModule,
     ImagenesModule,
-
-    ToastModule,
-    ButtonModule,
     MessageModule,
     DialogModule,
-    TableModule,
     CardModule,
     ConfirmDialogModule,
-    AutoCompleteModule,
     ButtonModule,
     CalendarModule,
-    DialogModule,
-    DropdownModule,
     InputTextModule,
     InputSwitchModule,
     InputTextareaModule,
     TabViewModule,
     MultiSelectModule,
     LanguagesModule,
-    AccountStateModule,
     SkeletonModule,
     DirectivesModule,
     PipesModule,
-
-    CertificateGroupsStateModule,
     SkeletonModule,
-
     GenericTableModule,
     TablaGenericaModule,
     PipesModule,
     EntityModalButtonsModule,
     EntityModalAuditModule,
+    CertificateGroupsRoutingModule,
+    CertificateGroupsStateModule,
   ],
 })
 export class CertificateGroupsModule {}

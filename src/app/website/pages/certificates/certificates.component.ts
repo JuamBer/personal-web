@@ -1,7 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CertificateGroup } from '@app/backoffice/tablas/certificate-groups/models/certificate-group.model';
-import { CertificateGroupActions } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.actions';
-import { CertificateGroupReducer } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.reducer';
+import { certificateGroupActions } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.actions';
+import { certificateGroupReducer } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.reducer';
 import { CertificateGroupState } from '@app/backoffice/tablas/certificate-groups/state/certificate-group.state';
 import { CertificateType } from '@app/backoffice/tablas/certificate-types/models/certificate-type.model';
 import { certificateTypeReducer } from '@app/backoffice/tablas/certificate-types/state/certificate-type.reducer';
@@ -21,19 +21,16 @@ Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
   styleUrls: ['./certificates.component.scss'],
 })
 export class CertificatesComponent implements OnInit {
-  private certificateGroupActions = inject(CertificateGroupActions);
-  private certificateGroupReducer = inject(CertificateGroupReducer);
-
   certificates$: Observable<Certificate[]> = this.certificateStore.select(certificateReducer.getAll);
   loadingCertificates$: Observable<boolean> = this.certificateStore.select(certificateReducer.getLoading);
   certificateTypes$: Observable<CertificateType[]> = this.certificateTypeStore.select(certificateTypeReducer.getAll);
   loadingCertificateTypes$: Observable<boolean> = this.certificateTypeStore.select(certificateTypeReducer.getLoading);
 
   certificateGroups$: Observable<CertificateGroup[]> = this.certificateGroupStore.select(
-    this.certificateGroupReducer.getAll,
+    certificateGroupReducer.getAll,
   );
   loadingCertificateGroups$: Observable<boolean> = this.certificateGroupStore.select(
-    this.certificateGroupReducer.getLoading,
+    certificateGroupReducer.getLoading,
   );
 
   tabIndexes: { groupId: any; value: number }[] = [];
@@ -75,7 +72,7 @@ export class CertificatesComponent implements OnInit {
   ngOnInit(): void {
     this.certificateGroups$.subscribe((certificateGroups) => {
       if (!certificateGroups.length) {
-        this.certificateGroupStore.dispatch(this.certificateGroupActions.loadAll({ payload: null }));
+        this.certificateGroupStore.dispatch(certificateGroupActions.loadAll({ payload: null }));
       }
       certificateGroups.forEach((certificateGroup) => {
         this.tabIndexes.push({

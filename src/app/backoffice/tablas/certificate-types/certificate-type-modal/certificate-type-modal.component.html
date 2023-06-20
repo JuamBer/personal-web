@@ -1,86 +1,58 @@
 <p-dialog
+  *appLet="modalMode$ | async as modalMode"
   [draggable]="false"
   [resizable]="false"
+  [header]="
+    'buttons.' + modalMode
+      | lowercase
+      | translate
+        : {
+            name: 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.singular' | translate
+          }
+  "
   [modal]="true"
-  [maximizable]="true"
   [(visible)]="visible"
-  (onHide)="onHide()"
+  (onHide)="hide()"
   [style]="{ width: '100%', maxWidth: '40rem' }"
 >
-  <div class="loading-modal p-component-overlay" *ngIf="loading$ | async">
-    <i class="pi pi-spin pi-spinner"></i>
-  </div>
-
-  <p-tabView>
-    <p-tabPanel header="{{ 'tabs.info' | translate }}">
-      <div class="grid p-fluid">
-        <form [formGroup]="form" (ngSubmit)="send()" class="col-12 p-3">
-          <div class="grid">
-            <div class="xs:col-12 lg:col-12">
-              <span class="p-float-label">
-                <input
-                  type="text"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['name'].invalid,
-                    'ng-dirty': form.controls['name'].dirty
-                  }"
-                  formControlName="name"
-                  pInputText
-                />
-                <label>{{ 'columns.name' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['name'].valid" class="p-error">
-                {{ errores['name'] }}
-              </small>
-            </div>
-            <div class="xs:col-12 lg:col-12">
-              <span class="p-float-label">
-                <textarea
-                  formControlName="description"
-                  class="p-inputtext-sm"
-                  [ngClass]="{
-                    'ng-invalid': form.controls['description'].invalid,
-                    'ng-dirty': form.controls['description'].dirty
-                  }"
-                  pInputTextarea
-                ></textarea>
-                <label>{{ 'columns.description' | translate }} *</label>
-              </span>
-              <small *ngIf="!form.controls['description'].valid" class="p-error">
-                {{ errores['description'] }}
-              </small>
-            </div>
-          </div>
-
-          <div class="button-container my-3">
-            <button
-              pButton
-              type="submit"
-              [label]="
-                'buttons.create'
-                  | translate
-                    : {
-                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
-                      }
-              "
-              *ngIf="modalMode === ModalMode.CREATE"
-            ></button>
-            <button
-              pButton
-              type="submit"
-              [label]="
-                'buttons.update'
-                  | translate
-                    : {
-                        name: 'tables.' + names.camelCase.singular + '.singular' | translate
-                      }
-              "
-              *ngIf="modalMode === ModalMode.UPDATE"
-            ></button>
-          </div>
-        </form>
+  <form [formGroup]="form" (ngSubmit)="send()" *appLet="loading$ | async as loading">
+    <div class="grid p-fluid mt-1">
+      <div *appLet="'name' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-12 lg:col-12 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
       </div>
-    </p-tabPanel>
-  </p-tabView>
+      <div
+        *appLet="'description' as field"
+        appLoading
+        [appIsLoading]="loading"
+        class="xs:col-12 md:col-12 lg:col-12 mt-3"
+      >
+        <span class="p-float-label">
+          <textarea [id]="field" [formControlName]="field" class="p-inputtext-sm" pInputTextarea></textarea>
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+    </div>
+    <app-entity-modal-buttons
+      [loading]="loading"
+      [form]="form"
+      [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
+      [modalMode]="modalMode"
+      (cancel)="hide()"
+      (submit)="send()"
+    ></app-entity-modal-buttons>
+    <app-entity-modal-audit
+      [loading]="loading"
+      [entity]="entity$ | async"
+      [modalMode]="modalMode"
+    ></app-entity-modal-audit>
+  </form>
 </p-dialog>

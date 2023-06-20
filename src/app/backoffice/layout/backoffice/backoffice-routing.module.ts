@@ -44,7 +44,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: certificateTypeNames.kebabCase.plural.normal,
+        path: certificateTypeNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
         loadChildren: () =>
           import(`@app/backoffice/tablas/certificate-types/certificate-types.module`).then(
             (m) => m.CertificateTypesModule,

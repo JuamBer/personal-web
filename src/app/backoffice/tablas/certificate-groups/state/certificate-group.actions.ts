@@ -1,12 +1,8 @@
-import { Injectable } from '@angular/core';
 import { CommonAction } from '@app/shared/state/common/common.actions';
 import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { CertificateGroup } from '../models/certificate-group.model';
 import { certificateGroupNames } from './certificate-group.names';
 
-@Injectable({
-  providedIn: 'root',
-})
 export class CertificateGroupActions extends CommonAction<CertificateGroup> {
   private static instance: CertificateGroupActions;
 

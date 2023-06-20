@@ -1,26 +1,28 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CertificateTypeComponent } from './certificate-type/certificate-type.component';
+import {
+  CertificateTypeListComponent,
+  certificateTypeListTitleResolver,
+} from './certificate-type-list/certificate-type-list.component';
+import {
+  CertificateTypeModalComponent,
+  certificateTypeModalTitleResolver,
+} from './certificate-type-modal/certificate-type-modal.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CertificateTypeComponent,
-    canActivate: [],
-    pathMatch: 'full',
-  },
-  {
-    path: 'modal/:modalMode',
-    component: CertificateTypeComponent,
-    canActivate: [],
-  },
-  {
-    path: 'modal/:modalMode/:id',
-    component: CertificateTypeComponent,
-    canActivate: [],
+    title: certificateTypeListTitleResolver,
+    component: CertificateTypeListComponent,
+    children: [
+      {
+        path: 'modal',
+        title: certificateTypeModalTitleResolver,
+        component: CertificateTypeModalComponent,
+      },
+    ],
   },
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

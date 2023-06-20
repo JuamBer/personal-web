@@ -7,7 +7,7 @@
       | lowercase
       | translate
         : {
-            name: 'tables.certificateGroup.singular' | translate
+            name: 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.singular' | translate
           }
   "
   [modal]="true"

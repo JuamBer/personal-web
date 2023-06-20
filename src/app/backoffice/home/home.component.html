@@ -65,11 +65,9 @@
       <app-entity-card
         [show]="true"
         [loading]="false"
-        title="{{
-          'tables.' + name.camelCase.singular + '.plural' | translate
-        }}"
+        title="{{ 'tables.' + name + '.plural' | translate }}"
         count="{{ null }}"
-        [url]="'backoffice/' + name.kebabCase.plural.normal"
+        [url]="'backoffice/' + name"
         [icon]=""
       ></app-entity-card>
     </div>

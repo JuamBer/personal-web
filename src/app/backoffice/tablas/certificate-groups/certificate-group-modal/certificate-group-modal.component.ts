@@ -14,9 +14,9 @@ import { Observable, Subject, from } from 'rxjs';
 import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
 import { CertificateGroup, CertificateGroupFormGroup } from '../models/certificate-group.model';
 import { CertificateGroupService } from '../services/certificate-group.service';
-import { CertificateGroupActions } from '../state/certificate-group.actions';
+import { certificateGroupActions } from '../state/certificate-group.actions';
 import { certificateGroupNames } from '../state/certificate-group.names';
-import { CertificateGroupReducer } from '../state/certificate-group.reducer';
+import { certificateGroupReducer } from '../state/certificate-group.reducer';
 
 export const certificateGroupModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
@@ -38,8 +38,6 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
   private route = inject(ActivatedRoute);
   private store = inject(Store);
   private fb = inject(FormBuilder);
-  private certificateGroupActions = inject(CertificateGroupActions);
-  private certificateGroupReducer = inject(CertificateGroupReducer);
 
   visible = true;
   form: CertificateGroupFormGroup = this.fb.group({
@@ -54,30 +52,28 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
     map((params) => params as ModalParams),
   );
   loading$: Observable<boolean> = this.store
-    .select(this.certificateGroupReducer.getLoading)
+    .select(certificateGroupReducer.getLoading)
     .pipe(takeUntil(this.unsubscribe$));
   modalMode$: Observable<ModalMode> = this.params$.pipe(
     takeUntil(this.unsubscribe$),
     map((params) => ModalMode[params.modalMode]),
   );
-  entity$: Observable<CertificateGroup> = this.store.select(this.certificateGroupReducer.getOne).pipe(
+  entity$: Observable<CertificateGroup> = this.store.select(certificateGroupReducer.getOne).pipe(
     takeUntil(this.unsubscribe$),
     filter((entity) => !!entity),
   );
-  message$: Observable<ToastMessage> = this.store.select(this.certificateGroupReducer.getMessage).pipe(
+  message$: Observable<ToastMessage> = this.store.select(certificateGroupReducer.getMessage).pipe(
     takeUntil(this.unsubscribe$),
     filter((i) => !!i),
   );
-  action$: Observable<Action> = this.store.select(this.certificateGroupReducer.getAction).pipe(
+  action$: Observable<Action> = this.store.select(certificateGroupReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
     filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
   );
 
   ngOnInit(): void {
-    this.params$.subscribe((params) =>
-      this.store.dispatch(this.certificateGroupActions.loadOne({ id: Number(params.id) })),
-    );
+    this.params$.subscribe((params) => this.store.dispatch(certificateGroupActions.loadOne({ id: Number(params.id) })));
     this.action$.subscribe(() => {
       this.hide();
     });
@@ -99,7 +95,7 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
   }
 
   hide() {
-    this.store.dispatch(this.certificateGroupActions.unload());
+    this.store.dispatch(certificateGroupActions.unload());
     this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }
 
@@ -110,10 +106,10 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(this.certificateGroupActions.create({ payload: this.form.value }));
+            this.store.dispatch(certificateGroupActions.create({ payload: this.form.value }));
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(this.certificateGroupActions.update({ payload: this.form.value }));
+            this.store.dispatch(certificateGroupActions.update({ payload: this.form.value }));
             break;
         }
       });
