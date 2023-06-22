@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { PositionState } from '@app/backoffice/tablas/positions/state/position.state';
-import { SkillType } from '@app/backoffice/tablas/skill-types/models/skill-type.model';
-import { skillTypeActions } from '@app/backoffice/tablas/skill-types/state/skill-type.actions';
-import { skillTypeReducer } from '@app/backoffice/tablas/skill-types/state/skill-type.reducer';
-import { SkillTypeState } from '@app/backoffice/tablas/skill-types/state/skill-type.state';
-import { Skill } from '@app/backoffice/tablas/skills/models/skill.model';
-import { skillActions } from '@app/backoffice/tablas/skills/state/skill.actions';
-import { skillReducer } from '@app/backoffice/tablas/skills/state/skill.reducer';
-import { SkillState } from '@app/backoffice/tablas/skills/state/skill.state';
+import { PositionState } from '@app/backoffice/tables/position/state/position.state';
+import { SkillType } from '@app/backoffice/tables/skill-type/models/skill-type.model';
+import { skillTypeActions } from '@app/backoffice/tables/skill-type/state/skill-type.actions';
+import { skillTypeReducer } from '@app/backoffice/tables/skill-type/state/skill-type.reducer';
+import { SkillTypeState } from '@app/backoffice/tables/skill-type/state/skill-type.state';
+import { Skill } from '@app/backoffice/tables/skill/models/skill.model';
+import { skillActions } from '@app/backoffice/tables/skill/state/skill.actions';
+import { skillReducer } from '@app/backoffice/tables/skill/state/skill.reducer';
+import { SkillState } from '@app/backoffice/tables/skill/state/skill.state';
 import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
 import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';
@@ -22,15 +22,9 @@ import { filter, map } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   skills$: Observable<Skill[]> = this.skillStore.select(skillReducer.getAll);
-  loadingSkills$: Observable<boolean> = this.skillStore.select(
-    skillReducer.getLoading,
-  );
-  skillTypes$: Observable<SkillType[]> = this.skillTypeStore.select(
-    skillTypeReducer.getAll,
-  );
-  loadingSkillTypes$: Observable<boolean> = this.skillTypeStore.select(
-    skillTypeReducer.getLoading,
-  );
+  loadingSkills$: Observable<boolean> = this.skillStore.select(skillReducer.getLoading);
+  skillTypes$: Observable<SkillType[]> = this.skillTypeStore.select(skillTypeReducer.getAll);
+  loadingSkillTypes$: Observable<boolean> = this.skillTypeStore.select(skillTypeReducer.getLoading);
   rrss: any[] = [
     {
       name: 'GitHub',
@@ -74,9 +68,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     this.skillTypes$.subscribe((skillTypes) => {
       if (!skillTypes.length) {
-        this.skillTypeStore.dispatch(
-          skillTypeActions.loadAll({ payload: null }),
-        );
+        this.skillTypeStore.dispatch(skillTypeActions.loadAll({ payload: null }));
       }
     });
   }

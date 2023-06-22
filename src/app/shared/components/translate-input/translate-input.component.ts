@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Language } from '@app/backoffice/tablas/languages/models/language.model';
+import { Language } from '@app/backoffice/tables/languages/models/language.model';
 import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
 import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';
@@ -30,10 +30,7 @@ export class TranslateInputComponent implements OnInit {
     translations: this.formBuilder.array([]),
   });
 
-  constructor(
-    private publicLanguageStore: Store<PublicLanguageState>,
-    private formBuilder: FormBuilder,
-  ) {}
+  constructor(private publicLanguageStore: Store<PublicLanguageState>, private formBuilder: FormBuilder) {}
 
   onHide() {
     Object.values(this.form.controls).forEach((control) => {
@@ -56,30 +53,25 @@ export class TranslateInputComponent implements OnInit {
     });
     this.form.valueChanges.subscribe((textContent: TextContent) => {
       this.translateInputChange.emit({
-        actualTranslation: textContent.translations.find(
-          (t) => t.language.acronym === this.publicLanguage?.siglas,
-        )?.translation,
+        actualTranslation: textContent.translations.find((t) => t.language.acronym === this.publicLanguage?.siglas)
+          ?.translation,
         translateInput: textContent,
         valid: this.form.valid,
       });
     });
 
-    this.publicLanguageStore
-      .select(publicLanguageReducer.getAll)
-      .subscribe((languages) => {
-        this.languages = languages;
-        this.languages.forEach((language) => {
-          const translation = this.value?.translations.find(
-            (t) => t.language.acronym === language.acronym,
-          );
-          const languageForm = this.formBuilder.group({
-            id: [translation?.id],
-            language: [language, [Validators.required]],
-            translation: [translation?.translation, [Validators.required]],
-          });
-          this.translations.push(languageForm);
+    this.publicLanguageStore.select(publicLanguageReducer.getAll).subscribe((languages) => {
+      this.languages = languages;
+      this.languages.forEach((language) => {
+        const translation = this.value?.translations.find((t) => t.language.acronym === language.acronym);
+        const languageForm = this.formBuilder.group({
+          id: [translation?.id],
+          language: [language, [Validators.required]],
+          translation: [translation?.translation, [Validators.required]],
         });
+        this.translations.push(languageForm);
       });
+    });
     this.publicLanguageStore
       .select(publicLanguageReducer.getOne)
       .pipe(take(1))
@@ -94,9 +86,7 @@ export class TranslateInputComponent implements OnInit {
   }
 
   getTraduction(language: string) {
-    const translation = this.value.translations.find(
-      (translation) => translation.language.acronym === language,
-    );
+    const translation = this.value.translations.find((translation) => translation.language.acronym === language);
     if (translation) {
       return translation.translation;
     }
@@ -104,8 +94,7 @@ export class TranslateInputComponent implements OnInit {
 
   getActualTranslationControl() {
     return this.translations.controls.find(
-      (translationForm) =>
-        translationForm.get('language').value.siglas === this.language.acronym,
+      (translationForm) => translationForm.get('language').value.siglas === this.language.acronym,
     );
   }
   getActualTranslationInvalid() {

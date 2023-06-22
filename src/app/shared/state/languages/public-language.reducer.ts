@@ -1,4 +1,4 @@
-import { Language } from '@app/backoffice/tablas/languages/models/language.model';
+import { Language } from '@app/backoffice/tables/language/models/language.model';
 import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
 import { defaultCommonState } from '../common/common-state';
@@ -10,21 +10,23 @@ export const initialState: PublicLanguageState = {
   ...(defaultCommonState as PublicLanguageState),
   entities: [
     {
-      id: 1,
+      id: '3f6c8b38-cf14-4305-9450-2286a1d0c777',
       nativeName: 'Español',
       name: 'Spanish',
       acronym: 'es',
       active: true,
+      createdAt: new Date(),
     },
     {
-      id: 2,
+      id: '6e69d213-dc8f-447e-80c5-ba99bcc4c809',
       nativeName: 'English',
       name: 'English',
       acronym: 'en',
       active: true,
+      createdAt: new Date(),
     },
   ],
-  selectedId: 1,
+  selectedId: '3f6c8b38-cf14-4305-9450-2286a1d0c777',
 };
 const otherReducers: ReducerTypes<any, any>[] = [];
 class PublicLanguageReducer extends CommonReducer<Language, PublicLanguageState> {

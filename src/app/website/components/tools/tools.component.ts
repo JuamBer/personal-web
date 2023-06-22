@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Skill } from '@app/backoffice/tablas/skills/models/skill.model';
+import { Skill } from '@app/backoffice/tables/skill/models/skill.model';
 
 @Component({
   selector: 'app-tools',

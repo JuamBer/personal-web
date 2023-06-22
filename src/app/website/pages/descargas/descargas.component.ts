@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Mount } from '@app/backoffice/tablas/mounts/models/mount.model';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -9,7 +8,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./descargas.component.scss'],
 })
 export class DescargaComponent implements OnInit {
-  mounts: Mount[] = [];
+  mounts: any[] = [];
 
   constructor(private http: HttpClient) {}
 

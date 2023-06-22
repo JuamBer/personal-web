@@ -9,42 +9,21 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () =>
-          import('./pages/home/home.module').then((m) => m.HomeModule),
+        loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
       },
-      {
-        path: 'hardware',
-        loadChildren: () =>
-          import('./pages/hardware/hardware.module').then(
-            (m) => m.HardwareModule,
-          ),
-      },
-      {
-        path: 'proyects',
-        loadChildren: () =>
-          import('./pages/proyects/proyects.module').then(
-            (m) => m.ProyectsModule,
-          ),
-      },
+
       {
         path: 'blog',
-        loadChildren: () =>
-          import('./pages/blog/blog.module').then((m) => m.BlogModule),
+        loadChildren: () => import('./pages/blog/blog.module').then((m) => m.BlogModule),
       },
 
       {
         path: 'certificates',
-        loadChildren: () =>
-          import('./pages/certificates/certificates.module').then(
-            (m) => m.CertificatesModule,
-          ),
+        loadChildren: () => import('./pages/certificates/certificates.module').then((m) => m.CertificatesModule),
       },
       {
         path: 'descargas',
-        loadChildren: () =>
-          import('./pages/descargas/descargas.module').then(
-            (m) => m.DescargaModule,
-          ),
+        loadChildren: () => import('./pages/descargas/descargas.module').then((m) => m.DescargaModule),
       },
       {
         path: '',

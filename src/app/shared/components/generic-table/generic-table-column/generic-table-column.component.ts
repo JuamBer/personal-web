@@ -10,6 +10,16 @@ export class GenericTableColumnComponent<T> {
   @Input() field: GenericFieldConfig<T>;
   @Input() value: T;
 
+  get data(): any {
+    let result = this.value;
+    const spplitedField = this.field.field.split('.');
+    for (const field of spplitedField) {
+      result = result[field];
+    }
+
+    return result;
+  }
+
   get GenericFieldType() {
     return GenericFieldType;
   }

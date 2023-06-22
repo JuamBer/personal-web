@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Curriculum } from '@app/backoffice/tablas/curriculums/models/curriculum.model';
-import { Language } from '@app/backoffice/tablas/languages/models/language.model';
+import { Curriculum } from '@app/backoffice/tables/curriculum/models/curriculum.model';
+import { Language } from '@app/backoffice/tables/language/models/language.model';
 import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
 import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';

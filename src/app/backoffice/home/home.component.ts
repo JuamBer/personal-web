@@ -6,8 +6,12 @@ import { PublicLanguageState } from '@app/shared/state/languages/public-language
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
-import { certificateGroupNames } from '../tablas/certificate-groups/state/certificate-group.names';
-import { certificateTypeNames } from '../tablas/certificate-types/state/certificate-type.names';
+import { certificateGroupNames } from '../tables/certificate-group/state/certificate-group.names';
+import { certificateTypeNames } from '../tables/certificate-type/state/certificate-type.names';
+import { certificateNames } from '../tables/certificate/state/certificate.names';
+import { companyNames } from '../tables/company/state/company.names';
+import { curriculumNames } from '../tables/curriculum/state/curriculum.names';
+import { languageNames } from '../tables/language/state/language.names';
 
 export interface Menu {
   name: string;
@@ -21,8 +25,21 @@ export interface Menu {
 })
 export class HomeComponent implements OnInit {
   names: string[] = [
+    certificateGroupNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+    certificateTypeNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+    certificateNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+    companyNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+    curriculumNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+    languageNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+  ];
+
+  urls: string[] = [
     certificateGroupNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     certificateTypeNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+    certificateNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+    companyNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+    curriculumNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+    languageNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
   ];
   constructor(
     private translateSrv: TranslateService,

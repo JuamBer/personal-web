@@ -1,0 +1,71 @@
+<p-dialog
+  *appLet="modalMode$ | async as modalMode"
+  [draggable]="false"
+  [resizable]="false"
+  [header]="
+    'buttons.' + modalMode
+      | lowercase
+      | translate
+        : {
+            name: 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.singular' | translate
+          }
+  "
+  [modal]="true"
+  [(visible)]="visible"
+  (onHide)="hide()"
+  [style]="{ width: '100%', maxWidth: '40rem' }"
+>
+  <form [formGroup]="form" (ngSubmit)="send()" *appLet="loading$ | async as loading">
+    <div class="grid p-fluid mt-1">
+      <div *appLet="'name' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-6 lg:col-6 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'nativeName' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-6 lg:col-6 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'acronym' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-6 lg:col-6 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div *appLet="'active' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-6 lg:col-6 mt-3">
+        <div class="w-full flex align-items-center gap-3">
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
+            <span class="error">{{ form.controls[field] | errors | async }}</span>
+          </label>
+          <p-inputSwitch [inputId]="field" [formControlName]="field"></p-inputSwitch>
+        </div>
+      </div>
+    </div>
+    <app-entity-modal-buttons
+      [loading]="loading"
+      [form]="form"
+      [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
+      [modalMode]="modalMode"
+      (cancel)="hide()"
+      (submit)="send()"
+    ></app-entity-modal-buttons>
+    <app-entity-modal-audit
+      [loading]="loading"
+      [entity]="entity$ | async"
+      [modalMode]="modalMode"
+    ></app-entity-modal-audit>
+  </form>
+</p-dialog>

@@ -23,12 +23,12 @@ export class CommonService<T> {
     return error ? error : snakeCaseToCamelCase(data);
   }
 
-  async getTitle(id: number): Promise<T> {
+  async getTitle(id: string): Promise<T> {
     const { data, error } = await this.supabase.from(this.table).select(this.titleSelection).match({ id }).single();
     return error ? error : snakeCaseToCamelCase(data);
   }
 
-  async getOne(id: number): Promise<T> {
+  async getOne(id: string): Promise<T> {
     const { data, error } = await this.supabase.from(this.table).select(this.getOneSelection).match({ id }).single();
 
     return error ? error : snakeCaseToCamelCase(data);
@@ -51,7 +51,7 @@ export class CommonService<T> {
     return error ? error : data;
   }
 
-  async delete(id: number) {
+  async delete(id: string) {
     const { data, error } = await this.supabase.from(this.table).delete().match({ id });
 
     return error ? error : data;

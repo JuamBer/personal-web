@@ -1,14 +1,20 @@
 <div class="app-generic-table-column" [ngSwitch]="field.type">
   <ng-container *ngSwitchCase="GenericFieldType.TEXT">
-    {{ value[field.field] }}
+    {{ data }}
   </ng-container>
   <ng-container *ngSwitchCase="GenericFieldType.DATE">
-    {{ value[field.field] | date : 'dd/MM/yyyy' }}
+    {{ data | date : 'dd/MM/yyyy' }}
   </ng-container>
   <ng-container *ngSwitchCase="GenericFieldType.DATETIME">
-    {{ value[field.field] | date : 'dd/MM/yyyy HH:mm' }}
+    {{ data | date : 'dd/MM/yyyy HH:mm' }}
   </ng-container>
   <ng-container *ngSwitchCase="GenericFieldType.IMAGE">
-    <img [src]="value[field.field]" [alt]="field.label" />
+    <img [src]="data" [alt]="field.label" />
+  </ng-container>
+  <ng-container *ngSwitchCase="GenericFieldType.BOOLEAN">
+    <i class="pi" [ngClass]="{ 'pi-check': data, 'pi-times': !data }"></i>
+  </ng-container>
+  <ng-container *ngSwitchCase="GenericFieldType.PERCENTAGE">
+    {{ data + '%' }}
   </ng-container>
 </div>

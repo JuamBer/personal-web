@@ -1,0 +1,18 @@
+<div class="ui-g">
+  <div class="p-col-12">
+    <div class="card card-w-title">
+      <h1>
+        {{ 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.plural' | translate }}
+      </h1>
+      <app-generic-table
+        [entities]="entities$ | async"
+        [loading]="loading$ | async"
+        [count]="count$ | async"
+        [config]="tableConfig$ | async"
+        (lazyLoadEvent)="onLazyLoadEvent($event)"
+        (tableEvent)="onTableEvent($event)"
+      ></app-generic-table>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

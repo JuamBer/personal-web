@@ -1,4 +1,4 @@
-import { Language } from '@app/backoffice/tablas/languages/models/language.model';
+import { Language } from '@app/backoffice/tables/languages/models/language.model';
 
 export interface Translation {
   id: number;

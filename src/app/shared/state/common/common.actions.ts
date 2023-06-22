@@ -27,7 +27,7 @@ export abstract class CommonAction<T> {
   loadAllFail = createAction('[' + this.entityName + '] Load All Fail', props<{ error: any }>());
 
   //LOAD ONE
-  loadOne = createAction('[' + this.entityName + '] Load One', props<{ id: number }>());
+  loadOne = createAction('[' + this.entityName + '] Load One', props<{ id: number | string }>());
 
   loadOneSuccess = createAction('[' + this.entityName + '] Load One Success', props<{ payload: any }>());
 
@@ -48,9 +48,9 @@ export abstract class CommonAction<T> {
   updateFail = createAction('[' + this.entityName + '] Update Fail', props<{ error: any }>());
 
   //DELETE
-  delete = createAction('[' + this.entityName + '] Delete', props<{ id: number }>());
+  delete = createAction('[' + this.entityName + '] Delete', props<{ id: number | string }>());
 
-  deleteSuccess = createAction('[' + this.entityName + '] Delete Success', props<{ id: number }>());
+  deleteSuccess = createAction('[' + this.entityName + '] Delete Success', props<{ id: number | string }>());
 
   deleteFail = createAction('[' + this.entityName + '] Delete Fail', props<{ error: any }>());
 

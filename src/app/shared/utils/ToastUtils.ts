@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Language } from '@app/backoffice/tablas/languages/models/language.model';
+import { Language } from '@app/backoffice/tables/language/models/language.model';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';

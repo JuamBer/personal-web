@@ -24,7 +24,7 @@ export interface Action {
 }
 export interface CommonState<T> {
   entities: T[];
-  selectedId: number;
+  selectedId: number | string;
   count: number;
   loading: boolean;
   requestFilter: RequestFilter;

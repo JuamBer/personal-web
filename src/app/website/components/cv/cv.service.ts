@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Language } from '@app/backoffice/tablas/languages/models/language.model';
+import { Language } from '@app/backoffice/tables/language/models/language.model';
+import { supabaseClient } from '@app/shared/services/auth.service';
 import { snakeCaseToCamelCase } from '@app/shared/utils/SupabaseUtils';
-import { environment } from '@env/environment';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ export class CVService {
   supabase: SupabaseClient;
 
   constructor() {
-    this.supabase = createClient(environment.apiUrl, environment.apiKey);
+    this.supabase = supabaseClient;
   }
 
   async getCV(language: Language) {

@@ -1,73 +1,12 @@
 <div class="grid dashboard p-2">
-  <!-- <i class="fa-solid fa-user"></i> -->
-  <!-- <div *ngIf="!(loading$ | async); else skeleton" class="w-full">
-    <div
-      class="grid dashboard col-12 p-1 xs:col-12 lg:col-12"
-      *ngFor="let menu of menus$ | async"
-    >
-      <div class="w-100 grid" *ngIf="menu.menus.length">
-        <div class="xs:col-12 lg:col-12">
-          <app-group-title
-            [show]="true"
-            [loading]="false"
-            [title]="menu.nombre"
-          >
-          </app-group-title>
-          <div class="grid dashboard">
-            <div *ngFor="let submenu of menu.menus" class="xs:col-12 lg:col-3">
-              <app-entity-card
-                [show]="true"
-                [loading]="false"
-                title="{{ submenu.nombre }}"
-                count="{{ null }}"
-                [url]="submenu.ruta"
-                [icon]="submenu.icono"
-              ></app-entity-card>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <!-- <ng-template #skeleton>
-    <div
-      class="grid dashboard col-12 p-1 xs:col-12 lg:col-12"
-      *ngFor="let menu of [1, 1, 1]"
-    >
-      <div class="w-100 grid">
-        <div class="xs:col-12 lg:col-12">
-          <app-group-title [show]="true" [loading]="true" [title]="''">
-          </app-group-title>
-          <br />
-          <div class="grid dashboard">
-            <div
-              *ngFor="let submenu of [1, 1, 1, 1]"
-              class="xs:col-12 lg:col-3"
-            >
-              <app-entity-card
-                [show]="true"
-                [loading]="true"
-                title="''"
-                count="{{ null }}"
-                [url]="''"
-                [icon]="''"
-              ></app-entity-card>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-</div> -->
-
   <div class="grid dashboard">
-    <div *ngFor="let name of names" class="xs:col-12 lg:col-3">
+    <div *ngFor="let name of names; let index = index" class="xs:col-12 lg:col-3">
       <app-entity-card
         [show]="true"
         [loading]="false"
         title="{{ 'tables.' + name + '.plural' | translate }}"
         count="{{ null }}"
-        [url]="'backoffice/' + name"
+        [url]="'backoffice/' + urls[index]"
         [icon]=""
       ></app-entity-card>
     </div>

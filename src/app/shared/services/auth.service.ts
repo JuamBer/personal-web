@@ -9,6 +9,8 @@ export interface Profile {
   website: string;
   avatar_url: string;
 }
+
+export const supabaseClient = createClient(environment.apiUrl, environment.apiKey);
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private supabase: SupabaseClient;
@@ -17,13 +19,9 @@ export class AuthService {
   private currentUser: BehaviorSubject<User | boolean> | any = new BehaviorSubject(null);
 
   constructor() {
-    console.log('environment: ', environment);
-
-    this.supabase = createClient(environment.apiUrl, environment.apiKey);
+    this.supabase = supabaseClient;
 
     this.supabase.auth.onAuthStateChange((event, sess) => {
-      console.log('onAuthStateChange(): ', event);
-
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         if (sess) this.currentUser.next(sess.user);
       } else {

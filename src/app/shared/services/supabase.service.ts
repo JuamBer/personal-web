@@ -1,15 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  AuthChangeEvent,
-  AuthSession,
-  createClient,
-  Session,
-  SupabaseClient,
-  User,
-} from '@supabase/supabase-js';
+import { AuthChangeEvent, AuthSession, Session, SupabaseClient, User } from '@supabase/supabase-js';
 import { from, interval } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { supabaseClient } from './auth.service';
 
 export interface Profile {
   id?: string;
@@ -26,7 +19,7 @@ export class SupabaseService {
   _session: AuthSession | null = null;
 
   constructor() {
-    this.supabase = createClient(environment.apiUrl, environment.apiKey);
+    this.supabase = supabaseClient;
   }
 
   get session() {
@@ -37,31 +30,23 @@ export class SupabaseService {
   }
 
   profile(user: User) {
-    return this.supabase
-      .from('profiles')
-      .select(`username, website, avatar_url`)
-      .eq('id', user.id)
-      .single();
+    return this.supabase.from('profiles').select(`username, website, avatar_url`).eq('id', user.id).single();
   }
 
-  authChanges(
-    callback: (event: AuthChangeEvent, session: Session | null) => void,
-  ) {
+  authChanges(callback: (event: AuthChangeEvent, session: Session | null) => void) {
     return this.supabase.auth.onAuthStateChange(callback);
   }
 
   getCurrentUser() {
-    return interval(2000).pipe(
-      switchMap(() =>
-        from(this.supabase.auth.getUser()).pipe(map((user) => user)),
-      ),
-    );
+    return interval(2000).pipe(switchMap(() => from(this.supabase.auth.getUser()).pipe(map((user) => user))));
   }
 
   signIn(email: string) {
-    return this.supabase.auth.signInWithOtp({ email });
+    return this.supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: `http://localhost:4201/backoffice` },
+    });
   }
-
   signOut() {
     return this.supabase.auth.signOut();
   }

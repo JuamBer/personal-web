@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Language } from '@app/backoffice/tablas/languages/models/language.model';
-import { environment } from '@env/environment';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Language } from '@app/backoffice/tables/language/models/language.model';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { supabaseClient } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class StorageService {
   private supabase: SupabaseClient;
 
   constructor() {
-    this.supabase = createClient(environment.apiUrl, environment.apiKey);
+    this.supabase = supabaseClient;
   }
 
   private generateCurriculumName(language: Language) {
@@ -26,9 +26,7 @@ export class StorageService {
     );
   }
   async uploadCurriculumFile(language: Language, curriculum: File) {
-    return await this.supabase.storage
-      .from('curriculums')
-      .upload(this.generateCurriculumName(language), curriculum);
+    return await this.supabase.storage.from('curriculums').upload(this.generateCurriculumName(language), curriculum);
   }
 
   async downloadCurriculumFile(path: string) {

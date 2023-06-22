@@ -3,6 +3,7 @@ import { LazyLoadEvent } from 'primeng/api';
 export enum GenericFieldType {
   TEXT = 'TEXT',
   NUMBER = 'NUMBER',
+  PERCENTAGE = 'PERCENTAGE',
   DATE = 'DATE',
   TIME = 'TIME',
   DATETIME = 'DATETIME',
