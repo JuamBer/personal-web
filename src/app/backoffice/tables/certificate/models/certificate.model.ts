@@ -1,5 +1,6 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { AuditFields, CertificateGroup } from '../../certificate-group/models/certificate-group.model';
+import { AuditFields } from '@app/shared/models/audit-fields.model';
+import { CertificateGroup } from '../../certificate-group/models/certificate-group.model';
 import { CertificateType } from '../../certificate-type/models/certificate-type.model';
 import { Company } from '../../company/models/company.model';
 

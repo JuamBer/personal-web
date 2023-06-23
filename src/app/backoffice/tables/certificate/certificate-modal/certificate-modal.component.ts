@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
-//CERTIFICATE
 import { EntityModal } from '@app/backoffice/models/entity-modal.model';
 import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
 import { ActionStatus, ActionType } from '@app/shared/state/common/common-state';

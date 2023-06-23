@@ -16,6 +16,7 @@ export const initialState: PublicLanguageState = {
       acronym: 'es',
       active: true,
       createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: '6e69d213-dc8f-447e-80c5-ba99bcc4c809',
@@ -24,6 +25,7 @@ export const initialState: PublicLanguageState = {
       acronym: 'en',
       active: true,
       createdAt: new Date(),
+      updatedAt: new Date(),
     },
   ],
   selectedId: '3f6c8b38-cf14-4305-9450-2286a1d0c777',

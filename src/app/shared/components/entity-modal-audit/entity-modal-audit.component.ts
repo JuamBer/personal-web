@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { AuditFields } from '@app/backoffice/tables/certificate-group/models/certificate-group.model';
+import { AuditFields } from '@app/shared/models/audit-fields.model';
 import { ModalMode } from '@app/shared/models/modal-config/modal-mode';
 
 @Component({

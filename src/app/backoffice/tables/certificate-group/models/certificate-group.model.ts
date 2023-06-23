@@ -1,9 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
+import { AuditFields } from '@app/shared/models/audit-fields.model';
 import { Certificate } from '../../certificate/models/certificate.model';
 
-export interface AuditFields {
-  createdAt: Date;
-}
 export interface CertificateGroup extends AuditFields {
   id: string;
   name: string;

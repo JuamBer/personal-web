@@ -1,5 +1,5 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { AuditFields } from '../../certificate-group/models/certificate-group.model';
+import { AuditFields } from '@app/shared/models/audit-fields.model';
 import { Company } from '../../company/models/company.model';
 
 export interface Position extends AuditFields {
