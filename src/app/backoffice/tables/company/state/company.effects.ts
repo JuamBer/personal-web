@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CommonEffect } from '@app/shared/state/common/common.effects';
 import { Actions } from '@ngrx/effects';
+import { CommonEffect } from 'src/app/shared/state/common/common.effects';
 import { Company } from '../models/company.model';
 import { CompanyService } from '../services/company.service';
 import { companyActions } from './company.actions';

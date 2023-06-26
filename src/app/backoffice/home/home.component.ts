@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
-import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
-import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
 import { certificateGroupNames } from '../tables/certificate-group/state/certificate-group.names';
 import { certificateTypeNames } from '../tables/certificate-type/state/certificate-type.names';
 import { certificateNames } from '../tables/certificate/state/certificate.names';

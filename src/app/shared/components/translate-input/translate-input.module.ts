@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { LanguagesModule } from '@app/shared/modules/languages.module';
-import { PipesModule } from '@app/shared/modules/pipes.module';
-import { PrimeNgModule } from '@app/shared/modules/primeng.module';
 import { SidebarModule } from 'primeng/sidebar';
+import { PipesModule } from 'src/app/shared/modules/pipes.module';
+import { PrimeNgModule } from 'src/app/shared/modules/primeng.module';
+import { LanguagesModule } from '../../modules/languages.module';
 import { LanguageSelectModule } from '../language-select/language-select.module';
 import { TranslateInputComponent } from './translate-input.component';
 

@@ -1,3 +1,3 @@
-import { CommonNamess } from '@app/shared/state/common/common.names';
+import { CommonNames } from 'src/app/shared/state/common/common.names';
 
-export const skillTypeNames = new CommonNamess('skill-type', 'skill-types');
+export const skillTypeNames = new CommonNames('skill-type', 'skill-types');

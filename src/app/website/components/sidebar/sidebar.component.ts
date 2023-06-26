@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
-import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,17 +12,12 @@ import { TranslateService } from '@ngx-translate/core';
 export class SidebarComponent implements OnInit {
   pages: any[] = [];
 
-  constructor(
-    private publicLanguageStore: Store<PublicLanguageState>,
-    private translateSrv: TranslateService,
-  ) {}
+  constructor(private publicLanguageStore: Store<PublicLanguageState>, private translateSrv: TranslateService) {}
 
   ngOnInit(): void {
-    this.publicLanguageStore
-      .select(publicLanguageReducer.getOne)
-      .subscribe((language) => {
-        if (language) this.translateSrv.use(language.acronym);
-      });
+    this.publicLanguageStore.select(publicLanguageReducer.getOne).subscribe((language) => {
+      if (language) this.translateSrv.use(language.acronym);
+    });
 
     this.translateSrv.onLangChange.subscribe((lang) => {
       this.loadPage();

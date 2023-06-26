@@ -1,10 +1,6 @@
-import * as fromRoot from '@app/shared/state/app-state';
-import {
-  createFeatureSelector,
-  createReducer,
-  createSelector,
-  on,
-} from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import * as fromRoot from 'src/app/shared/state/app-state';
+import { Naming, NumberMode } from '../common/common.names';
 import { AccountActions } from './account.actions';
 import { accountNames } from './account.names';
 
@@ -50,25 +46,13 @@ export const accountReducer = createReducer(
 );
 
 const getAccountFetureState = createFeatureSelector<AccountState>(
-  accountNames.kebabCase.singular.normal,
+  accountNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
 );
 
-export const getUsuario = createSelector(
-  getAccountFetureState,
-  (state: AccountState) => state.user,
-);
+export const getUsuario = createSelector(getAccountFetureState, (state: AccountState) => state.user);
 
-export const isLoaded = createSelector(
-  getAccountFetureState,
-  (state: AccountState) => state.loaded,
-);
+export const isLoaded = createSelector(getAccountFetureState, (state: AccountState) => state.loaded);
 
-export const isLoading = createSelector(
-  getAccountFetureState,
-  (state: AccountState) => state.loading,
-);
+export const isLoading = createSelector(getAccountFetureState, (state: AccountState) => state.loading);
 
-export const getError = createSelector(
-  getAccountFetureState,
-  (state: AccountState) => state.error,
-);
+export const getError = createSelector(getAccountFetureState, (state: AccountState) => state.error);

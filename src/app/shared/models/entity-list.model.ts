@@ -1,7 +1,7 @@
-import { GenericTableConfig } from '@app/shared/components/generic-table/models/generic-table.models';
-import { CommonNamess, Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { LazyLoadEvent } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { GenericTableConfig } from 'src/app/shared/components/generic-table/models/generic-table.models';
+import { CommonNames, Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 
 export interface EntityList<T> {
   entities$: Observable<T[]>;
@@ -13,5 +13,5 @@ export interface EntityList<T> {
   onTableEvent: (event: any) => void;
   get NumberMode(): typeof NumberMode;
   get Naming(): typeof Naming;
-  get names(): CommonNamess;
+  get names(): CommonNames;
 }

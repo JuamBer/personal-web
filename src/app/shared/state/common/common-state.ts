@@ -1,7 +1,3 @@
-import { RequestFilter } from '@app/shared/models/request-filter';
-import { ToastMessage } from '@app/shared/models/toast-message';
-import { environment } from '@env/environment';
-
 export enum ActionType {
   COUNT = 'COUNT',
   LOAD_ONE = 'LOAD_ONE',
@@ -24,11 +20,9 @@ export interface Action {
 }
 export interface CommonState<T> {
   entities: T[];
-  selectedId: number | string;
+  selectedId: string;
   count: number;
   loading: boolean;
-  requestFilter: RequestFilter;
-  message: ToastMessage | null | undefined;
   action: Action;
 }
 
@@ -37,7 +31,5 @@ export const defaultCommonState: CommonState<unknown> = {
   selectedId: undefined,
   count: 0,
   loading: false,
-  requestFilter: environment.defaultRequestFilter,
-  message: undefined,
   action: undefined,
 };

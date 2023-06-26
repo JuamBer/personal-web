@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
-import { EntityList } from '@app/backoffice/models/entity-list.model';
-import {
-  GenericFieldType,
-  GenericTableConfig,
-  TableEvent,
-  TableEventType,
-} from '@app/shared/components/generic-table/models/generic-table.models';
-import { ModalMode } from '@app/shared/models/modal-config/modal-mode';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
-import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
 import { environment } from '@env/environment';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { Observable, Subject, filter, startWith } from 'rxjs';
+import {
+  GenericFieldType,
+  GenericTableConfig,
+  TableEvent,
+  TableEventType,
+} from 'src/app/shared/components/generic-table/models/generic-table.models';
+import { EntityList } from 'src/app/shared/models/entity-list.model';
+import { ModalMode } from 'src/app/shared/models/modal-mode';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { Company } from '../models/company.model';
 import { companyActions } from '../state/company.actions';
 import { companyNames } from '../state/company.names';

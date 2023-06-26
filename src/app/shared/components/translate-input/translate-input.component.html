@@ -1,6 +1,5 @@
-<br />
 <div class="translate-input" [ngClass]="{ textarea: type === 'TEXTAREA' }">
-  <div class="p-inputgroup">
+  <div class="p-inputgroup translation-input-preview">
     <p-dropdown appendTo="body" [options]="languages" [(ngModel)]="language">
       <ng-template pTemplate="selectedItem">
         <div class="language-item language-item-value" *ngIf="language">
@@ -19,20 +18,24 @@
         </div>
       </ng-template>
     </p-dropdown>
+    <span class="p-float-label">
+      <input
+        (input)="onActualTranslationChange($event)"
+        type="text"
+        [value]="getActualTranslation()"
+        pInputText
+        class="p-inputtext-sm"
+        [ngClass]="{
+          'ng-invalid': getActualTranslationInvalid(),
+          'ng-dirty': getActualTranslationDirty()
+        }"
+      />
+      <label>{{ label }} </label>
+    </span>
 
-    <input
-      (input)="onActualTranslationChange($event)"
-      type="text"
-      [value]="getActualTranslation()"
-      pInputText
-      [placeholder]="'columns.' + fieldName | translate"
-      [ngClass]="{
-        'ng-invalid': getActualTranslationInvalid(),
-        'ng-dirty': getActualTranslationDirty()
-      }"
-    />
     <button
       type="button"
+      class="p-button-sm"
       pButton
       pRipple
       icon="pi pi-list"
@@ -40,53 +43,27 @@
     ></button>
   </div>
 
-  <p-sidebar
-    [visible]="visibility"
-    position="right"
-    [baseZIndex]="20000"
-    (onHide)="onHide()"
-  >
+  <p-sidebar [visible]="visibility" position="right" [baseZIndex]="20000" (onHide)="onHide()">
     <div class="pl-2">
       <h4>
-        {{
-          'general.translations'
-            | translate : { name: ('columns.' + fieldName | translate) }
-        }}
+        {{ 'general.translations' | translate : { name: label } }}
       </h4>
     </div>
     <div [formGroup]="form">
       <ng-container formArrayName="translations">
-        <div
-          *ngFor="let translationForm of translations?.controls; let i = index"
-          [formGroup]="translationForm"
-        >
-          <div class="xs:col-12 lg:col-12">
-            <div class="p-inputgroup">
+        <div *ngFor="let translationForm of translations?.controls; let i = index" [formGroup]="translationForm">
+          <div class="xs:col-12 lg:col-12 mt-3">
+            <div class="p-inputgroup translation-full-view">
               <span class="p-inputgroup-addon">
-                <span
-                  class=""
-                  [class]="
-                    'flag flag-' + translationForm.get('language').value.siglas
-                  "
-                ></span>
+                <span class="" [class]="'flag flag-' + translationForm.controls['language'].value.acronym"></span>
                 <div class="pl-1">
-                  <b>{{
-                    translationForm.get('language').value.siglas | uppercase
-                  }}</b>
+                  <b>{{ translationForm.controls['language'].value.acronym | uppercase }}</b>
                 </div>
               </span>
-
-              <input
-                type="text"
-                pInputText
-                [placeholder]="'columns.' + fieldName | translate"
-                formControlName="translation"
-                class="p-inputtext-sm"
-                [ngClass]="{
-                  'ng-invalid': translationForm.controls['translation'].invalid,
-                  'ng-dirty': translationForm.controls['translation'].dirty
-                }"
-              />
+              <span class="p-float-label">
+                <input type="text" pInputText [placeholder]="label" formControlName="value" class="p-inputtext-sm" />
+                <label>{{ label }}</label>
+              </span>
             </div>
           </div>
         </div>

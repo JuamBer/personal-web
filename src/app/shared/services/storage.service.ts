@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Language } from '@app/backoffice/tables/language/models/language.model';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { supabaseClient } from './auth.service';
 
 @Injectable({ providedIn: 'root' })

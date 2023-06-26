@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LanguageSelectModule } from '@app/shared/components/language-select/language-select.module';
-import { BasicModule } from '@app/shared/modules/basic.module';
-import { LanguagesModule } from '@app/shared/modules/languages.module';
-import { PrimeNgModule } from '@app/shared/modules/primeng.module';
+import { LanguageSelectModule } from 'src/app/shared/components/language-select/language-select.module';
+import { BasicModule } from 'src/app/shared/modules/basic.module';
+import { LanguagesModule } from 'src/app/shared/modules/languages.module';
+import { PrimeNgModule } from 'src/app/shared/modules/primeng.module';
 import { BackofficeRoutingModule } from './backoffice-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main/main.component';
@@ -24,14 +24,7 @@ import { SidebartabcontentComponent } from './sidebar/sidebartabcontent.componen
     MenuitemComponent,
     SidebartabcontentComponent,
   ],
-  imports: [
-    LanguageSelectModule,
-    LanguagesModule,
-    CommonModule,
-    BasicModule,
-    PrimeNgModule,
-    BackofficeRoutingModule,
-  ],
+  imports: [LanguageSelectModule, LanguagesModule, CommonModule, BasicModule, PrimeNgModule, BackofficeRoutingModule],
   providers: [],
   exports: [RouterModule],
 })

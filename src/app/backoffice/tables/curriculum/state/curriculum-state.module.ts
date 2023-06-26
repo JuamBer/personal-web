@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { CurriculumEffect } from './curriculum.effects';
 import { curriculumNames } from './curriculum.names';
 import { curriculumReducer } from './curriculum.reducer';

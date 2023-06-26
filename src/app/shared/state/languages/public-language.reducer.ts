@@ -1,7 +1,8 @@
-import { Language } from '@app/backoffice/tables/language/models/language.model';
-import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { CommonReducer } from 'src/app/shared/state/common/common.reducer';
 import { defaultCommonState } from '../common/common-state';
+import { Naming, NumberMode } from '../common/common.names';
 import { publicLanguageActions } from './public-language.actions';
 import { publicLanguageNames } from './public-language.names';
 import { PublicLanguageState } from './public-language.state';
@@ -35,7 +36,12 @@ class PublicLanguageReducer extends CommonReducer<Language, PublicLanguageState>
   private static instance: PublicLanguageReducer;
 
   private constructor() {
-    super(publicLanguageNames.kebabCase.plural.normal, publicLanguageActions, initialState, otherReducers);
+    super(
+      publicLanguageNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+      publicLanguageActions,
+      initialState,
+      otherReducers,
+    );
   }
 
   public static getInstance(): PublicLanguageReducer {

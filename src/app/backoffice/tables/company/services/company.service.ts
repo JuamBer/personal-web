@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { supabaseClient } from '@app/shared/services/auth.service';
-import { CommonService } from '@app/shared/services/common.service';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
+import { CommonService } from 'src/app/shared/services/common.service';
+
+import { supabaseClient } from 'src/app/shared/services/auth.service';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { Company } from '../models/company.model';
 import { companyNames } from '../state/company.names';
 @Injectable({

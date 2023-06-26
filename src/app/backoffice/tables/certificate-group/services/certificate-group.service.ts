@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CommonService } from '@app/shared/services/common.service';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
+import { CommonService } from 'src/app/shared/services/common.service';
+
 import { environment } from '@env/environment';
 import { createClient } from '@supabase/supabase-js';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { CertificateGroup } from '../models/certificate-group.model';
 import { certificateGroupNames } from '../state/certificate-group.names';
 @Injectable({

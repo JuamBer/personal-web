@@ -1,5 +1,5 @@
-import { CommonAction } from '@app/shared/state/common/common.actions';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
+import { CommonAction } from 'src/app/shared/state/common/common.actions';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { Skill } from '../models/skill.model';
 import { skillNames } from './skill.names';
 

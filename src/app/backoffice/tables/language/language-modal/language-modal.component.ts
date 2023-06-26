@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
-import { EntityModal } from '@app/backoffice/models/entity-modal.model';
-import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
-import { ToastMessage } from '@app/shared/models/toast-message';
-import { ActionStatus, ActionType } from '@app/shared/state/common/common-state';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
-import { FormUtils } from '@app/shared/utils/FormUtils';
-import { RouterUtils } from '@app/shared/utils/router.utils';
 import { Action, Store } from '@ngrx/store';
 import { Observable, Subject, from } from 'rxjs';
 import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { EntityModal } from 'src/app/shared/models/entity-modal.model';
+import { ModalMode } from 'src/app/shared/models/modal-mode';
+import { ModalParams } from 'src/app/shared/models/modal-params';
+import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { FormUtils } from 'src/app/shared/utils/form-utils';
+import { RouterUtils } from 'src/app/shared/utils/router.utils';
 import { Language, LanguageFormGroup } from '../models/language.model';
 import { LanguageService } from '../services/language.service';
 import { languageActions } from '../state/language.actions';
@@ -59,10 +59,6 @@ export class LanguageModalComponent implements OnInit, EntityModal<Language> {
   entity$: Observable<Language> = this.store.select(languageReducer.getOne).pipe(
     takeUntil(this.unsubscribe$),
     filter((entity) => !!entity),
-  );
-  message$: Observable<ToastMessage> = this.store.select(languageReducer.getMessage).pipe(
-    takeUntil(this.unsubscribe$),
-    filter((i) => !!i),
   );
   action$: Observable<Action> = this.store.select(languageReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),

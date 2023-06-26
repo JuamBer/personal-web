@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Language } from '@app/backoffice/tables/language/models/language.model';
-import { publicLanguageActions } from '@app/shared/state/languages/public-language.actions';
-import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
-import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { filter } from 'rxjs/operators';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { publicLanguageActions } from '../../state/languages/public-language.actions';
+import { publicLanguageReducer } from '../../state/languages/public-language.reducer';
+import { PublicLanguageState } from '../../state/languages/public-language.state';
 
 @Component({
   selector: 'app-language-select',

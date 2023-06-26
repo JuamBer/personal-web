@@ -7,9 +7,6 @@ export class FormUtils {
       asbtractControl.markAsDirty();
       asbtractControl.updateValueAndValidity();
     }
-    asbtractControl.markAsTouched();
-    asbtractControl.markAsDirty();
-    asbtractControl.updateValueAndValidity();
 
     if (asbtractControl instanceof FormGroup) {
       Object.entries(asbtractControl.controls).forEach(([key, asbtractControl]) => {

@@ -1,73 +1,49 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Language } from '@app/backoffice/tables/languages/models/language.model';
-import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
-import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { TextContent } from './models/text-content.model';
-import { TranslateInputEvent } from './models/translate-input-event.model';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
+import { FormUtils } from 'src/app/shared/utils/form-utils';
+import { TextContentFormGroup } from './models/text-content.model';
 import { TranslateInputType } from './models/translate-input-type.model';
 @Component({
   selector: 'app-translate-input',
   templateUrl: 'translate-input.component.html',
   styleUrls: ['translate-input.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class TranslateInputComponent implements OnInit {
+  @Input() textContentForm: TextContentFormGroup;
+  @Input() form: TextContentFormGroup;
+  @Input() type: TranslateInputType = TranslateInputType.INPUT;
+  @Input() label: string = '';
+
   visibility: boolean = false;
   languages: Language[] = [];
   language: Language;
   publicLanguage: Language;
-  errores: string[] = [];
-
-  @Input() fieldName: string;
-  @Input() type: TranslateInputType = TranslateInputType.INPUT;
-  @Input() value: TextContent;
-  @Output() translateInputChange = new EventEmitter<TranslateInputEvent>();
-
-  form: FormGroup = this.formBuilder.group({
-    id: [undefined],
-    translations: this.formBuilder.array([]),
-  });
 
   constructor(private publicLanguageStore: Store<PublicLanguageState>, private formBuilder: FormBuilder) {}
 
   onHide() {
-    Object.values(this.form.controls).forEach((control) => {
-      control.markAsDirty();
-    });
-    this.translations.controls.forEach((formGroup: FormGroup) => {
-      Object.values(formGroup.controls).forEach((control) => {
-        control.markAsDirty();
-      });
-    });
+    FormUtils.markAllAsDirtyAndTouched(this.form);
     if (this.form.valid) {
       this.changeVisibility(false);
     }
   }
 
   ngOnInit(): void {
-    this.form.patchValue({
-      id: this.value?.id,
-      translations: [],
-    });
-    this.form.valueChanges.subscribe((textContent: TextContent) => {
-      this.translateInputChange.emit({
-        actualTranslation: textContent.translations.find((t) => t.language.acronym === this.publicLanguage?.siglas)
-          ?.translation,
-        translateInput: textContent,
-        valid: this.form.valid,
-      });
-    });
-
     this.publicLanguageStore.select(publicLanguageReducer.getAll).subscribe((languages) => {
       this.languages = languages;
       this.languages.forEach((language) => {
-        const translation = this.value?.translations.find((t) => t.language.acronym === language.acronym);
+        const translation = this.form.value?.translations.find((t) => t.language.acronym === language.acronym);
         const languageForm = this.formBuilder.group({
           id: [translation?.id],
           language: [language, [Validators.required]],
-          translation: [translation?.translation, [Validators.required]],
+          value: [translation?.value, [Validators.required]],
         });
         this.translations.push(languageForm);
       });
@@ -86,15 +62,16 @@ export class TranslateInputComponent implements OnInit {
   }
 
   getTraduction(language: string) {
-    const translation = this.value.translations.find((translation) => translation.language.acronym === language);
+    const translation = this.form.value.translations.find((translation) => translation.language.acronym === language);
     if (translation) {
-      return translation.translation;
+      return translation.value;
     }
+    return null;
   }
 
   getActualTranslationControl() {
     return this.translations.controls.find(
-      (translationForm) => translationForm.get('language').value.siglas === this.language.acronym,
+      (translationForm) => translationForm.controls['language'].value.acronym === this.language.acronym,
     );
   }
   getActualTranslationInvalid() {
@@ -108,19 +85,19 @@ export class TranslateInputComponent implements OnInit {
 
   getActualTranslation() {
     const translation = this.getActualTranslationControl();
-    return translation.value.translation;
+    return translation?.value?.value;
   }
   onActualTranslationChange(event: any) {
     const translation = this.getActualTranslationControl();
     translation.patchValue({
       id: translation.value.id,
       language: translation.value.language,
-      translation: event.target.value,
+      value: event.target.value,
     });
     translation.markAsDirty();
   }
 
   get translations() {
-    return this.form.controls['translations'] as FormArray;
+    return this.form.controls['translations'] as FormArray<FormGroup>;
   }
 }

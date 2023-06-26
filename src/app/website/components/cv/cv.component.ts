@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Curriculum } from '@app/backoffice/tables/curriculum/models/curriculum.model';
-import { Language } from '@app/backoffice/tables/language/models/language.model';
-import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
-import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
+import { Curriculum } from 'src/app/backoffice/tables/curriculum/models/curriculum.model';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
 import { CVService } from './cv.service';
 
 @Component({

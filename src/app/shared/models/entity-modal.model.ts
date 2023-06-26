@@ -1,7 +1,8 @@
 import { FormGroup } from '@angular/forms';
-import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
-import { CommonNamess, Naming, NumberMode } from '@app/shared/state/common/common.names';
 import { Observable, Subject } from 'rxjs';
+import { ModalMode } from 'src/app/shared/models/modal-mode';
+import { ModalParams } from 'src/app/shared/models/modal-params';
+import { CommonNames, Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 
 export interface EntityModal<T> {
   visible: boolean;
@@ -15,5 +16,5 @@ export interface EntityModal<T> {
   send: () => void;
   get NumberMode(): typeof NumberMode;
   get Naming(): typeof Naming;
-  get names(): CommonNamess;
+  get names(): CommonNames;
 }

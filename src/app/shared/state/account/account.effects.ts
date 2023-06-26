@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from '@app/shared/services/auth.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { AccountActions } from './account.actions';
 
 @Injectable()
@@ -14,12 +14,8 @@ export class AccountEffect {
       ofType(AccountActions.loadUsuario),
       mergeMap(() =>
         of(this.accountSrv.session).pipe(
-          map((usuario: any) =>
-            AccountActions.loadUsuarioSuccess({ payload: usuario.user }),
-          ),
-          catchError((err) =>
-            of(AccountActions.loadUsuarioFail({ error: err })),
-          ),
+          map((usuario: any) => AccountActions.loadUsuarioSuccess({ payload: usuario.user })),
+          catchError((err) => of(AccountActions.loadUsuarioFail({ error: err }))),
         ),
       ),
     ),

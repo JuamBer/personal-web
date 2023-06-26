@@ -1,3 +1,3 @@
-import { CommonNamess } from '@app/shared/state/common/common.names';
+import { CommonNames } from 'src/app/shared/state/common/common.names';
 
-export const certificateNames = new CommonNamess('certificate', 'certificates');
+export const certificateNames = new CommonNames('certificate', 'certificates');

@@ -1,9 +1,8 @@
-import { RequestFilter } from '@app/shared/models/request-filter';
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { LazyLoadEvent } from 'primeng/api';
 import { Filter, FilterType } from '../components/generic-table/models/generic-table.models';
-import { camelCaseToSnakeCase, flatObjectsById, snakeCaseToCamelCase } from '../utils/SupabaseUtils';
+import { camelCaseToSnakeCase, flatObjectsById, snakeCaseToCamelCase } from '../utils/supabase-utils';
 
 export class CommonService<T> {
   constructor(
@@ -14,7 +13,7 @@ export class CommonService<T> {
     public titleSelection = 'name',
   ) {}
 
-  async getAll(lazyLoadEvent: RequestFilter | LazyLoadEvent) {
+  async getAll(lazyLoadEvent: LazyLoadEvent) {
     let request = this.supabase.from(this.table).select(this.getAllSelection);
     if (lazyLoadEvent && 'sortField' in lazyLoadEvent) {
       CommonService.applyFiltersAndSorting(request, lazyLoadEvent);

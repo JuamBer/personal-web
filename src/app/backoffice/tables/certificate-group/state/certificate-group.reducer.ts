@@ -1,7 +1,7 @@
-import { defaultCommonState } from '@app/shared/state/common/common-state';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
-import { CommonReducer } from '@app/shared/state/common/common.reducer';
 import { ReducerTypes } from '@ngrx/store';
+import { defaultCommonState } from 'src/app/shared/state/common/common-state';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { CommonReducer } from 'src/app/shared/state/common/common.reducer';
 import { CertificateGroup } from '../models/certificate-group.model';
 import { CertificateGroupActions, certificateGroupActions } from './certificate-group.actions';
 import { certificateGroupNames } from './certificate-group.names';

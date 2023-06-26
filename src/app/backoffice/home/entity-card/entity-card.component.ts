@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppState } from '@app/shared/state/app-state';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { AppState } from 'src/app/shared/state/app-state';
 
 @Component({
   selector: 'app-entity-card',
@@ -17,11 +17,7 @@ export class EntityCardComponent implements OnInit {
   @Input() url: string;
   @Input() count: string;
 
-  constructor(
-    private translateSrv: TranslateService,
-    private router: Router,
-    private store: Store<AppState>,
-  ) {}
+  constructor(private translateSrv: TranslateService, private router: Router, private store: Store<AppState>) {}
 
   ngOnInit(): void {}
 

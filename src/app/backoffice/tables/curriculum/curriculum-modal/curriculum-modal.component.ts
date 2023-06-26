@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
-import { EntityModal } from '@app/backoffice/models/entity-modal.model';
-import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
-import { ToastMessage } from '@app/shared/models/toast-message';
-import { StorageService } from '@app/shared/services/storage.service';
-import { ActionStatus, ActionType } from '@app/shared/state/common/common-state';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
-import { FormUtils } from '@app/shared/utils/FormUtils';
-import { RouterUtils } from '@app/shared/utils/router.utils';
 import { environment } from '@env/environment';
 import { Action, Store } from '@ngrx/store';
 import { Observable, Subject, from } from 'rxjs';
 import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { EntityModal } from 'src/app/shared/models/entity-modal.model';
+import { ModalMode } from 'src/app/shared/models/modal-mode';
+import { ModalParams } from 'src/app/shared/models/modal-params';
+import { StorageService } from 'src/app/shared/services/storage.service';
+import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { FormUtils } from 'src/app/shared/utils/form-utils';
+import { RouterUtils } from 'src/app/shared/utils/router.utils';
 import { Language } from '../../language/models/language.model';
 import { languageActions } from '../../language/state/language.actions';
 import { languageReducer } from '../../language/state/language.reducer';
@@ -65,10 +65,6 @@ export class CurriculumModalComponent implements OnInit, EntityModal<Curriculum>
   entity$: Observable<Curriculum> = this.store.select(curriculumReducer.getOne).pipe(
     takeUntil(this.unsubscribe$),
     filter((entity) => !!entity),
-  );
-  message$: Observable<ToastMessage> = this.store.select(curriculumReducer.getMessage).pipe(
-    takeUntil(this.unsubscribe$),
-    filter((i) => !!i),
   );
   action$: Observable<Action> = this.store.select(curriculumReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),

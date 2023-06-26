@@ -1,4 +1,3 @@
-import { ToastMessageType } from '@app/shared/models/toast-message';
 import { createFeatureSelector, createReducer, createSelector, on, ReducerTypes } from '@ngrx/store';
 import * as fromRoot from '../../../shared/state/app-state';
 import { ActionStatus, ActionType, CommonState } from './common-state';
@@ -37,10 +36,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
         loading: false,
         selectedId: payload.id,
         entities: entities,
-        message: {
-          type: ToastMessageType.LOAD_ONE,
-          error: null,
-        },
         action: {
           type: ActionType.LOAD_ONE,
           status: ActionStatus.SUCCESS,
@@ -50,10 +45,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
     on(this.actions.loadOneFail, (state, error) => ({
       ...state,
       loading: false,
-      message: {
-        type: ToastMessageType.ERROR,
-        error: error,
-      },
       action: {
         type: ActionType.LOAD_ONE,
         status: ActionStatus.ERROR,
@@ -85,10 +76,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
             return entity;
           }
         }),
-        message: {
-          type: ToastMessageType.LOAD_ALL,
-          error: null,
-        },
         action: {
           type: ActionType.LOAD_MANY,
           status: ActionStatus.SUCCESS,
@@ -98,10 +85,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
     on(this.actions.loadAllFail, (state, error) => ({
       ...state,
       loading: false,
-      message: {
-        type: ToastMessageType.ERROR,
-        error: error,
-      },
       action: {
         type: ActionType.LOAD_MANY,
         status: ActionStatus.ERROR,
@@ -123,10 +106,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
         loading: false,
         entities: [...state.entities, payload],
         count: state.count + 1,
-        message: {
-          type: ToastMessageType.CREATED,
-          error: null,
-        },
         action: {
           type: ActionType.CREATE_ONE,
           status: ActionStatus.SUCCESS,
@@ -136,10 +115,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
     on(this.actions.createFail, (state, error) => ({
       ...state,
       loading: false,
-      message: {
-        type: ToastMessageType.ERROR,
-        error: error,
-      },
       action: {
         type: ActionType.CREATE_ONE,
         status: ActionStatus.ERROR,
@@ -166,10 +141,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
             return i;
           }
         }),
-        message: {
-          type: ToastMessageType.UPDATED,
-          error: null,
-        },
         action: {
           type: ActionType.UPDATE_ONE,
           status: ActionStatus.SUCCESS,
@@ -179,10 +150,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
     on(this.actions.createFail, (state, error) => ({
       ...state,
       loading: false,
-      message: {
-        type: ToastMessageType.ERROR,
-        error: error,
-      },
       action: {
         type: ActionType.UPDATE_ONE,
         status: ActionStatus.ERROR,
@@ -210,10 +177,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
             return true;
           }
         }),
-        message: {
-          type: ToastMessageType.DELETED,
-          error: null,
-        },
         action: {
           type: ActionType.DELETE_ONE,
           status: ActionStatus.SUCCESS,
@@ -223,10 +186,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
     on(this.actions.deleteFail, (state, error) => ({
       ...state,
       loading: false,
-      message: {
-        type: ToastMessageType.ERROR,
-        error: error,
-      },
       action: {
         type: ActionType.DELETE_ONE,
         status: ActionStatus.ERROR,
@@ -247,10 +206,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
         ...state,
         loading: false,
         count: payload,
-        message: {
-          type: ToastMessageType.COUNT,
-          error: null,
-        },
         action: {
           type: ActionType.COUNT,
           status: ActionStatus.SUCCESS,
@@ -260,10 +215,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
     on(this.actions.countFail, (state, error) => ({
       ...state,
       loading: false,
-      message: {
-        type: ToastMessageType.ERROR,
-        error: error,
-      },
       action: {
         type: ActionType.COUNT,
         status: ActionStatus.ERROR,
@@ -274,11 +225,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
     on(this.actions.unload, (state) => ({
       ...state,
       selectedId: null,
-    })),
-
-    on(this.actions.requestFilterChange, (state, requestFilter) => ({
-      ...state,
-      requestFilter,
     })),
 
     ...this.reducers,
@@ -292,8 +238,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
   public getCount = createSelector(this.getCommonFetureState, (state: S) => state.count);
   public getAction = createSelector(this.getCommonFetureState, (state: S) => state.action);
   public getLoading = createSelector(this.getCommonFetureState, (state: S) => state.loading);
-  public getMessage = createSelector(this.getCommonFetureState, (state: S) => state.message);
-  public getRequestFilter = createSelector(this.getCommonFetureState, (state: S) => state.requestFilter);
 }
 namespace CommonReducer {
   export interface AppState extends fromRoot.AppState {

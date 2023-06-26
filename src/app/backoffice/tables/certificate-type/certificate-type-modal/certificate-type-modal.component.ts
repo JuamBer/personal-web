@@ -1,15 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
-import { EntityModal } from '@app/backoffice/models/entity-modal.model';
-import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
-import { Action, ActionStatus, ActionType } from '@app/shared/state/common/common-state';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
-import { FormUtils } from '@app/shared/utils/FormUtils';
-import { RouterUtils } from '@app/shared/utils/router.utils';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, from } from 'rxjs';
 import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { initialTextContentFormGroup } from 'src/app/shared/components/translate-input/models/text-content.model';
+import { TranslateInputType } from 'src/app/shared/components/translate-input/models/translate-input-type.model';
+import { TranslateInputService } from 'src/app/shared/components/translate-input/services/translate-input.service';
+import { EntityModal } from 'src/app/shared/models/entity-modal.model';
+import { ModalMode } from 'src/app/shared/models/modal-mode';
+import { ModalParams } from 'src/app/shared/models/modal-params';
+import { Action, ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { FormUtils } from 'src/app/shared/utils/form-utils';
+import { RouterUtils } from 'src/app/shared/utils/router.utils';
 import { CertificateType, CertificateTypeFormGroup } from '../models/certificate-type.model';
 import { CertificateTypeService } from '../services/certificate-type.service';
 import { certificateTypeActions } from '../state/certificate-type.actions';
@@ -36,11 +40,13 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   private route = inject(ActivatedRoute);
   private store = inject(Store);
   private fb = inject(FormBuilder);
+  private translateInputService = inject(TranslateInputService);
 
   visible = true;
   form: CertificateTypeFormGroup = this.fb.group({
     name: this.fb.control<string | undefined>(undefined, [Validators.required]),
     description: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    nameTextContent: initialTextContentFormGroup,
   });
 
   unsubscribe$: Subject<boolean> = new Subject();
@@ -83,6 +89,7 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
         id: entity.id,
         name: entity.name,
         description: entity.description,
+        nameTextContent: entity.nameTextContent,
       });
     });
   }
@@ -122,5 +129,8 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   }
   get names() {
     return certificateTypeNames;
+  }
+  get TranslateInputType() {
+    return TranslateInputType;
   }
 }

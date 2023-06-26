@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SupabaseService } from '@app/shared/services/supabase.service';
-import { AppState } from '@app/shared/state/account/account.reducer';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { AppState } from 'src/app/shared/state/account/account.reducer';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private translateSrv: TranslateService,
-    private supabaseSrv: SupabaseService,
+    private supabaseSrv: AuthService,
     private accountStore: Store<AppState>,
   ) {}
 

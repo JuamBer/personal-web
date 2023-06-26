@@ -1,5 +1,5 @@
 .language-item {
-  display: flex;
+  display: flex !important;
   justify-content: flex-start;
   gap: 5px;
 
@@ -11,5 +11,29 @@
 
   .nombre {
     margin-bottom: 2.2px;
+  }
+}
+
+app-translate-input {
+  .translation-input-preview.p-inputgroup {
+    p-dropdown {
+      border-radius: 0.25rem 0 0 0.25rem;
+      max-width: 7.5em;
+    }
+    .p-float-label {
+      max-width: calc(100% - calc(7.5em + 3em));
+    }
+  }
+
+  .translation-full-view.p-inputgroup {
+    .p-inputgroup-addon {
+      min-width: 5em;
+      span {
+        min-width: 1.76rem;
+      }
+    }
+    .p-float-label {
+      width: 100%;
+    }
   }
 }

@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { CertificateGroup } from '@app/backoffice/tables/certificate-group/models/certificate-group.model';
-import { certificateGroupActions } from '@app/backoffice/tables/certificate-group/state/certificate-group.actions';
-import { certificateGroupReducer } from '@app/backoffice/tables/certificate-group/state/certificate-group.reducer';
-import { CertificateGroupState } from '@app/backoffice/tables/certificate-group/state/certificate-group.state';
-import { CertificateType } from '@app/backoffice/tables/certificate-type/models/certificate-type.model';
-import { certificateTypeReducer } from '@app/backoffice/tables/certificate-type/state/certificate-type.reducer';
-import { CertificateTypeState } from '@app/backoffice/tables/certificate-type/state/certificate-type.state';
-import { Certificate } from '@app/backoffice/tables/certificate/models/certificate.model';
-import { certificateReducer } from '@app/backoffice/tables/certificate/state/certificate.reducer';
-import { CertificateState } from '@app/backoffice/tables/certificate/state/certificate.state';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
+import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
+import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
+import { CertificateGroupState } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.state';
+import { CertificateType } from 'src/app/backoffice/tables/certificate-type/models/certificate-type.model';
+import { certificateTypeReducer } from 'src/app/backoffice/tables/certificate-type/state/certificate-type.reducer';
+import { CertificateTypeState } from 'src/app/backoffice/tables/certificate-type/state/certificate-type.state';
+import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
+import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
+import { CertificateState } from 'src/app/backoffice/tables/certificate/state/certificate.state';
 import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOptions } from 'swiper';
 
 Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);

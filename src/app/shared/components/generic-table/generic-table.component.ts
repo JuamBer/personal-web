@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { ObjectUtils } from '@app/shared/utils/object.utils';
 import { environment } from '@env/environment';
 import { LazyLoadEvent } from 'primeng/api';
+import { ObjectUtils } from 'src/app/shared/utils/object.utils';
 import { FilterEvent, GenericTableConfig, SortEvent, TableEvent } from './models/generic-table.models';
 
 @Component({

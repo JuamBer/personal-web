@@ -1,3 +1,3 @@
-import { CommonNamess } from '@app/shared/state/common/common.names';
+import { CommonNames } from 'src/app/shared/state/common/common.names';
 
-export const curriculumNames = new CommonNamess('curriculum', 'curriculums');
+export const curriculumNames = new CommonNames('curriculum', 'curriculums');

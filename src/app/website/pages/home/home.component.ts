@@ -1,19 +1,20 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { PositionState } from '@app/backoffice/tables/position/state/position.state';
-import { SkillType } from '@app/backoffice/tables/skill-type/models/skill-type.model';
-import { skillTypeActions } from '@app/backoffice/tables/skill-type/state/skill-type.actions';
-import { skillTypeReducer } from '@app/backoffice/tables/skill-type/state/skill-type.reducer';
-import { SkillTypeState } from '@app/backoffice/tables/skill-type/state/skill-type.state';
-import { Skill } from '@app/backoffice/tables/skill/models/skill.model';
-import { skillActions } from '@app/backoffice/tables/skill/state/skill.actions';
-import { skillReducer } from '@app/backoffice/tables/skill/state/skill.reducer';
-import { SkillState } from '@app/backoffice/tables/skill/state/skill.state';
-import { publicLanguageReducer } from '@app/shared/state/languages/public-language.reducer';
-import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
+
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { PositionState } from 'src/app/backoffice/tables/position/state/position.state';
+import { SkillType } from 'src/app/backoffice/tables/skill-type/models/skill-type.model';
+import { skillTypeActions } from 'src/app/backoffice/tables/skill-type/state/skill-type.actions';
+import { skillTypeReducer } from 'src/app/backoffice/tables/skill-type/state/skill-type.reducer';
+import { SkillTypeState } from 'src/app/backoffice/tables/skill-type/state/skill-type.state';
+import { Skill } from 'src/app/backoffice/tables/skill/models/skill.model';
+import { skillActions } from 'src/app/backoffice/tables/skill/state/skill.actions';
+import { skillReducer } from 'src/app/backoffice/tables/skill/state/skill.reducer';
+import { SkillState } from 'src/app/backoffice/tables/skill/state/skill.state';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
 
 @Component({
   selector: 'app-home',

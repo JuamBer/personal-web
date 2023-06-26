@@ -1,24 +1,3 @@
-interface CaseType {
-  singular: string;
-  plural: string;
-}
-interface ScreamingCaseType {
-  singular: {
-    normal: string;
-    screaming: string;
-  };
-  plural: {
-    normal: string;
-    screaming: string;
-  };
-}
-export interface CommonNames {
-  camelCase: CaseType;
-  upperCamelCase: CaseType;
-  snakeCase: ScreamingCaseType;
-  kebabCase: ScreamingCaseType;
-}
-
 export enum NumberMode {
   SINGULAR = 'SINGULAR',
   PLURAL = 'PLURAL',
@@ -29,7 +8,7 @@ export enum Naming {
   KEBAB_CASE = 'KEBAB_CASE',
   PASCAL_CASE = 'PASCAL_CASE',
 }
-export class CommonNamess {
+export class CommonNames {
   constructor(private singularKebabCase: string, private pluralKebabCase: string) {}
 
   name(naming: Naming, number: NumberMode): string {
@@ -46,16 +25,16 @@ export class CommonNamess {
 
     switch (naming) {
       case Naming.CAMEL_CASE:
-        result = CommonNamess.toCamelCase(result);
+        result = CommonNames.toCamelCase(result);
         break;
       case Naming.KEBAB_CASE:
         result = result;
         break;
       case Naming.PASCAL_CASE:
-        result = CommonNamess.toPascalCase(result);
+        result = CommonNames.toPascalCase(result);
         break;
       case Naming.SNAKE_CASE:
-        result = CommonNamess.toSnakeCase(result);
+        result = CommonNames.toSnakeCase(result);
         break;
     }
 

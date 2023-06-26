@@ -40,6 +40,18 @@
           </label>
         </span>
       </div>
+      <div
+        *appLet="'nameTextContent' as field"
+        appLoading
+        [appIsLoading]="loading"
+        class="xs:col-12 md:col-12 lg:col-12 mt-3"
+      >
+        <app-translate-input
+          [type]="TranslateInputType.INPUT"
+          [form]="form.controls[field]"
+          [label]="'columns.name' | translate"
+        ></app-translate-input>
+      </div>
     </div>
     <app-entity-modal-buttons
       [loading]="loading"

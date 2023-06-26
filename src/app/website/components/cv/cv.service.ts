@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Language } from '@app/backoffice/tables/language/models/language.model';
-import { supabaseClient } from '@app/shared/services/auth.service';
-import { snakeCaseToCamelCase } from '@app/shared/utils/SupabaseUtils';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { supabaseClient } from 'src/app/shared/services/auth.service';
+import { snakeCaseToCamelCase } from 'src/app/shared/utils/supabase-utils';
 
 @Injectable({
   providedIn: 'root',

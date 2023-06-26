@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { BasicModule } from '@app/shared/modules/basic.module';
-import { PublicLanguageStateModule } from '@app/shared/state/languages/public-language-state.module';
 import { DropdownModule } from 'primeng/dropdown';
+import { BasicModule } from '../../modules/basic.module';
+import { PublicLanguageStateModule } from '../../state/languages/public-language-state.module';
 import { LanguageSelectComponent } from './language-select.component';
 
 @NgModule({

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Company } from '@app/backoffice/tables/company/models/company.model';
-import { Position } from '@app/backoffice/tables/position/models/position.model';
-import { positionActions } from '@app/backoffice/tables/position/state/position.actions';
-import { positionReducer } from '@app/backoffice/tables/position/state/position.reducer';
-import { PositionState } from '@app/backoffice/tables/position/state/position.state';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Company } from 'src/app/backoffice/tables/company/models/company.model';
+import { Position } from 'src/app/backoffice/tables/position/models/position.model';
+import { positionActions } from 'src/app/backoffice/tables/position/state/position.actions';
+import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
+import { PositionState } from 'src/app/backoffice/tables/position/state/position.state';
 
 export class PositionGroupedByCompany {
   company!: Company;

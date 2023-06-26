@@ -1,5 +1,3 @@
-import { ColumnMetadata } from '@app/shared/models/metadata/column-metadata';
-import { RequestFilter } from '@app/shared/models/request-filter';
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { LazyLoadEvent } from 'primeng/api';
@@ -7,20 +5,8 @@ import { LazyLoadEvent } from 'primeng/api';
 export abstract class CommonAction<T> {
   constructor(public entityName: string) {}
 
-  //LOAD ALL ENTITIES
-  loadMetadata = createAction('[' + this.entityName + '] Load Metadata');
-
-  loadMetadataSuccess = createAction(
-    '[' + this.entityName + '] Load Metadata Success',
-    props<{ payload: ColumnMetadata[] }>(),
-  );
-  loadMetadataFail = createAction('[' + this.entityName + '] Load Metadata Fail', props<{ error: any }>());
-
   //LOAD ALL
-  loadAll = createAction(
-    '[' + this.entityName + '] Load All',
-    props<{ payload?: RequestFilter | null | LazyLoadEvent }>(),
-  );
+  loadAll = createAction('[' + this.entityName + '] Load All', props<{ payload?: null | LazyLoadEvent }>());
 
   loadAllSuccess = createAction('[' + this.entityName + '] Load All Success', props<{ payload: any }>());
 
@@ -63,10 +49,4 @@ export abstract class CommonAction<T> {
 
   //CUSTOM
   unload = createAction('[' + this.entityName + '] Unload');
-
-  //CUSTOM
-  requestFilterChange = createAction(
-    '[' + this.entityName + '] RequestFilterChange',
-    props<{ requestFilter: RequestFilter }>(),
-  );
 }

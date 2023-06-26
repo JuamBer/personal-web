@@ -5,10 +5,9 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { SupabaseService } from './shared/services/supabase.service';
+import { AuthService } from './shared/services/auth.service';
 import { AppState } from './shared/state/account/account.reducer';
 import { PublicLanguageState } from './shared/state/languages/public-language.state';
-import { ToastUtils } from './shared/utils/ToastUtils';
 
 @Component({
   selector: 'app-root',
@@ -23,9 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private translateSrv: TranslateService,
     private publicLanguageStore: Store<PublicLanguageState>,
     private router: Router,
-    private toastUtils: ToastUtils,
     // private authService: AuthService,
-    private supabaseSrv: SupabaseService,
+    private supabaseSrv: AuthService,
 
     private accountStore: Store<AppState>,
   ) {}

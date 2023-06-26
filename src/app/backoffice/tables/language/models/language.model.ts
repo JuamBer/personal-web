@@ -1,5 +1,5 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { AuditFields } from '@app/shared/models/audit-fields.model';
+import { AuditFields } from 'src/app/shared/models/audit-fields.model';
 
 export interface Language extends AuditFields {
   id: string;

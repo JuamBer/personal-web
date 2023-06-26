@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 //CERTIFICATEGROUP
-import { EntityModal } from '@app/backoffice/models/entity-modal.model';
-import { ModalMode, ModalParams } from '@app/shared/models/modal-config/modal-mode';
-import { ToastMessage } from '@app/shared/models/toast-message';
-import { Action, ActionStatus, ActionType } from '@app/shared/state/common/common-state';
-import { Naming, NumberMode } from '@app/shared/state/common/common.names';
-import { FormUtils } from '@app/shared/utils/FormUtils';
-import { RouterUtils } from '@app/shared/utils/router.utils';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, from } from 'rxjs';
 import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { EntityModal } from 'src/app/shared/models/entity-modal.model';
+import { ModalMode } from 'src/app/shared/models/modal-mode';
+import { ModalParams } from 'src/app/shared/models/modal-params';
+import { Action, ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { FormUtils } from 'src/app/shared/utils/form-utils';
+import { RouterUtils } from 'src/app/shared/utils/router.utils';
 import { CertificateGroup, CertificateGroupFormGroup } from '../models/certificate-group.model';
 import { CertificateGroupService } from '../services/certificate-group.service';
 import { certificateGroupActions } from '../state/certificate-group.actions';
@@ -60,10 +60,6 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
   entity$: Observable<CertificateGroup> = this.store.select(certificateGroupReducer.getOne).pipe(
     takeUntil(this.unsubscribe$),
     filter((entity) => !!entity),
-  );
-  message$: Observable<ToastMessage> = this.store.select(certificateGroupReducer.getMessage).pipe(
-    takeUntil(this.unsubscribe$),
-    filter((i) => !!i),
   );
   action$: Observable<Action> = this.store.select(certificateGroupReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),

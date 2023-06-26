@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountState } from '@app/shared/state/account/account.reducer';
-import { PublicLanguageState } from '@app/shared/state/languages/public-language.state';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '@supabase/supabase-js';
 import { filter } from 'rxjs/operators';
+import { AccountState } from 'src/app/shared/state/account/account.reducer';
+import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
 import * as fromAccount from '../../../../shared/state/account/account.reducer';
 import { MainComponent } from '../main/main.component';
 @Component({

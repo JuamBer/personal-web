@@ -1,10 +1,9 @@
-//IONIC
-//AWESOME CORDOVA PLUGINS
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -17,7 +16,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AccountModule } from './backoffice/account/account.module';
 import { FormularioRecuperacionComponent } from './backoffice/autentificacion/formulario-recuperacion/formulario-recuperacion.component';
 import { LoginSuccessComponent } from './backoffice/autentificacion/login-success/login-success.component';
 import { LoginComponent } from './backoffice/autentificacion/login/login.component';
@@ -25,11 +23,9 @@ import { RecuperarPasswordComponent } from './backoffice/autentificacion/recuper
 import { BackofficeModule } from './backoffice/layout/backoffice/backoffice.module';
 import { MenuService } from './backoffice/layout/backoffice/sidebar/menu/menu.service';
 import { LanguageSelectModule } from './shared/components/language-select/language-select.module';
-import { LoadingDataModule } from './shared/components/loading-data/loading-data.module';
 import { LanguagesModule } from './shared/modules/languages.module';
 import { AccountStateModule } from './shared/state/account/account.module';
 import { PublicLanguageStateModule } from './shared/state/languages/public-language-state.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -57,7 +53,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     LanguageSelectModule,
     ReactiveFormsModule,
     LanguagesModule,
-    LoadingDataModule,
     AccountStateModule,
     PublicLanguageStateModule,
     StoreModule.forRoot({}, {}),
@@ -70,7 +65,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
-    AccountModule,
     BackofficeModule,
     FontAwesomeModule,
   ],

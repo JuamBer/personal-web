@@ -1,15 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  NgZone,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '@app/shared/services/auth.service';
 import { environment } from '@env/environment';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 enum MenuOrientation {
   STATIC,
@@ -72,11 +65,7 @@ export class MainComponent implements AfterViewInit, OnDestroy, OnInit {
 
   rippleMouseDown(e) {
     const parentNode = 'parentNode';
-    for (
-      let target = e.target;
-      target && target !== this;
-      target = target[parentNode]
-    ) {
+    for (let target = e.target; target && target !== this; target = target[parentNode]) {
       if (!this.isVisible(target)) {
         continue;
       }
@@ -121,13 +110,8 @@ export class MainComponent implements AfterViewInit, OnDestroy, OnInit {
       const inkEl = document.createElement('span');
       this.addClass(inkEl, 'ink');
 
-      if (
-        this.hasClass(element, 'ripplelink') &&
-        element.querySelector('span')
-      ) {
-        element
-          .querySelector('span')
-          .insertAdjacentHTML('afterend', "<span class='ink'></span>");
+      if (this.hasClass(element, 'ripplelink') && element.querySelector('span')) {
+        element.querySelector('span').insertAdjacentHTML('afterend', "<span class='ink'></span>");
       } else {
         element.appendChild(inkEl);
       }
@@ -154,9 +138,7 @@ export class MainComponent implements AfterViewInit, OnDestroy, OnInit {
     if (element.classList) {
       return element.classList.contains(className);
     } else {
-      return new RegExp('(^| )' + className + '( |$)', 'gi').test(
-        element.className,
-      );
+      return new RegExp('(^| )' + className + '( |$)', 'gi').test(element.className);
     }
   }
 
@@ -173,10 +155,7 @@ export class MainComponent implements AfterViewInit, OnDestroy, OnInit {
       element.classList.remove(className);
     } else {
       element.className = element.className.replace(
-        new RegExp(
-          '(^|\\b)' + className.split(' ').join('|') + '(\\b|$)',
-          'gi',
-        ),
+        new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'),
         ' ',
       );
     }
@@ -186,18 +165,8 @@ export class MainComponent implements AfterViewInit, OnDestroy, OnInit {
     const rect = el.getBoundingClientRect();
 
     return {
-      top:
-        rect.top +
-        (window.pageYOffset ||
-          document.documentElement.scrollTop ||
-          document.body.scrollTop ||
-          0),
-      left:
-        rect.left +
-        (window.pageXOffset ||
-          document.documentElement.scrollLeft ||
-          document.body.scrollLeft ||
-          0),
+      top: rect.top + (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0),
+      left: rect.left + (window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0),
     };
   }
 
@@ -211,23 +180,19 @@ export class MainComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngAfterViewInit() {
-    this.documentClickListener = this.renderer.listen(
-      'body',
-      'click',
-      (event) => {
-        if (!this.topbarItemClick) {
-          this.activeTopbarItem = null;
-          this.topbarMenuActive = false;
-        }
+    this.documentClickListener = this.renderer.listen('body', 'click', (event) => {
+      if (!this.topbarItemClick) {
+        this.activeTopbarItem = null;
+        this.topbarMenuActive = false;
+      }
 
-        if (!this.sidebarClick && (this.overlay || !this.isDesktop())) {
-          this.sidebarActive = false;
-        }
+      if (!this.sidebarClick && (this.overlay || !this.isDesktop())) {
+        this.sidebarActive = false;
+      }
 
-        this.topbarItemClick = false;
-        this.sidebarClick = false;
-      },
-    );
+      this.topbarItemClick = false;
+      this.sidebarClick = false;
+    });
   }
 
   onTabClick(event: Event, index: number) {

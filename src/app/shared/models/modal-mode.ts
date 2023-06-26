@@ -3,8 +3,3 @@ export enum ModalMode {
   UPDATE = 'UPDATE',
   VIEW = 'VIEW',
 }
-
-export interface ModalParams {
-  id?: string;
-  modalMode: string;
-}
