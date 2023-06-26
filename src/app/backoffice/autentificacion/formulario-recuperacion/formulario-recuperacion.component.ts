@@ -54,7 +54,6 @@ export class FormularioRecuperacionComponent implements OnInit {
         detail: error.message,
       });
     } else {
-      console.log(data);
       this.res = JSON.stringify(data);
       this.messageSrv.add({
         severity: 'success',

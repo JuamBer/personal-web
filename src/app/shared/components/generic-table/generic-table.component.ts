@@ -28,8 +28,6 @@ export class GenericTableComponent<T> {
   filters: FilterEvent<T>[] = [];
 
   onLazyLoad(event: LazyLoadEvent) {
-    console.log(event);
-
     if (!ObjectUtils.areObjectEquals(this.lazyLoadEventValue, event)) {
       this.lazyLoadEvent.emit(event);
       this.lazyLoadEventValue = event;

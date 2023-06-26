@@ -1,13 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
 @import './reset.scss';
-
-// @import '~bootstrap/dist/css/bootstrap.min.css';
 @import './assets/images/flags/flags.scss';
 
 @import './assets/sass/layout-cav.scss';
 @import 'primeng/resources/themes/lara-light-blue/theme.css';
 @import 'primeng/resources/primeng.css';
+
 @import './assets/sass/responsive_overrides.scss';
+
 @import 'swiper/scss';
 @import 'swiper/scss/navigation';
 @import 'swiper/scss/pagination';

@@ -60,8 +60,6 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
   }
 
   onLazyLoadEvent(event: LazyLoadEvent) {
-    console.log(event);
-
     this.store.dispatch(languageActions.loadAll({ payload: event }));
   }
 

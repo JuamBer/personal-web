@@ -25,10 +25,6 @@ export class RecuperarPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      console.log(params);
-    });
-
     this.form = this.formBuilder.group({
       correo: [undefined, Validators.required],
     });
@@ -48,7 +44,6 @@ export class RecuperarPasswordComponent implements OnInit {
         detail: error.message,
       });
     } else {
-      console.log(data);
       this.res = JSON.stringify(data);
       this.messageSrv.add({
         severity: 'success',

@@ -68,7 +68,6 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
   );
 
   ngOnInit(): void {
-    this.form.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(console.log);
     this.params$
       .pipe(filter((params) => !!params.id))
       .subscribe((params) => this.store.dispatch(certificateGroupActions.loadOne({ id: params.id })));

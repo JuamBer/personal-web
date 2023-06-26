@@ -99,18 +99,6 @@ export class CertificatesComponent implements OnInit {
   slideNext(certificateGroup: CertificateGroup) {
     const swiper = document.getElementById('.swiper' + certificateGroup.id) as unknown as Swiper;
     swiper.slideNext();
-    console.log(swiper.slideNext);
-
-    // this.tabIndexes = this.tabIndexes.for((tabIndex) => {
-    //   if (tabIndex.groupId === certificateGroup.id) {
-    //     return {
-    //       ...tabIndex,
-    //       value: tabIndex.value + 1,
-    //     };
-    //   } else {
-    //     return tabIndex;
-    //   }
-    // });
   }
   slidePrev(certificateGroup: CertificateGroup) {
     this.tabIndexes = this.tabIndexes.map((tabIndex) => {
@@ -125,9 +113,7 @@ export class CertificatesComponent implements OnInit {
     });
   }
 
-  navigationNext(event: any) {
-    console.log(event);
-  }
+  navigationNext(event: any) {}
 
   open(url: string) {
     window.open(url, '_blank');

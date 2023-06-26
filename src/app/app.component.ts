@@ -33,20 +33,5 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('Corriendo con la configuración: ', environment.name);
-
-    this.supabaseSrv.getCurrentUser().subscribe((user) => {
-      // console.log('getCurrentUser(): ', user);
-      // if (typeof user != 'boolean') {
-      //   this.accountStore.dispatch(
-      //     AccountActions.loadUsuarioSuccess({ payload: user }),
-      //   );
-      // }
-    });
-    this.supabaseSrv.authChanges((_, session) => {
-      // console.log('authChanges(): ', session);
-      // this.accountStore.dispatch(
-      //   AccountActions.loadUsuarioSuccess({ payload: session.user }),
-      // );
-    });
   }
 }

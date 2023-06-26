@@ -61,10 +61,7 @@ export const transformDates = (o: any) => {
     const n: any = {};
 
     Object.keys(o).forEach((key) => {
-      console.log(o[key]);
-
       if (o[key] instanceof Date) {
-        console.log('Date', o[key]);
         n[key] = (o[key] as Date).getTime();
       } else {
         n[key] = o[key];

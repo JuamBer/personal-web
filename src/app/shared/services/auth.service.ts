@@ -32,9 +32,7 @@ export class AuthService {
     // Trigger initial session load
     this.loadUser();
 
-    this.supabase.auth.onAuthStateChange((event, session) => {
-      // console.log(event, session);
-    });
+    this.supabase.auth.onAuthStateChange((event, session) => {});
   }
 
   async loadUser() {
