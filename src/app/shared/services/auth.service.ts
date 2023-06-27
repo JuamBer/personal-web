@@ -121,7 +121,7 @@ export class AuthService {
     return this.supabase.storage.from('avatars').upload(filePath, file);
   }
 
-  getCurrentUser(): Observable<User | boolean> {
+  getCurrentUser(): Observable<User> {
     return this.currentUser.asObservable();
   }
 

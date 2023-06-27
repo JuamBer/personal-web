@@ -1,14 +1,15 @@
-<div class="grid dashboard p-2">
-  <div class="grid dashboard">
-    <div *ngFor="let name of names; let index = index" class="xs:col-12 lg:col-3">
-      <app-entity-card
-        [show]="true"
-        [loading]="false"
-        title="{{ 'tables.' + name + '.plural' | translate }}"
-        count="{{ null }}"
-        [url]="'backoffice/' + urls[index]"
-        [icon]=""
-      ></app-entity-card>
-    </div>
+<div class="grid p-2">
+  <div *ngFor="let name of names; let index = index" class="xs:col-12 lg:col-3">
+    <app-entity-card
+      [show]="true"
+      [loading]="false"
+      title="{{ 'tables.' + name + '.plural' | translate }}"
+      count="{{ null }}"
+      [url]="'backoffice/' + urls[index]"
+      [icon]=""
+    ></app-entity-card>
+  </div>
+  <div class="charts col-12">
+    <p-chart type="line" [data]="data" [options]="options"></p-chart>
   </div>
 </div>

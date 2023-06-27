@@ -1,6 +1,23 @@
 <div class="language-select">
   <div class="languages">
+    <p-selectButton
+      *ngIf="type === 'select-button'"
+      [options]="languages"
+      [(ngModel)]="language"
+      [style]="{ width: '100%' }"
+    >
+      <ng-template let-language pTemplate="item">
+        <div class="language-item w-full">
+          <div class="banderita">
+            <span class="" [class]="'flag flag-' + language.acronym"></span>
+          </div>
+          <div class="nombre">{{ language.nativeName }}</div>
+        </div>
+      </ng-template>
+    </p-selectButton>
+
     <p-dropdown
+      *ngIf="type === 'dropdown'"
       styleClass="a"
       [style]="{ height: '100%' }"
       [options]="languages"

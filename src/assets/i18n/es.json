@@ -111,6 +111,7 @@
     "toastError": "ERR"
   },
   "buttons": {
+    "view": "Detalle {{name}}",
     "cancel": "Cancelar",
     "reset": "Limpiar",
     "detail": "Ver {{name}}",

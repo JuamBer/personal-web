@@ -50,6 +50,15 @@ export class CommonService<T> {
     return error ? error : data;
   }
 
+  async upsert(payload: T) {
+    const { data, error } = await this.supabase
+      .from(this.table)
+      .upsert(flatObjectsById(camelCaseToSnakeCase(payload)))
+      .select();
+
+    return error ? error : data;
+  }
+
   async delete(id: string) {
     const { data, error } = await this.supabase.from(this.table).delete().match({ id });
 

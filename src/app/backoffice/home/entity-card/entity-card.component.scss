@@ -1,8 +1,14 @@
-.entity-card-cs > span {
-  display: flex;
-  align-items: center;
+.entity-card {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  padding: 1em;
+  height: 4em;
+  cursor: pointer;
 
-  span {
-    margin-left: 0.5em;
+  .entity-card-name {
+    font-weight: normal;
+    font-size: 1.2em;
+    letter-spacing: 1px;
   }
 }

@@ -1,38 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ChartModule } from 'primeng/chart';
 import { SkeletonModule } from 'primeng/skeleton';
+import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
 import { EntityCardComponent } from './entity-card/entity-card.component';
-import { GroupTitleComponent } from './group-title/group-title.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/');
-}
 @NgModule({
-  declarations: [HomeComponent, EntityCardComponent, GroupTitleComponent],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-
-    SkeletonModule,
-
-    PipesModule,
-
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-      isolate: true,
-    }),
-  ],
+  declarations: [HomeComponent, EntityCardComponent],
+  imports: [CommonModule, HomeRoutingModule, SkeletonModule, PipesModule, LanguagesModule, ChartModule],
   exports: [RouterModule],
 })
 export class HomeModule {}

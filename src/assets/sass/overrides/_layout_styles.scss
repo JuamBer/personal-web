@@ -41,8 +41,8 @@
 }
 
 //backoffice
-.layout-wrapper {
-  &.layout-wrapper-menu-active .layout-sidebar {
+.primeng-layout-wrapper {
+  &.primeng-layout-wrapper-menu-active .layout-sidebar {
     width: calc(390px + 60px);
   }
 
@@ -111,37 +111,27 @@
   }
 }
 
-.layout-wrapper .topbar .topbar-menu > li > ul {
+.primeng-layout-wrapper .topbar .topbar-menu > li > ul {
   background: $primaryColor;
   right: -9px;
 }
 
-.layout-wrapper .topbar .topbar-menu > li > a:hover {
+.primeng-layout-wrapper .topbar .topbar-menu > li > a:hover {
   color: #000000;
 }
 
-.layout-wrapper
-  .topbar
-  .topbar-menu
-  > li.profile-item
-  a:hover
-  .profile-info
-  .topbar-item-name.profile-role {
+.primeng-layout-wrapper .topbar .topbar-menu > li.profile-item a:hover .profile-info .topbar-item-name.profile-role {
   font-size: 12px;
   color: $textColor;
 }
 
-.layout-wrapper
-  .layout-sidebar
-  .layout-tabmenu
-  .layout-tabmenu-contents
-  .layout-tabmenu-content {
+.primeng-layout-wrapper .layout-sidebar .layout-tabmenu .layout-tabmenu-contents .layout-tabmenu-content {
   height: 100%;
   display: none;
   overflow: scroll;
 }
 
-.layout-wrapper
+.primeng-layout-wrapper
   .layout-sidebar
   .layout-tabmenu
   .layout-tabmenu-contents

@@ -28,6 +28,7 @@ import { PositionStateModule } from './state/position-state.module';
     EntityModalButtonsModule,
     EntityModalAuditModule,
     CompanyStateModule,
+
     PipesModule,
   ],
 })

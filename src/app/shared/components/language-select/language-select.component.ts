@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
@@ -14,6 +14,7 @@ import { PublicLanguageState } from '../../state/languages/public-language.state
   styleUrls: ['language-select.component.scss'],
 })
 export class LanguageSelectComponent implements OnInit {
+  @Input() type: 'dropdown' | 'select-button' = 'dropdown';
   languages: Language[];
   language: Language;
 

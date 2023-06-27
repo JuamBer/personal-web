@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, startWith, take } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
-import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
-import { TextContentFormGroup } from './models/text-content.model';
+import { TextContentFormGroup, TranslationFormGroup } from './models/text-content.model';
 import { TranslateInputType } from './models/translate-input-type.model';
 @Component({
   selector: 'app-translate-input',
@@ -16,7 +15,10 @@ import { TranslateInputType } from './models/translate-input-type.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class TranslateInputComponent implements OnInit {
-  @Input() textContentForm: TextContentFormGroup;
+  textContentForm: TextContentFormGroup = this.fb.group({
+    translations: this.fb.array<TranslationFormGroup>([]),
+  });
+
   @Input() form: TextContentFormGroup;
   @Input() type: TranslateInputType = TranslateInputType.INPUT;
   @Input() label: string = '';
@@ -26,7 +28,7 @@ export class TranslateInputComponent implements OnInit {
   language: Language;
   publicLanguage: Language;
 
-  constructor(private publicLanguageStore: Store<PublicLanguageState>, private formBuilder: FormBuilder) {}
+  constructor(private store: Store, private fb: FormBuilder) {}
 
   onHide() {
     FormUtils.markAllAsDirtyAndTouched(this.form);
@@ -36,25 +38,45 @@ export class TranslateInputComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.publicLanguageStore.select(publicLanguageReducer.getAll).subscribe((languages) => {
+    this.form.valueChanges
+      .pipe(
+        startWith(this.form.value),
+        filter((i) => !!i),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+      )
+      .subscribe((value) => {
+        if (value?.id && !this.form.controls?.id) {
+          this.textContentForm.addControl('id', this.fb.control<string>(value.id, [Validators.required]));
+        }
+        this.textContentForm.patchValue(value);
+      });
+
+    this.textContentForm.valueChanges.subscribe((value) => {
+      console.log(value);
+
+      this.form.patchValue(value);
+      console.log(this.form.value);
+    });
+
+    this.store.select(publicLanguageReducer.getAll).subscribe((languages) => {
       this.languages = languages;
       this.languages.forEach((language) => {
         const translation = this.form.value?.translations.find((t) => t.language.acronym === language.acronym);
-        const languageForm = this.formBuilder.group({
-          id: [translation?.id],
+        const languageForm: TranslationFormGroup = this.fb.group({
           language: [language, [Validators.required]],
           value: [translation?.value, [Validators.required]],
         });
-        this.translations.push(languageForm);
+        if (translation?.id) {
+          languageForm.addControl('id', this.fb.control<string>(translation.id, [Validators.required]));
+        }
+        this.textContentForm.controls['translations'].push(languageForm);
       });
     });
-    this.publicLanguageStore
+    this.store
       .select(publicLanguageReducer.getOne)
       .pipe(take(1))
       .subscribe((language) => (this.language = language));
-    this.publicLanguageStore
-      .select(publicLanguageReducer.getOne)
-      .subscribe((language) => (this.publicLanguage = language));
+    this.store.select(publicLanguageReducer.getOne).subscribe((language) => (this.publicLanguage = language));
   }
 
   changeVisibility(visibility: boolean) {
@@ -90,14 +112,16 @@ export class TranslateInputComponent implements OnInit {
   onActualTranslationChange(event: any) {
     const translation = this.getActualTranslationControl();
     translation.patchValue({
-      id: translation.value.id,
       language: translation.value.language,
       value: event.target.value,
     });
+    if (translation.value?.id) {
+      translation.controls['id'].setValue(translation.value.id);
+    }
     translation.markAsDirty();
   }
 
   get translations() {
-    return this.form.controls['translations'] as FormArray<FormGroup>;
+    return this.textContentForm.controls['translations'] as FormArray<FormGroup>;
   }
 }

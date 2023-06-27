@@ -1,18 +1,8 @@
-<div
-  class="layout-wrapper"
-  [ngClass]="{
-    'layout-wrapper-menu-active': sidebarActive,
-    'layout-overlay-menu': overlay
-  }"
->
-  <app-topbar></app-topbar>
-
-  <app-sidebar></app-sidebar>
-
+<div class="layout-wrapper">
+  <app-header></app-header>
   <div class="layout-main">
     <div class="layout-main-content">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-<span *ngIf="ribbon" class="configuration">{{ ribbonText }}</span>

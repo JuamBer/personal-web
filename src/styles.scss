@@ -292,3 +292,38 @@ body {
 textarea {
   resize: vertical;
 }
+.p-datatable {
+  border-left: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #b1b1b1;
+}
+.p-sidebar,
+.p-sidebar-active,
+.p-sidebar-right {
+  max-width: 300px;
+  width: 100% !important;
+}
+.p-selectbutton {
+  display: flex;
+  width: 100%;
+
+  .p-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+}

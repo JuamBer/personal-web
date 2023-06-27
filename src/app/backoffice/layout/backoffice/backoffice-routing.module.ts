@@ -85,9 +85,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [],
   imports: [BasicModule, RouterModule.forChild(routes)],
-  providers: [],
   exports: [RouterModule],
 })
 export class BackofficeRoutingModule {}

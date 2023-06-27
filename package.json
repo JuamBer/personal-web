@@ -37,6 +37,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@supabase/supabase-js": "^2.15.0",
+    "chart.js": "^4.3.0",
     "font-awesome": "^4.7.0",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",

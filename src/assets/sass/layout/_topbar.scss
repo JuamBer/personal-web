@@ -1,4 +1,4 @@
-.layout-wrapper {
+.primeng-layout-wrapper {
   .topbar {
     position: fixed;
     width: 100%;
@@ -6,12 +6,9 @@
     height: 60px;
     box-sizing: border-box;
     z-index: 100;
-    -moz-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16),
-      0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16),
-      0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16),
-      0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    -moz-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 
     .logo {
       width: 60px;

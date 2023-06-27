@@ -21,7 +21,6 @@ import { LoginSuccessComponent } from './backoffice/autentificacion/login-succes
 import { LoginComponent } from './backoffice/autentificacion/login/login.component';
 import { RecuperarPasswordComponent } from './backoffice/autentificacion/recuperar-password/recuperar-password.component';
 import { BackofficeModule } from './backoffice/layout/backoffice/backoffice.module';
-import { MenuService } from './backoffice/layout/backoffice/sidebar/menu/menu.service';
 import { LanguageSelectModule } from './shared/components/language-select/language-select.module';
 import { LanguagesModule } from './shared/modules/languages.module';
 import { AccountStateModule } from './shared/state/account/account.module';
@@ -38,7 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormularioRecuperacionComponent,
     RecuperarPasswordComponent,
   ],
-  providers: [MenuService, MessageService, ConfirmationService, PrimeNGConfig],
+  providers: [MessageService, ConfirmationService, PrimeNGConfig],
   bootstrap: [AppComponent],
   imports: [
     ToastModule,

@@ -1,31 +1,79 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
-import { User } from '@supabase/supabase-js';
-import { filter } from 'rxjs/operators';
-import { AccountState } from 'src/app/shared/state/account/account.reducer';
-import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
-import * as fromAccount from '../../../../shared/state/account/account.reducer';
-import { MainComponent } from '../main/main.component';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
+import { Observable, debounceTime, map, startWith } from 'rxjs';
+import { AuthService } from 'src/app/shared/services/auth.service';
+
 @Component({
-  selector: 'app-topbar',
+  selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
-  user: User;
+export class HeaderComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  constructor(
-    public app: MainComponent,
-    private translateSrv: TranslateService,
-    private publicLanguageStore: Store<PublicLanguageState>,
-    private accountStore: Store<AccountState>,
-  ) {}
+  sidebarVisible = false;
+  user$ = this.authService.getCurrentUser() as Observable<any>;
 
-  ngOnInit(): void {
-    this.accountStore
-      .select(fromAccount.getUsuario)
-      .pipe(filter((i) => !!i))
-      .subscribe((user) => (this.user = user));
-  }
+  public breadcrumbs$: Observable<MenuItem[]> = this.router.events.pipe(
+    startWith(undefined),
+    debounceTime(200),
+    map(() => {
+      const splittedUrls = this.router.url.split('/');
+      const filteredSplittedUrls = splittedUrls.filter((i) => i !== '');
+      return filteredSplittedUrls.map((filteredSplittedUrl, index) => ({
+        label: filteredSplittedUrl,
+        routerLink: filteredSplittedUrls.slice(0, index + 1).join('/'),
+      }));
+    }),
+  );
+  menus = [
+    {
+      routerLink: '/backoffice/certificates',
+      icon: 'pi pi-fw pi-home',
+      label: 'Certificates',
+    },
+    {
+      routerLink: '/backoffice/certificate-types',
+      icon: 'pi pi-fw pi-users',
+      label: 'Certificate Types',
+    },
+    {
+      routerLink: '/backoffice/certificate-groups',
+      icon: 'pi pi-fw pi-user',
+      label: 'Certificate Groups',
+    },
+    {
+      routerLink: '/backoffice/companies',
+      icon: 'pi pi-fw pi-lock',
+      label: 'Companies',
+    },
+    {
+      routerLink: '/backoffice/curriculums',
+      icon: 'pi pi-fw pi-lock',
+      label: 'Curriculums',
+    },
+    {
+      routerLink: '/backoffice/languages',
+      icon: 'pi pi-fw pi-lock',
+      label: 'Languages',
+    },
+    {
+      routerLink: '/backoffice/positions',
+      icon: 'pi pi-fw pi-lock',
+      label: 'Positions',
+    },
+    {
+      routerLink: '/backoffice/skills',
+      icon: 'pi pi-fw pi-lock',
+      label: 'Skills',
+    },
+    {
+      routerLink: '/backoffice/skill-types',
+      icon: 'pi pi-fw pi-lock',
+      label: 'Skill Types',
+    },
+  ];
 }

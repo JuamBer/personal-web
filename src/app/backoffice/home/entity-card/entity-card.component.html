@@ -1,15 +1,10 @@
-<div
-  class="entity-card-cs card overview-box overview-box-2"
-  style="cursor: pointer"
-  (click)="goTo(url)"
-  *ngIf="!loading && show"
->
-  <span class="overview-box-name">
+<div class="entity-card" (click)="goTo(url)" *ngIf="!loading && show">
+  <span class="entity-card-name">
     <i style="font-size: 1.5rem" class="{{ icon }}"></i>
     <span>{{ title }}</span>
   </span>
-  <span class="overview-box-count"></span>
-  <span class="overview-box-badge" *ngIf="count">{{ count }}</span>
+  <span class="entity-card-count"></span>
+  <span class="entity-card-badge" *ngIf="count">{{ count }}</span>
 </div>
 
 <div #loadingSkeleton *ngIf="loading">

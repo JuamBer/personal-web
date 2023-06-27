@@ -1,16 +1,13 @@
-.layout-wrapper {
+.primeng-layout-wrapper {
   .layout-sidebar {
     position: fixed;
     top: 60px;
     width: 60px;
     background-color: $primaryColor;
     height: 100%;
-    -webkit-box-shadow: 0 0 28px 0 rgba(0, 0, 0, 0.24),
-      0 25px 55px 0 rgba(0, 0, 0, 0.19);
-    -moz-box-shadow: 0 0 28px 0 rgba(0, 0, 0, 0.24),
-      0 25px 55px 0 rgba(0, 0, 0, 0.19);
-    box-shadow: 0 0 28px 0 rgba(0, 0, 0, 0.24),
-      0 25px 55px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 0 28px 0 rgba(0, 0, 0, 0.24), 0 25px 55px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 0 28px 0 rgba(0, 0, 0, 0.24), 0 25px 55px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0 28px 0 rgba(0, 0, 0, 0.24), 0 25px 55px 0 rgba(0, 0, 0, 0.19);
     z-index: 100;
     @include transition(width 0.3s);
 
