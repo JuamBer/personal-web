@@ -1,6 +1,6 @@
 @media (min-width: 1025px) {
-  .layout-wrapper {
-    &.layout-wrapper-menu-active {
+  .primeng-layout-wrapper {
+    &.primeng-layout-wrapper-menu-active {
       .layout-sidebar {
         width: 310px;
 
@@ -11,7 +11,7 @@
         }
       }
 
-      .layout-main {
+      .primeng-layout-main {
         margin-left: 310px;
       }
 
@@ -21,8 +21,8 @@
     }
 
     &.layout-overlay-menu {
-      &.layout-wrapper-menu-active {
-        .layout-main {
+      &.primeng-layout-wrapper-menu-active {
+        .primeng-layout-main {
           margin-left: 65px;
         }
         .footer {
@@ -34,7 +34,7 @@
 }
 
 @media (max-width: 1024px) {
-  .layout-wrapper {
+  .primeng-layout-wrapper {
     .topbar {
       #topbar-menu-button {
         display: block;
@@ -198,7 +198,7 @@
       }
     }
 
-    &.layout-wrapper-menu-active {
+    &.primeng-layout-wrapper-menu-active {
       .layout-sidebar {
         width: 310px;
 
@@ -213,7 +213,7 @@
 }
 
 @media (max-width: 640px) {
-  .layout-wrapper {
+  .primeng-layout-wrapper {
     .topbar {
       .logo {
         width: 40px;
@@ -258,13 +258,13 @@
       }
     }
 
-    &.layout-wrapper-menu-active {
+    &.primeng-layout-wrapper-menu-active {
       .layout-sidebar {
         width: 290px;
       }
     }
 
-    .layout-main {
+    .primeng-layout-main {
       margin-left: 40px;
     }
 
