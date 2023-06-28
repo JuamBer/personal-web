@@ -47,7 +47,7 @@ export class PositionModalComponent implements OnInit, EntityModal<Position> {
     company: this.fb.control<Company | undefined>(undefined, [Validators.required]),
     description: this.fb.control<string | undefined>(undefined, [Validators.required]),
     dateFrom: this.fb.control<Date | undefined>(undefined, [Validators.required]),
-    dateTo: this.fb.control<Date | undefined>(undefined, [Validators.required]),
+    dateTo: this.fb.control<Date | undefined>(undefined),
   });
 
   unsubscribe$: Subject<boolean> = new Subject();

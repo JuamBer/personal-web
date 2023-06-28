@@ -11,6 +11,9 @@ import { certificateNames } from '../tables/certificate/state/certificate.names'
 import { companyNames } from '../tables/company/state/company.names';
 import { curriculumNames } from '../tables/curriculum/state/curriculum.names';
 import { languageNames } from '../tables/language/state/language.names';
+import { positionNames } from '../tables/position/state/position.names';
+import { skillTypeNames } from '../tables/skill-type/state/skill-type.names';
+import { skillNames } from '../tables/skill/state/skill.names';
 
 export interface Menu {
   name: string;
@@ -35,6 +38,9 @@ export class HomeComponent implements OnInit {
     companyNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
     curriculumNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
     languageNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+    positionNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+    skillNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+    skillTypeNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
   ];
 
   urls: string[] = [
@@ -44,6 +50,9 @@ export class HomeComponent implements OnInit {
     companyNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     curriculumNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     languageNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+    positionNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+    skillNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+    skillTypeNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
   ];
 
   data: any;

@@ -9,6 +9,7 @@ export interface Position extends AuditFields {
   company: Company;
   dateFrom: Date;
   dateTo: Date;
+  hourlyWage: number;
 }
 
 export type PositionFormGroup = FormGroup<{

@@ -9,7 +9,15 @@
       [icon]=""
     ></app-entity-card>
   </div>
-  <div class="charts col-12">
-    <p-chart type="line" [data]="data" [options]="options"></p-chart>
+  <div class="col-12 grid">
+    <div class="col-12 min-h-10">
+      <app-positions-in-time-chart></app-positions-in-time-chart>
+    </div>
+    <div class="col-6 min-h-10">
+      <app-certificates-in-time-chart></app-certificates-in-time-chart>
+    </div>
+    <div class="col-6 min-h-10">
+      <app-salary-in-time-chart></app-salary-in-time-chart>
+    </div>
   </div>
 </div>
