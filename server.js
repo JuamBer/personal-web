@@ -1,3 +1,4 @@
+const { log } = require('console');
 const fs = require('fs');
 const path = require('path');
 
@@ -23,8 +24,9 @@ fs.access(dir, fs.constants.F_OK, (err) => {
   // Now write to file
 
   try {
-    fs.writeFile(dir + '/' + file, content);
-    fs.writeFile(dir + '/' + prodFile, content);
+    console.log('Writing to file', content);
+    fs.writeFileSync(dir + '/' + file, content);
+    fs.writeFileSync(dir + '/' + prodFile, content);
     console.log('Created successfully in', process.cwd());
 
     if (fs.existsSync(dir + '/' + file)) {
