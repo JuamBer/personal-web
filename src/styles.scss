@@ -84,37 +84,6 @@ body {
   }
 }
 
-//FILE UPLOAD FOTOS
-.lista-imagenes {
-  .p-orderlist-header {
-    display: none !important;
-  }
-
-  .p-orderlist-filter-container {
-    display: none !important;
-  }
-
-  .p-orderlist-controls {
-    display: none !important;
-  }
-
-  .fotos {
-    th {
-      display: flex !important;
-      justify-content: center !important;
-    }
-  }
-}
-
-// MULTISELECT EDIFICIOS
-.edificio-custom {
-  .p-multiselect-label {
-    display: flex;
-    align-items: center;
-    margin-top: 2.5px;
-  }
-}
-
 .public-body {
   // height: 100vh !important;
   overflow: hidden;
@@ -326,4 +295,7 @@ textarea {
     justify-content: center;
     width: 100%;
   }
+}
+.h-3em {
+  height: 1em;
 }

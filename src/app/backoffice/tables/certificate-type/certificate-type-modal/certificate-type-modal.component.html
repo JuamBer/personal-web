@@ -41,16 +41,18 @@
         </span>
       </div>
       <div
-        *appLet="'nameTextContent' as field"
+        *appLet="'nameTranslations' as field"
         appLoading
         [appIsLoading]="loading"
         class="xs:col-12 md:col-12 lg:col-12 mt-3"
       >
-        <app-translate-input
-          [type]="TranslateInputType.INPUT"
+        <app-input-translations
+          [type]="InputTranslationsType.INPUT"
+          [translations]="(entity$ | async)?.nameTranslations"
+          [disabled]="modalMode === ModalMode.VIEW"
           [form]="form.controls[field]"
           [label]="'columns.name' | translate"
-        ></app-translate-input>
+        ></app-input-translations>
       </div>
     </div>
     <app-entity-modal-buttons

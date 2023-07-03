@@ -24,6 +24,9 @@ export const skillModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
+  if (!route.paramMap.get('id')) {
+    return 'Juan Sáez García | Skills | New';
+  }
   return from(inject(SkillService).getTitle(route.paramMap.get('id'))).pipe(
     map((selected) => 'Juan Sáez García | Skills | ' + selected.name),
   );

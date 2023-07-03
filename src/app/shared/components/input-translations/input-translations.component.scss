@@ -39,3 +39,37 @@
     width: 100%;
   }
 }
+.p-sidebar-right {
+  max-width: 30em !important;
+}
+
+.translation-full-view.p-inputgroup {
+  input {
+    border-radius: 0;
+  }
+
+  .p-inputgroup-addon {
+    min-width: 5em;
+    span {
+      min-width: 1.76rem;
+    }
+  }
+  .p-float-label {
+    width: 100%;
+  }
+
+  .delete-language-button-container {
+    width: 3em;
+    min-width: 3em;
+
+    fa-icon:hover {
+      color: #e24c4c !important;
+      cursor: pointer;
+    }
+  }
+}
+.language-to-add {
+  .p-dropdown {
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+}

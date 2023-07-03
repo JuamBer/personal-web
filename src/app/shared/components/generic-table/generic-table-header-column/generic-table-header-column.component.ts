@@ -1,16 +1,19 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faCircleQuestion,
   faFilter,
   faFilterCircleDollar,
+  faLanguage,
   faSort,
   faSortDown,
   faSortUp,
 } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import { LazyLoadEvent } from 'primeng/api';
 import { OverlayPanel } from 'primeng/overlaypanel';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import {
   Filter,
@@ -26,16 +29,22 @@ import {
   styleUrls: ['./generic-table-header-column.component.scss'],
 })
 export class GenericTableHeaderColumnComponent<T> {
+  private fb = inject(FormBuilder);
+  private store = inject(Store);
+
   @ViewChild(OverlayPanel) filterTypes: OverlayPanel;
 
   faQuestion = faCircleQuestion;
+  faLanguage = faLanguage;
 
-  filterFormGroup = this.formBuilder.group({
+  filterFormGroup = this.fb.group({
     value: [undefined, [Validators.required]],
     filterType: [undefined, [Validators.required]],
   });
 
   sorting: 'initial' | 'ascending' | 'descending' = 'initial';
+
+  language$ = this.store.select(publicLanguageReducer.getOne);
 
   @Input() field: GenericFieldConfig<T>;
   @Output() filter = new EventEmitter<FilterEvent<T>>();
@@ -60,8 +69,6 @@ export class GenericTableHeaderColumnComponent<T> {
 
   isHighlight: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
-
   get GenericFieldType() {
     return GenericFieldType;
   }
@@ -81,13 +88,10 @@ export class GenericTableHeaderColumnComponent<T> {
     switch (this.sorting) {
       case 'initial':
         return faSort;
-        break;
       case 'ascending':
         return faSortUp;
-        break;
       case 'descending':
         return faSortDown;
-        break;
     }
   }
 

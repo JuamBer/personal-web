@@ -76,4 +76,9 @@ export class HeaderComponent {
       label: 'Skill Types',
     },
   ];
+
+  logOut() {
+    this.authService.signOut();
+    this.router.navigate(['/login']);
+  }
 }

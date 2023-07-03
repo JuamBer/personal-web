@@ -31,8 +31,11 @@ export const certificateModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
+  if (!route.paramMap.get('id')) {
+    return 'Juan Sáez García | Certificate | New';
+  }
   return from(inject(CertificateService).getTitle(route.paramMap.get('id'))).pipe(
-    map((selected) => 'Juan Sáez García | Certificate Types | ' + selected.name),
+    map((selected) => 'Juan Sáez García | Certificate | ' + selected.name),
   );
 };
 

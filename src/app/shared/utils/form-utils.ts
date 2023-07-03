@@ -20,4 +20,27 @@ export class FormUtils {
       });
     }
   }
+
+  static disableAllControls(asbtractControl: AbstractControl) {
+    asbtractControl.disable();
+    asbtractControl.updateValueAndValidity();
+
+    if (asbtractControl instanceof FormControl) {
+      asbtractControl.disable();
+    }
+
+    if (asbtractControl instanceof FormGroup) {
+      asbtractControl.disable();
+      Object.entries(asbtractControl.controls).forEach(([key, asbtractControl]) => {
+        FormUtils.markAllAsDirtyAndTouched(asbtractControl);
+      });
+    }
+
+    if (asbtractControl instanceof FormArray) {
+      asbtractControl.disable();
+      asbtractControl.controls.forEach((asbtractControl) => {
+        FormUtils.markAllAsDirtyAndTouched(asbtractControl);
+      });
+    }
+  }
 }

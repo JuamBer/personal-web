@@ -22,6 +22,9 @@ export const certificateGroupModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
+  if (!route.paramMap.get('id')) {
+    return 'Juan Sáez García | Certificate Groups | New';
+  }
   return from(inject(CertificateGroupService).getTitle(route.paramMap.get('id'))).pipe(
     map((selected) => 'Juan Sáez García | Certificate Groups | ' + selected.name),
   );

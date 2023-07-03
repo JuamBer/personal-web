@@ -52,6 +52,9 @@
 }
 
 .p-inputgroup .p-float-label:last-child input {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+
   border-top-right-radius: $borderRadius;
   border-bottom-right-radius: $borderRadius;
 }

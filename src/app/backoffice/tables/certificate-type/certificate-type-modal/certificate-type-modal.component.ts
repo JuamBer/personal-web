@@ -2,14 +2,13 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
-import { initialTextContentFormGroup } from 'src/app/shared/components/translate-input/models/text-content.model';
-import { TranslateInputType } from 'src/app/shared/components/translate-input/models/translate-input-type.model';
-import { TranslateInputService } from 'src/app/shared/components/translate-input/services/translate-input.service';
+import { Observable, Subject, combineLatest, from } from 'rxjs';
+import { filter, map, skip, startWith, take, takeUntil } from 'rxjs/operators';
+import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { ModalParams } from 'src/app/shared/models/modal-params';
+import { TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { Action, ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -24,6 +23,9 @@ export const certificateTypeModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
+  if (!route.paramMap.get('id')) {
+    return 'Juan Sáez García | Certificate Types | New';
+  }
   return from(inject(CertificateTypeService).getTitle(route.paramMap.get('id'))).pipe(
     map((selected) => 'Juan Sáez García | Certificate Types | ' + selected.name),
   );
@@ -40,13 +42,12 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   private route = inject(ActivatedRoute);
   private store = inject(Store);
   private fb = inject(FormBuilder);
-  private translateInputService = inject(TranslateInputService);
 
   visible = true;
   form: CertificateTypeFormGroup = this.fb.group({
     name: this.fb.control<string | undefined>(undefined, [Validators.required]),
     description: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    nameTextContent: initialTextContentFormGroup,
+    nameTranslations: this.fb.array<TranslationFormGroup>([]),
   });
 
   unsubscribe$: Subject<boolean> = new Subject();
@@ -78,9 +79,15 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
     this.action$.subscribe(() => {
       this.hide();
     });
-    this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
-      this.form.disable();
-    });
+    combineLatest([this.modalMode$, this.form.valueChanges.pipe(startWith(this.form.value))])
+      .pipe(
+        filter(([modalMode]) => modalMode === ModalMode.VIEW),
+        take(1),
+      )
+      .subscribe(([a, b]) => {
+        this.form.disable();
+        FormUtils.disableAllControls(this.form);
+      });
     this.entity$.subscribe((entity) => {
       if (!this.form.controls.id) {
         this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
@@ -89,7 +96,7 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
         id: entity.id,
         name: entity.name,
         description: entity.description,
-        nameTextContent: entity.nameTextContent,
+        nameTranslations: entity.nameTranslations,
       });
     });
   }
@@ -120,7 +127,9 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
       });
     }
   }
-
+  get ModalMode() {
+    return ModalMode;
+  }
   get NumberMode() {
     return NumberMode;
   }
@@ -130,7 +139,7 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   get names() {
     return certificateTypeNames;
   }
-  get TranslateInputType() {
-    return TranslateInputType;
+  get InputTranslationsType() {
+    return InputTranslationsType;
   }
 }

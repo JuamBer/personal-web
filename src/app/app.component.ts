@@ -1,37 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
 import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
-import { PrimeNGConfig } from 'primeng/api';
-import { Subscription } from 'rxjs';
-import { AuthService } from './shared/services/auth.service';
-import { AppState } from './shared/state/account/account.reducer';
-import { PublicLanguageState } from './shared/state/languages/public-language.state';
+import { publicLanguageActions } from './shared/state/languages/public-language.actions';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  subscriptions: Subscription[] = [];
-
-  constructor(
-    private config: PrimeNGConfig,
-    private translateSrv: TranslateService,
-    private publicLanguageStore: Store<PublicLanguageState>,
-    private router: Router,
-    // private authService: AuthService,
-    private supabaseSrv: AuthService,
-
-    private accountStore: Store<AppState>,
-  ) {}
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-  }
+export class AppComponent implements OnInit {
+  private store = inject(Store);
 
   ngOnInit() {
     console.log('Corriendo con la configuración: ', environment.name);
+    this.store.dispatch(publicLanguageActions.loadAll({}));
   }
 }

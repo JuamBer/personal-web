@@ -132,6 +132,13 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
           sort: true,
           tooltip: (item: CertificateType) => item.description,
         },
+        {
+          field: 'nameTranslations',
+          label: 'Name Translations',
+          type: GenericFieldType.TRANSLATIONS,
+          filter: true,
+          sort: true,
+        },
       ],
       buttons: {
         top: [

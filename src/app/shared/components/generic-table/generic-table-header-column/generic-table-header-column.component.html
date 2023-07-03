@@ -1,6 +1,11 @@
 <div class="app-generic-table-header-column m-0 p-0" [ngClass]="{ 'p-highlight': isHighlight }">
   <div class="flex justify-content-between align-items-center m-0 p-0">
-    <span class="w-full">{{ field.label | titlecase }}</span>
+    <span class="w-full">
+      {{ field.label | titlecase }}
+      <span class="translation" *ngIf="field.type === GenericFieldType.TRANSLATIONS">
+        <fa-icon [icon]="faLanguage"></fa-icon>
+      </span>
+    </span>
     <div class="flex align-items-center justify-content-end gap-2 w-full">
       <fa-icon [icon]="filterIcon" class="cursor-pointer" (click)="filterTypes.toggle($event)"></fa-icon>
       <fa-icon [icon]="sortIcon" class="cursor-pointer" (click)="onSort()"></fa-icon>

@@ -21,6 +21,9 @@ export const languageModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
+  if (!route.paramMap.get('id')) {
+    return 'Juan Sáez García | Languages | New';
+  }
   return from(inject(LanguageService).getTitle(route.paramMap.get('id'))).pipe(
     map((selected) => 'Juan Sáez García | Languages | ' + selected.id),
   );

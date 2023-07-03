@@ -68,9 +68,9 @@ export class AuthService {
     // this.supabase.auth.signInWithOAuth;
     return await this.supabase.auth.signInWithOtp({
       email,
-      options: {
-        emailRedirectTo: `${environment.webUrl}/login-success`,
-      },
+      // options: {
+      //   emailRedirectTo: `${environment.webUrl}/backoffice`,
+      // },
     });
   }
   async signInLogin(email: string, pass: string) {

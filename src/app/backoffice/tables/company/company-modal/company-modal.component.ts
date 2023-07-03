@@ -21,6 +21,9 @@ export const companyModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
+  if (!route.paramMap.get('id')) {
+    return 'Juan Sáez García | Companies | New';
+  }
   return from(inject(CompanyService).getTitle(route.paramMap.get('id'))).pipe(
     map((selected) => 'Juan Sáez García | Companies | ' + selected.name),
   );

@@ -12,6 +12,7 @@ export enum GenericFieldType {
   ARRAY = 'ARRAY',
   BOOLEAN = 'BOOLEAN',
   IMAGE = 'IMAGE',
+  TRANSLATIONS = 'TRANSLATIONS',
 }
 
 export enum FilterType {

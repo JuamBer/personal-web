@@ -24,6 +24,9 @@ export const positionModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
+  if (!route.paramMap.get('id')) {
+    return 'Juan Sáez García | Positions | New';
+  }
   return from(inject(PositionService).getTitle(route.paramMap.get('id'))).pipe(
     map((selected) => 'Juan Sáez García | Positions | ' + selected.name),
   );

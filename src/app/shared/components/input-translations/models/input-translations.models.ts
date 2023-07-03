@@ -1,4 +1,4 @@
-export enum TranslateInputType {
+export enum InputTranslationsType {
   INPUT = 'INPUT',
   TEXTAREA = 'TEXTAREA',
 }

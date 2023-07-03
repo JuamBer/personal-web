@@ -17,4 +17,9 @@
   <ng-container *ngSwitchCase="GenericFieldType.PERCENTAGE">
     {{ data + '%' }}
   </ng-container>
+  <ng-container *ngSwitchCase="GenericFieldType.TRANSLATIONS">
+    <ng-container *ngIf="language$ | async as language">
+      {{ translation$ | async }}
+    </ng-container>
+  </ng-container>
 </div>

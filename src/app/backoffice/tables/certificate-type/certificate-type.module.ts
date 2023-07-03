@@ -19,7 +19,7 @@ import { MessageModule } from 'primeng/message';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
-import { TranslateInputModule } from 'src/app/shared/components/translate-input/translate-input.module';
+import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
@@ -60,7 +60,7 @@ import { CertificateTypeStateModule } from './state/certificate-type-state.modul
     EntityModalAuditModule,
     CertificateTypeStateModule,
     CertificateTypeRoutingModule,
-    TranslateInputModule,
+    InputTranslationsModule,
   ],
 })
 export class CertificateTypeModule {}

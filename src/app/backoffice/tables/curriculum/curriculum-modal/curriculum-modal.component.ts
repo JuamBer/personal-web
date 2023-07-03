@@ -26,6 +26,9 @@ export const curriculumModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
+  if (!route.paramMap.get('id')) {
+    return 'Juan Sáez García | Curriculums | New';
+  }
   return from(inject(CurriculumService).getTitle(route.paramMap.get('id'))).pipe(
     map((selected) => 'Juan Sáez García | Curriculums | ' + selected.id),
   );

@@ -1,0 +1,149 @@
+<div class="translate-input" [ngClass]="{ textarea: type === 'TEXTAREA' }">
+  <div class="p-inputgroup translation-input-preview" *ngIf="languagesToFill$ | async as languagesToFill">
+    <span class="p-float-label">
+      <p-dropdown appendTo="body" [options]="languagesToFill" [(ngModel)]="language">
+        <ng-template pTemplate="selectedItem">
+          <div class="language-item language-item-value" *ngIf="language">
+            <div class="banderita">
+              <span class="" [class]="'flag flag-' + language.acronym"></span>
+            </div>
+            <div class="nombre">{{ language.acronym | uppercase }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-language pTemplate="item">
+          <div class="language-item">
+            <div class="banderita">
+              <span class="" [class]="'flag flag-' + language.acronym"></span>
+            </div>
+            <div class="nombre">{{ language.acronym | uppercase }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+      <label>{{ 'tables.language.singular' | translate }} </label>
+    </span>
+    <span class="p-float-label translation" *appLet="getActualTranslationControl() as translationForm">
+      <input
+        [disabled]="disabled"
+        *ngIf="languagesToFill.length > 0"
+        (input)="onActualTranslationChange($event)"
+        type="text"
+        [value]="getActualTranslation()"
+        pInputText
+        class="p-inputtext-sm"
+        [ngClass]="{
+          'ng-invalid': translationForm?.invalid,
+          'ng-dirty': translationForm?.dirty
+        }"
+        [formControl]="translationForm.controls['value']"
+      />
+      <label>
+        {{ label }} {{ translationForm.controls['value'] | isRequired }}
+        <span class="error">{{ translationForm.controls['value'] | errors | async }}</span>
+      </label>
+    </span>
+    <button
+      type="button"
+      class="p-button-sm"
+      pButton
+      pRipple
+      icon="pi pi-list"
+      (click)="changeVisibility(true)"
+    ></button>
+  </div>
+
+  <p-sidebar [visible]="visibility" position="right" [baseZIndex]="20000" (onHide)="onHide()" appendTo="body">
+    <ng-template pTemplate="header"
+      ><h4 class="p-0 m-0 pl-2">{{ label }} <fa-icon [icon]="faLanguage"></fa-icon></h4
+    ></ng-template>
+    <div>
+      <div *ngFor="let translationForm of form?.controls; let i = index" [formGroup]="translationForm">
+        <div class="xs:col-12 lg:col-12 mt-3">
+          <div class="p-inputgroup translation-full-view">
+            <span class="p-inputgroup-addon">
+              <span class="" [class]="'flag flag-' + translationForm.controls['language'].value"></span>
+              <div class="pl-1">
+                <b>{{ translationForm.controls['language'].value | uppercase }}</b>
+              </div>
+            </span>
+            <span class="p-float-label">
+              <p-autoComplete
+                #autoComplete
+                [style]="{
+                  width: '100%',
+                }"
+                formControlName="value"
+                [suggestions]="suggestions"
+                (completeMethod)="completeWithSuggestion($event, translationForm.controls['language'].value)"
+                (onFocus)="onFocus(translationForm.controls['language'].value)"
+              ></p-autoComplete>
+              <label>
+                {{ label }} {{ translationForm.controls['value'] | isRequired }}
+                <span class="error">{{ translationForm.controls['value'] | errors | async }}</span>
+              </label>
+            </span>
+            <button
+              *ngIf="showTimes(translationForm.controls['language'].value, languages$ | async)"
+              type="button"
+              class="p-button-sm p-button-danger"
+              pButton
+              pRipple
+              icon="pi pi-trash"
+              (click)="deleteLanguage(translationForm.controls['language'].value)"
+            ></button>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="languagesToAdd$ | async as languagesToAdd">
+        <ng-container *ngIf="languagesToAdd.length > 0">
+          <div class="w-full h-3em"></div>
+          <p-divider></p-divider>
+          <div class="w-full h-3em"></div>
+
+          <div class="p-inputgroup language-to-add p-2 mt-1">
+            <span class="p-float-label">
+              <p-dropdown
+                [style]="{ width: '100%' }"
+                appendTo="body"
+                [options]="languagesToAdd"
+                [formControl]="languageToAddFormControl"
+                [autoDisplayFirst]="false"
+              >
+                <ng-template pTemplate="selectedItem" let-language>
+                  <div class="language-item language-item-value">
+                    <div class="banderita">
+                      <span class="" [class]="'flag flag-' + language.acronym"></span>
+                    </div>
+                    <div class="nombre">
+                      {{ language.acronym | uppercase }} | {{ language.nativeName | titlecase }} |
+                      {{ language.name | titlecase }}
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template let-language pTemplate="item">
+                  <div class="language-item">
+                    <div class="banderita">
+                      <span class="" [class]="'flag flag-' + language.acronym"></span>
+                    </div>
+                    <div class="nombre">
+                      {{ language.acronym | uppercase }} | {{ language.nativeName | titlecase }} |
+                      {{ language.name | titlecase }}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+              <label>{{ 'inputTranslations.languageToAdd' | translate }} </label>
+            </span>
+            <button
+              [disabled]="!languageToAddFormControl.value || languageToAddFormControl.value === ''"
+              type="button"
+              class="p-button-sm"
+              pButton
+              pRipple
+              icon="pi pi-plus"
+              (click)="addLanguage(this.languageToAddFormControl.value)"
+            ></button></div
+        ></ng-container>
+      </ng-container>
+    </div>
+  </p-sidebar>
+</div>

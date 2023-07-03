@@ -1,6 +1,7 @@
 <div class="language-select">
   <div class="languages">
     <p-selectButton
+      (onChange)="onLanguageChange()"
       *ngIf="type === 'select-button'"
       [options]="languages"
       [(ngModel)]="language"

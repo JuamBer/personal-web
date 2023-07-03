@@ -50,7 +50,7 @@ export class CommonService<T> {
     return error ? error : data;
   }
 
-  async upsert(payload: T) {
+  async upsert(payload: T): Promise<any> {
     const { data, error } = await this.supabase
       .from(this.table)
       .upsert(flatObjectsById(camelCaseToSnakeCase(payload)))

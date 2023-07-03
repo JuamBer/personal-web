@@ -8,5 +8,5 @@ export const environment = {
   preproduccion: false,
   local: true,
   name: 'DESARROLLO',
-  webUrl: 'https://juamber.com',
+  webUrl: 'http://localhost:4201',
 };
