@@ -214,6 +214,9 @@
       "plural": "Curriculums"
     }
   },
+  "inputTranslations": {
+    "languageToAdd": "Idioma a añadir"
+  },
   "columns": {
     "name": "Nombre",
     "description": "Descripción",
