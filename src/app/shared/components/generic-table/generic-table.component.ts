@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { environment } from '@env/environment';
 import { LazyLoadEvent } from 'primeng/api';
 import { ObjectUtils } from 'src/app/shared/utils/object.utils';
 import { FilterEvent, GenericTableConfig, SortEvent, TableEvent } from './models/generic-table.models';
+import { defaultGenericTableConfig } from './utils/vairables';
 
 @Component({
   selector: 'app-generic-table',
@@ -11,7 +11,7 @@ import { FilterEvent, GenericTableConfig, SortEvent, TableEvent } from './models
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenericTableComponent<T> {
-  @Input() config: GenericTableConfig<T> = environment.defaultGenericTableConfig;
+  @Input() config: GenericTableConfig<T> = defaultGenericTableConfig;
   @Input() loading = true;
   @Input() count = 0;
   @Input() entities: T[] = [];

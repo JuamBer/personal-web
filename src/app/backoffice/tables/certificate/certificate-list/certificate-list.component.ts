@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
-import { environment } from '@env/environment';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
@@ -11,6 +10,7 @@ import {
   TableEvent,
   TableEventType,
 } from 'src/app/shared/components/generic-table/models/generic-table.models';
+import { defaultGenericTableConfig } from 'src/app/shared/components/generic-table/utils/vairables';
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
@@ -115,7 +115,7 @@ export class CertificateListComponent implements OnInit, EntityList<Certificate>
     optionButtons.push({ action: 'delete', icon: 'pi pi-trash' });
 
     this.tableConfig$.next({
-      ...environment.defaultGenericTableConfig,
+      ...defaultGenericTableConfig,
       fields: [
         {
           field: 'image',
