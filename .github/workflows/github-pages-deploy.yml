@@ -17,6 +17,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: node server.js
+        env:
+          ENVIROMENT: `${{ secrests.ENVIROMENT }}`
+
       - name: Install and build
         working-directory: ./
         run: npm install && npm run build:pro && cp dist/personal-web/index.html dist/personal-web/404.html
