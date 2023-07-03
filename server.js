@@ -23,8 +23,8 @@ fs.access(dir, fs.constants.F_OK, (err) => {
   // Now write to file
 
   try {
-    fs.writeFileSync(dir + '/' + file, content);
-    fs.writeFileSync(dir + '/' + prodFile, content);
+    fs.writeFile(dir + '/' + file, content);
+    fs.writeFile(dir + '/' + prodFile, content);
     console.log('Created successfully in', process.cwd());
 
     if (fs.existsSync(dir + '/' + file)) {
