@@ -7,7 +7,7 @@ const file = 'environment.ts';
 
 const prodFile = 'environment.prod.ts';
 
-const content = `${process.env.FIREBASE_DETAILS}`;
+const content = `${process.env.ENVIRONMENT}`;
 
 fs.access(dir, fs.constants.F_OK, (err) => {
   if (err) {
