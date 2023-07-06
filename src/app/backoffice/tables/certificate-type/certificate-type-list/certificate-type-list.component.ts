@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { Observable, Subject, filter, startWith } from 'rxjs';
 import {
   GenericFieldType,
@@ -13,6 +13,8 @@ import {
 import { defaultGenericTableConfig } from 'src/app/shared/components/generic-table/utils/vairables';
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { Action } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { CertificateType } from '../models/certificate-type.model';
@@ -38,7 +40,10 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
   private confirmationSrv = inject(ConfirmationService);
   private router = inject(Router);
   private translateSrv = inject(TranslateService);
+  private messageSrv = inject(MessageService);
+  private toastSrv = inject(ToastService);
 
+  getMessage;
   entities$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
   loading$: Observable<boolean> = this.store.select(certificateTypeReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateTypeReducer.getCount);
@@ -56,6 +61,12 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
 
     this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadTableConfig();
+    });
+    this.action$.subscribe((action) => {
+      const message = this.toastSrv.getMessage(action);
+      if (message) {
+        this.messageSrv.add(message);
+      }
     });
   }
 

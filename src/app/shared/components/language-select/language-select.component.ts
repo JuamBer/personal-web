@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
@@ -12,9 +12,13 @@ import { PublicLanguageState } from '../../state/languages/public-language.state
   selector: 'app-language-select',
   templateUrl: 'language-select.component.html',
   styleUrls: ['language-select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class LanguageSelectComponent implements OnInit {
   @Input() type: 'dropdown' | 'select-button' = 'dropdown';
+  @Input() mode: 'simple' | 'complete' = 'simple';
+
   languages: Language[];
   language: Language;
 

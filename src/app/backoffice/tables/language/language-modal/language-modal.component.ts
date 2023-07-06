@@ -99,6 +99,7 @@ export class LanguageModalComponent implements OnInit, EntityModal<Language> {
   }
 
   hide() {
+    this.visible = false;
     this.store.dispatch(languageActions.unload());
     this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }

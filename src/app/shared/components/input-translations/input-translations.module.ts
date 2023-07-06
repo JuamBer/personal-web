@@ -1,9 +1,11 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { DividerModule } from 'primeng/divider';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { SidebarModule } from 'primeng/sidebar';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
 import { PrimeNgModule } from 'src/app/shared/modules/primeng.module';
@@ -11,7 +13,6 @@ import { DirectivesModule } from '../../modules/directives.module';
 import { LanguagesModule } from '../../modules/languages.module';
 import { LanguageSelectModule } from '../language-select/language-select.module';
 import { InputTranslationsComponent } from './input-translations.component';
-import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   imports: [
@@ -27,9 +28,12 @@ import { DividerModule } from 'primeng/divider';
     SidebarModule,
     DirectivesModule,
     LanguagesModule,
-    FontAwesomeModule,DividerModule
+    FontAwesomeModule,
+    DividerModule,
+    InputTextareaModule,
   ],
   declarations: [InputTranslationsComponent],
   exports: [InputTranslationsComponent],
+  providers: [TitleCasePipe],
 })
 export class InputTranslationsModule {}

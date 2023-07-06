@@ -81,36 +81,6 @@
   max-width: calc(95vw - 60px);
 }
 
-.languages {
-  .p-dropdown {
-    border: 0px solid black;
-
-    div.p-dropdown-trigger {
-      span {
-        color: black;
-      }
-    }
-  }
-
-  .p-dropdown:not(.p-disabled).p-focus {
-    box-shadow: none;
-  }
-
-  .p-dropdown-open {
-    border: none;
-
-    div.p-dropdown-trigger {
-      transform: rotateX(3.142rad);
-    }
-  }
-
-  .p-dropdown-label {
-    padding-right: 0;
-    display: flex;
-    align-items: center;
-  }
-}
-
 .primeng-layout-wrapper .topbar .topbar-menu > li > ul {
   background: $primaryColor;
   right: -9px;

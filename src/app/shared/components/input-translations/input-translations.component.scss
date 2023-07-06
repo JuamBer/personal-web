@@ -39,8 +39,15 @@
     width: 100%;
   }
 }
-.p-sidebar-right {
+
+.input-translations-textarea {
+  max-width: 50em !important;
+}
+.input-translations-input {
   max-width: 30em !important;
+}
+.p-sidebar-right {
+  // max-width: 30em !important;
 }
 
 .translation-full-view.p-inputgroup {
@@ -72,4 +79,8 @@
   .p-dropdown {
     border-radius: 0.25rem 0 0 0.25rem;
   }
+}
+.p-dropdown-label {
+  display: flex !important;
+  align-items: center !important;
 }

@@ -105,6 +105,7 @@ export class CurriculumModalComponent implements OnInit, EntityModal<Curriculum>
   }
 
   hide() {
+    this.visible = false;
     this.store.dispatch(curriculumActions.unload());
     this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }

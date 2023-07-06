@@ -103,6 +103,7 @@ export class SkillModalComponent implements OnInit, EntityModal<Skill> {
   }
 
   hide() {
+    this.visible = false;
     this.store.dispatch(skillActions.unload());
     this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }

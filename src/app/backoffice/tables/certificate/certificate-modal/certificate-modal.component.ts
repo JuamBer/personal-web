@@ -134,6 +134,7 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
   }
 
   hide() {
+    this.visible = false;
     this.store.dispatch(certificateActions.unload());
     this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }

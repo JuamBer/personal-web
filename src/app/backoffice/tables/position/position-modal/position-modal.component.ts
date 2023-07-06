@@ -107,6 +107,7 @@ export class PositionModalComponent implements OnInit, EntityModal<Position> {
   }
 
   hide() {
+    this.visible = false;
     this.store.dispatch(positionActions.unload());
     this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }

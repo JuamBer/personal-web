@@ -96,6 +96,7 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
   }
 
   hide() {
+    this.visible = false;
     this.store.dispatch(companyActions.unload());
     this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }

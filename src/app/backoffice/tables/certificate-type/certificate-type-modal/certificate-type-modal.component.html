@@ -47,11 +47,27 @@
         class="xs:col-12 md:col-12 lg:col-12 mt-3"
       >
         <app-input-translations
+          [showErrors]="showErrors$"
           [type]="InputTranslationsType.INPUT"
           [translations]="(entity$ | async)?.nameTranslations"
           [disabled]="modalMode === ModalMode.VIEW"
           [form]="form.controls[field]"
           [label]="'columns.name' | translate"
+        ></app-input-translations>
+      </div>
+      <div
+        *appLet="'descriptionTranslations' as field"
+        appLoading
+        [appIsLoading]="loading"
+        class="xs:col-12 md:col-12 lg:col-12 mt-3"
+      >
+        <app-input-translations
+          [showErrors]="showErrors$"
+          [type]="InputTranslationsType.TEXTAREA"
+          [translations]="(entity$ | async)?.descriptionTranslations"
+          [disabled]="modalMode === ModalMode.VIEW"
+          [form]="form.controls[field]"
+          [label]="'columns.description' | translate"
         ></app-input-translations>
       </div>
     </div>

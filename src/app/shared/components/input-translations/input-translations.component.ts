@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -11,7 +12,7 @@ import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { faLanguage, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, startWith, take } from 'rxjs/operators';
+import { map, startWith, take, tap } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -32,6 +33,7 @@ export class InputTranslationsComponent implements OnInit {
   private fb = inject(FormBuilder);
   private ref = inject(ChangeDetectorRef);
   private inputTranslationsService = inject(InputTranslationsService);
+  private titleCasePipe = inject(TitleCasePipe);
 
   faTimes = faTimes;
   faTrash = faTrash;
@@ -42,9 +44,15 @@ export class InputTranslationsComponent implements OnInit {
       this.translations$.next(translations);
     }
   }
+
+  _showErrors: Observable<boolean>;
+  @Input() set showErrors(showErrors: Observable<boolean>) {
+    this._showErrors = showErrors;
+  }
+
   translations$: BehaviorSubject<Translation[]> = new BehaviorSubject<Translation[]>([]);
   suggestions$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(['hola', 'aaaaa', 'bbb']);
-  suggestions: string[] = [];
+  suggestions: any[] = [];
 
   @Input() disabled: boolean;
   @Input() form: FormArray<TranslationFormGroup>;
@@ -73,7 +81,12 @@ export class InputTranslationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.suggestions$.subscribe(console.log);
+    this._showErrors.subscribe((showErrors) => {
+      if (showErrors && this.form.invalid) {
+        FormUtils.markAllAsDirtyAndTouched(this.form);
+        this.visibility = true;
+      }
+    });
     this.languagesToFill$ = combineLatest([
       this.languages$,
       this.form.valueChanges.pipe(startWith(this.form.value)),
@@ -84,22 +97,6 @@ export class InputTranslationsComponent implements OnInit {
             !!translations.find((translation) => translation.language === language.acronym) || language.active,
         ),
       ),
-      // switchMap((languages) =>
-      //   this.activeLanguages$.pipe(
-      //     map((activeLanguages) => {
-      //       const languagesToFill: Language[] = [...languages];
-
-      //       activeLanguages.forEach((activeLanguage) => {
-      //         if (languages.findIndex((language) => language.acronym === activeLanguage.acronym) < 0) {
-      //           languagesToFill.push(activeLanguage);
-      //           console.log(activeLanguage);
-      //         }
-      //       });
-
-      //       return languagesToFill;
-      //     }),
-      //   ),
-      // ),
     );
     this.languagesToAdd$ = combineLatest([
       this.disabledLanguages$,
@@ -130,40 +127,6 @@ export class InputTranslationsComponent implements OnInit {
         }
       });
     });
-    // combineLatest([this.translations$, this.languages$, this.activeLanguages$])
-    //   .pipe(
-    //     filter(
-    //       ([translations, languages, activeLanguages]) =>
-    //         Array.isArray(translations) && activeLanguages.length > 0 && languages.length > 0,
-    //     ),
-    //   )
-    //   .subscribe(([translations, languages, activeLanguages]) => {
-    //     const translationsToAdd = languages.filter((language) => {
-    //       if (this.form.controls.find((control) => control.value.language === language.acronym)) {
-    //         return false;
-    //       }
-    //       if (translations.find((translation) => translation.language === language.acronym)) {
-    //         return true;
-    //       }
-    //       if (activeLanguages.find((activeLanguage) => activeLanguage.acronym === language.acronym)) {
-    //         return true;
-    //       }
-    //       return false;
-    //     });
-    //     translationsToAdd.forEach((language) => {
-    //       const translation = translations.find((t) => t.language === language.acronym);
-    //       const languageForm: TranslationFormGroup = this.fb.group({
-    //         language: [language.acronym, [Validators.required]],
-    //         value: [translation?.value, [Validators.required]],
-    //       });
-    //       this.form.push(languageForm);
-    //       if (this.disabled) {
-    //         this.form.disable();
-    //         languageForm.disable();
-    //       }
-    //     });
-    //   });
-
     this.store
       .select(publicLanguageReducer.getOne)
       .pipe(take(1))
@@ -229,9 +192,52 @@ export class InputTranslationsComponent implements OnInit {
     return !languages?.find((lang) => lang.acronym === language)?.active;
   }
 
-  onFocus(acronym: string) {
-    console.log(acronym);
+  setSuggestion(acronym: string) {
+    const spanishTranslation = this.form.value.find((translation) => translation.language === 'es').value;
 
+    if (spanishTranslation) {
+      this.inputTranslationsService
+        .translate({
+          q: [spanishTranslation],
+          target: acronym,
+          source: 'es',
+        })
+        .pipe(
+          take(1),
+          tap(console.log),
+          map((res) => this.titleCasePipe.transform(res.data.translations[0].translatedText)),
+        )
+        .subscribe((suggestion) => {
+          const suggestionIndex = this.suggestions.findIndex((s) => s.language === acronym);
+          if (suggestionIndex >= 0) {
+            this.suggestions[suggestionIndex] = {
+              language: acronym,
+              value: suggestion,
+            };
+          } else {
+            this.suggestions.push({
+              language: acronym,
+              value: suggestion,
+            });
+          }
+        });
+    }
+  }
+  getSuggestion(acronym: string) {
+    return this.suggestions.find((s) => s.language === acronym)?.value;
+  }
+
+  onKeyPress(event: KeyboardEvent, acronym: string) {
+    console.log(event);
+
+    if (event.key === 'Tab') {
+      this.form.controls
+        .find((translationForm) => translationForm.value.language === acronym)
+        .controls['value'].setValue(this.getSuggestion(acronym));
+    }
+  }
+
+  onFocus(acronym: string) {
     const spanishTranslation = this.form.value.find((translation) => translation.language === 'es').value;
 
     if (spanishTranslation) {
@@ -243,13 +249,16 @@ export class InputTranslationsComponent implements OnInit {
         })
         .pipe(take(1))
         .subscribe((res) => {
-          console.log(res);
-          this.suggestions = [res.data.translations[0].translatedText];
+          this.suggestions = [this.titleCasePipe.transform(res.data.translations[0].translatedText)];
         });
     }
   }
 
   completeWithSuggestion(event: AutoCompleteCompleteEvent, acronym: string) {
     this.suggestions = [...this.suggestions];
+  }
+
+  get InputTranslationsType() {
+    return InputTranslationsType;
   }
 }

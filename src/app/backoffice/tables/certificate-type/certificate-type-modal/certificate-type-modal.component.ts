@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, combineLatest, from } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
 import { filter, map, skip, startWith, take, takeUntil } from 'rxjs/operators';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
@@ -48,6 +48,7 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
     name: this.fb.control<string | undefined>(undefined, [Validators.required]),
     description: this.fb.control<string | undefined>(undefined, [Validators.required]),
     nameTranslations: this.fb.array<TranslationFormGroup>([]),
+    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
   });
 
   unsubscribe$: Subject<boolean> = new Subject();
@@ -69,14 +70,20 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   action$: Observable<Action> = this.store.select(certificateTypeReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
-    filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
+    filter(
+      (action) =>
+        (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
+        action.status === ActionStatus.SUCCESS,
+    ),
   );
+  showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
+    this.showErrors$.pipe(takeUntil(this.unsubscribe$)).subscribe(console.log);
     this.params$
       .pipe(filter((params) => !!params.id))
       .subscribe((params) => this.store.dispatch(certificateTypeActions.loadOne({ id: params.id })));
-    this.action$.subscribe(() => {
+    this.action$.subscribe((action) => {
       this.hide();
     });
     combineLatest([this.modalMode$, this.form.valueChanges.pipe(startWith(this.form.value))])
@@ -97,6 +104,7 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
         name: entity.name,
         description: entity.description,
         nameTranslations: entity.nameTranslations,
+        descriptionTranslations: entity.descriptionTranslations,
       });
     });
   }
@@ -107,6 +115,7 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   }
 
   hide() {
+    this.visible = false;
     this.store.dispatch(certificateTypeActions.unload());
     this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }
@@ -114,6 +123,7 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   send() {
     if (this.form.invalid) {
       FormUtils.markAllAsDirtyAndTouched(this.form);
+      this.showErrors$.next(true);
     } else {
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {

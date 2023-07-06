@@ -98,6 +98,7 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
   }
 
   hide() {
+    this.visible = false;
     this.store.dispatch(certificateGroupActions.unload());
     this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
   }

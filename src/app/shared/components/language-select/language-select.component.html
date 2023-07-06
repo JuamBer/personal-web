@@ -19,7 +19,6 @@
 
     <p-dropdown
       *ngIf="type === 'dropdown'"
-      styleClass="a"
       [style]="{ height: '100%' }"
       [options]="languages"
       [(ngModel)]="language"
@@ -30,7 +29,11 @@
           <div class="banderita">
             <span class="" [class]="'flag flag-' + language.acronym"></span>
           </div>
-          <div class="nombre">{{ language.nativeName }}</div>
+          <div class="nombre">
+            <ng-container *ngIf="mode === 'complete'"> {{ language.acronym | uppercase }} | </ng-container>
+            {{ language.nativeName }}
+            <ng-container *ngIf="mode === 'complete'"> | {{ language.name }} </ng-container>
+          </div>
         </div>
       </ng-template>
       <ng-template let-language pTemplate="item">
@@ -38,7 +41,9 @@
           <div class="banderita">
             <span class="" [class]="'flag flag-' + language.acronym"></span>
           </div>
-          <div class="nombre">{{ language.nativeName }}</div>
+          <ng-container *ngIf="mode === 'complete'"> {{ language.acronym | uppercase }} | </ng-container>
+          {{ language.nativeName }}
+          <ng-container *ngIf="mode === 'complete'"> | {{ language.name }} </ng-container>
         </div>
       </ng-template>
     </p-dropdown>

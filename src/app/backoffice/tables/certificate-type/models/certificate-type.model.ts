@@ -7,10 +7,12 @@ export interface CertificateType extends AuditFields {
   name: string;
   description: string;
   nameTranslations: Translation[];
+  descriptionTranslations: Translation[];
 }
 export type CertificateTypeFormGroup = FormGroup<{
   id?: FormControl<string>;
   name: FormControl<string | undefined>;
   description: FormControl<string | undefined>;
   nameTranslations: FormArray<TranslationFormGroup>;
+  descriptionTranslations: FormArray<TranslationFormGroup>;
 }>;
