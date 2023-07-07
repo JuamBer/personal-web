@@ -1,0 +1,195 @@
+{
+  "sidebar": {
+    "description": "Webanwendungsentwickler"
+  },
+  "pages": {
+    "home": "Zusammenfassung",
+    "certificates": "Zertifikate"
+  },
+  "home": {
+    "cv": "Fortsetzen",
+    "contacto": "Kontakt",
+    "trayectoria": "Flugbahn",
+    "rrss": "Schicken Sie mir eine E-Mail an die Adresse contacto@juamber.com oder schreiben Sie mir über eines meiner Profile"
+  },
+  "cv": {
+    "title": "schreib mir eine E-Mail",
+    "button": "Lehrplan herunterladen",
+    "info": "Laden Sie meinen letzten Lebenslauf auf einer Seite auf Spanisch herunter"
+  },
+  "messages": {
+    "headers": {
+      "success": "Erfolg",
+      "warning": "Warnung",
+      "info": "Information",
+      "error": "Fehler"
+    },
+    "confirmation": {
+      "message": "Möchten Sie die löschen? {{name}}?",
+      "header": "Bestätigung löschen"
+    },
+    "toastDeleted": "Sie {{name}} wurde erfolgreich gelöscht",
+    "toastCreated": "Sie {{name}} wurde erfolgreich erstellt",
+    "toastUpdated": "Sie {{name}} wurde erfolgreich geändert",
+    "toastError": "IRREN"
+  },
+  "buttons": {
+    "view": "Detail {{name}}",
+    "cancel": "Stornieren",
+    "reset": "Sauber",
+    "detail": "Sehen {{name}}",
+    "new": "Neu für {{name}}",
+    "create": "Erstellen {{name}}",
+    "add": "Hinzufügen {{name}}",
+    "edit": "Ändern {{name}}",
+    "update": "Ändern {{name}}",
+    "delete": "Löschen {{name}}",
+    "send": "Schicken {{name}}",
+    "open": "Offen",
+    "refresh": "Aktualisierung",
+    "reject": "NEIN",
+    "accept": "Ja",
+    "deleteFilters": "Filter löschen",
+    "filter": "Filter"
+  },
+  "form": {
+    "errors": {
+      "required": "Es ist notwendig"
+    }
+  },
+  "general": {
+    "reordenar": "neu anordnen",
+    "opciones": "Optionen",
+    "inactive": "inaktiv",
+    "active": "aktiv",
+    "total": "Gesamt",
+    "translations": "Übersetzungen: {{name}}"
+  },
+  "tables": {
+    "company": {
+      "singular": "Unternehmen",
+      "plural": "Firmen"
+    },
+    "skillType": {
+      "singular": "Fähigkeitstyp",
+      "plural": "Arten von Fähigkeiten"
+    },
+    "skill": {
+      "singular": "Fähigkeit",
+      "plural": "Fähigkeiten"
+    },
+    "certificateType": {
+      "singular": "Art des Zertifikats",
+      "plural": "Arten von Zertifikaten"
+    },
+    "certificateGroup": {
+      "singular": "Zertifikatsgruppe",
+      "plural": "Zertifikatsgruppen"
+    },
+    "position": {
+      "singular": "Arbeit",
+      "plural": "Stellenangebote"
+    },
+    "proyect": {
+      "singular": "Projekt",
+      "plural": "Projekte"
+    },
+    "mount": {
+      "singular": "Montage",
+      "plural": "Montagen"
+    },
+    "language": {
+      "singular": "Sprache",
+      "plural": "Sprachen"
+    },
+    "certificate": {
+      "singular": "Zertifikat",
+      "plural": "Zertifikate"
+    },
+    "curriculum": {
+      "singular": "Fortsetzen",
+      "plural": "fortsetzen"
+    }
+  },
+  "inputTranslations": {
+    "languageToAdd": "Sprache zum Hinzufügen"
+  },
+  "columns": {
+    "name": "Name",
+    "description": "Beschreibung",
+    "location": "Adresse",
+    "image": "Bild",
+    "nativeName": "einheimischer Name",
+    "acronym": "Akronym",
+    "active": "aktiv",
+    "date": "Datum",
+    "links": "Links",
+    "components": "Komponenten",
+    "email": "Post",
+    "dateTo": "Datum bis",
+    "dateFrom": "Stammen aus",
+    "percentage": "Prozentsatz",
+    "url": "Verknüpfung",
+    "pdf": "pdf",
+    "github": "GitHub",
+    "web": "Netz",
+    "playStore": "Spielladen",
+    "microsoftStore": "Microsoft Store",
+    "filterType": "Filter Typ",
+    "value": "Wert",
+    "createdAt": "erstellt in",
+    "updatedAt": "aktualisiert in"
+  },
+  "genericTable": {
+    "currentPageReport": "Zeigt {ersten} bis {letzten} von {totalRecords} Einträgen",
+    "emptyMessage": "Es wurden keine Einträge gefunden",
+    "filters": {
+      "START_WITH": {
+        "name": "beginnen mit",
+        "description": "Gibt an, dass Sie Elemente filtern möchten, die mit einem bestimmten Wert beginnen"
+      },
+      "ENDS_WITH": {
+        "name": "Endet mit",
+        "description": "Gibt an, dass Sie Elemente filtern möchten, die mit einem bestimmten Wert beginnen"
+      },
+      "CONTAINS": {
+        "name": "Enthält",
+        "description": "Gibt an, dass Sie die Elemente filtern möchten, die einen bestimmten Wert enthalten"
+      },
+      "NOT_CONTAINS": {
+        "name": "Es hat nicht",
+        "description": "Gibt an, dass Sie die Elemente filtern möchten, die keinen bestimmten Wert enthalten"
+      },
+      "EQUAL": {
+        "name": "Gleich",
+        "description": "Gibt an, dass Sie die Elemente filtern möchten, die einem bestimmten Wert entsprechen"
+      },
+      "NOT_EQUAL": {
+        "name": "außer",
+        "description": "Zeigt an, dass Sie Elemente herausfiltern möchten, die nicht einem bestimmten Wert entsprechen"
+      }
+    }
+  },
+  "calendar": {
+    "dayNames": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+    "dayNamesShort": ["Sonne", "Mo", "Meer", "heiraten", "Do", "Fr", "saß"],
+    "dayNamesMin": ["D.", "L", "M", "X", "J", "V", "S"],
+    "monthNames": [
+      "Januar",
+      "Februar",
+      "Marsch",
+      "April",
+      "Dürfen",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Dezember"
+    ],
+    "monthNamesShort": ["Jan", "Feb", "Meer", "Apr", "dürfen", "Jun", "Juli", "Aug", "sep", "Okt", "Nov", "Dez"],
+    "today": "Heute",
+    "clear": "Löschen"
+  }
+}

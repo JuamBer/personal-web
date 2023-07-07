@@ -1,0 +1,195 @@
+{
+  "sidebar": {
+    "description": "Webapplikasjonsutvikler"
+  },
+  "pages": {
+    "home": "Sammendrag",
+    "certificates": "sertifikater"
+  },
+  "home": {
+    "cv": "Gjenoppta",
+    "contacto": "Kontakt",
+    "trayectoria": "Bane",
+    "rrss": "Send meg en e-post til denne adressen contacto@juamber.com eller skriv meg gjennom en av mine profiler"
+  },
+  "cv": {
+    "title": "skriv meg en e-post",
+    "button": "Last ned læreplan",
+    "info": "Last ned min siste CV oppsummert på én side på spansk"
+  },
+  "messages": {
+    "headers": {
+      "success": "Suksess",
+      "warning": "Advarsel",
+      "info": "Informasjon",
+      "error": "Feil"
+    },
+    "confirmation": {
+      "message": "Vil du slette {{name}}?",
+      "header": "Slett bekreftelse"
+    },
+    "toastDeleted": "Hun {{name}} har blitt slettet",
+    "toastCreated": "Hun {{name}} har blitt opprettet",
+    "toastUpdated": "Hun {{name}} har blitt endret",
+    "toastError": "FEIL"
+  },
+  "buttons": {
+    "view": "Detalj {{name}}",
+    "cancel": "Avbryt",
+    "reset": "Ren",
+    "detail": "Se {{name}}",
+    "new": "Ny til {{name}}",
+    "create": "Skape {{name}}",
+    "add": "Legg til {{name}}",
+    "edit": "Endre {{name}}",
+    "update": "Endre {{name}}",
+    "delete": "Slett {{name}}",
+    "send": "Sende {{name}}",
+    "open": "Åpen",
+    "refresh": "Forfriske",
+    "reject": "Nei",
+    "accept": "Ja",
+    "deleteFilters": "Tøm filtre",
+    "filter": "Filter"
+  },
+  "form": {
+    "errors": {
+      "required": "Det kreves"
+    }
+  },
+  "general": {
+    "reordenar": "omorganisere",
+    "opciones": "Alternativer",
+    "inactive": "inaktiv",
+    "active": "aktiv",
+    "total": "Total",
+    "translations": "Oversettelser: {{name}}"
+  },
+  "tables": {
+    "company": {
+      "singular": "Selskap",
+      "plural": "selskaper"
+    },
+    "skillType": {
+      "singular": "Type ferdighet",
+      "plural": "Typer ferdigheter"
+    },
+    "skill": {
+      "singular": "Evnen",
+      "plural": "ferdigheter"
+    },
+    "certificateType": {
+      "singular": "sertifikat type",
+      "plural": "Typer sertifikater"
+    },
+    "certificateGroup": {
+      "singular": "Sertifikatgruppe",
+      "plural": "Sertifikatgrupper"
+    },
+    "position": {
+      "singular": "Jobb",
+      "plural": "Stillinger"
+    },
+    "proyect": {
+      "singular": "Prosjekt",
+      "plural": "Prosjekter"
+    },
+    "mount": {
+      "singular": "Montering",
+      "plural": "montasjer"
+    },
+    "language": {
+      "singular": "Språk",
+      "plural": "språk"
+    },
+    "certificate": {
+      "singular": "Sertifikat",
+      "plural": "sertifikater"
+    },
+    "curriculum": {
+      "singular": "Gjenoppta",
+      "plural": "gjenoppta"
+    }
+  },
+  "inputTranslations": {
+    "languageToAdd": "Språk å legge til"
+  },
+  "columns": {
+    "name": "Navn",
+    "description": "Beskrivelse",
+    "location": "Adresse",
+    "image": "Bilde",
+    "nativeName": "innfødt navn",
+    "acronym": "Akronym",
+    "active": "aktiv",
+    "date": "Dato",
+    "links": "lenker",
+    "components": "Komponenter",
+    "email": "Post",
+    "dateTo": "date til",
+    "dateFrom": "Dato fra",
+    "percentage": "prosentdel",
+    "url": "Link",
+    "pdf": "pdf",
+    "github": "GitHub",
+    "web": "Web",
+    "playStore": "Play Butikk",
+    "microsoftStore": "Microsoft Store",
+    "filterType": "Filtertype",
+    "value": "Verdi",
+    "createdAt": "opprettet i",
+    "updatedAt": "oppdatert i"
+  },
+  "genericTable": {
+    "currentPageReport": "Viser {first} to {last} av {totalRecords} oppføringer",
+    "emptyMessage": "Den fant ingen oppføringer",
+    "filters": {
+      "START_WITH": {
+        "name": "starte med",
+        "description": "Indikerer at du vil filtrere elementer som starter med en bestemt verdi"
+      },
+      "ENDS_WITH": {
+        "name": "Slutter med",
+        "description": "Indikerer at du vil filtrere elementer som starter med en bestemt verdi"
+      },
+      "CONTAINS": {
+        "name": "Inneholder",
+        "description": "Indikerer at du vil filtrere elementene som inneholder en bestemt verdi"
+      },
+      "NOT_CONTAINS": {
+        "name": "Det har ikke",
+        "description": "Indikerer at du vil filtrere elementene som ikke inneholder en bestemt verdi"
+      },
+      "EQUAL": {
+        "name": "Lik",
+        "description": "Indikerer at du vil filtrere elementene som er lik en bestemt verdi"
+      },
+      "NOT_EQUAL": {
+        "name": "annet enn",
+        "description": "Indikerer at du ønsker å filtrere ut elementer som ikke er lik en bestemt verdi"
+      }
+    }
+  },
+  "calendar": {
+    "dayNames": ["søndag", "mandag", "tirsdag", "onsdag", "Torsdag", "fredag", "lørdag"],
+    "dayNamesShort": ["sol", "man", "hav", "ons", "tor", "fre", "satt"],
+    "dayNamesMin": ["D.", "L", "m", "X", "J", "V", "S"],
+    "monthNames": [
+      "januar",
+      "februar",
+      "mars",
+      "april",
+      "Kan",
+      "juni",
+      "juli",
+      "august",
+      "september",
+      "oktober",
+      "november",
+      "desember"
+    ],
+    "monthNamesShort": ["jan", "feb", "hav", "apr", "kan", "jun", "jul", "aug", "sep", "okt", "nov", "des"],
+    "today": "I dag",
+    "clear": "Slett"
+  }
+}

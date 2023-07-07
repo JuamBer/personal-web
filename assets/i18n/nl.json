@@ -1,0 +1,195 @@
+{
+  "sidebar": {
+    "description": "Ontwikkelaar van webapplicaties"
+  },
+  "pages": {
+    "home": "Samenvatting",
+    "certificates": "certificaten"
+  },
+  "home": {
+    "cv": "Cv",
+    "contacto": "Contact",
+    "trayectoria": "Traject",
+    "rrss": "Stuur me een e-mail naar dit adres contacto@juamber.com of schrijf me via een van mijn profielen"
+  },
+  "cv": {
+    "title": "schrijf me een e-mail",
+    "button": "Leerplan downloaden",
+    "info": "Download mijn laatste cv samengevat op één pagina in het Spaans"
+  },
+  "messages": {
+    "headers": {
+      "success": "Succes",
+      "warning": "Waarschuwing",
+      "info": "Informatie",
+      "error": "Fout"
+    },
+    "confirmation": {
+      "message": "Wilt u de {{name}}?",
+      "header": "Bevestiging verwijderen"
+    },
+    "toastDeleted": "Zij {{name}} is succesvol verwijderd",
+    "toastCreated": "Zij {{name}} is succesvol aangemaakt",
+    "toastUpdated": "Zij {{name}} is succesvol gewijzigd",
+    "toastError": "ERR"
+  },
+  "buttons": {
+    "view": "Detail {{name}}",
+    "cancel": "Annuleren",
+    "reset": "Schoon",
+    "detail": "Zien {{name}}",
+    "new": "Nieuw in {{name}}",
+    "create": "Creëren {{name}}",
+    "add": "Toevoegen {{name}}",
+    "edit": "Bewerken {{name}}",
+    "update": "Bewerken {{name}}",
+    "delete": "Verwijderen {{name}}",
+    "send": "Versturen {{name}}",
+    "open": "Open",
+    "refresh": "Vernieuwen",
+    "reject": "Nee",
+    "accept": "Ja",
+    "deleteFilters": "Filters wissen",
+    "filter": "Filter"
+  },
+  "form": {
+    "errors": {
+      "required": "Het is verplicht"
+    }
+  },
+  "general": {
+    "reordenar": "herschikken",
+    "opciones": "Opties",
+    "inactive": "inactief",
+    "active": "actief",
+    "total": "Totaal",
+    "translations": "Vertalingen: {{name}}"
+  },
+  "tables": {
+    "company": {
+      "singular": "Bedrijf",
+      "plural": "bedrijven"
+    },
+    "skillType": {
+      "singular": "Vaardigheidstype",
+      "plural": "Soorten vaardigheden"
+    },
+    "skill": {
+      "singular": "Vaardigheid",
+      "plural": "Vaardigheden"
+    },
+    "certificateType": {
+      "singular": "Certificaat Type",
+      "plural": "Soorten certificaten"
+    },
+    "certificateGroup": {
+      "singular": "Certificaat Groep",
+      "plural": "Certificaat groepen"
+    },
+    "position": {
+      "singular": "Functie",
+      "plural": "Functies"
+    },
+    "proyect": {
+      "singular": "projecteren",
+      "plural": "Projecten"
+    },
+    "mount": {
+      "singular": "Montage",
+      "plural": "montages"
+    },
+    "language": {
+      "singular": "taal",
+      "plural": "talen"
+    },
+    "certificate": {
+      "singular": "Certificaat",
+      "plural": "certificaten"
+    },
+    "curriculum": {
+      "singular": "Cv",
+      "plural": "cv"
+    }
+  },
+  "inputTranslations": {
+    "languageToAdd": "Taal om toe te voegen"
+  },
+  "columns": {
+    "name": "Naam",
+    "description": "Beschrijving",
+    "location": "Adres",
+    "image": "Afbeelding",
+    "nativeName": "inheemse naam",
+    "acronym": "Acroniem",
+    "active": "actief",
+    "date": "Datum",
+    "links": "koppelingen",
+    "components": "Componenten",
+    "email": "Mail",
+    "dateTo": "datum naar",
+    "dateFrom": "Datum vanaf",
+    "percentage": "percentage",
+    "url": "Koppeling",
+    "pdf": "pdf",
+    "github": "GitHub",
+    "web": "Web",
+    "playStore": "Play Store",
+    "microsoftStore": "Microsoft Store",
+    "filterType": "Filtertype",
+    "value": "Waard",
+    "createdAt": "gemaakt in",
+    "updatedAt": "bijgewerkt in"
+  },
+  "genericTable": {
+    "currentPageReport": "Toont {eerste} tot {laatste} van {totalRecords} vermeldingen",
+    "emptyMessage": "Het heeft geen vermeldingen gevonden",
+    "filters": {
+      "START_WITH": {
+        "name": "beginnen met",
+        "description": "Geeft aan dat u items wilt filteren die beginnen met een specifieke waarde"
+      },
+      "ENDS_WITH": {
+        "name": "Eindigt met",
+        "description": "Geeft aan dat u items wilt filteren die beginnen met een specifieke waarde"
+      },
+      "CONTAINS": {
+        "name": "Bevat",
+        "description": "Geeft aan dat u de elementen wilt filteren die een specifieke waarde bevatten"
+      },
+      "NOT_CONTAINS": {
+        "name": "Het heeft niet",
+        "description": "Geeft aan dat u de elementen wilt filteren die geen specifieke waarde bevatten"
+      },
+      "EQUAL": {
+        "name": "Gelijkwaardig",
+        "description": "Geeft aan dat u de elementen wilt filteren die gelijk zijn aan een specifieke waarde"
+      },
+      "NOT_EQUAL": {
+        "name": "anders dan",
+        "description": "Geeft aan dat u items wilt filteren die niet gelijk zijn aan een specifieke waarde"
+      }
+    }
+  },
+  "calendar": {
+    "dayNames": ["Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"],
+    "dayNamesShort": ["zon", "ma", "zee", "wo", "do", "vr", "za"],
+    "dayNamesMin": ["D.", "L", "M", "X", "J", "V", "S"],
+    "monthNames": [
+      "Januari",
+      "Februari",
+      "Maart",
+      "april",
+      "Kunnen",
+      "juni",
+      "juli",
+      "augustus",
+      "september",
+      "oktober",
+      "november",
+      "December"
+    ],
+    "monthNamesShort": ["jan", "februari", "zee", "apr", "kunnen", "juni", "jul", "aug", "sept", "okt", "nov", "dec"],
+    "today": "Vandaag",
+    "clear": "Verwijderen"
+  }
+}
