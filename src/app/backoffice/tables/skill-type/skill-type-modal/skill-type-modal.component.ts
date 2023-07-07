@@ -3,13 +3,18 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 
 import { Action, Store } from '@ngrx/store';
-import { Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
+import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
+import { appRootTitle } from 'src/app/app.component';
+import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { ModalParams } from 'src/app/shared/models/modal-params';
+import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
 import { SkillType, SkillTypeFormGroup } from '../models/skill-type.model';
@@ -22,14 +27,34 @@ export const skillTypeModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  if (!route.paramMap.get('id')) {
-    return 'Juan Sáez García | Skill Type | New';
-  }
-  return from(inject(SkillTypeService).getTitle(route.paramMap.get('id'))).pipe(
-    map((selected) => 'Juan Sáez García | Skill Type | ' + selected.name),
+  const store = inject(Store);
+  const skillTypeSrv = inject(SkillTypeService);
+  const translateSrv = inject(TranslateService);
+
+  return store.select(publicLanguageReducer.getOne).pipe(
+    filter((i) => !!i),
+    switchMap((language) =>
+      translateSrv
+        .get(`tables.${skillTypeNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`)
+        .pipe(
+          !route.paramMap.get('id')
+            ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
+            : switchMap((table) =>
+                from(skillTypeSrv.getTitle(route.paramMap.get('id'))).pipe(
+                  map(
+                    (selected) =>
+                      `${appRootTitle} | ${table} | ${
+                        selected.nameTranslations.find(
+                          (translation: Translation) => translation.language === language.acronym,
+                        ).value
+                      }`,
+                  ),
+                ),
+              ),
+        ),
+    ),
   );
 };
-
 @Component({
   selector: 'app-skill-type-modal',
   templateUrl: './skill-type-modal.component.html',
@@ -46,6 +71,8 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
   form: SkillTypeFormGroup = this.fb.group({
     name: this.fb.control<string | undefined>(undefined, [Validators.required]),
     description: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    nameTranslations: this.fb.array<TranslationFormGroup>([]),
+    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
   });
 
   unsubscribe$: Subject<boolean> = new Subject();
@@ -67,6 +94,7 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
     skip(1),
     filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
   );
+  showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
     this.params$
@@ -86,6 +114,8 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
         id: entity.id,
         name: entity.name,
         description: entity.description,
+        nameTranslations: entity.nameTranslations,
+        descriptionTranslations: entity.descriptionTranslations,
       });
     });
   }
@@ -104,6 +134,7 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
   send() {
     if (this.form.invalid) {
       FormUtils.markAllAsDirtyAndTouched(this.form);
+      this.showErrors$.next(true);
     } else {
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
@@ -126,5 +157,11 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
   }
   get names() {
     return skillTypeNames;
+  }
+  get InputTranslationsType() {
+    return InputTranslationsType;
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

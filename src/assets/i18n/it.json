@@ -1,0 +1,208 @@
+{
+  "sidebar": {
+    "description": "Sviluppatore di applicazioni web"
+  },
+  "pages": {
+    "home": "Riepilogo",
+    "certificates": "certificati"
+  },
+  "home": {
+    "cv": "Riprendere",
+    "contacto": "Contatto",
+    "trayectoria": "Traiettoria",
+    "rrss": "Inviami una mail a questo indirizzo contacto@juamber.com o scrivimi tramite uno dei miei profili"
+  },
+  "cv": {
+    "title": "scrivimi una mail",
+    "button": "Scarica Curriculum",
+    "info": "Scarica il mio ultimo curriculum riassunto in una pagina in spagnolo"
+  },
+  "messages": {
+    "headers": {
+      "success": "Successo",
+      "warning": "Avvertimento",
+      "info": "Informazione",
+      "error": "Errore"
+    },
+    "confirmation": {
+      "message": "Vuoi eliminare il file {{name}}?",
+      "header": "Elimina conferma"
+    },
+    "toastDeleted": "Lei {{name}} è stato eliminato con successo",
+    "toastCreated": "Lei {{name}} è stato creato con successo",
+    "toastUpdated": "Lei {{name}} è stato modificato con successo",
+    "toastError": "ERR"
+  },
+  "buttons": {
+    "view": "Dettaglio {{name}}",
+    "cancel": "Annulla",
+    "reset": "Pulito",
+    "detail": "Vedere {{name}}",
+    "new": "Nuovo a {{name}}",
+    "create": "Creare {{name}}",
+    "add": "Aggiungere {{name}}",
+    "edit": "Modificare {{name}}",
+    "update": "Modificare {{name}}",
+    "delete": "Eliminare {{name}}",
+    "send": "Inviare {{name}}",
+    "open": "Aprire",
+    "refresh": "ricaricare",
+    "reject": "NO",
+    "accept": "Sì",
+    "deleteFilters": "Cancella filtri",
+    "filter": "Filtro"
+  },
+  "form": {
+    "errors": {
+      "required": "È richiesto"
+    }
+  },
+  "general": {
+    "reordenar": "riorganizzare",
+    "opciones": "Opzioni",
+    "inactive": "inattivo",
+    "active": "attivo",
+    "total": "Totale",
+    "translations": "Traduzioni: {{name}}"
+  },
+  "tables": {
+    "company": {
+      "singular": "Azienda",
+      "plural": "aziende"
+    },
+    "skillType": {
+      "singular": "Tipo di abilità",
+      "plural": "Tipi di abilità"
+    },
+    "skill": {
+      "singular": "Capacità",
+      "plural": "Competenze"
+    },
+    "certificateType": {
+      "singular": "Tipo di certificato",
+      "plural": "Tipi di certificati"
+    },
+    "certificateGroup": {
+      "singular": "Gruppo certificato",
+      "plural": "Gruppi di certificati"
+    },
+    "position": {
+      "singular": "Lavoro",
+      "plural": "Posizioni lavorative"
+    },
+    "proyect": {
+      "singular": "Progetto",
+      "plural": "Progetti"
+    },
+    "mount": {
+      "singular": "Montaggio",
+      "plural": "montaggi"
+    },
+    "language": {
+      "singular": "lingua",
+      "plural": "le lingue"
+    },
+    "certificate": {
+      "singular": "Certificato",
+      "plural": "certificati"
+    },
+    "curriculum": {
+      "singular": "Riprendere",
+      "plural": "riprendere"
+    }
+  },
+  "inputTranslations": {
+    "languageToAdd": "Lingua da aggiungere"
+  },
+  "columns": {
+    "name": "Nome",
+    "description": "Descrizione",
+    "location": "Indirizzo",
+    "image": "Immagine",
+    "nativeName": "nome nativo",
+    "acronym": "Acronimo",
+    "active": "attivo",
+    "date": "Data",
+    "links": "link",
+    "components": "Componenti",
+    "email": "Posta",
+    "dateTo": "data a",
+    "dateFrom": "Data da",
+    "percentage": "percentuale",
+    "url": "Collegamento",
+    "pdf": "PDF",
+    "github": "Git Hub",
+    "web": "ragnatela",
+    "playStore": "Play Store",
+    "microsoftStore": "Microsoft Store",
+    "filterType": "Tipo di filtro",
+    "value": "Di valore",
+    "createdAt": "creato in",
+    "updatedAt": "aggiornato in"
+  },
+  "genericTable": {
+    "currentPageReport": "Visualizzazione dal {first} al {last} di {totalRecords} voci",
+    "emptyMessage": "Non ha trovato alcuna voce",
+    "filters": {
+      "START_WITH": {
+        "name": "iniziare con",
+        "description": "Indica che si desidera filtrare gli elementi che iniziano con un valore specifico"
+      },
+      "ENDS_WITH": {
+        "name": "Finisce con",
+        "description": "Indica che si desidera filtrare gli elementi che iniziano con un valore specifico"
+      },
+      "CONTAINS": {
+        "name": "Contiene",
+        "description": "Indica che si desidera filtrare gli elementi che contengono un valore specifico"
+      },
+      "NOT_CONTAINS": {
+        "name": "Non ha",
+        "description": "Indica che si desidera filtrare gli elementi che non contengono un valore specifico"
+      },
+      "EQUAL": {
+        "name": "Pari",
+        "description": "Indica che si desidera filtrare gli elementi uguali a un valore specifico"
+      },
+      "NOT_EQUAL": {
+        "name": "altro che",
+        "description": "Indica che si desidera filtrare gli elementi che non corrispondono a un valore specifico"
+      }
+    }
+  },
+  "calendar": {
+    "dayNames": ["Domenica", "Lunedi", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
+    "dayNamesShort": ["sole", "lun", "mare", "mer", "gio", "ven", "sab"],
+    "dayNamesMin": ["D.", "l", "M", "X", "J", "v", "S"],
+    "monthNames": [
+      "Gennaio",
+      "Febbraio",
+      "Marzo",
+      "aprile",
+      "Maggio",
+      "Giugno",
+      "Luglio",
+      "agosto",
+      "settembre",
+      "ottobre",
+      "novembre",
+      "Dicembre"
+    ],
+    "monthNamesShort": [
+      "gennaio",
+      "feb",
+      "mare",
+      "apr",
+      "Maggio",
+      "giu",
+      "lug",
+      "ago",
+      "settembre",
+      "ott",
+      "nov",
+      "dic"
+    ],
+    "today": "Oggi",
+    "clear": "Eliminare"
+  }
+}

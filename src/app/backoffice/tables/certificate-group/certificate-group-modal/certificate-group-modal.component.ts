@@ -3,13 +3,18 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 //CERTIFICATEGROUP
 import { Store } from '@ngrx/store';
-import { Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
+import { filter, map, skip, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { appRootTitle } from 'src/app/app.component';
+import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { ModalParams } from 'src/app/shared/models/modal-params';
+import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { Action, ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
 import { CertificateGroup, CertificateGroupFormGroup } from '../models/certificate-group.model';
@@ -22,11 +27,30 @@ export const certificateGroupModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  if (!route.paramMap.get('id')) {
-    return 'Juan Sáez García | Certificate Groups | New';
-  }
-  return from(inject(CertificateGroupService).getTitle(route.paramMap.get('id'))).pipe(
-    map((selected) => 'Juan Sáez García | Certificate Groups | ' + selected.name),
+  const store = inject(Store);
+  const certificateGroupSrv = inject(CertificateGroupService);
+  const translateSrv = inject(TranslateService);
+  return store.select(publicLanguageReducer.getOne).pipe(
+    filter((i) => !!i),
+    switchMap((language) =>
+      translateSrv.get(`tables.${certificateGroupNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`).pipe(
+        !route.paramMap.get('id')
+          ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
+          : switchMap((table) =>
+              from(certificateGroupSrv.getTitle(route.paramMap.get('id'))).pipe(
+                tap(console.log),
+                map(
+                  (selected) =>
+                    `${appRootTitle} | ${table} | ${
+                      selected.nameTranslations.find(
+                        (translation: Translation) => translation.language === language.acronym,
+                      ).value
+                    }`,
+                ),
+              ),
+            ),
+      ),
+    ),
   );
 };
 
@@ -44,8 +68,8 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
 
   visible = true;
   form: CertificateGroupFormGroup = this.fb.group({
-    name: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    description: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    nameTranslations: this.fb.array<TranslationFormGroup>([]),
+    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
   });
 
   unsubscribe$: Subject<boolean> = new Subject();
@@ -67,10 +91,18 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
   action$: Observable<Action> = this.store.select(certificateGroupReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
-    filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
+    filter(
+      (action) =>
+        (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
+        action.status === ActionStatus.SUCCESS,
+    ),
   );
+  showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
+    this.action$.subscribe(() => {
+      this.hide();
+    });
     this.params$
       .pipe(filter((params) => !!params.id))
       .subscribe((params) => this.store.dispatch(certificateGroupActions.loadOne({ id: params.id })));
@@ -86,8 +118,8 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
       }
       this.form.patchValue({
         id: entity.id,
-        name: entity.name,
-        description: entity.description,
+        nameTranslations: entity.nameTranslations,
+        descriptionTranslations: entity.descriptionTranslations,
       });
     });
   }
@@ -106,6 +138,7 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
   send() {
     if (this.form.invalid) {
       FormUtils.markAllAsDirtyAndTouched(this.form);
+      this.showErrors$.next(true);
     } else {
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
@@ -128,5 +161,11 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
   }
   get names() {
     return certificateGroupNames;
+  }
+  get InputTranslationsType() {
+    return InputTranslationsType;
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

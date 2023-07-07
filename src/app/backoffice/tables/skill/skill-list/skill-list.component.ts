@@ -132,9 +132,9 @@ export class SkillListComponent implements OnInit, EntityList<Skill> {
           sort: true,
         },
         {
-          field: 'skillType.name',
+          field: 'skillType.nameTranslations',
           label: 'Skill Type',
-          type: GenericFieldType.TEXT,
+          type: GenericFieldType.TRANSLATIONS,
           filter: true,
           sort: true,
         },

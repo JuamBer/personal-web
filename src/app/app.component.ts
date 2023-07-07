@@ -3,6 +3,7 @@ import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
 import { publicLanguageActions } from './shared/state/languages/public-language.actions';
 
+export const appRootTitle = 'Juan Sáez García';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

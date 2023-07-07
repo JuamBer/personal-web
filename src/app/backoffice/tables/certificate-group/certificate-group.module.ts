@@ -17,6 +17,7 @@ import { MessageModule } from 'primeng/message';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TabViewModule } from 'primeng/tabview';
+import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
 import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
@@ -33,7 +34,7 @@ import { CertificateGroupStateModule } from './state/certificate-group-state.mod
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-
+    InputTranslationsModule,
     MessageModule,
     DialogModule,
     CardModule,

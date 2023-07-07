@@ -125,11 +125,18 @@ export class CertificateListComponent implements OnInit, EntityList<Certificate>
           type: GenericFieldType.IMAGE,
         },
         {
-          field: 'name',
+          field: 'nameTranslations',
           label: this.translateSrv.instant('columns.name'),
-          sort: true,
+          type: GenericFieldType.TRANSLATIONS,
           filter: true,
-          type: GenericFieldType.TEXT,
+          sort: true,
+        },
+        {
+          field: 'descriptionTranslations',
+          label: this.translateSrv.instant('columns.description'),
+          type: GenericFieldType.TRANSLATIONS,
+          filter: true,
+          sort: true,
         },
         {
           field: 'date',
@@ -137,13 +144,6 @@ export class CertificateListComponent implements OnInit, EntityList<Certificate>
           sort: true,
           filter: true,
           type: GenericFieldType.DATE,
-        },
-        {
-          field: 'description',
-          label: this.translateSrv.instant('columns.description'),
-          sort: true,
-          filter: true,
-          type: GenericFieldType.TEXT,
         },
       ],
       buttons: {

@@ -1,4 +1,4 @@
-<div class="tools">
+<div class="tools" *appLet="language$ | async as language">
   <ul *ngIf="!loading">
     <li *ngFor="let entity of entities" class="tool">
       <span class="name">
@@ -6,10 +6,7 @@
       </span>
       <span class="ability">
         <div class="progress-border">
-          <div
-            class="progress-filled"
-            [style.width]="entity.percentage + '%'"
-          ></div>
+          <div class="progress-filled" [style.width]="entity.percentage + '%'"></div>
         </div>
         <!-- <progress [value]="entity.ability / 10"  max="100"></progress> -->
       </span>

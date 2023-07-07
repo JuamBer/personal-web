@@ -10,7 +10,9 @@ import { certificateTypeReducer } from 'src/app/backoffice/tables/certificate-ty
 import { CertificateTypeState } from 'src/app/backoffice/tables/certificate-type/state/certificate-type.state';
 import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
-import { CertificateState } from 'src/app/backoffice/tables/certificate/state/certificate.state';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOptions } from 'swiper';
 
 Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
@@ -21,8 +23,10 @@ Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
   styleUrls: ['./certificates.component.scss'],
 })
 export class CertificatesComponent implements OnInit {
-  certificates$: Observable<Certificate[]> = this.certificateStore.select(certificateReducer.getAll);
-  loadingCertificates$: Observable<boolean> = this.certificateStore.select(certificateReducer.getLoading);
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+
+  certificates$: Observable<Certificate[]> = this.store.select(certificateReducer.getAll);
+  loadingCertificates$: Observable<boolean> = this.store.select(certificateReducer.getLoading);
   certificateTypes$: Observable<CertificateType[]> = this.certificateTypeStore.select(certificateTypeReducer.getAll);
   loadingCertificateTypes$: Observable<boolean> = this.certificateTypeStore.select(certificateTypeReducer.getLoading);
 
@@ -64,7 +68,7 @@ export class CertificatesComponent implements OnInit {
   };
 
   constructor(
-    private certificateStore: Store<CertificateState>,
+    private store: Store,
     private certificateTypeStore: Store<CertificateTypeState>,
     private certificateGroupStore: Store<CertificateGroupState>,
   ) {}
@@ -84,9 +88,13 @@ export class CertificatesComponent implements OnInit {
   }
 
   orderByDate(certificates: Certificate[]): Certificate[] {
-    return [...certificates].sort((a, b) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    });
+    console.log(certificates);
+    if (certificates) {
+      return [...certificates].sort((a, b) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      });
+    }
+    return [];
   }
 
   getTabIndex(certificateGroup: CertificateGroup) {
@@ -117,5 +125,9 @@ export class CertificatesComponent implements OnInit {
 
   open(url: string) {
     window.open(url, '_blank');
+  }
+
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }

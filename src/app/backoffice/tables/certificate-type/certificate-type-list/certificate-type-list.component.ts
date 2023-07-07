@@ -3,7 +3,8 @@ import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
-import { Observable, Subject, filter, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, startWith, switchMap } from 'rxjs';
+import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
   GenericTableConfig,
@@ -26,7 +27,17 @@ export const certificateTypeListTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  return `Juan Sáez García | Certificate Types`;
+  const store = inject(Store);
+  const translateSrv = inject(TranslateService);
+
+  return store.select(publicLanguageReducer.getOne).pipe(
+    filter((i) => !!i),
+    switchMap(() =>
+      translateSrv
+        .get(`tables.${certificateTypeNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`)
+        .pipe(map((table) => `${appRootTitle} | ${table}`)),
+    ),
+  );
 };
 
 @Component({
@@ -43,22 +54,16 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
   private messageSrv = inject(MessageService);
   private toastSrv = inject(ToastService);
 
-  getMessage;
   entities$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
   loading$: Observable<boolean> = this.store.select(certificateTypeReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateTypeReducer.getCount);
   action$: Observable<Action> = this.store.select(certificateTypeReducer.getAction);
-  tableConfig$: Subject<GenericTableConfig<CertificateType>> = new Subject<GenericTableConfig<CertificateType>>();
+  tableConfig$: BehaviorSubject<GenericTableConfig<CertificateType | undefined>> = new BehaviorSubject<
+    GenericTableConfig<CertificateType | undefined>
+  >(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(certificateTypeActions.count());
-    this.store
-      .select(publicLanguageReducer.getOne)
-      .pipe(filter((i) => i != null))
-      .subscribe((language) => {
-        this.translateSrv.use(language.acronym);
-      });
-
     this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadTableConfig();
     });
@@ -129,23 +134,15 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
       ...defaultGenericTableConfig,
       fields: [
         {
-          field: 'name',
-          label: 'Name',
-          type: GenericFieldType.TEXT,
-          filter: true,
-          sort: true,
-        },
-        {
-          field: 'description',
-          label: 'description',
-          type: GenericFieldType.TEXT,
-          filter: true,
-          sort: true,
-          tooltip: (item: CertificateType) => item.description,
-        },
-        {
           field: 'nameTranslations',
-          label: 'Name Translations',
+          label: this.translateSrv.instant('columns.name'),
+          type: GenericFieldType.TRANSLATIONS,
+          filter: true,
+          sort: true,
+        },
+        {
+          field: 'descriptionTranslations',
+          label: this.translateSrv.instant('columns.description'),
           type: GenericFieldType.TRANSLATIONS,
           filter: true,
           sort: true,

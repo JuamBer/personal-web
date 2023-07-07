@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
 import { ObjectUtils } from 'src/app/shared/utils/object.utils';
 import { FilterEvent, GenericTableConfig, SortEvent, TableEvent } from './models/generic-table.models';
@@ -10,7 +10,7 @@ import { defaultGenericTableConfig } from './utils/vairables';
   styleUrls: ['./generic-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GenericTableComponent<T> {
+export class GenericTableComponent<T> implements OnInit {
   @Input() config: GenericTableConfig<T> = defaultGenericTableConfig;
   @Input() loading = true;
   @Input() count = 0;
@@ -26,6 +26,10 @@ export class GenericTableComponent<T> {
   previousTableEvent: TableEvent<T>;
 
   filters: FilterEvent<T>[] = [];
+
+  ngOnInit(): void {
+    this.onLazyLoad(this.lazyLoadEventValue);
+  }
 
   onLazyLoad(event: LazyLoadEvent) {
     if (!ObjectUtils.areObjectEquals(this.lazyLoadEventValue, event)) {

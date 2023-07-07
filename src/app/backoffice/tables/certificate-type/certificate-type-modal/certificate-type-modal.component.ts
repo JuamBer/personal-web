@@ -2,15 +2,18 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
-import { filter, map, skip, startWith, take, takeUntil } from 'rxjs/operators';
+import { filter, map, skip, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
+import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { ModalParams } from 'src/app/shared/models/modal-params';
-import { TranslationFormGroup } from 'src/app/shared/models/translation.model';
+import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { Action, ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
 import { CertificateType, CertificateTypeFormGroup } from '../models/certificate-type.model';
@@ -23,11 +26,32 @@ export const certificateTypeModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  if (!route.paramMap.get('id')) {
-    return 'Juan Sáez García | Certificate Types | New';
-  }
-  return from(inject(CertificateTypeService).getTitle(route.paramMap.get('id'))).pipe(
-    map((selected) => 'Juan Sáez García | Certificate Types | ' + selected.name),
+  const store = inject(Store);
+  const certificateTypeSrv = inject(CertificateTypeService);
+  const translateSrv = inject(TranslateService);
+
+  return store.select(publicLanguageReducer.getOne).pipe(
+    filter((i) => !!i),
+    switchMap((language) =>
+      translateSrv
+        .get(`tables.${certificateTypeNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`)
+        .pipe(
+          !route.paramMap.get('id')
+            ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
+            : switchMap((table) =>
+                from(certificateTypeSrv.getTitle(route.paramMap.get('id'))).pipe(
+                  map(
+                    (selected) =>
+                      `${appRootTitle} | ${table} | ${
+                        selected.nameTranslations.find(
+                          (translation: Translation) => translation.language === language.acronym,
+                        ).value
+                      }`,
+                  ),
+                ),
+              ),
+        ),
+    ),
   );
 };
 
@@ -45,8 +69,6 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
 
   visible = true;
   form: CertificateTypeFormGroup = this.fb.group({
-    name: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    description: this.fb.control<string | undefined>(undefined, [Validators.required]),
     nameTranslations: this.fb.array<TranslationFormGroup>([]),
     descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
   });
@@ -79,11 +101,10 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
-    this.showErrors$.pipe(takeUntil(this.unsubscribe$)).subscribe(console.log);
     this.params$
       .pipe(filter((params) => !!params.id))
       .subscribe((params) => this.store.dispatch(certificateTypeActions.loadOne({ id: params.id })));
-    this.action$.subscribe((action) => {
+    this.action$.subscribe(() => {
       this.hide();
     });
     combineLatest([this.modalMode$, this.form.valueChanges.pipe(startWith(this.form.value))])
@@ -101,8 +122,6 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
       }
       this.form.patchValue({
         id: entity.id,
-        name: entity.name,
-        description: entity.description,
         nameTranslations: entity.nameTranslations,
         descriptionTranslations: entity.descriptionTranslations,
       });

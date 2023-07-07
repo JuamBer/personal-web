@@ -6,7 +6,6 @@ import { filter } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageActions } from '../../state/languages/public-language.actions';
 import { publicLanguageReducer } from '../../state/languages/public-language.reducer';
-import { PublicLanguageState } from '../../state/languages/public-language.state';
 
 @Component({
   selector: 'app-language-select',
@@ -22,38 +21,26 @@ export class LanguageSelectComponent implements OnInit {
   languages: Language[];
   language: Language;
 
-  constructor(
-    private publicLanguageStore: Store<PublicLanguageState>,
-    private translateSrv: TranslateService,
-    private messageSrv: MessageService,
-  ) {}
+  constructor(private store: Store, private translateSrv: TranslateService, private messageSrv: MessageService) {}
 
   ngOnInit(): void {
-    this.publicLanguageStore
+    this.store
       .select(publicLanguageReducer.getAll)
       .pipe(filter((i) => i != null))
       .subscribe((languages) => {
         this.languages = languages.filter((language) => (language.active ? true : false));
       });
 
-    this.publicLanguageStore
+    this.store
       .select(publicLanguageReducer.getOne)
       .pipe(filter((i) => i != null))
       .subscribe((idioma) => {
         this.language = idioma;
         this.translateSrv.use(idioma.acronym);
-        if (idioma.acronym === 'en') {
-          this.messageSrv.add({
-            life: 1000,
-            severity: 'warn',
-            summary: 'Incomplete Translations',
-            detail: 'Some text entries are waiting to be translated',
-          });
-        }
       });
   }
 
   onLanguageChange() {
-    this.publicLanguageStore.dispatch(publicLanguageActions.loadOneSuccess({ payload: this.language }));
+    this.store.dispatch(publicLanguageActions.loadOneSuccess({ payload: this.language }));
   }
 }

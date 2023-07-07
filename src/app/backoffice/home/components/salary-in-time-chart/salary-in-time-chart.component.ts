@@ -41,7 +41,7 @@ export class SalaryInTimeChartComponent implements OnInit {
         data,
       });
       const res: ChartData<'bar', { key: string; value: number }[]> = {
-        labels: positions.map((position) => `${position.company.name} - ${position.name}`),
+        labels: positions.map((position) => `${position.company.name} - ${'position.name'}`),
         datasets,
       };
       return res;

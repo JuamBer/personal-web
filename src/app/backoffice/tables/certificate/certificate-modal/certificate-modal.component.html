@@ -17,14 +17,20 @@
 >
   <form [formGroup]="form" (ngSubmit)="send()" *appLet="loading$ | async as loading">
     <div class="grid p-fluid mt-1">
-      <div *appLet="'name' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-6 lg:col-6 mt-3">
-        <span class="p-float-label">
-          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
-          <label [for]="field">
-            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
-            <span class="error">{{ form.controls[field] | errors | async }}</span>
-          </label>
-        </span>
+      <div
+        *appLet="'nameTranslations' as field"
+        appLoading
+        [appIsLoading]="loading"
+        class="xs:col-12 md:col-12 lg:col-12 mt-3"
+      >
+        <app-input-translations
+          [showErrors]="showErrors$"
+          [type]="InputTranslationsType.INPUT"
+          [translations]="(entity$ | async)?.nameTranslations"
+          [disabled]="modalMode === ModalMode.VIEW"
+          [form]="form.controls[field]"
+          [label]="'columns.name' | translate"
+        ></app-input-translations>
       </div>
       <div *appLet="'date' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-6 lg:col-6 mt-3">
         <span class="p-float-label">
@@ -40,6 +46,21 @@
             <span class="error">{{ form.controls[field] | errors | async }}</span>
           </label>
         </span>
+      </div>
+      <div
+        *appLet="'descriptionTranslations' as field"
+        appLoading
+        [appIsLoading]="loading"
+        class="xs:col-12 md:col-12 lg:col-12 mt-3"
+      >
+        <app-input-translations
+          [showErrors]="showErrors$"
+          [type]="InputTranslationsType.TEXTAREA"
+          [translations]="(entity$ | async)?.descriptionTranslations"
+          [disabled]="modalMode === ModalMode.VIEW"
+          [form]="form.controls[field]"
+          [label]="'columns.description' | translate"
+        ></app-input-translations>
       </div>
       <div *appLet="'company' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-4 lg:col-4 mt-3">
         <span class="p-float-label">

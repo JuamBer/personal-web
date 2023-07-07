@@ -125,12 +125,11 @@ export class CompanyListComponent implements OnInit, EntityList<Company> {
           sort: true,
         },
         {
-          field: 'description',
-          label: 'description',
-          type: GenericFieldType.TEXT,
+          field: 'descriptionTranslations',
+          label: this.translateSrv.instant('columns.description'),
+          type: GenericFieldType.TRANSLATIONS,
           filter: true,
           sort: true,
-          tooltip: (item: Company) => item.description,
         },
       ],
       buttons: {

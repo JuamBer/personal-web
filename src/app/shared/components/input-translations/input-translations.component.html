@@ -1,4 +1,4 @@
-<div class="translate-input" [ngClass]="{ textarea: type === 'TEXTAREA' }">
+<div class="translate-input" *appLet="suggestions$ | async as suggestions">
   <div class="p-inputgroup translation-input-preview" *ngIf="languagesToFill$ | async as languagesToFill">
     <span class="p-float-label">
       <p-dropdown appendTo="body" [options]="languagesToFill" [(ngModel)]="language" [style]="{ height: '100%' }">
@@ -25,7 +25,6 @@
       <ng-container *ngSwitchCase="InputTranslationsType.INPUT">
         <span class="p-float-label translation" *ngIf="getActualTranslationControl() as translationForm">
           <input
-            [disabled]="disabled"
             *ngIf="languagesToFill.length > 0"
             (input)="onActualTranslationChange($event)"
             type="text"
@@ -36,7 +35,7 @@
               'ng-invalid': translationForm?.invalid,
               'ng-dirty': translationForm?.dirty
             }"
-            [placeholder]="getSuggestion(translationForm.controls['language'].value)"
+            [placeholder]="getSuggestion(suggestions, translationForm.controls['language'].value)"
             (focus)="setSuggestion(translationForm.controls['language'].value)"
             (keydown)="onKeyPress($event, translationForm.controls['language'].value)"
             [formControl]="translationForm.controls['value']"
@@ -53,7 +52,6 @@
             rows="3"
             cols="30"
             pInputTextarea
-            [disabled]="disabled"
             *ngIf="languagesToFill.length > 0"
             (input)="onActualTranslationChange($event)"
             type="text"
@@ -64,7 +62,7 @@
               'ng-invalid': translationForm?.invalid,
               'ng-dirty': translationForm?.dirty
             }"
-            [placeholder]="getSuggestion(translationForm.controls['language'].value)"
+            [placeholder]="getSuggestion(suggestions, translationForm.controls['language'].value)"
             (focus)="setSuggestion(translationForm.controls['language'].value)"
             (keydown)="onKeyPress($event, translationForm.controls['language'].value)"
             [formControl]="translationForm.controls['value']"
@@ -118,11 +116,10 @@
                     [style]="{
                       width: '100%',
                     }"
-                    [placeholder]="getSuggestion(translationForm.controls['language'].value)"
+                    [placeholder]="getSuggestion(suggestions, translationForm.controls['language'].value)"
                     (focus)="setSuggestion(translationForm.controls['language'].value)"
                     (keydown)="onKeyPress($event, translationForm.controls['language'].value)"
                     formControlName="value"
-                    (onFocus)="onFocus(translationForm.controls['language'].value)"
                   />
                   <label>
                     {{ label }} {{ translationForm.controls['value'] | isRequired }}
@@ -138,7 +135,7 @@
                     [style]="{
                       width: '100%',
                     }"
-                    [placeholder]="getSuggestion(translationForm.controls['language'].value)"
+                    [placeholder]="getSuggestion(suggestions, translationForm.controls['language'].value)"
                     (focus)="setSuggestion(translationForm.controls['language'].value)"
                     (keydown)="onKeyPress($event, translationForm.controls['language'].value)"
                     formControlName="value"
@@ -204,7 +201,7 @@
               <label>{{ 'inputTranslations.languageToAdd' | translate }} </label>
             </span>
             <button
-              [disabled]="!languageToAddFormControl.value || languageToAddFormControl.value === ''"
+              [disabled]="!languageToAddFormControl.value || languageToAddFormControl.value === '' || form.disabled"
               type="button"
               class="p-button-sm"
               pButton

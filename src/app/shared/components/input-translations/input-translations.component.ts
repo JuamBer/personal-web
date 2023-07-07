@@ -1,4 +1,3 @@
-import { TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,8 +15,8 @@ import { map, startWith, take, tap } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
-import { AutoCompleteCompleteEvent } from '../../models/primeng.model';
 import { Translation, TranslationFormGroup } from '../../models/translation.model';
+import { CapitalizePipe } from '../../pipes/capitalize.pipe';
 import { InputTranslationsType } from './models/input-translations.models';
 import { InputTranslationsService } from './services/input-translations.service';
 
@@ -33,7 +32,7 @@ export class InputTranslationsComponent implements OnInit {
   private fb = inject(FormBuilder);
   private ref = inject(ChangeDetectorRef);
   private inputTranslationsService = inject(InputTranslationsService);
-  private titleCasePipe = inject(TitleCasePipe);
+  private capitalizePipe = inject(CapitalizePipe);
 
   faTimes = faTimes;
   faTrash = faTrash;
@@ -51,8 +50,7 @@ export class InputTranslationsComponent implements OnInit {
   }
 
   translations$: BehaviorSubject<Translation[]> = new BehaviorSubject<Translation[]>([]);
-  suggestions$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(['hola', 'aaaaa', 'bbb']);
-  suggestions: any[] = [];
+  suggestions$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   @Input() disabled: boolean;
   @Input() form: FormArray<TranslationFormGroup>;
@@ -205,57 +203,33 @@ export class InputTranslationsComponent implements OnInit {
         .pipe(
           take(1),
           tap(console.log),
-          map((res) => this.titleCasePipe.transform(res.data.translations[0].translatedText)),
+          map((res) => this.capitalizePipe.transform(res.data.translations[0].translatedText)),
         )
         .subscribe((suggestion) => {
-          const suggestionIndex = this.suggestions.findIndex((s) => s.language === acronym);
+          const suggestionIndex = this.suggestions$.getValue().findIndex((s) => s.language === acronym);
           if (suggestionIndex >= 0) {
-            this.suggestions[suggestionIndex] = {
-              language: acronym,
-              value: suggestion,
-            };
+            this.suggestions$.next([
+              ...this.suggestions$
+                .getValue()
+                .map((v, i) => (i === suggestionIndex ? { language: acronym, value: suggestion } : v)),
+            ]);
           } else {
-            this.suggestions.push({
-              language: acronym,
-              value: suggestion,
-            });
+            this.suggestions$.next([...this.suggestions$.getValue(), { language: acronym, value: suggestion }]);
           }
         });
     }
   }
-  getSuggestion(acronym: string) {
-    return this.suggestions.find((s) => s.language === acronym)?.value;
+  getSuggestion(suggestions: any[], acronym: string) {
+    const suggestion = suggestions.find((s) => s.language === acronym)?.value;
+    return suggestion ? suggestion : '';
   }
 
   onKeyPress(event: KeyboardEvent, acronym: string) {
-    console.log(event);
-
     if (event.key === 'Tab') {
       this.form.controls
         .find((translationForm) => translationForm.value.language === acronym)
-        .controls['value'].setValue(this.getSuggestion(acronym));
+        .controls['value'].setValue(this.getSuggestion(this.suggestions$.getValue(), acronym));
     }
-  }
-
-  onFocus(acronym: string) {
-    const spanishTranslation = this.form.value.find((translation) => translation.language === 'es').value;
-
-    if (spanishTranslation) {
-      this.inputTranslationsService
-        .translate({
-          q: [spanishTranslation],
-          target: acronym,
-          source: 'es',
-        })
-        .pipe(take(1))
-        .subscribe((res) => {
-          this.suggestions = [this.titleCasePipe.transform(res.data.translations[0].translatedText)];
-        });
-    }
-  }
-
-  completeWithSuggestion(event: AutoCompleteCompleteEvent, acronym: string) {
-    this.suggestions = [...this.suggestions];
   }
 
   get InputTranslationsType() {

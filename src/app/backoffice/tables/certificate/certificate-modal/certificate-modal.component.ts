@@ -3,11 +3,13 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 
 import { Action, Store } from '@ngrx/store';
-import { Observable, Subject, from } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
 import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { ModalParams } from 'src/app/shared/models/modal-params';
+import { TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -55,6 +57,8 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
   form: CertificateFormGroup = this.fb.group({
     name: this.fb.control<string | undefined>(undefined, [Validators.required]),
     description: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    nameTranslations: this.fb.array<TranslationFormGroup>([]),
+    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
     url: this.fb.control<string | undefined>(undefined),
     image: this.fb.control<string | undefined>(undefined),
     pdf: this.fb.control<string | undefined>(undefined),
@@ -87,6 +91,8 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
     skip(1),
     filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
   );
+  showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   certificateTypes$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
   certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
   companies$: Observable<Company[]> = this.store.select(companyReducer.getAll);
@@ -113,6 +119,8 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
         id: entity.id,
         name: entity.name,
         description: entity.description,
+        nameTranslations: entity.nameTranslations,
+        descriptionTranslations: entity.descriptionTranslations,
         url: entity.url,
         image: entity.image,
         pdf: entity.pdf,
@@ -142,6 +150,7 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
   send() {
     if (this.form.invalid) {
       FormUtils.markAllAsDirtyAndTouched(this.form);
+      this.showErrors$.next(true);
     } else {
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
@@ -164,5 +173,11 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
   }
   get names() {
     return certificateNames;
+  }
+  get InputTranslationsType() {
+    return InputTranslationsType;
+  }
+  get ModalMode() {
+    return ModalMode;
   }
 }

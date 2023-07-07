@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { PositionState } from 'src/app/backoffice/tables/position/state/position.state';
 import { SkillType } from 'src/app/backoffice/tables/skill-type/models/skill-type.model';
 import { skillTypeActions } from 'src/app/backoffice/tables/skill-type/state/skill-type.actions';
@@ -15,6 +16,7 @@ import { skillReducer } from 'src/app/backoffice/tables/skill/state/skill.reduce
 import { SkillState } from 'src/app/backoffice/tables/skill/state/skill.state';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,10 @@ import { PublicLanguageState } from 'src/app/shared/state/languages/public-langu
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, AfterViewInit {
+  private store = inject(Store);
+
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+
   skills$: Observable<Skill[]> = this.skillStore.select(skillReducer.getAll);
   loadingSkills$: Observable<boolean> = this.skillStore.select(skillReducer.getLoading);
   skillTypes$: Observable<SkillType[]> = this.skillTypeStore.select(skillTypeReducer.getAll);
@@ -82,5 +88,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
           .sort((a, b) => b.percentage - a.percentage);
       }),
     );
+  }
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }

@@ -1,4 +1,4 @@
-import { CommonModule, TitleCasePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -11,6 +11,7 @@ import { PipesModule } from 'src/app/shared/modules/pipes.module';
 import { PrimeNgModule } from 'src/app/shared/modules/primeng.module';
 import { DirectivesModule } from '../../modules/directives.module';
 import { LanguagesModule } from '../../modules/languages.module';
+import { CapitalizePipe } from '../../pipes/capitalize.pipe';
 import { LanguageSelectModule } from '../language-select/language-select.module';
 import { InputTranslationsComponent } from './input-translations.component';
 
@@ -34,6 +35,6 @@ import { InputTranslationsComponent } from './input-translations.component';
   ],
   declarations: [InputTranslationsComponent],
   exports: [InputTranslationsComponent],
-  providers: [TitleCasePipe],
+  providers: [CapitalizePipe],
 })
 export class InputTranslationsModule {}

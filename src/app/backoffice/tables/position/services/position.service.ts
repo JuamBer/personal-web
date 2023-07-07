@@ -16,6 +16,7 @@ export class PositionService extends CommonService<Position> {
       positionNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       '*, company: companies ( * )',
       '*, company: companies ( * )',
+      'name_translations',
     );
   }
 }

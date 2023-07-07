@@ -1,16 +1,10 @@
-<div class="experience">
+<div class="experience" *appLet="language$ | async as language">
   <ul *ngIf="!(loadingPositions$ | async)">
     <li *ngFor="let positionGrouped of positionsGrouped$ | async">
       <div class="header">
         <div class="icon">
-          <i
-            *ngIf="positionGrouped.company.name !== 'Odec'"
-            class="fa-solid fa-graduation-cap"
-          ></i>
-          <i
-            *ngIf="positionGrouped.company.name === 'Odec'"
-            class="fa-solid fa-briefcase"
-          ></i>
+          <i *ngIf="positionGrouped.company.name !== 'Odec'" class="fa-solid fa-graduation-cap"></i>
+          <i *ngIf="positionGrouped.company.name === 'Odec'" class="fa-solid fa-briefcase"></i>
         </div>
         <div class="organization">
           <h3>{{ positionGrouped.company.name }}</h3>
@@ -20,15 +14,13 @@
         <ul>
           <li class="item" *ngFor="let position of positionGrouped.positions">
             <div class="position">
-              <span>{{ position.name }}</span>
+              <span>{{ getTranslation(language.acronym, position.nameTranslations) }}</span>
             </div>
             <div class="date">
               <span>{{
                 (position.dateFrom | date : 'MM-yyyy') +
                   ' - ' +
-                  (position.dateTo
-                    ? (position.dateTo | date : 'MM-yyyy')
-                    : 'Actualidad')
+                  (position.dateTo ? (position.dateTo | date : 'MM-yyyy') : 'Actualidad')
               }}</span>
             </div>
           </li>

@@ -3,7 +3,8 @@ import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
-import { Observable, Subject, filter, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, startWith, switchMap } from 'rxjs';
+import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
   GenericTableConfig,
@@ -24,9 +25,18 @@ export const certificateGroupListTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  return `Juan Sáez García | Certificate Groups`;
-};
+  const store = inject(Store);
+  const translateSrv = inject(TranslateService);
 
+  return store.select(publicLanguageReducer.getOne).pipe(
+    filter((i) => !!i),
+    switchMap(() =>
+      translateSrv
+        .get(`tables.${certificateGroupNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`)
+        .pipe(map((table) => `${appRootTitle} | ${table}`)),
+    ),
+  );
+};
 @Component({
   selector: 'app-certificate-group-list',
   templateUrl: './certificate-group-list.component.html',
@@ -43,8 +53,9 @@ export class CertificateGroupListComponent implements OnInit, EntityList<Certifi
   loading$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateGroupReducer.getCount);
   action$: Observable<Action> = this.store.select(certificateGroupReducer.getAction);
-  tableConfig$: Subject<GenericTableConfig<CertificateGroup>> = new Subject<GenericTableConfig<CertificateGroup>>();
-
+  tableConfig$: BehaviorSubject<GenericTableConfig<CertificateGroup | undefined>> = new BehaviorSubject<
+    GenericTableConfig<CertificateGroup | undefined>
+  >(undefined);
   ngOnInit(): void {
     this.store.dispatch(certificateGroupActions.count());
     this.store
@@ -116,19 +127,18 @@ export class CertificateGroupListComponent implements OnInit, EntityList<Certifi
       ...defaultGenericTableConfig,
       fields: [
         {
-          field: 'name',
-          label: 'Name',
-          type: GenericFieldType.TEXT,
+          field: 'nameTranslations',
+          label: this.translateSrv.instant('columns.name'),
+          type: GenericFieldType.TRANSLATIONS,
           filter: true,
           sort: true,
         },
         {
-          field: 'description',
-          label: 'description',
-          type: GenericFieldType.TEXT,
+          field: 'descriptionTranslations',
+          label: this.translateSrv.instant('columns.description'),
+          type: GenericFieldType.TRANSLATIONS,
           filter: true,
           sort: true,
-          tooltip: (item: CertificateGroup) => item.description,
         },
       ],
       buttons: {

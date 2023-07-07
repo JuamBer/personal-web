@@ -14,6 +14,7 @@ export class CertificateService extends CommonService<Certificate> {
       certificateNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       '*, "certificateType": "certificate_types" ( * ), "certificateGroup": "certificate_groups" ( * ), "company": "companies" ( * )',
       '*, "certificateType": "certificate_types" ( * ), "certificateGroup": "certificate_groups" ( * ), "company": "companies" ( * )',
+      'name_translations',
     );
   }
 }

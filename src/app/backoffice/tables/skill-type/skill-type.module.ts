@@ -19,6 +19,7 @@ import { ToastModule } from 'primeng/toast';
 import { EntityModalAuditModule } from 'src/app/shared/components/entity-modal-audit/entity-modal-audit.module';
 import { EntityModalButtonsModule } from 'src/app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
 import { GenericTableModule } from 'src/app/shared/components/generic-table/generic-table.module';
+import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
@@ -57,6 +58,7 @@ import { SkillTypeStateModule } from './state/skill-type-state.module';
     MultiSelectModule,
     LanguagesModule,
     AccountStateModule,
+    InputTranslationsModule,
 
     SkillTypeStateModule,
 

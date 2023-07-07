@@ -10,6 +10,6 @@ import { companyNames } from '../state/company.names';
 })
 export class CompanyService extends CommonService<Company> {
   constructor() {
-    super(supabaseClient, companyNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL));
+    super(supabaseClient, companyNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL), '*', '*', 'name_translations');
   }
 }

@@ -6,6 +6,7 @@ import { LanguageStateModule } from 'src/app/backoffice/tables/language/state/la
 import { PositionStateModule } from 'src/app/backoffice/tables/position/state/position-state.module';
 import { SkillTypeStateModule } from 'src/app/backoffice/tables/skill-type/state/skill-type-state.module';
 import { SkillStateModule } from 'src/app/backoffice/tables/skill/state/skill-state.module';
+import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { CvComponent } from '../../components/cv/cv.component';
 import { ExperienceComponent } from '../../components/experience/experience.component';
@@ -28,6 +29,7 @@ import { HomeComponent } from './home.component';
     LanguagesModule,
     LanguageStateModule,
     SkeletonModule,
+    DirectivesModule,
   ],
   exports: [],
 })

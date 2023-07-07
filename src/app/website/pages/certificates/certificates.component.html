@@ -1,82 +1,43 @@
-<div class="certificates">
+<div class="certificates" *appLet="language$ | async as language">
   <ng-container *ngIf="!(loadingCertificateGroups$ | async)">
-    <div
-      class="my-container"
-      *ngFor="let certificateGroup of certificateGroups$ | async"
-    >
+    <div class="my-container" *ngFor="let certificateGroup of certificateGroups$ | async">
       <div class="container-info">
         <div class="title">
-          <h3>{{ certificateGroup.name }}</h3>
+          <h3>{{ getTranslation(language.acronym, certificateGroup.nameTranslations) }}</h3>
         </div>
-        <swiper
-          [config]="swiperConfig"
-          id="{{ '.swiper' + certificateGroup?.id }}"
-        >
-          <!-- <ng-template
-      swiperSlide
-      *ngFor="let certificate of orderByDate(certificateGroup.certificates)"
-      ><img [src]="certificate.image" [alt]="certificate.name" class="card-img"
-    /></ng-template> -->
-          <ng-template
-            swiperSlide
-            *ngFor="
-              let certificate of orderByDate(certificateGroup.certificates!)
-            "
-          >
+        <swiper [config]="swiperConfig" id="{{ '.swiper' + certificateGroup?.id }}">
+          <ng-template swiperSlide *ngFor="let certificate of orderByDate(certificateGroup.certificates)">
             <div class="card swiper-slide">
               <div class="image-content">
                 <div class="card-image">
                   <div class="overlay">
-                    <h4>{{ certificate.name }}</h4>
+                    <h4>{{ getTranslation(language.acronym, certificate.nameTranslations) }}</h4>
                     <h5>{{ certificate.date | date }}</h5>
-                    <p>{{ certificate.description }}</p>
+                    <p>{{ getTranslation(language.acronym, certificate.descriptionTranslations) }}</p>
                   </div>
-                  <img
-                    [src]="certificate.image"
-                    [alt]="certificate.name"
-                    class="card-img"
-                  />
+                  <img [src]="certificate.image" [alt]="certificate.name" class="card-img" />
                 </div>
               </div>
 
               <div class="card-content">
-                <!-- <h2 class="name">{{ certificate.name }}</h2> -->
                 <div class="buttons">
                   <button class="button" *ngIf="certificate.web">
-                    <i
-                      (click)="open(certificate.web)"
-                      class="fa-solid fa-globe"
-                    ></i>
+                    <i (click)="open(certificate.web)" class="fa-solid fa-globe"></i>
                   </button>
                   <button class="button" *ngIf="certificate.microsoftStore">
-                    <i
-                      (click)="open(certificate.microsoftStore)"
-                      class="fa-brands fa-microsoft"
-                    ></i>
+                    <i (click)="open(certificate.microsoftStore)" class="fa-brands fa-microsoft"></i>
                   </button>
                   <button class="button" *ngIf="certificate.playStore">
-                    <i
-                      (click)="open(certificate.playStore)"
-                      class="fa-brands fa-google-play"
-                    ></i>
+                    <i (click)="open(certificate.playStore)" class="fa-brands fa-google-play"></i>
                   </button>
                   <button class="button" *ngIf="certificate.github">
-                    <i
-                      (click)="open(certificate.github)"
-                      class="fa-brands fa-github"
-                    ></i>
+                    <i (click)="open(certificate.github)" class="fa-brands fa-github"></i>
                   </button>
                   <button class="button" *ngIf="certificate.url">
-                    <i
-                      (click)="open(certificate.url)"
-                      class="fa-solid fa-link"
-                    ></i>
+                    <i (click)="open(certificate.url)" class="fa-solid fa-link"></i>
                   </button>
                   <button class="button" *ngIf="certificate.pdf">
-                    <i
-                      (click)="open(certificate.pdf)"
-                      class="fa-solid fa-download"
-                    ></i>
+                    <i (click)="open(certificate.pdf)" class="fa-solid fa-download"></i>
                   </button>
                 </div>
               </div>

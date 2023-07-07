@@ -14,8 +14,9 @@ export class CertificateGroupService extends CommonService<CertificateGroup> {
     super(
       createClient(environment.apiUrl, environment.apiKey),
       certificateGroupNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
-      'id, name, description',
+      'id, name_translations, description_translations, "certificates": "certificates" ( * )',
       '*, "certificates": "certificates" ( * )',
+      'name_translations',
     );
   }
 }

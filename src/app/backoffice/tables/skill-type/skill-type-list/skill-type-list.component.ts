@@ -119,19 +119,18 @@ export class SkillTypeListComponent implements OnInit, EntityList<SkillType> {
       ...defaultGenericTableConfig,
       fields: [
         {
-          field: 'name',
-          label: 'Name',
-          type: GenericFieldType.TEXT,
+          field: 'nameTranslations',
+          label: this.translateSrv.instant('columns.name'),
+          type: GenericFieldType.TRANSLATIONS,
           filter: true,
           sort: true,
         },
         {
-          field: 'description',
-          label: 'description',
-          type: GenericFieldType.TEXT,
+          field: 'descriptionTranslations',
+          label: this.translateSrv.instant('columns.description'),
+          type: GenericFieldType.TRANSLATIONS,
           filter: true,
           sort: true,
-          tooltip: (item: SkillType) => item.description,
         },
       ],
       buttons: {

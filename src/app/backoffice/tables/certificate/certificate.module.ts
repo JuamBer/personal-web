@@ -20,6 +20,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
+import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
@@ -41,6 +42,7 @@ import { CertificateStateModule } from './state/certificate-state.module';
 
     FormsModule,
     ReactiveFormsModule,
+    InputTranslationsModule,
 
     ToastModule,
     ButtonModule,

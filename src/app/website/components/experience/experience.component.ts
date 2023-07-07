@@ -3,10 +3,12 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Company } from 'src/app/backoffice/tables/company/models/company.model';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { Position } from 'src/app/backoffice/tables/position/models/position.model';
 import { positionActions } from 'src/app/backoffice/tables/position/state/position.actions';
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
-import { PositionState } from 'src/app/backoffice/tables/position/state/position.state';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 
 export class PositionGroupedByCompany {
   company!: Company;
@@ -18,8 +20,10 @@ export class PositionGroupedByCompany {
   styleUrls: ['./experience.component.scss'],
 })
 export class ExperienceComponent implements OnInit {
-  loadingPositions$: Observable<boolean> = this.positionStore.select(positionReducer.getLoading);
-  positionsGrouped$: Observable<PositionGroupedByCompany[]> = this.positionStore.select(positionReducer.getAll).pipe(
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  loadingPositions$: Observable<boolean> = this.store.select(positionReducer.getLoading);
+  positionsGrouped$: Observable<PositionGroupedByCompany[]> = this.store.select(positionReducer.getAll).pipe(
+    map((positions) => positions.filter((position) => position.importance > 1)),
     map((positions) => {
       let positionsgroupedByCompany: PositionGroupedByCompany[] = [];
       let positionsSorted = [...positions].sort((a, b) => {
@@ -52,13 +56,17 @@ export class ExperienceComponent implements OnInit {
     }),
   );
 
-  constructor(private positionStore: Store<PositionState>) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.positionsGrouped$.subscribe((positionsGrouped) => {
       if (!positionsGrouped.length) {
-        this.positionStore.dispatch(positionActions.loadAll({ payload: null }));
+        this.store.dispatch(positionActions.loadAll({ payload: null }));
       }
     });
+  }
+
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }

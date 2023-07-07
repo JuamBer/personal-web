@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="submit.emit(true)" *ngIf="modalMode !== ModalMode.VIEW">
+<form [formGroup]="form" *ngIf="modalMode !== ModalMode.VIEW">
   <div class="grid p-fluid p-0 m-0 mt-2 w-full">
     <div class="lg:col-6 md:col-6 sm:col-12 xs:col-12 pl-0 ml-0 pr-1">
       <button
@@ -29,6 +29,7 @@
         [disabled]="loading || form.status === 'PENDING' || (pendingChanges$ | async) === false"
         pButton
         type="submit"
+        (click)="submit.emit(true)"
         class="p-button-sm"
         [label]="
           'buttons.' + modalMode

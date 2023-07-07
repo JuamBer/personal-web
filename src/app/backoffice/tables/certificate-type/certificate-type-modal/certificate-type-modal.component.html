@@ -15,31 +15,8 @@
   (onHide)="hide()"
   [style]="{ width: '100%', maxWidth: '40rem' }"
 >
-  <form [formGroup]="form" (ngSubmit)="send()" *appLet="loading$ | async as loading">
+  <form [formGroup]="form" *appLet="loading$ | async as loading">
     <div class="grid p-fluid mt-1">
-      <div *appLet="'name' as field" appLoading [appIsLoading]="loading" class="xs:col-12 md:col-12 lg:col-12 mt-3">
-        <span class="p-float-label">
-          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
-          <label [for]="field">
-            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
-            <span class="error">{{ form.controls[field] | errors | async }}</span>
-          </label>
-        </span>
-      </div>
-      <div
-        *appLet="'description' as field"
-        appLoading
-        [appIsLoading]="loading"
-        class="xs:col-12 md:col-12 lg:col-12 mt-3"
-      >
-        <span class="p-float-label">
-          <textarea [id]="field" [formControlName]="field" class="p-inputtext-sm" pInputTextarea></textarea>
-          <label [for]="field">
-            {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
-            <span class="error">{{ form.controls[field] | errors | async }}</span>
-          </label>
-        </span>
-      </div>
       <div
         *appLet="'nameTranslations' as field"
         appLoading

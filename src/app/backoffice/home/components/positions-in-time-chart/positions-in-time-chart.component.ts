@@ -45,7 +45,7 @@ export class PositionsInTimeChartComponent implements OnInit {
 
           datasets.push({
             type: 'bar',
-            label: `${company.name} - ${position.name}`,
+            label: `${company.name} - ${'position.name'}`,
             data: companies.map((c) => (c.id === company.id ? timeInYears : 0)),
           });
         });

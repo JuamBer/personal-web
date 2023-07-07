@@ -2,11 +2,13 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
-import { Observable, Subject, from } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
 import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { ModalParams } from 'src/app/shared/models/modal-params';
+import { TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -44,6 +46,7 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
   visible = true;
   form: CompanyFormGroup = this.fb.group({
     name: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
     description: this.fb.control<string | undefined>(undefined, [Validators.required]),
     location: this.fb.control<string | undefined>(undefined, [Validators.required]),
   });
@@ -67,6 +70,7 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
     skip(1),
     filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
   );
+  showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
     this.params$
@@ -86,6 +90,8 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
         id: entity.id,
         name: entity.name,
         description: entity.description,
+        location: entity.location,
+        descriptionTranslations: entity.descriptionTranslations,
       });
     });
   }
@@ -104,6 +110,7 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
   send() {
     if (this.form.invalid) {
       FormUtils.markAllAsDirtyAndTouched(this.form);
+      this.showErrors$.next(true);
     } else {
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
@@ -126,5 +133,13 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
   }
   get names() {
     return companyNames;
+  }
+
+  get InputTranslationsType() {
+    return InputTranslationsType;
+  }
+
+  get ModalMode() {
+    return ModalMode;
   }
 }

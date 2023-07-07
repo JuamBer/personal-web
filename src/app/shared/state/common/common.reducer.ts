@@ -131,6 +131,8 @@ export class CommonReducer<T, S extends CommonState<T>> {
       },
     })),
     on(this.actions.updateSuccess, (state, { payload }) => {
+      console.log('update success', state, payload);
+
       return {
         ...state,
         loading: false,

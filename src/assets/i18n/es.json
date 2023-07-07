@@ -17,83 +17,6 @@
     "button": "Descargar Currículum",
     "info": "Descargar mi último currículum resumido en una página en Español"
   },
-  "paginas": {
-    "login": {
-      "titulo": "INICIO DE SESIÓN",
-      "subtitulo": "Bienvenido a {{name}}",
-      "navegacion": "¿Has olvidado tu contraseña?",
-      "success": "Has iniciado sesión con éxito",
-      "error": "Error al iniciar sesión!",
-      "enviar": "Iniciar Sesión"
-    },
-    "recuperarPassword": {
-      "titulo": "RECUPERAR CONTRASEÑA",
-      "subtitulo": "Introduce tu correo electronico",
-      "navegacion": "Volver",
-      "success": "Correo de recuperación enviado con éxito",
-      "error": "Error al enviar el correo de recuperación!",
-      "enviar": "Enviar Correo"
-    },
-    "formularioRecuperacion": {
-      "titulo": "FORMULARIO RECUPERACIÓN",
-      "subtitulo": "Introduce tu nueva contraseña",
-      "navegacion": "Volver",
-      "success": "Contraseña cambiada con éxito",
-      "error": "Error al cambiar la contraseña!",
-      "enviar": "Cambiar Contraseña",
-      "equalPasswordError": "Ambas contraseñas deben de ser iguales"
-    },
-    "logger": {
-      "title": "Logger"
-    },
-    "config": {
-      "title": "CONFIGURACIÓN GLOBAL",
-      "info": "Información Principal",
-      "token": "Token",
-      "languages": "Idiomas",
-      "table": "Tablas",
-      "politics": "Políticas",
-      "model": {
-        "favicon": "Favicon",
-        "nombre": "Nombre",
-        "logo": "Logo",
-        "tokenExpiration": "Expiración del token",
-        "passwordResetTokenExpiration": "Expiración del token de recuperación de contraseña",
-        "tokenSecretKey": "Clave secreta del token",
-        "paginators": "Paginadores",
-        "paginator": "Paginador por defecto",
-        "languages": "Idiomas",
-        "language": "Idioma por defecto",
-        "privacyPolicies": "Políticas de Privacidad",
-        "cookiePolicies": "Políticas de cookies",
-        "legalWarning": "Aviso legal"
-      }
-    },
-    "log": {
-      "title": "Logger"
-    }
-  },
-  "errors": {
-    "url": "/",
-    "urlText": "Ir a la página principal",
-    "types": {
-      "ERROR": {
-        "title": "ERROR",
-        "subtitle": "Algo no ha ido bien",
-        "text": ""
-      },
-      "ERROR_404": {
-        "title": "ERROR 404",
-        "subtitle": "Página no encontrada",
-        "text": "La página que estás buscando no existe o no está disponible en este momento"
-      },
-      "ERROR_500": {
-        "title": "ERROR 500",
-        "subtitle": "Error en el servidor",
-        "text": "Probablemente el problema no sea con tu ordenador o conexión a internet sino con el servidor"
-      }
-    }
-  },
   "messages": {
     "headers": {
       "success": "Éxito",
@@ -139,36 +62,10 @@
     "opciones": "Opciones",
     "inactive": "Inactivo/a",
     "active": "Activo/a",
-    "passwordComp": "Tienen que ser iguales",
     "total": "Total",
-    "de": "de",
-    "pagina": "Pagina",
-    "salir": "Salir",
     "translations": "Traducciones: {{name}}"
   },
-  "tabs": {
-    "info": "Información Principal",
-    "fotos": "Fotos",
-    "edificios": "Edificios",
-    "intervenciones": "Intervenciones"
-  },
-  "secciones": {
-    "informacionPrincipal": "Información Principal",
-    "otraInformacion": "Otra Información",
-    "fotos": "Fotos",
-    "ubicacion": "Ubicación",
-    "control": "Control",
-    "permisos": "Permisos"
-  },
   "tables": {
-    "user": {
-      "singular": "Usuario",
-      "plural": "Usuarios"
-    },
-    "rol": {
-      "singular": "Rol",
-      "plural": "Roles"
-    },
     "company": {
       "singular": "Compañia",
       "plural": "Compañias"
@@ -295,88 +192,5 @@
     "monthNamesShort": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
     "today": "Hoy",
     "clear": "Borrar"
-  },
-
-  "public": {
-    "home": {
-      "title": "GUÍA DE ARQUITECTURA DE VALENCIA"
-    },
-    "botones": {
-      "verTodos": "Ver todos",
-      "verMenos": "Ver menos",
-      "cargarMas": "Cargar más"
-    },
-    "edificio": {
-      "edificiosConLaMismaTipologia": "Edificios con la misma tipología",
-      "edificiosCercanos": "Edificios cercanos"
-    },
-    "info": {
-      "title": "GUÍA DE ARQUITECTURA DE VALENCIA",
-      "avisoLegal": "Aviso legal",
-      "politicaCookies": "Política de cookies",
-      "politicaPrivacidad": "Política de privacidad",
-
-      "features": {
-        "obras": {
-          "title": "Obras",
-          "desc": "Descubre los edificios, parques y plazas más importantes."
-        },
-        "itinerarios": {
-          "title": "Itinerarios",
-          "desc": "Explora una colección de obras arquitectónicas de Valencia seleccionadas por profesionales."
-        },
-        "eventos": {
-          "title": "Eventos Exclusivos",
-          "desc": "Mantente informado de todos los eventos que organiza el Colegio de Arquitectos de Valencia"
-        }
-      }
-    },
-    "welcome": {
-      "title_1": "GUÍA DE ARQUITECTURA",
-      "title_2": "DE VALENCIA"
-    },
-    "filtro": {
-      "tipologias": "Tipologías",
-      "periodos": "Periodos",
-      "title": "FILTROS",
-      "resultados": "RESULTADOS",
-      "borrarTodo": "Borrar todo",
-      "ningunResultado": "No se han encontrado resultados",
-      "placeholder": "Por nombre o arquitecto",
-      "filtros": "FILTROS",
-      "quitarTodos": "Quitar todos los filtros"
-    },
-    "entities": {
-      "edificio": {
-        "explore": {
-          "title": "Obras"
-        },
-        "view": {
-          "seguirLeyendo": "Seguir Leyendo",
-          "verMenos": "Ver menos",
-          "comoLlegar": "Cómo llegar",
-          "construccion": "Construcción",
-          "arquitectos": "Arquitectos",
-          "noArquitectos": "No hay arquitectos",
-          "intervenciones": "Intervenciones",
-          "noIntervenciones": "No hay intervenciones",
-          "bic": "Bien de Interés Cultural",
-          "brl": "Bien de Relevancia Local",
-          "nosequees": "DO.CO.MO.MO.",
-          "edificiosCercanos": "Edificios cercanos",
-          "edificiosConLaMismaTipologia": "Edificios con la misma tipología"
-        }
-      },
-      "itinerario": {
-        "explore": {
-          "title": "Itinerarios"
-        }
-      },
-      "evento": {
-        "explore": {
-          "title": "Próximos eventos"
-        }
-      }
-    }
   }
 }
