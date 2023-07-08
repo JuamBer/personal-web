@@ -1,6 +1,12 @@
 {
   "sidebar": {
-    "description": "Webanwendungsentwickler"
+    "description": "Webanwendungsentwickler",
+    "title": "Seitenleiste",
+    "user": "Benutzer",
+    "menus": "Menüs",
+    "languages": "Sprachen",
+    "profile": "Profil",
+    "logOut": "Hinausgehen"
   },
   "pages": {
     "home": "Zusammenfassung",
@@ -191,5 +197,34 @@
     "monthNamesShort": ["Jan", "Feb", "Meer", "Apr", "dürfen", "Jun", "Juli", "Aug", "sep", "Okt", "Nov", "Dez"],
     "today": "Heute",
     "clear": "Löschen"
+  },
+  "breadcrumbs": {
+    "backoffice": "Backoffice",
+    "companies": "Firmen",
+    "languages": "Sprachen",
+    "certificateTypes": "Arten von Zertifikaten",
+    "certificateGroups": "Zertifikatsgruppen",
+    "certificates": "Zertifikate",
+    "skills": "Fähigkeiten",
+    "skillTypes": "Arten von Fähigkeiten",
+    "positions": "Stellenangebote",
+    "curriculums": "fortsetzen",
+    "modal": "Modal"
+  },
+  "charts": {
+    "salaryInTime": {
+      "title": "Gehalt im Laufe der Zeit",
+      "subtitle": "Gehalt im Laufe der Zeit",
+      "yAxis": "Gehalt",
+      "xAxis": "Datum",
+      "tooltip": "Gehalt: {point.y}€"
+    },
+    "certificatesInTime": {
+      "title": "Zertifikate im Laufe der Zeit",
+      "subtitle": "Zertifikate im Laufe der Zeit",
+      "yAxis": "Zertifikate",
+      "xAxis": "Datum",
+      "tooltip": "Zertifikate: {point.y}"
+    }
   }
 }

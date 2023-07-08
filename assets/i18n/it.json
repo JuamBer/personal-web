@@ -1,6 +1,12 @@
 {
   "sidebar": {
-    "description": "Sviluppatore di applicazioni web"
+    "description": "Sviluppatore di applicazioni web",
+    "title": "barra laterale",
+    "user": "Utente",
+    "menus": "menu",
+    "languages": "le lingue",
+    "profile": "Profilo",
+    "logOut": "Esci"
   },
   "pages": {
     "home": "Riepilogo",
@@ -204,5 +210,34 @@
     ],
     "today": "Oggi",
     "clear": "Eliminare"
+  },
+  "breadcrumbs": {
+    "backoffice": "ufficio posteriore",
+    "companies": "aziende",
+    "languages": "le lingue",
+    "certificateTypes": "Tipi di certificati",
+    "certificateGroups": "Gruppi di certificati",
+    "certificates": "certificati",
+    "skills": "Competenze",
+    "skillTypes": "Tipi di abilità",
+    "positions": "Posizioni lavorative",
+    "curriculums": "riprendere",
+    "modal": "Modale"
+  },
+  "charts": {
+    "salaryInTime": {
+      "title": "stipendio nel tempo",
+      "subtitle": "stipendio nel tempo",
+      "yAxis": "Stipendio",
+      "xAxis": "Data",
+      "tooltip": "Stipendio: {punto.y}€"
+    },
+    "certificatesInTime": {
+      "title": "Certificati nel tempo",
+      "subtitle": "Certificati nel tempo",
+      "yAxis": "certificati",
+      "xAxis": "Data",
+      "tooltip": "Certificati: {punto.y}"
+    }
   }
 }
