@@ -299,3 +299,18 @@ textarea {
 .h-3em {
   height: 1em;
 }
+label {
+  white-space: nowrap;
+}
+.p-float-label,
+.p-dropdown {
+  height: 100%;
+  min-height: 2em;
+}
+.translate-input {
+  .p-float-label,
+  .p-dropdown {
+    height: auto;
+    min-height: 100%;
+  }
+}

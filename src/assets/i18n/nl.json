@@ -1,6 +1,12 @@
 {
   "sidebar": {
-    "description": "Ontwikkelaar van webapplicaties"
+    "description": "Ontwikkelaar van webapplicaties",
+    "title": "zijbalk",
+    "user": "Gebruiker",
+    "menus": "menu's",
+    "languages": "talen",
+    "profile": "Profiel",
+    "logOut": "Uitgaan"
   },
   "pages": {
     "home": "Samenvatting",
@@ -191,5 +197,34 @@
     "monthNamesShort": ["jan", "februari", "zee", "apr", "kunnen", "juni", "jul", "aug", "sept", "okt", "nov", "dec"],
     "today": "Vandaag",
     "clear": "Verwijderen"
+  },
+  "breadcrumbs": {
+    "backoffice": "backoffice",
+    "companies": "bedrijven",
+    "languages": "talen",
+    "certificateTypes": "Soorten certificaten",
+    "certificateGroups": "Certificaat groepen",
+    "certificates": "certificaten",
+    "skills": "Vaardigheden",
+    "skillTypes": "Soorten vaardigheden",
+    "positions": "Functies",
+    "curriculums": "cv",
+    "modal": "Modaal"
+  },
+  "charts": {
+    "salaryInTime": {
+      "title": "salaris in de tijd",
+      "subtitle": "salaris in de tijd",
+      "yAxis": "Salaris",
+      "xAxis": "Datum",
+      "tooltip": "Salaris: {punt.y}€"
+    },
+    "certificatesInTime": {
+      "title": "Certificaten in de loop van de tijd",
+      "subtitle": "Certificaten in de loop van de tijd",
+      "yAxis": "certificaten",
+      "xAxis": "Datum",
+      "tooltip": "Certificaten: {punt.y}"
+    }
   }
 }

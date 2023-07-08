@@ -1,3 +1,5 @@
+import { NamingUtils } from '../../utils/naming.utils';
+
 export enum NumberMode {
   SINGULAR = 'SINGULAR',
   PLURAL = 'PLURAL',
@@ -25,33 +27,19 @@ export class CommonNames {
 
     switch (naming) {
       case Naming.CAMEL_CASE:
-        result = CommonNames.toCamelCase(result);
+        result = NamingUtils.kebabCaseToCamelCase(result);
         break;
       case Naming.KEBAB_CASE:
         result = result;
         break;
       case Naming.PASCAL_CASE:
-        result = CommonNames.toPascalCase(result);
+        result = NamingUtils.kebabCaseToPascalCase(result);
         break;
       case Naming.SNAKE_CASE:
-        result = CommonNames.toSnakeCase(result);
+        result = NamingUtils.kebabCaseToSnakeCase(result);
         break;
     }
 
     return result;
-  }
-
-  static toPascalCase(str: string): string {
-    let arr = str.split('-');
-    let last = arr[arr.length - 1];
-    str = str.replace(/-\w/g, (x) => `${x[1].toUpperCase()}`);
-    str = str[0].toUpperCase() + str.substring(1, str.length - last.length) + last.toUpperCase();
-    return str;
-  }
-  static toCamelCase(str: string): string {
-    return str.replace(/-\w/g, (x) => `${x[1].toUpperCase()}`);
-  }
-  static toSnakeCase(str: string): string {
-    return str.replace('-', '_');
   }
 }

@@ -4,11 +4,15 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData, ChartDataset, ChartOptions } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, map, switchMap } from 'rxjs';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { Position } from 'src/app/backoffice/tables/position/models/position.model';
 import { PositionStateModule } from 'src/app/backoffice/tables/position/state/position-state.module';
 import { positionActions } from 'src/app/backoffice/tables/position/state/position.actions';
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 
 @Component({
   selector: 'app-salary-in-time-chart',
@@ -22,26 +26,38 @@ export class SalaryInTimeChartComponent implements OnInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
 
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
   chartOptions$: BehaviorSubject<ChartOptions> = new BehaviorSubject<ChartOptions>({});
-  chartData$: Observable<ChartData<'bar', any[]>> = this.store.select(positionReducer.getAll).pipe(
-    map((positions) => [...positions].filter((position) => !!position.hourlyWage)),
-    map((positions) => [...positions].sort((a, b) => new Date(a.dateFrom).getTime() - new Date(b.dateFrom).getTime())),
-    map((positions) => {
+  chartData$: Observable<ChartData<'bar', any[]>> = combineLatest([
+    this.store.select(positionReducer.getAll),
+    this.language$,
+  ]).pipe(
+    switchMap(([positions, language]) =>
+      this.translateSrv
+        .get('charts.salaryInTime.title')
+        .pipe(map((chartTitle: string) => [positions, language, chartTitle] as [Position[], Language, string])),
+    ),
+    map(([positions, language, chartTitle]) => {
+      const positionsFiltered = [...positions].filter((position) => !!position.hourlyWage);
+      const positionsSorted = positionsFiltered.sort(
+        (a, b) => new Date(a.dateFrom).getTime() - new Date(b.dateFrom).getTime(),
+      );
+
       const datasets: ChartDataset<any, any>[] = [];
       const data = [];
-      positions.forEach((position, index) => {
+      positionsSorted.forEach((position, index) => {
         data.push(position.hourlyWage);
       });
-      console.log(data);
-
       datasets.push({
         type: 'line',
-        label: 'Salary per hour in time',
-
+        label: chartTitle,
         data,
       });
       const res: ChartData<'bar', { key: string; value: number }[]> = {
-        labels: positions.map((position) => `${position.company.name} - ${'position.name'}`),
+        labels: positionsSorted.map(
+          (position) =>
+            `${position.company.name} - ${this.getTranslation(language.acronym, position.nameTranslations)}`,
+        ),
         datasets,
       };
       return res;
@@ -87,5 +103,9 @@ export class SalaryInTimeChartComponent implements OnInit {
         },
       });
     });
+  }
+
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }

@@ -1,6 +1,12 @@
 {
   "sidebar": {
-    "description": "Web Application Developer"
+    "description": "Web Application Developer",
+    "title": "side bar",
+    "user": "User",
+    "menus": "menus",
+    "languages": "languages",
+    "profile": "Profile",
+    "logOut": "Go out"
   },
   "pages": {
     "home": "Summary",
@@ -191,5 +197,34 @@
     "monthNamesShort": ["jan", "feb", "sea", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     "today": "Today",
     "clear": "Delete"
+  },
+  "breadcrumbs": {
+    "backoffice": "back office",
+    "companies": "companies",
+    "languages": "languages",
+    "certificateTypes": "Types of Certificates",
+    "certificateGroups": "Certificate Groups",
+    "certificates": "certificates",
+    "skills": "Skills",
+    "skillTypes": "Types of Skills",
+    "positions": "Job positions",
+    "curriculums": "resume",
+    "modal": "Modal"
+  },
+  "charts": {
+    "salaryInTime": {
+      "title": "salary over time",
+      "subtitle": "salary over time",
+      "yAxis": "Salary",
+      "xAxis": "Date",
+      "tooltip": "Salary: {point.y}€"
+    },
+    "certificatesInTime": {
+      "title": "Certificates over time",
+      "subtitle": "Certificates over time",
+      "yAxis": "certificates",
+      "xAxis": "Date",
+      "tooltip": "Certificates: {point.y}"
+    }
   }
 }

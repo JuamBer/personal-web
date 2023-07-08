@@ -3,17 +3,21 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 
 import { Action, Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
+import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { ModalParams } from 'src/app/shared/models/modal-params';
-import { TranslationFormGroup } from 'src/app/shared/models/translation.model';
+import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 import { CertificateGroup } from '../../certificate-group/models/certificate-group.model';
 import { certificateGroupActions } from '../../certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from '../../certificate-group/state/certificate-group.reducer';
@@ -23,6 +27,7 @@ import { certificateTypeReducer } from '../../certificate-type/state/certificate
 import { Company } from '../../company/models/company.model';
 import { companyActions } from '../../company/state/company.actions';
 import { companyReducer } from '../../company/state/company.reducer';
+import { Language } from '../../language/models/language.model';
 import { Certificate, CertificateFormGroup } from '../models/certificate.model';
 import { CertificateService } from '../services/certificate.service';
 import { certificateActions } from '../state/certificate.actions';
@@ -33,11 +38,31 @@ export const certificateModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  if (!route.paramMap.get('id')) {
-    return 'Juan Sáez García | Certificate | New';
-  }
-  return from(inject(CertificateService).getTitle(route.paramMap.get('id'))).pipe(
-    map((selected) => 'Juan Sáez García | Certificate | ' + selected.name),
+  const store = inject(Store);
+  const certificateSrv = inject(CertificateService);
+  const translateSrv = inject(TranslateService);
+  return store.select(publicLanguageReducer.getOne).pipe(
+    filter((i) => !!i),
+    switchMap((language) =>
+      translateSrv
+        .get(`tables.${certificateNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`)
+        .pipe(
+          !route.paramMap.get('id')
+            ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
+            : switchMap((table) =>
+                from(certificateSrv.getTitle(route.paramMap.get('id'))).pipe(
+                  map(
+                    (selected) =>
+                      `${appRootTitle} | ${table} | ${
+                        selected.nameTranslations.find(
+                          (translation: Translation) => translation.language === language.acronym,
+                        ).value
+                      }`,
+                  ),
+                ),
+              ),
+        ),
+    ),
   );
 };
 
@@ -92,6 +117,7 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
     filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
   );
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   certificateTypes$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
   certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
@@ -179,5 +205,9 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
   }
   get ModalMode() {
     return ModalMode;
+  }
+
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }

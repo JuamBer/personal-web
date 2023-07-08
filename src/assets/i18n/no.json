@@ -1,6 +1,12 @@
 {
   "sidebar": {
-    "description": "Webapplikasjonsutvikler"
+    "description": "Webapplikasjonsutvikler",
+    "title": "sidestang",
+    "user": "Bruker",
+    "menus": "menyer",
+    "languages": "språk",
+    "profile": "Profil",
+    "logOut": "Gå ut"
   },
   "pages": {
     "home": "Sammendrag",
@@ -191,5 +197,34 @@
     "monthNamesShort": ["jan", "feb", "hav", "apr", "kan", "jun", "jul", "aug", "sep", "okt", "nov", "des"],
     "today": "I dag",
     "clear": "Slett"
+  },
+  "breadcrumbs": {
+    "backoffice": "back office",
+    "companies": "selskaper",
+    "languages": "språk",
+    "certificateTypes": "Typer sertifikater",
+    "certificateGroups": "Sertifikatgrupper",
+    "certificates": "sertifikater",
+    "skills": "ferdigheter",
+    "skillTypes": "Typer ferdigheter",
+    "positions": "Stillinger",
+    "curriculums": "gjenoppta",
+    "modal": "Modal"
+  },
+  "charts": {
+    "salaryInTime": {
+      "title": "lønn over tid",
+      "subtitle": "lønn over tid",
+      "yAxis": "Lønn",
+      "xAxis": "Dato",
+      "tooltip": "Lønn: {point.y}€"
+    },
+    "certificatesInTime": {
+      "title": "Sertifikater over tid",
+      "subtitle": "Sertifikater over tid",
+      "yAxis": "sertifikater",
+      "xAxis": "Dato",
+      "tooltip": "Sertifikater: {point.y}"
+    }
   }
 }

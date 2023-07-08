@@ -3,7 +3,8 @@ import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
-import { Observable, Subject, filter, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, startWith, switchMap } from 'rxjs';
+import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
   GenericTableConfig,
@@ -24,7 +25,17 @@ export const certificateListTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  return `Juan Sáez García | Certificate Types`;
+  const store = inject(Store);
+  const translateSrv = inject(TranslateService);
+
+  return store.select(publicLanguageReducer.getOne).pipe(
+    filter((i) => !!i),
+    switchMap(() =>
+      translateSrv
+        .get(`tables.${certificateNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`)
+        .pipe(map((table) => `${appRootTitle} | ${table}`)),
+    ),
+  );
 };
 
 @Component({
@@ -43,17 +54,10 @@ export class CertificateListComponent implements OnInit, EntityList<Certificate>
   loading$: Observable<boolean> = this.store.select(certificateReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateReducer.getCount);
   action$: Observable<Action> = this.store.select(certificateReducer.getAction);
-  tableConfig$: Subject<GenericTableConfig<Certificate>> = new Subject<GenericTableConfig<Certificate>>();
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<Certificate | undefined>>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(certificateActions.count());
-    this.store
-      .select(publicLanguageReducer.getOne)
-      .pipe(filter((i) => i != null))
-      .subscribe((language) => {
-        this.translateSrv.use(language.acronym);
-      });
-
     this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadTableConfig();
     });

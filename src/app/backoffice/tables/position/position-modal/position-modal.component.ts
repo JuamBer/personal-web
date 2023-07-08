@@ -2,15 +2,18 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
+import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { ModalParams } from 'src/app/shared/models/modal-params';
-import { TranslationFormGroup } from 'src/app/shared/models/translation.model';
+import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
 import { Company } from '../../company/models/company.model';
@@ -26,11 +29,31 @@ export const positionModalTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  if (!route.paramMap.get('id')) {
-    return 'Juan Sáez García | Positions | New';
-  }
-  return from(inject(PositionService).getTitle(route.paramMap.get('id'))).pipe(
-    map((selected) => 'Juan Sáez García | Positions | '),
+  const store = inject(Store);
+  const positionSrbv = inject(PositionService);
+  const translateSrv = inject(TranslateService);
+  return store.select(publicLanguageReducer.getOne).pipe(
+    filter((i) => !!i),
+    switchMap((language) =>
+      translateSrv
+        .get(`tables.${positionNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`)
+        .pipe(
+          !route.paramMap.get('id')
+            ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
+            : switchMap((table) =>
+                from(positionSrbv.getTitle(route.paramMap.get('id'))).pipe(
+                  map(
+                    (selected) =>
+                      `${appRootTitle} | ${table} | ${
+                        selected.nameTranslations.find(
+                          (translation: Translation) => translation.language === language.acronym,
+                        ).value
+                      }`,
+                  ),
+                ),
+              ),
+        ),
+    ),
   );
 };
 

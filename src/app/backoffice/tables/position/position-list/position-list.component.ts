@@ -3,7 +3,8 @@ import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
-import { Observable, Subject, filter, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, startWith, switchMap } from 'rxjs';
+import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
   GenericTableConfig,
@@ -24,7 +25,17 @@ export const positionListTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  return `Juan Sáez García | Positions`;
+  const store = inject(Store);
+  const translateSrv = inject(TranslateService);
+
+  return store.select(publicLanguageReducer.getOne).pipe(
+    filter((i) => !!i),
+    switchMap(() =>
+      translateSrv
+        .get(`tables.${positionNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`)
+        .pipe(map((table) => `${appRootTitle} | ${table}`)),
+    ),
+  );
 };
 
 @Component({
@@ -43,17 +54,10 @@ export class PositionListComponent implements OnInit, EntityList<Position> {
   loading$: Observable<boolean> = this.store.select(positionReducer.getLoading);
   count$: Observable<number> = this.store.select(positionReducer.getCount);
   action$: Observable<Action> = this.store.select(positionReducer.getAction);
-  tableConfig$: Subject<GenericTableConfig<Position>> = new Subject<GenericTableConfig<Position>>();
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<Position | undefined>>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(positionActions.count());
-    this.store
-      .select(publicLanguageReducer.getOne)
-      .pipe(filter((i) => i != null))
-      .subscribe((language) => {
-        this.translateSrv.use(language.acronym);
-      });
-
     this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadTableConfig();
     });
@@ -125,23 +129,23 @@ export class PositionListComponent implements OnInit, EntityList<Position> {
           sort: true,
         },
         {
-          field: 'descriptionTranslations',
-          label: this.translateSrv.instant('columns.description'),
-          type: GenericFieldType.TRANSLATIONS,
+          field: 'company.name',
+          label: this.translateSrv.instant('tables.company.singular'),
+          type: GenericFieldType.TEXT,
           filter: true,
           sort: true,
         },
 
         {
           field: 'dateFrom',
-          label: 'From Date',
+          label: this.translateSrv.instant('columns.dateFrom'),
           type: GenericFieldType.DATE,
           filter: true,
           sort: true,
         },
         {
           field: 'dateTo',
-          label: 'To Date',
+          label: this.translateSrv.instant('columns.dateTo'),
           type: GenericFieldType.DATE,
           filter: true,
           sort: true,

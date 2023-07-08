@@ -58,9 +58,7 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
   loading$: Observable<boolean> = this.store.select(certificateTypeReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateTypeReducer.getCount);
   action$: Observable<Action> = this.store.select(certificateTypeReducer.getAction);
-  tableConfig$: BehaviorSubject<GenericTableConfig<CertificateType | undefined>> = new BehaviorSubject<
-    GenericTableConfig<CertificateType | undefined>
-  >(undefined);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<CertificateType | undefined>>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(certificateTypeActions.count());

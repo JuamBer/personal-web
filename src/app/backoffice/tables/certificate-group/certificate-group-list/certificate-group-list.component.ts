@@ -53,18 +53,10 @@ export class CertificateGroupListComponent implements OnInit, EntityList<Certifi
   loading$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateGroupReducer.getCount);
   action$: Observable<Action> = this.store.select(certificateGroupReducer.getAction);
-  tableConfig$: BehaviorSubject<GenericTableConfig<CertificateGroup | undefined>> = new BehaviorSubject<
-    GenericTableConfig<CertificateGroup | undefined>
-  >(undefined);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<CertificateGroup | undefined>>(undefined);
+
   ngOnInit(): void {
     this.store.dispatch(certificateGroupActions.count());
-    this.store
-      .select(publicLanguageReducer.getOne)
-      .pipe(filter((i) => i != null))
-      .subscribe((language) => {
-        this.translateSrv.use(language.acronym);
-      });
-
     this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadTableConfig();
     });

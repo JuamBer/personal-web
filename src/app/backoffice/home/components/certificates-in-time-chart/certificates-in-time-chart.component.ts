@@ -4,11 +4,15 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData, ChartDataset, ChartOptions } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
-import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, map, switchMap } from 'rxjs';
+import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
 import { CertificateStateModule } from 'src/app/backoffice/tables/certificate/state/certificate-state.module';
 import { certificateActions } from 'src/app/backoffice/tables/certificate/state/certificate.actions';
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
+import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
+import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 
 @Component({
   selector: 'app-certificates-in-time-chart',
@@ -22,14 +26,25 @@ export class CertificatesInTimeChartComponent implements OnInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
 
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
   chartOptions$: BehaviorSubject<ChartOptions> = new BehaviorSubject<ChartOptions>({});
-  chartData$: Observable<ChartData<'bar', any[]>> = this.store.select(certificateReducer.getAll).pipe(
-    filter((certificates) => certificates.length > 0),
-    map((certificates) => [...certificates].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())),
-    map((certificates) => {
+  chartData$: Observable<ChartData<'bar', any[]>> = combineLatest([
+    this.store.select(certificateReducer.getAll),
+    this.language$,
+  ]).pipe(
+    filter(([certificates, language]) => certificates.length > 0),
+    switchMap(([certificates, language]) =>
+      this.translateSrv
+        .get('charts.certificatesInTime.title')
+        .pipe(map((chartTitle: string) => [certificates, language, chartTitle] as [Certificate[], Language, string])),
+    ),
+    map(([certificates, language, chartTitle]) => {
+      const certificatesSorted = [...certificates].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      );
       const datasets: ChartDataset<any, any>[] = [];
-      const fisrtCertificate = certificates[0];
-      const lastCertificate = certificates[certificates.length - 1];
+      const fisrtCertificate = certificatesSorted[0];
+      const lastCertificate = certificatesSorted[certificatesSorted.length - 1];
 
       const labels: string[] = [];
       const labelsData: any[] = [];
@@ -48,7 +63,7 @@ export class CertificatesInTimeChartComponent implements OnInit {
       labelsData.forEach((labelData) => {
         const certificatesPerMonth =
           aux +
-          certificates.filter((certificate) => {
+          certificatesSorted.filter((certificate) => {
             const certificateDate = new Date(certificate.date);
             return (
               certificateDate.getFullYear() === labelData.year && certificateDate.getMonth() + 1 === labelData.month
@@ -59,7 +74,7 @@ export class CertificatesInTimeChartComponent implements OnInit {
       });
       datasets.push({
         type: 'line',
-        label: 'Certificates in Time',
+        label: chartTitle,
         data,
       });
 
@@ -110,5 +125,9 @@ export class CertificatesInTimeChartComponent implements OnInit {
         },
       });
     });
+  }
+
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }

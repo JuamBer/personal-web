@@ -26,17 +26,19 @@
   </div>
 </header>
 <p-sidebar [(visible)]="sidebarVisible" position="right" [closeOnEscape]="true">
-  <ng-template pTemplate="header"><h3 class="p-0 m-0">Sidebar</h3></ng-template>
-  <h4>Languages</h4>
+  <ng-template pTemplate="header"
+    ><h3 class="p-0 m-0">{{ 'sidebar.title' | translate }}</h3></ng-template
+  >
+  <h4>{{ 'sidebar.languages' | translate }}</h4>
   <div class="language">
     <app-language-select type="dropdown" mode="complete"></app-language-select>
   </div>
-  <h4>Usuario</h4>
+  <h4>{{ 'sidebar.user' | translate }}</h4>
   <div class="user">
     <button
       pButton
       pRipple
-      label="Profile"
+      [label]="'sidebar.profile' | translate"
       class="p-button-primary"
       icon="pi pi-user"
       styleClass="p-button-lg"
@@ -45,13 +47,13 @@
       (click)="logOut()"
       pButton
       pRipple
-      label="Log Out"
+      [label]="'sidebar.logOut' | translate"
       class="p-button-secondary"
       icon="pi pi-sign-out"
       styleClass="p-button-lg"
     ></button>
   </div>
-  <h4>Menus</h4>
+  <h4>{{ 'sidebar.menus' | translate }}</h4>
   <nav>
     <ul>
       <li
@@ -60,7 +62,7 @@
         routerLinkActive="active"
         (click)="sidebarVisible = false"
       >
-        {{ menu.label }}
+        {{ 'breadcrumbs.' + menu.label | translate }}
       </li>
     </ul>
   </nav>

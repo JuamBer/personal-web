@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { NamingUtils } from 'src/app/shared/utils/naming.utils';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +14,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 export class HeaderComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private translateSrv = inject(TranslateService);
 
   sidebarVisible = false;
   user$ = this.authService.getCurrentUser() as Observable<any>;
@@ -24,7 +26,9 @@ export class HeaderComponent {
       const splittedUrls = this.router.url.split('/');
       const filteredSplittedUrls = splittedUrls.filter((i) => i !== '');
       return filteredSplittedUrls.map((filteredSplittedUrl, index) => ({
-        label: filteredSplittedUrl,
+        label: this.translateSrv.instant(
+          `breadcrumbs.${NamingUtils.kebabCaseToCamelCase(filteredSplittedUrl.split(';')[0])}`,
+        ),
         routerLink: filteredSplittedUrls.slice(0, index + 1).join('/'),
       }));
     }),
@@ -33,47 +37,47 @@ export class HeaderComponent {
     {
       routerLink: '/backoffice/certificates',
       icon: 'pi pi-fw pi-home',
-      label: 'Certificates',
+      label: 'certificates',
     },
     {
       routerLink: '/backoffice/certificate-types',
       icon: 'pi pi-fw pi-users',
-      label: 'Certificate Types',
+      label: 'certificateTypes',
     },
     {
       routerLink: '/backoffice/certificate-groups',
       icon: 'pi pi-fw pi-user',
-      label: 'Certificate Groups',
+      label: 'certificateGroups',
     },
     {
       routerLink: '/backoffice/companies',
       icon: 'pi pi-fw pi-lock',
-      label: 'Companies',
+      label: 'companies',
     },
     {
       routerLink: '/backoffice/curriculums',
       icon: 'pi pi-fw pi-lock',
-      label: 'Curriculums',
+      label: 'curriculums',
     },
     {
       routerLink: '/backoffice/languages',
       icon: 'pi pi-fw pi-lock',
-      label: 'Languages',
+      label: 'languages',
     },
     {
       routerLink: '/backoffice/positions',
       icon: 'pi pi-fw pi-lock',
-      label: 'Positions',
+      label: 'positions',
     },
     {
       routerLink: '/backoffice/skills',
       icon: 'pi pi-fw pi-lock',
-      label: 'Skills',
+      label: 'skills',
     },
     {
       routerLink: '/backoffice/skill-types',
       icon: 'pi pi-fw pi-lock',
-      label: 'Skill Types',
+      label: 'skillTypes',
     },
   ];
 

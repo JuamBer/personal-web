@@ -1,6 +1,12 @@
 {
   "sidebar": {
-    "description": "Développeur d'applications Web"
+    "description": "Développeur d'applications Web",
+    "title": "barre latérale",
+    "user": "Utilisateur",
+    "menus": "menus",
+    "languages": "langues",
+    "profile": "Profil",
+    "logOut": "sortir"
   },
   "pages": {
     "home": "résumé",
@@ -191,5 +197,34 @@
     "monthNamesShort": ["jan", "fév", "mer", "avr", "peut", "juin", "juil", "août", "sep", "oct", "nov", "déc"],
     "today": "Aujourd'hui",
     "clear": "Supprimer"
+  },
+  "breadcrumbs": {
+    "backoffice": "back-office",
+    "companies": "entreprises",
+    "languages": "langues",
+    "certificateTypes": "Types de certificats",
+    "certificateGroups": "Groupes de certificats",
+    "certificates": "certificats",
+    "skills": "Compétences",
+    "skillTypes": "Types de compétences",
+    "positions": "Emplois",
+    "curriculums": "CV",
+    "modal": "Modal"
+  },
+  "charts": {
+    "salaryInTime": {
+      "title": "salaire dans le temps",
+      "subtitle": "salaire dans le temps",
+      "yAxis": "Salaire",
+      "xAxis": "Date",
+      "tooltip": "Salaire : {point.y} €"
+    },
+    "certificatesInTime": {
+      "title": "Certificats au fil du temps",
+      "subtitle": "Certificats au fil du temps",
+      "yAxis": "certificats",
+      "xAxis": "Date",
+      "tooltip": "Certificats : {point.y}"
+    }
   }
 }

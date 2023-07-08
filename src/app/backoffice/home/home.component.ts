@@ -2,9 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { filter } from 'rxjs/operators';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
-import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { certificateGroupNames } from '../tables/certificate-group/state/certificate-group.names';
 import { certificateTypeNames } from '../tables/certificate-type/state/certificate-type.names';
 import { certificateNames } from '../tables/certificate/state/certificate.names';
@@ -59,12 +57,12 @@ export class HomeComponent implements OnInit {
   options: any;
 
   ngOnInit(): void {
-    this.store
-      .select(publicLanguageReducer.getOne)
-      .pipe(filter((i) => i != null))
-      .subscribe((language) => {
-        this.translateSrv.use(language.acronym);
-      });
+    // this.store
+    //   .select(publicLanguageReducer.getOne)
+    //   .pipe(filter((i) => i != null))
+    //   .subscribe((language) => {
+    //     this.translateSrv.use(language.acronym);
+    //   });
 
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');

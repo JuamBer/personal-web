@@ -11,7 +11,7 @@ import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { faLanguage, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, startWith, take, tap } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -202,7 +202,7 @@ export class InputTranslationsComponent implements OnInit {
         })
         .pipe(
           take(1),
-          tap(console.log),
+
           map((res) => this.capitalizePipe.transform(res.data.translations[0].translatedText)),
         )
         .subscribe((suggestion) => {

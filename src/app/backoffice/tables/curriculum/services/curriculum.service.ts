@@ -15,6 +15,7 @@ export class CurriculumService extends CommonService<Curriculum> {
       curriculumNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       '*, "language": "languages" ( * )',
       '*, "language": "languages" ( * )',
+      '"language": "languages" ( * )',
     );
   }
 }

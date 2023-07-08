@@ -1,6 +1,12 @@
 {
   "sidebar": {
-    "description": "Desenvolvedor de Aplicativos Web"
+    "description": "Desenvolvedor de Aplicativos Web",
+    "title": "Barra Lateral",
+    "user": "Do utilizador",
+    "menus": "menus",
+    "languages": "línguas",
+    "profile": "Perfil",
+    "logOut": "Sair"
   },
   "pages": {
     "home": "Resumo",
@@ -204,5 +210,34 @@
     ],
     "today": "Hoje",
     "clear": "Excluir"
+  },
+  "breadcrumbs": {
+    "backoffice": "back office",
+    "companies": "empresas",
+    "languages": "línguas",
+    "certificateTypes": "Tipos de Certificados",
+    "certificateGroups": "Grupos de certificados",
+    "certificates": "certificados",
+    "skills": "Habilidades",
+    "skillTypes": "Tipos de habilidades",
+    "positions": "Empregos",
+    "curriculums": "retomar",
+    "modal": "Modal"
+  },
+  "charts": {
+    "salaryInTime": {
+      "title": "salário ao longo do tempo",
+      "subtitle": "salário ao longo do tempo",
+      "yAxis": "Salário",
+      "xAxis": "Data",
+      "tooltip": "Salário: {point.y}€"
+    },
+    "certificatesInTime": {
+      "title": "Certificados ao longo do tempo",
+      "subtitle": "Certificados ao longo do tempo",
+      "yAxis": "certificados",
+      "xAxis": "Data",
+      "tooltip": "Certificados: {point.y}"
+    }
   }
 }

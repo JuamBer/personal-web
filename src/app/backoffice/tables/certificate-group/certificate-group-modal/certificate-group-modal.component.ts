@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
-//CERTIFICATEGROUP
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
@@ -33,23 +32,24 @@ export const certificateGroupModalTitleResolver: ResolveFn<string> = (
   return store.select(publicLanguageReducer.getOne).pipe(
     filter((i) => !!i),
     switchMap((language) =>
-      translateSrv.get(`tables.${certificateGroupNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`).pipe(
-        !route.paramMap.get('id')
-          ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
-          : switchMap((table) =>
-              from(certificateGroupSrv.getTitle(route.paramMap.get('id'))).pipe(
-                tap(console.log),
-                map(
-                  (selected) =>
-                    `${appRootTitle} | ${table} | ${
-                      selected.nameTranslations.find(
-                        (translation: Translation) => translation.language === language.acronym,
-                      ).value
-                    }`,
+      translateSrv
+        .get(`tables.${certificateGroupNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`)
+        .pipe(
+          !route.paramMap.get('id')
+            ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
+            : switchMap((table) =>
+                from(certificateGroupSrv.getTitle(route.paramMap.get('id'))).pipe(
+                  map(
+                    (selected) =>
+                      `${appRootTitle} | ${table} | ${
+                        selected.nameTranslations.find(
+                          (translation: Translation) => translation.language === language.acronym,
+                        ).value
+                      }`,
+                  ),
                 ),
               ),
-            ),
-      ),
+        ),
     ),
   );
 };
