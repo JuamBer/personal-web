@@ -5,14 +5,12 @@ import { CertificateGroupStateModule } from '../backoffice/tables/certificate-gr
 import { LanguageSelectModule } from '../shared/components/language-select/language-select.module';
 import { DirectivesModule } from '../shared/modules/directives.module';
 import { PipesModule } from '../shared/modules/pipes.module';
-import { AbilitiesComponent } from './components/abilities/abilities.component';
-import { LanguagesComponent } from './components/languages/languages.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { WebsiteRoutingModule } from './website-routing.module';
 
 @NgModule({
-  declarations: [SidebarComponent, LayoutComponent, AbilitiesComponent, LanguagesComponent],
+  declarations: [SidebarComponent, LayoutComponent],
   imports: [
     CommonModule,
     WebsiteRoutingModule,

@@ -1,7 +1,7 @@
 <div class="entity-card" (click)="goTo(url)" *ngIf="!loading && show">
   <span class="entity-card-name">
-    <i style="font-size: 1.5rem" class="{{ icon }}"></i>
-    <span>{{ title }}</span>
+    <i style="font-size: 1.5rem" [class]="icon"></i>
+    <span>{{ title | titlecase }}</span>
   </span>
   <span class="entity-card-count"></span>
   <span class="entity-card-badge" *ngIf="count">{{ count }}</span>

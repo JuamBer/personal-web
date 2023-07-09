@@ -27,18 +27,18 @@
 </header>
 <p-sidebar [(visible)]="sidebarVisible" position="right" [closeOnEscape]="true">
   <ng-template pTemplate="header"
-    ><h3 class="p-0 m-0">{{ 'sidebar.title' | translate }}</h3></ng-template
+    ><h3 class="p-0 m-0">{{ 'sidebar.title' | translate | titlecase }}</h3></ng-template
   >
-  <h4>{{ 'sidebar.languages' | translate }}</h4>
+  <h4>{{ 'sidebar.languages' | translate | titlecase }}</h4>
   <div class="language">
     <app-language-select type="dropdown" mode="complete"></app-language-select>
   </div>
-  <h4>{{ 'sidebar.user' | translate }}</h4>
+  <h4>{{ 'sidebar.user' | translate | titlecase }}</h4>
   <div class="user">
     <button
       pButton
       pRipple
-      [label]="'sidebar.profile' | translate"
+      [label]="'sidebar.profile' | translate | titlecase"
       class="p-button-primary"
       icon="pi pi-user"
       styleClass="p-button-lg"
@@ -47,13 +47,13 @@
       (click)="logOut()"
       pButton
       pRipple
-      [label]="'sidebar.logOut' | translate"
+      [label]="'sidebar.logOut' | translate | titlecase"
       class="p-button-secondary"
       icon="pi pi-sign-out"
       styleClass="p-button-lg"
     ></button>
   </div>
-  <h4>{{ 'sidebar.menus' | translate }}</h4>
+  <h4>{{ 'sidebar.menus' | translate | titlecase }}</h4>
   <nav>
     <ul>
       <li
@@ -62,7 +62,7 @@
         routerLinkActive="active"
         (click)="sidebarVisible = false"
       >
-        {{ 'breadcrumbs.' + menu.label | translate }}
+        {{ 'breadcrumbs.' + menu.label | translate | titlecase }}
       </li>
     </ul>
   </nav>

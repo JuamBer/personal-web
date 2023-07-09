@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
-import { PublicLanguageState } from 'src/app/shared/state/languages/public-language.state';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit {
+  private store = inject(Store);
+  private translateSrv = inject(TranslateService);
   pages: any[] = [];
 
-  constructor(private publicLanguageStore: Store<PublicLanguageState>, private translateSrv: TranslateService) {}
-
   ngOnInit(): void {
-    this.publicLanguageStore.select(publicLanguageReducer.getOne).subscribe((language) => {
+    this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
       if (language) this.translateSrv.use(language.acronym);
     });
 

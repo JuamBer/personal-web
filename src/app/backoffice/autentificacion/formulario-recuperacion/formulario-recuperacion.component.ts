@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,8 +9,16 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   selector: 'app-formulario-recuperacion',
   templateUrl: './formulario-recuperacion.component.html',
   styleUrls: ['./formulario-recuperacion.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormularioRecuperacionComponent implements OnInit {
+  private messageSrv = inject(MessageService);
+  private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private translateSrv = inject(TranslateService);
+  private supabaseSrv = inject(AuthService);
+
   form: FormGroup;
   returnUrl: string = '/';
   token: string;
@@ -20,21 +28,12 @@ export class FormularioRecuperacionComponent implements OnInit {
 
   res: string;
 
-  constructor(
-    private messageSrv: MessageService,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private translateSrv: TranslateService,
-    private supabaseSrv: AuthService,
-  ) {}
-
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.token = params['token'];
     });
 
-    this.form = this.formBuilder.group({
+    this.form = this.fb.group({
       password: [undefined, Validators.required],
       repeat_password: [undefined, Validators.required],
     });

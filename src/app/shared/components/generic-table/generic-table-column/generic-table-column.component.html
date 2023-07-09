@@ -12,7 +12,12 @@
     <img [src]="data" [alt]="field.label" />
   </ng-container>
   <ng-container *ngSwitchCase="GenericFieldType.BOOLEAN">
-    <i class="pi" [ngClass]="{ 'pi-check': data, 'pi-times': !data }"></i>
+    <i
+      class="pi"
+      [ngClass]="{ 'pi-check': data, 'pi-times': !data }"
+      [ngClass]="{ 'pi-check': data, 'pi-times': !data }"
+      [ngStyle]="{ color: data ? '#22C55E' : '#DC2626' }"
+    ></i>
   </ng-container>
   <ng-container *ngSwitchCase="GenericFieldType.PERCENTAGE">
     {{ data + '%' }}

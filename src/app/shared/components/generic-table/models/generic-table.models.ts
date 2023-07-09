@@ -32,6 +32,7 @@ export interface GenericFieldConfig<T> {
   sort: boolean;
   fieldConfig?: GenericFieldConfig<T>;
   tooltip?: (item: T) => string;
+  format?: (item: any) => any;
 }
 
 export interface GenericTableButton {

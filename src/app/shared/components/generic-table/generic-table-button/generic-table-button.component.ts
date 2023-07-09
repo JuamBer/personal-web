@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { GenericTableButton, GenericTableConfig, TableEvent } from '../models/generic-table.models';
 
 @Component({
   selector: 'app-generic-table-button',
   templateUrl: './generic-table-button.component.html',
   styleUrls: ['./generic-table-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenericTableButtonComponent<T> {
   @Input() position: 'top' | 'start' | 'end';

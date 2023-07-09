@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,8 +18,11 @@ export class PositionGroupedByCompany {
   selector: 'app-experience',
   templateUrl: './experience.component.html',
   styleUrls: ['./experience.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceComponent implements OnInit {
+  private store = inject(Store);
+
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
   loadingPositions$: Observable<boolean> = this.store.select(positionReducer.getLoading);
   positionsGrouped$: Observable<PositionGroupedByCompany[]> = this.store.select(positionReducer.getAll).pipe(
@@ -55,8 +58,6 @@ export class ExperienceComponent implements OnInit {
       return positionsgroupedByCompany;
     }),
   );
-
-  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.positionsGrouped$.subscribe((positionsGrouped) => {

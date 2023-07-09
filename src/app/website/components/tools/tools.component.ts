@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
@@ -10,6 +10,7 @@ import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
   selector: 'app-tools',
   templateUrl: './tools.component.html',
   styleUrls: ['./tools.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolsComponent implements OnInit {
   private store = inject(Store);

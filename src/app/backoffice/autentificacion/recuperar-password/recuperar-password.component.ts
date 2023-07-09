@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,24 +8,23 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   selector: 'app-recuperar-password',
   templateUrl: './recuperar-password.component.html',
   styleUrls: ['./recuperar-password.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecuperarPasswordComponent implements OnInit {
+  private messageSrv = inject(MessageService);
+  private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private translateSrv = inject(TranslateService);
+  private supabaseSrv = inject(AuthService);
+
   form: FormGroup;
   loading: boolean = false;
   errores: string[] = [];
   res: string;
 
-  constructor(
-    private messageSrv: MessageService,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private translateSrv: TranslateService,
-    private supabaseSrv: AuthService,
-  ) {}
-
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
+    this.form = this.fb.group({
       correo: [undefined, Validators.required],
     });
   }

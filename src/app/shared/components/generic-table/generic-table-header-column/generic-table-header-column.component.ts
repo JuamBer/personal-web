@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -27,6 +27,7 @@ import {
   selector: 'app-generic-table-header-column',
   templateUrl: './generic-table-header-column.component.html',
   styleUrls: ['./generic-table-header-column.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenericTableHeaderColumnComponent<T> {
   private fb = inject(FormBuilder);

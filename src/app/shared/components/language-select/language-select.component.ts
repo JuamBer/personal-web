@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { MessageService, PrimeNGConfig } from 'primeng/api';
+import { PrimeNGConfig } from 'primeng/api';
 import { filter, take } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageActions } from '../../state/languages/public-language.actions';
@@ -15,18 +15,15 @@ import { publicLanguageReducer } from '../../state/languages/public-language.red
   encapsulation: ViewEncapsulation.None,
 })
 export class LanguageSelectComponent implements OnInit {
+  private config = inject(PrimeNGConfig);
+  private store = inject(Store);
+  private translateSrv = inject(TranslateService);
+
   @Input() type: 'dropdown' | 'select-button' = 'dropdown';
   @Input() mode: 'simple' | 'complete' = 'simple';
 
   languages: Language[];
   language: Language;
-
-  constructor(
-    private config: PrimeNGConfig,
-    private store: Store,
-    private translateSrv: TranslateService,
-    private messageSrv: MessageService,
-  ) {}
 
   ngOnInit(): void {
     this.store

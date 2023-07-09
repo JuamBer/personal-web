@@ -10,7 +10,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     PublicLanguageStateModule,
@@ -21,7 +20,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
-      isolate: true,
     }),
   ],
   exports: [TranslateModule],

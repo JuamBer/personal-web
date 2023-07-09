@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData, ChartDataset, ChartOptions } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
-import { BehaviorSubject, Observable, combineLatest, filter, map, switchMap } from 'rxjs';
-import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
+import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
 import { CertificateStateModule } from 'src/app/backoffice/tables/certificate/state/certificate-state.module';
 import { certificateActions } from 'src/app/backoffice/tables/certificate/state/certificate.actions';
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
@@ -21,24 +20,76 @@ import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [CommonModule, LanguagesModule, ChartModule, CertificateStateModule],
+  providers: [TitleCasePipe],
 })
 export class CertificatesInTimeChartComponent implements OnInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
+  private titleCasePipe = inject(TitleCasePipe);
 
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
-  chartOptions$: BehaviorSubject<ChartOptions> = new BehaviorSubject<ChartOptions>({});
+  chartOptions$: Observable<ChartOptions> = this.translateSrv.onLangChange.pipe(
+    startWith(this.translateSrv.currentLang),
+    map(() => ({
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      plugins: {
+        legend: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: this.titleCasePipe.transform(this.translateSrv.instant('charts.certificatesInTime.title')),
+          font: {
+            weight: 'normal',
+            size: 18,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-secondary'),
+          },
+          grid: {
+            color: getComputedStyle(document.documentElement).getPropertyValue('--surface-border'),
+          },
+          title: {
+            display: true,
+            text: this.titleCasePipe.transform(this.translateSrv.instant('charts.certificatesInTime.xAxis')),
+            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color'),
+            font: {
+              weight: 'normal',
+              size: 18,
+            },
+          },
+        },
+        y: {
+          ticks: {
+            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-secondary'),
+          },
+          grid: {
+            color: getComputedStyle(document.documentElement).getPropertyValue('--surface-border'),
+          },
+          title: {
+            display: true,
+            text: this.titleCasePipe.transform(this.translateSrv.instant('charts.certificatesInTime.yAxis')),
+            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color'),
+            font: {
+              weight: 'normal',
+              size: 18,
+            },
+          },
+        },
+      },
+    })),
+  );
   chartData$: Observable<ChartData<'bar', any[]>> = combineLatest([
     this.store.select(certificateReducer.getAll),
     this.language$,
   ]).pipe(
     filter(([certificates, language]) => certificates.length > 0),
-    switchMap(([certificates, language]) =>
-      this.translateSrv
-        .get('charts.certificatesInTime.title')
-        .pipe(map((chartTitle: string) => [certificates, language, chartTitle] as [Certificate[], Language, string])),
-    ),
-    map(([certificates, language, chartTitle]) => {
+    map(([certificates, language]) => {
       const certificatesSorted = [...certificates].sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       );
@@ -74,7 +125,6 @@ export class CertificatesInTimeChartComponent implements OnInit {
       });
       datasets.push({
         type: 'line',
-        label: chartTitle,
         data,
       });
 
@@ -88,43 +138,6 @@ export class CertificatesInTimeChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(certificateActions.loadAll({}));
-
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-    this.translateSrv.get('dashboard.chartTitle').subscribe((chartTitle) => {
-      this.chartOptions$.next({
-        maintainAspectRatio: false,
-        aspectRatio: 0.6,
-        plugins: {
-          legend: {
-            labels: {
-              color: textColor,
-            },
-          },
-        },
-        scales: {
-          x: {
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
-            },
-          },
-          y: {
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
-            },
-          },
-        },
-      });
-    });
   }
 
   get getTranslation() {

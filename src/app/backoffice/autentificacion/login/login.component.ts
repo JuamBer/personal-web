@@ -1,18 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { AppState } from 'src/app/shared/state/account/account.reducer';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
+  private messageSrv = inject(MessageService);
+  private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private translateSrv = inject(TranslateService);
+  private supabaseSrv = inject(AuthService);
+  private store = inject(Store);
+
   form: FormGroup;
   formLogin: FormGroup;
   returnUrl: string = '/';
@@ -21,25 +29,16 @@ export class LoginComponent implements OnInit {
   // nombre: string = environment.nombre;
   // logoUrl: string = environment.logo;
   res: string;
-  constructor(
-    private messageSrv: MessageService,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private translateSrv: TranslateService,
-    private supabaseSrv: AuthService,
-    private accountStore: Store<AppState>,
-  ) {}
 
   ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/backoffice';
 
-    this.form = this.formBuilder.group({
+    this.form = this.fb.group({
       email: [undefined, Validators.required],
       // password: [undefined, Validators.required],
     });
 
-    this.formLogin = this.formBuilder.group({
+    this.formLogin = this.fb.group({
       email: [undefined, Validators.required],
       password: [undefined],
     });

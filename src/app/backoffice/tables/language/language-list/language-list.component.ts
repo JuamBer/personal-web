@@ -141,6 +141,7 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
           type: GenericFieldType.TEXT,
           filter: true,
           sort: true,
+          format: (value) => value.toUpperCase(),
         },
         {
           field: 'active',

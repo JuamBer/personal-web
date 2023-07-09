@@ -213,19 +213,20 @@
     "modal": "Modal"
   },
   "charts": {
+    "positionsInTime": {
+      "title": "Puestos de trabajo en el tiempo",
+      "yAxis": "Puestos de trabajo",
+      "xAxis": "Fecha"
+    },
     "salaryInTime": {
       "title": "Salario en el tiempo",
-      "subtitle": "Salario en el tiempo",
       "yAxis": "Salario",
-      "xAxis": "Fecha",
-      "tooltip": "Salario: {point.y}€"
+      "xAxis": "Fecha"
     },
     "certificatesInTime": {
       "title": "Certificados en el tiempo",
-      "subtitle": "Certificados en el tiempo",
       "yAxis": "Certificados",
-      "xAxis": "Fecha",
-      "tooltip": "Certificados: {point.y}"
+      "xAxis": "Fecha"
     }
   }
 }

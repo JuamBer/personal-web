@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
@@ -9,6 +9,7 @@ import { GenericFieldConfig, GenericFieldType } from '../models/generic-table.mo
   selector: 'app-generic-table-column',
   templateUrl: './generic-table-column.component.html',
   styleUrls: ['./generic-table-column.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenericTableColumnComponent<T> {
   private store = inject(Store);
@@ -35,6 +36,10 @@ export class GenericTableColumnComponent<T> {
     const spplitedField = this.field.field.split('.');
     for (const field of spplitedField) {
       result = result[field];
+    }
+
+    if (this.field.format) {
+      result = this.field.format(result);
     }
 
     return result;

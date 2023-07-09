@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
 import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
-import { CertificateGroupState } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.state';
 import { CertificateType } from 'src/app/backoffice/tables/certificate-type/models/certificate-type.model';
 import { certificateTypeReducer } from 'src/app/backoffice/tables/certificate-type/state/certificate-type.reducer';
-import { CertificateTypeState } from 'src/app/backoffice/tables/certificate-type/state/certificate-type.state';
 import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
@@ -21,21 +19,20 @@ Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
   selector: 'app-certificates',
   templateUrl: './certificates.component.html',
   styleUrls: ['./certificates.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CertificatesComponent implements OnInit {
+  private store = inject(Store);
+
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   certificates$: Observable<Certificate[]> = this.store.select(certificateReducer.getAll);
   loadingCertificates$: Observable<boolean> = this.store.select(certificateReducer.getLoading);
-  certificateTypes$: Observable<CertificateType[]> = this.certificateTypeStore.select(certificateTypeReducer.getAll);
-  loadingCertificateTypes$: Observable<boolean> = this.certificateTypeStore.select(certificateTypeReducer.getLoading);
+  certificateTypes$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
+  loadingCertificateTypes$: Observable<boolean> = this.store.select(certificateTypeReducer.getLoading);
 
-  certificateGroups$: Observable<CertificateGroup[]> = this.certificateGroupStore.select(
-    certificateGroupReducer.getAll,
-  );
-  loadingCertificateGroups$: Observable<boolean> = this.certificateGroupStore.select(
-    certificateGroupReducer.getLoading,
-  );
+  certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
+  loadingCertificateGroups$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
 
   tabIndexes: { groupId: any; value: number }[] = [];
 
@@ -62,21 +59,12 @@ export class CertificatesComponent implements OnInit {
     allowSlideNext: true,
     allowSlidePrev: true,
     spaceBetween: 25,
-    // scrollbar: {
-    //   draggable: true,
-    // },
   };
-
-  constructor(
-    private store: Store,
-    private certificateTypeStore: Store<CertificateTypeState>,
-    private certificateGroupStore: Store<CertificateGroupState>,
-  ) {}
 
   ngOnInit(): void {
     this.certificateGroups$.subscribe((certificateGroups) => {
       if (!certificateGroups.length) {
-        this.certificateGroupStore.dispatch(certificateGroupActions.loadAll({ payload: null }));
+        this.store.dispatch(certificateGroupActions.loadAll({ payload: null }));
       }
       certificateGroups.forEach((certificateGroup) => {
         this.tabIndexes.push({
