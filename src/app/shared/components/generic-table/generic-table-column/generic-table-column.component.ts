@@ -14,8 +14,6 @@ import { GenericFieldConfig, GenericFieldType } from '../models/generic-table.mo
 export class GenericTableColumnComponent<T> {
   private store = inject(Store);
 
-  faLanguage = faLanguage;
-
   @Input() field: GenericFieldConfig<T>;
 
   value$ = new BehaviorSubject<T | undefined>(undefined);
@@ -47,5 +45,9 @@ export class GenericTableColumnComponent<T> {
 
   get GenericFieldType() {
     return GenericFieldType;
+  }
+
+  get faLanguage() {
+    return faLanguage;
   }
 }

@@ -34,10 +34,6 @@ export class InputTranslationsComponent implements OnInit {
   private inputTranslationsService = inject(InputTranslationsService);
   private capitalizePipe = inject(CapitalizePipe);
 
-  faTimes = faTimes;
-  faTrash = faTrash;
-  faLanguage = faLanguage;
-
   @Input() set translations(translations: Translation[]) {
     if (Array.isArray(translations)) {
       this.translations$.next(translations);
@@ -234,5 +230,14 @@ export class InputTranslationsComponent implements OnInit {
 
   get InputTranslationsType() {
     return InputTranslationsType;
+  }
+  get faTimes() {
+    return faTimes;
+  }
+  get faTrash() {
+    return faTrash;
+  }
+  get faLanguage() {
+    return faLanguage;
   }
 }

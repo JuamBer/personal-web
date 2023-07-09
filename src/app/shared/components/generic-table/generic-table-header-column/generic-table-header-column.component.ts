@@ -35,9 +35,6 @@ export class GenericTableHeaderColumnComponent<T> {
 
   @ViewChild(OverlayPanel) filterTypes: OverlayPanel;
 
-  faQuestion = faCircleQuestion;
-  faLanguage = faLanguage;
-
   filterFormGroup = this.fb.group({
     value: [undefined, [Validators.required]],
     filterType: [undefined, [Validators.required]],
@@ -138,5 +135,12 @@ export class GenericTableHeaderColumnComponent<T> {
     } else {
       FormUtils.markAllAsDirtyAndTouched(this.filterFormGroup);
     }
+  }
+
+  get faQuestion() {
+    return faCircleQuestion;
+  }
+  get faLanguage() {
+    return faLanguage;
   }
 }
