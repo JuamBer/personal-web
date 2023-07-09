@@ -34,10 +34,18 @@
       "message": "¿Quieres borrar el/la {{name}}?",
       "header": "Confirmación de Borrado"
     },
-    "toastDeleted": "El/la {{name}} ha sido borrado correctamente",
-    "toastCreated": "El/la {{name}} ha sido creado correctamente",
-    "toastUpdated": "El/la {{name}} ha sido modificado correctamente",
-    "toastError": "ERR"
+    "create": {
+      "success": "El/la {{name}} ha sido creado correctamente",
+      "error": "El/la {{name}} no ha podido ser creado correctamente"
+    },
+    "update": {
+      "success": "El/la {{name}} ha sido actualizado correctamente",
+      "error": "El/la {{name}} no ha podido ser actualizado correctamente"
+    },
+    "delete": {
+      "success": "El/la {{name}} ha sido borrado correctamente",
+      "error": "El/la {{name}} no ha podido ser borrado correctamente"
+    }
   },
   "buttons": {
     "view": "Detalle {{name}}",
