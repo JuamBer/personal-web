@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
@@ -49,6 +50,7 @@ export class SkillListComponent implements OnInit, EntityList<Skill> {
   private confirmationSrv = inject(ConfirmationService);
   private router = inject(Router);
   private translateSrv = inject(TranslateService);
+  private titleCasePipe = inject(TitleCasePipe);
 
   entities$: Observable<Skill[]> = this.store.select(skillReducer.getAll);
   loading$: Observable<boolean> = this.store.select(skillReducer.getLoading);
@@ -120,6 +122,9 @@ export class SkillListComponent implements OnInit, EntityList<Skill> {
 
     this.tableConfig$.next({
       ...defaultGenericTableConfig,
+      title: this.titleCasePipe.transform(
+        this.translateSrv.instant(`tables.${this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`),
+      ),
       fields: [
         {
           field: 'name',

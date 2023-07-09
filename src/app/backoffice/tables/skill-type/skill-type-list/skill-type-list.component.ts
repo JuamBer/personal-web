@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 
+import { TitleCasePipe } from '@angular/common';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
@@ -50,6 +51,7 @@ export class SkillTypeListComponent implements OnInit, EntityList<SkillType> {
   private confirmationSrv = inject(ConfirmationService);
   private router = inject(Router);
   private translateSrv = inject(TranslateService);
+  private titleCasePipe = inject(TitleCasePipe);
 
   entities$: Observable<SkillType[]> = this.store.select(skillTypeReducer.getAll);
   loading$: Observable<boolean> = this.store.select(skillTypeReducer.getLoading);
@@ -121,6 +123,9 @@ export class SkillTypeListComponent implements OnInit, EntityList<SkillType> {
 
     this.tableConfig$.next({
       ...defaultGenericTableConfig,
+      title: this.titleCasePipe.transform(
+        this.translateSrv.instant(`tables.${this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`),
+      ),
       fields: [
         {
           field: 'nameTranslations',

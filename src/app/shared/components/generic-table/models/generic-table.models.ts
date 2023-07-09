@@ -47,6 +47,7 @@ export interface GenericTableButton {
 
 export interface GenericTableConfig<T> {
   dataKey: string;
+  title: string;
   rowsPerPageOptions: number[];
   showCurrentPageReport: boolean;
   paginator: boolean;

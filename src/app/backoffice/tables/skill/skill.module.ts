@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -68,5 +69,6 @@ import { SkillStateModule } from './state/skill-state.module';
     EntityModalButtonsModule,
     GenericTableModule,
   ],
+  providers: [TitleCasePipe],
 })
 export class SkillModule {}

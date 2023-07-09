@@ -11,5 +11,5 @@
     },
     "editor.formatOnSave": false
   },
-  "conventionalCommits.scopes": ["Backoffice", "Web", "CV"]
+  "conventionalCommits.scopes": ["Backoffice", "Web", "CV", "GenericTable"]
 }

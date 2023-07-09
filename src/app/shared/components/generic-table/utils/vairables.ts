@@ -12,4 +12,5 @@ export const defaultGenericTableConfig: GenericTableConfig<any> = {
     start: [],
     end: [],
   },
+  title: '',
 };

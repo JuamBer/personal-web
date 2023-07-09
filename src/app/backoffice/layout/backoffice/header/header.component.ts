@@ -56,11 +56,6 @@ export class HeaderComponent {
       label: 'companies',
     },
     {
-      routerLink: '/backoffice/curriculums',
-      icon: 'pi pi-fw pi-lock',
-      label: 'curriculums',
-    },
-    {
       routerLink: '/backoffice/languages',
       icon: 'pi pi-fw pi-lock',
       label: 'languages',

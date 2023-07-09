@@ -3,6 +3,7 @@ import { EntityModalAuditModule } from 'src/app/shared/components/entity-modal-a
 import { EntityModalButtonsModule } from 'src/app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
 import { GenericTableModule } from 'src/app/shared/components/generic-table/generic-table.module';
 
+import { TitleCasePipe } from '@angular/common';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
 import { LanguagesModule as Lmodule } from 'src/app/shared/modules/languages.module';
@@ -31,5 +32,6 @@ import { LanguageStateModule } from './state/language-state.module';
     PipesModule,
     InputSwitchModule,
   ],
+  providers: [TitleCasePipe],
 })
 export class LanguageModule {}

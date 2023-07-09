@@ -3,6 +3,7 @@ import { EntityModalAuditModule } from 'src/app/shared/components/entity-modal-a
 import { EntityModalButtonsModule } from 'src/app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
 import { GenericTableModule } from 'src/app/shared/components/generic-table/generic-table.module';
 
+import { TitleCasePipe } from '@angular/common';
 import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
@@ -33,5 +34,6 @@ import { PositionStateModule } from './state/position-state.module';
     PipesModule,
     InputTranslationsModule,
   ],
+  providers: [TitleCasePipe],
 })
 export class PositionModule {}

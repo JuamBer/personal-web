@@ -5,6 +5,7 @@ import { EntityModalAuditModule } from 'src/app/shared/components/entity-modal-a
 import { EntityModalButtonsModule } from 'src/app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
 import { GenericTableModule } from 'src/app/shared/components/generic-table/generic-table.module';
 
+import { TitleCasePipe } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -68,5 +69,6 @@ import { CompanyStateModule } from './state/company-state.module';
     PipesModule,
     GenericTableModule,
   ],
+  providers: [TitleCasePipe],
 })
 export class CompanyModule {}

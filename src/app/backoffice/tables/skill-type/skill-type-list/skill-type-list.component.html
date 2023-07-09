@@ -1,8 +1,5 @@
 <div class="ui-g">
   <div class="p-col-12">
-    <h1>
-      {{ 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.plural' | translate | titlecase }}
-    </h1>
     <app-generic-table
       [entities]="entities$ | async"
       [loading]="loading$ | async"

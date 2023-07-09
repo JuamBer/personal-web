@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -53,6 +54,7 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
   private translateSrv = inject(TranslateService);
   private messageSrv = inject(MessageService);
   private toastSrv = inject(ToastService);
+  private titleCasePipe = inject(TitleCasePipe);
 
   entities$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
   loading$: Observable<boolean> = this.store.select(certificateTypeReducer.getLoading);
@@ -130,6 +132,9 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
 
     this.tableConfig$.next({
       ...defaultGenericTableConfig,
+      title: this.titleCasePipe.transform(
+        this.translateSrv.instant(`tables.${this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`),
+      ),
       fields: [
         {
           field: 'nameTranslations',

@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
@@ -49,6 +50,7 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
   private confirmationSrv = inject(ConfirmationService);
   private router = inject(Router);
   private translateSrv = inject(TranslateService);
+  private titleCasePipe = inject(TitleCasePipe);
 
   entities$: Observable<Language[]> = this.store.select(languageReducer.getAll);
   loading$: Observable<boolean> = this.store.select(languageReducer.getLoading);
@@ -120,6 +122,9 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
 
     this.tableConfig$.next({
       ...defaultGenericTableConfig,
+      title: this.titleCasePipe.transform(
+        this.translateSrv.instant(`tables.${this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`),
+      ),
       fields: [
         {
           field: 'name',
