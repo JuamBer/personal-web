@@ -16,6 +16,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessageModule } from 'primeng/message';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
@@ -52,13 +53,13 @@ import { CertificateGroupStateModule } from './state/certificate-group-state.mod
     PipesModule,
     SkeletonModule,
     GenericTableModule,
-
     PipesModule,
     EntityModalButtonsModule,
     EntityModalAuditModule,
     CertificateGroupStateModule,
     CertificateGroupStateModule,
     CertificateGroupRoutingModule,
+    TableModule,
   ],
 })
 export class CertificateGroupModule {}

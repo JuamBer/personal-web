@@ -16,6 +16,8 @@ import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
+import { Language } from '../../language/models/language.model';
 import { CertificateType, CertificateTypeFormGroup } from '../models/certificate-type.model';
 import { CertificateTypeService } from '../services/certificate-type.service';
 import { certificateTypeActions } from '../state/certificate-type.actions';
@@ -99,6 +101,7 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
     ),
   );
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   ngOnInit(): void {
     this.params$
@@ -170,5 +173,8 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   }
   get InputTranslationsType() {
     return InputTranslationsType;
+  }
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }

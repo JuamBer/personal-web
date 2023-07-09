@@ -16,6 +16,8 @@ import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
+import { Language } from '../../language/models/language.model';
 import { CertificateGroup, CertificateGroupFormGroup } from '../models/certificate-group.model';
 import { CertificateGroupService } from '../services/certificate-group.service';
 import { certificateGroupActions } from '../state/certificate-group.actions';
@@ -98,6 +100,7 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
     ),
   );
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   ngOnInit(): void {
     this.action$.subscribe(() => {
@@ -167,5 +170,9 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
   }
   get ModalMode() {
     return ModalMode;
+  }
+
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }

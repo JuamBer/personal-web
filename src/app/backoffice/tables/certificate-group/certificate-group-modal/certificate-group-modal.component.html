@@ -1,65 +1,88 @@
-<p-dialog
-  *appLet="modalMode$ | async as modalMode"
-  [draggable]="false"
-  [resizable]="false"
-  [header]="
-    'buttons.' + modalMode
-      | lowercase
-      | translate
-        : {
-            name: 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.singular' | translate
-          }
-  "
-  [modal]="true"
-  [(visible)]="visible"
-  (onHide)="hide()"
-  [style]="{ width: '100%', maxWidth: '40rem' }"
->
-  <form [formGroup]="form" (ngSubmit)="send()" *appLet="loading$ | async as loading">
-    <div class="grid p-fluid mt-1">
-      <div
-        *appLet="'nameTranslations' as field"
-        appLoading
-        [appIsLoading]="loading"
-        class="xs:col-12 md:col-12 lg:col-12 mt-3"
+<ng-container *appLet="entity$ | async as entity">
+  <ng-container *appLet="language$ | async as language">
+    <ng-container *appLet="loading$ | async as loading">
+      <p-dialog
+        *appLet="modalMode$ | async as modalMode"
+        [draggable]="false"
+        [resizable]="false"
+        [header]="
+          'buttons.' + modalMode
+            | lowercase
+            | translate
+              : {
+                  name: 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.singular' | translate
+                }
+        "
+        [modal]="true"
+        [(visible)]="visible"
+        (onHide)="hide()"
+        [style]="{ width: '100%', maxWidth: '40rem' }"
       >
-        <app-input-translations
-          [showErrors]="showErrors$"
-          [type]="InputTranslationsType.INPUT"
-          [translations]="(entity$ | async)?.nameTranslations"
-          [disabled]="modalMode === ModalMode.VIEW"
-          [form]="form.controls[field]"
-          [label]="'columns.name' | translate"
-        ></app-input-translations>
-      </div>
-      <div
-        *appLet="'descriptionTranslations' as field"
-        appLoading
-        [appIsLoading]="loading"
-        class="xs:col-12 md:col-12 lg:col-12 mt-3"
-      >
-        <app-input-translations
-          [showErrors]="showErrors$"
-          [type]="InputTranslationsType.TEXTAREA"
-          [translations]="(entity$ | async)?.descriptionTranslations"
-          [disabled]="modalMode === ModalMode.VIEW"
-          [form]="form.controls[field]"
-          [label]="'columns.description' | translate"
-        ></app-input-translations>
-      </div>
-    </div>
-    <app-entity-modal-buttons
-      [loading]="loading"
-      [form]="form"
-      [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
-      [modalMode]="modalMode"
-      (cancel)="hide()"
-      (submit)="send()"
-    ></app-entity-modal-buttons>
-    <app-entity-modal-audit
-      [loading]="loading"
-      [entity]="entity$ | async"
-      [modalMode]="modalMode"
-    ></app-entity-modal-audit>
-  </form>
-</p-dialog>
+        <form [formGroup]="form" (ngSubmit)="send()">
+          <div class="grid p-fluid mt-1">
+            <div
+              *appLet="'nameTranslations' as field"
+              appLoading
+              [appIsLoading]="loading"
+              class="xs:col-12 md:col-12 lg:col-12 mt-3"
+            >
+              <app-input-translations
+                [showErrors]="showErrors$"
+                [type]="InputTranslationsType.INPUT"
+                [translations]="entity?.nameTranslations"
+                [disabled]="modalMode === ModalMode.VIEW"
+                [form]="form.controls[field]"
+                [label]="'columns.name' | translate"
+              ></app-input-translations>
+            </div>
+            <div
+              *appLet="'descriptionTranslations' as field"
+              appLoading
+              [appIsLoading]="loading"
+              class="xs:col-12 md:col-12 lg:col-12 mt-3"
+            >
+              <app-input-translations
+                [showErrors]="showErrors$"
+                [type]="InputTranslationsType.TEXTAREA"
+                [translations]="entity?.descriptionTranslations"
+                [disabled]="modalMode === ModalMode.VIEW"
+                [form]="form.controls[field]"
+                [label]="'columns.description' | translate"
+              ></app-input-translations>
+            </div>
+          </div>
+          <app-entity-modal-buttons
+            [loading]="loading"
+            [form]="form"
+            [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
+            [modalMode]="modalMode"
+            (cancel)="hide()"
+            (submit)="send()"
+          ></app-entity-modal-buttons>
+          <app-entity-modal-audit
+            [loading]="loading"
+            [entity]="entity"
+            [modalMode]="modalMode"
+          ></app-entity-modal-audit>
+        </form>
+        <div class="mt-5" *ngIf="modalMode === ModalMode.VIEW">
+          <p-table [value]="entity?.certificates" [tableStyle]="{ width: '100%' }" [loading]="loading">
+            <ng-template pTemplate="caption">
+              <h5 class="m-0 p-0 f-bold">{{ 'tables.certificate.plural' | translate | titlecase }}</h5>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{ 'columns.name' | translate | titlecase }}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>{{ getTranslation(language.acronym, item.nameTranslations) }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-dialog>
+    </ng-container>
+  </ng-container>
+</ng-container>

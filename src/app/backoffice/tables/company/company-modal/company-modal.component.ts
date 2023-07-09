@@ -16,6 +16,8 @@ import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
+import { Language } from '../../language/models/language.model';
 import { Company, CompanyFormGroup } from '../models/company.model';
 import { CompanyService } from '../services/company.service';
 import { companyActions } from '../state/company.actions';
@@ -88,6 +90,7 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
     filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
   );
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   ngOnInit(): void {
     this.params$
@@ -158,5 +161,8 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
 
   get ModalMode() {
     return ModalMode;
+  }
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }

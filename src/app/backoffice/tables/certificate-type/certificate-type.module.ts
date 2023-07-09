@@ -17,6 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessageModule } from 'primeng/message';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
@@ -61,6 +62,7 @@ import { CertificateTypeStateModule } from './state/certificate-type-state.modul
     CertificateTypeStateModule,
     CertificateTypeRoutingModule,
     InputTranslationsModule,
+    TableModule,
   ],
 })
 export class CertificateTypeModule {}

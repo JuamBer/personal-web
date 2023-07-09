@@ -17,6 +17,8 @@ import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
+import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
+import { Language } from '../../language/models/language.model';
 import { SkillType, SkillTypeFormGroup } from '../models/skill-type.model';
 import { SkillTypeService } from '../services/skill-type.service';
 import { skillTypeActions } from '../state/skill-type.actions';
@@ -95,6 +97,7 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
     filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
   );
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   ngOnInit(): void {
     this.params$
@@ -163,5 +166,8 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
   }
   get ModalMode() {
     return ModalMode;
+  }
+  get getTranslation() {
+    return TranslationUtils.getTranslation;
   }
 }
