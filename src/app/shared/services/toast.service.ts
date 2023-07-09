@@ -7,7 +7,7 @@ import { Action, ActionStatus, ActionType } from '../state/common/common-state';
 export class ToastService {
   private translateSrv = inject(TranslateService);
 
-  getMessage(action: Action): Message | undefined {
+  getMessage(action: Action, entity: string): Message | undefined {
     switch (action.type) {
       case ActionType.COUNT: {
         switch (action.status) {
@@ -18,7 +18,10 @@ export class ToastService {
             return undefined;
           }
           case ActionStatus.ERROR: {
-            return { severity: 'error', summary: this.translateSrv.instant('error') };
+            return {
+              severity: 'error',
+              summary: this.translateSrv.instant('messages.headers.error'),
+            };
           }
         }
       }
@@ -31,7 +34,10 @@ export class ToastService {
             return undefined;
           }
           case ActionStatus.ERROR: {
-            return { severity: 'error', summary: this.translateSrv.instant('error') };
+            return {
+              severity: 'error',
+              summary: this.translateSrv.instant('messages.headers.error'),
+            };
           }
         }
       }
@@ -44,7 +50,7 @@ export class ToastService {
             return undefined;
           }
           case ActionStatus.ERROR: {
-            return { severity: 'error', summary: this.translateSrv.instant('error') };
+            return { severity: 'error', summary: this.translateSrv.instant('messages.headers.error') };
           }
         }
       }
@@ -54,10 +60,22 @@ export class ToastService {
             return undefined;
           }
           case ActionStatus.SUCCESS: {
-            return { severity: 'success', summary: this.translateSrv.instant('success') };
+            return {
+              severity: 'success',
+              summary: this.translateSrv.instant('messages.headers.success'),
+              detail: this.translateSrv.instant('messages.create.success', {
+                name: this.translateSrv.instant(`tables.${entity}.singular`),
+              }),
+            };
           }
           case ActionStatus.ERROR: {
-            return { severity: 'error', summary: this.translateSrv.instant('error') };
+            return {
+              severity: 'error',
+              summary: this.translateSrv.instant('messages.headers.error'),
+              detail: this.translateSrv.instant('messages.create.error', {
+                name: this.translateSrv.instant(`tables.${entity}.singular`),
+              }),
+            };
           }
         }
       }
@@ -67,10 +85,22 @@ export class ToastService {
             return undefined;
           }
           case ActionStatus.SUCCESS: {
-            return { severity: 'success', summary: this.translateSrv.instant('success') };
+            return {
+              severity: 'success',
+              summary: this.translateSrv.instant('messages.headers.success'),
+              detail: this.translateSrv.instant('messages.update.success', {
+                name: this.translateSrv.instant(`tables.${entity}.singular`),
+              }),
+            };
           }
           case ActionStatus.ERROR: {
-            return { severity: 'error', summary: this.translateSrv.instant('error') };
+            return {
+              severity: 'error',
+              summary: this.translateSrv.instant('messages.headers.error'),
+              detail: this.translateSrv.instant('messages.update.error', {
+                name: this.translateSrv.instant(`tables.${entity}.singular`),
+              }),
+            };
           }
         }
       }
@@ -80,10 +110,22 @@ export class ToastService {
             return undefined;
           }
           case ActionStatus.SUCCESS: {
-            return { severity: 'success', summary: this.translateSrv.instant('success') };
+            return {
+              severity: 'success',
+              summary: this.translateSrv.instant('messages.headers.success'),
+              detail: this.translateSrv.instant('messages.delete.success', {
+                name: this.translateSrv.instant(`tables.${entity}.singular`),
+              }),
+            };
           }
           case ActionStatus.ERROR: {
-            return { severity: 'error', summary: this.translateSrv.instant('error') };
+            return {
+              severity: 'error',
+              summary: this.translateSrv.instant('messages.headers.error'),
+              detail: this.translateSrv.instant('messages.delete.error', {
+                name: this.translateSrv.instant(`tables.${entity}.singular`),
+              }),
+            };
           }
         }
       }

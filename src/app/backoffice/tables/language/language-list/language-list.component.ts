@@ -1,10 +1,10 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
-import { BehaviorSubject, Observable, filter, map, startWith, switchMap } from 'rxjs';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
+import { BehaviorSubject, Observable, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -15,6 +15,8 @@ import {
 import { defaultGenericTableConfig } from 'src/app/shared/components/generic-table/utils/vairables';
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { Action } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { Language } from '../models/language.model';
@@ -51,17 +53,26 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
   private router = inject(Router);
   private translateSrv = inject(TranslateService);
   private titleCasePipe = inject(TitleCasePipe);
+  private toastSrv = inject(ToastService);
+  private messageSrv = inject(MessageService);
 
+  unsubscribe$: Subject<boolean> = new Subject();
+  action$: Observable<Action> = this.store.select(languageReducer.getAction).pipe(takeUntil(this.unsubscribe$));
   entities$: Observable<Language[]> = this.store.select(languageReducer.getAll);
   loading$: Observable<boolean> = this.store.select(languageReducer.getLoading);
   count$: Observable<number> = this.store.select(languageReducer.getCount);
-  action$: Observable<Action> = this.store.select(languageReducer.getAction);
   tableConfig$ = new BehaviorSubject<GenericTableConfig<Language | undefined>>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(languageActions.count());
     this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadTableConfig();
+    });
+    this.action$.subscribe((action) => {
+      const message = this.toastSrv.getMessage(action, this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR));
+      if (message) {
+        this.messageSrv.add(message);
+      }
     });
   }
 

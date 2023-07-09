@@ -19,6 +19,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
+import { ToastModule } from 'primeng/toast';
 import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
 import { DirectivesModule } from 'src/app/shared/modules/directives.module';
@@ -61,6 +62,7 @@ import { CertificateGroupStateModule } from './state/certificate-group-state.mod
     CertificateGroupStateModule,
     CertificateGroupRoutingModule,
     TableModule,
+    ToastModule,
   ],
   providers: [TitleCasePipe],
 })

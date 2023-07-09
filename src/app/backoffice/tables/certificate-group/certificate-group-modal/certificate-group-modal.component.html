@@ -18,7 +18,7 @@
         (onHide)="hide()"
         [style]="{ width: '100%', maxWidth: '40rem' }"
       >
-        <form [formGroup]="form" (ngSubmit)="send()">
+        <form [formGroup]="form">
           <div class="grid p-fluid mt-1">
             <div
               *appLet="'nameTranslations' as field"

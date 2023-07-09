@@ -1,10 +1,10 @@
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
-import { BehaviorSubject, Observable, filter, map, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -47,7 +47,7 @@ export const certificateTypeListTitleResolver: ResolveFn<string> = (
   styleUrls: ['./certificate-type-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CertificateTypeListComponent implements OnInit, EntityList<CertificateType> {
+export class CertificateTypeListComponent implements OnInit, OnDestroy, EntityList<CertificateType> {
   private store = inject(Store);
   private confirmationSrv = inject(ConfirmationService);
   private router = inject(Router);
@@ -56,10 +56,11 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
   private toastSrv = inject(ToastService);
   private titleCasePipe = inject(TitleCasePipe);
 
+  unsubscribe$: Subject<boolean> = new Subject();
+  action$: Observable<Action> = this.store.select(certificateTypeReducer.getAction).pipe(takeUntil(this.unsubscribe$));
   entities$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
   loading$: Observable<boolean> = this.store.select(certificateTypeReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateTypeReducer.getCount);
-  action$: Observable<Action> = this.store.select(certificateTypeReducer.getAction);
   tableConfig$ = new BehaviorSubject<GenericTableConfig<CertificateType | undefined>>(undefined);
 
   ngOnInit(): void {
@@ -68,11 +69,16 @@ export class CertificateTypeListComponent implements OnInit, EntityList<Certific
       this.loadTableConfig();
     });
     this.action$.subscribe((action) => {
-      const message = this.toastSrv.getMessage(action);
+      const message = this.toastSrv.getMessage(action, this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR));
       if (message) {
         this.messageSrv.add(message);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(true);
+    this.unsubscribe$.complete();
   }
 
   onLazyLoadEvent(event: LazyLoadEvent) {
