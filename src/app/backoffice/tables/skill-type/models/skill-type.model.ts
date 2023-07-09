@@ -5,8 +5,6 @@ import { Skill } from '../../skill/models/skill.model';
 
 export interface SkillType extends AuditFields {
   id: string;
-  name: string;
-  description: string;
   nameTranslations: Translation[];
   descriptionTranslations: Translation[];
   skills?: Skill[];
@@ -14,8 +12,6 @@ export interface SkillType extends AuditFields {
 
 export type SkillTypeFormGroup = FormGroup<{
   id?: FormControl<string>;
-  name: FormControl<string | undefined>;
-  description: FormControl<string | undefined>;
   nameTranslations: FormArray<TranslationFormGroup>;
   descriptionTranslations: FormArray<TranslationFormGroup>;
 }>;

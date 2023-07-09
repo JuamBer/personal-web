@@ -7,7 +7,6 @@ import { certificateGroupNames } from '../tables/certificate-group/state/certifi
 import { certificateTypeNames } from '../tables/certificate-type/state/certificate-type.names';
 import { certificateNames } from '../tables/certificate/state/certificate.names';
 import { companyNames } from '../tables/company/state/company.names';
-import { curriculumNames } from '../tables/curriculum/state/curriculum.names';
 import { languageNames } from '../tables/language/state/language.names';
 import { positionNames } from '../tables/position/state/position.names';
 import { skillTypeNames } from '../tables/skill-type/state/skill-type.names';
@@ -34,7 +33,6 @@ export class HomeComponent implements OnInit {
     certificateTypeNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
     certificateNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
     companyNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
-    curriculumNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
     languageNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
     positionNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
     skillNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
@@ -46,7 +44,6 @@ export class HomeComponent implements OnInit {
     certificateTypeNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     certificateNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     companyNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
-    curriculumNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     languageNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     positionNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     skillNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),

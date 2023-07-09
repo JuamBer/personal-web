@@ -2,10 +2,8 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, inject } fro
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
-import { Curriculum } from 'src/app/backoffice/tables/curriculum/models/curriculum.model';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
-import { CVService } from './cv.service';
 
 @Component({
   selector: 'app-cv',
@@ -14,7 +12,6 @@ import { CVService } from './cv.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvComponent implements OnInit, AfterViewInit {
-  private cvService = inject(CVService);
   private translateSrv = inject(TranslateService);
   private store = inject(Store);
 
@@ -32,8 +29,7 @@ export class CvComponent implements OnInit, AfterViewInit {
       });
   }
 
-  async downloadCV(language: Language) {
-    const cv: Curriculum = await this.cvService.getCV(language);
-    window.open(cv.pdf, '_blank');
+  downloadCV(language: Language) {
+    window.open('https://drive.google.com/file/d/1qDmAqZUd_F5VsvMGbSiUaeHLAvL_aPUf/view?usp=sharing', '_blank');
   }
 }

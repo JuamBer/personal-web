@@ -66,7 +66,6 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
   form: CompanyFormGroup = this.fb.group({
     name: this.fb.control<string | undefined>(undefined, [Validators.required]),
     descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
-    description: this.fb.control<string | undefined>(undefined, [Validators.required]),
     location: this.fb.control<string | undefined>(undefined, [Validators.required]),
   });
 
@@ -87,18 +86,22 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
   action$: Observable<Action> = this.store.select(companyReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
-    filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
+    filter(
+      (action) =>
+        (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
+        action.status === ActionStatus.SUCCESS,
+    ),
   );
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   ngOnInit(): void {
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(companyActions.loadOne({ id: params.id })));
     this.action$.subscribe(() => {
       this.hide();
     });
+    this.params$
+      .pipe(filter((params) => !!params.id))
+      .subscribe((params) => this.store.dispatch(companyActions.loadOne({ id: params.id })));
     this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
       this.form.disable();
     });
@@ -108,9 +111,8 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
       }
       this.form.patchValue({
         id: entity.id,
-        name: entity.name,
-        description: entity.description,
         location: entity.location,
+        name: entity.name,
         descriptionTranslations: entity.descriptionTranslations,
       });
     });

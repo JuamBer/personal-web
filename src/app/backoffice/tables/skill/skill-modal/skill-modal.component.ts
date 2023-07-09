@@ -86,7 +86,11 @@ export class SkillModalComponent implements OnInit, EntityModal<Skill> {
   action$: Observable<Action> = this.store.select(skillReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
-    filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
+    filter(
+      (action) =>
+        (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
+        action.status === ActionStatus.SUCCESS,
+    ),
   );
   skillTypes$: Observable<SkillType[]> = this.store.select(skillTypeReducer.getAll);
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
@@ -94,12 +98,12 @@ export class SkillModalComponent implements OnInit, EntityModal<Skill> {
   ngOnInit(): void {
     this.store.dispatch(skillTypeActions.loadAll({}));
 
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(skillActions.loadOne({ id: params.id })));
     this.action$.subscribe(() => {
       this.hide();
     });
+    this.params$
+      .pipe(filter((params) => !!params.id))
+      .subscribe((params) => this.store.dispatch(skillActions.loadOne({ id: params.id })));
     this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
       this.form.disable();
     });

@@ -71,8 +71,6 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
 
   visible = true;
   form: SkillTypeFormGroup = this.fb.group({
-    name: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    description: this.fb.control<string | undefined>(undefined, [Validators.required]),
     nameTranslations: this.fb.array<TranslationFormGroup>([]),
     descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
   });
@@ -94,18 +92,22 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
   action$: Observable<Action> = this.store.select(skillTypeReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
-    filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
+    filter(
+      (action) =>
+        (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
+        action.status === ActionStatus.SUCCESS,
+    ),
   );
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   ngOnInit(): void {
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(skillTypeActions.loadOne({ id: params.id })));
     this.action$.subscribe(() => {
       this.hide();
     });
+    this.params$
+      .pipe(filter((params) => !!params.id))
+      .subscribe((params) => this.store.dispatch(skillTypeActions.loadOne({ id: params.id })));
     this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
       this.form.disable();
     });
@@ -115,8 +117,6 @@ export class SkillTypeModalComponent implements OnInit, EntityModal<SkillType> {
       }
       this.form.patchValue({
         id: entity.id,
-        name: entity.name,
-        description: entity.description,
         nameTranslations: entity.nameTranslations,
         descriptionTranslations: entity.descriptionTranslations,
       });

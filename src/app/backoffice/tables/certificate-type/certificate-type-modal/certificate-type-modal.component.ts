@@ -104,12 +104,12 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   ngOnInit(): void {
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(certificateTypeActions.loadOne({ id: params.id })));
     this.action$.subscribe(() => {
       this.hide();
     });
+    this.params$
+      .pipe(filter((params) => !!params.id))
+      .subscribe((params) => this.store.dispatch(certificateTypeActions.loadOne({ id: params.id })));
     combineLatest([this.modalMode$, this.form.valueChanges.pipe(startWith(this.form.value))])
       .pipe(
         filter(([modalMode]) => modalMode === ModalMode.VIEW),

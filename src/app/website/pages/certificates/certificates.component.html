@@ -15,7 +15,11 @@
                     <h5>{{ certificate.date | date }}</h5>
                     <p>{{ getTranslation(language.acronym, certificate.descriptionTranslations) }}</p>
                   </div>
-                  <img [src]="certificate.image" [alt]="certificate.name" class="card-img" />
+                  <img
+                    [src]="certificate.image"
+                    [alt]="getTranslation(language.acronym, certificate.nameTranslations)"
+                    class="card-img"
+                  />
                 </div>
               </div>
 

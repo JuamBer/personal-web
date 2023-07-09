@@ -82,16 +82,21 @@ export class LanguageModalComponent implements OnInit, EntityModal<Language> {
   action$: Observable<Action> = this.store.select(languageReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
-    filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
+    filter(
+      (action) =>
+        (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
+        action.status === ActionStatus.SUCCESS,
+    ),
   );
 
   ngOnInit(): void {
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(languageActions.loadOne({ id: params.id })));
     this.action$.subscribe(() => {
       this.hide();
     });
+    this.params$
+      .pipe(filter((params) => !!params.id))
+      .subscribe((params) => this.store.dispatch(languageActions.loadOne({ id: params.id })));
+
     this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
       this.form.disable();
     });

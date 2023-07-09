@@ -106,12 +106,12 @@ export class CertificateGroupModalComponent implements OnInit, EntityModal<Certi
     this.action$.subscribe(() => {
       this.hide();
     });
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(certificateGroupActions.loadOne({ id: params.id })));
     this.action$.subscribe(() => {
       this.hide();
     });
+    this.params$
+      .pipe(filter((params) => !!params.id))
+      .subscribe((params) => this.store.dispatch(certificateGroupActions.loadOne({ id: params.id })));
     this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
       this.form.disable();
     });

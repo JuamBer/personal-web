@@ -80,8 +80,6 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
 
   visible = true;
   form: CertificateFormGroup = this.fb.group({
-    name: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    description: this.fb.control<string | undefined>(undefined, [Validators.required]),
     nameTranslations: this.fb.array<TranslationFormGroup>([]),
     descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
     url: this.fb.control<string | undefined>(undefined),
@@ -114,7 +112,11 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
   action$: Observable<Action> = this.store.select(certificateReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
-    filter((action) => action.type === ActionType.CREATE_ONE && action.status === ActionStatus.SUCCESS),
+    filter(
+      (action) =>
+        (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
+        action.status === ActionStatus.SUCCESS,
+    ),
   );
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
@@ -128,12 +130,12 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
     this.store.dispatch(certificateTypeActions.loadAll({}));
     this.store.dispatch(companyActions.loadAll({}));
 
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(certificateActions.loadOne({ id: params.id })));
     this.action$.subscribe(() => {
       this.hide();
     });
+    this.params$
+      .pipe(filter((params) => !!params.id))
+      .subscribe((params) => this.store.dispatch(certificateActions.loadOne({ id: params.id })));
     this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
       this.form.disable();
     });
@@ -143,8 +145,6 @@ export class CertificateModalComponent implements OnInit, EntityModal<Certificat
       }
       this.form.patchValue({
         id: entity.id,
-        name: entity.name,
-        description: entity.description,
         nameTranslations: entity.nameTranslations,
         descriptionTranslations: entity.descriptionTranslations,
         url: entity.url,
