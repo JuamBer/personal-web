@@ -17,6 +17,5 @@ export const configuration: Configuration = {
       start: [],
       end: [],
     },
-    title: '',
   },
 };
