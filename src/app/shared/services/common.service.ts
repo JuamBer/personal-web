@@ -36,18 +36,19 @@ export class CommonService<T> {
   async create(payload: T) {
     const { data, error } = await this.supabase
       .from(this.table)
-      .insert([flatObjectsById(camelCaseToSnakeCase(payload))]);
-
-    return error ? error : data;
+      .insert([flatObjectsById(camelCaseToSnakeCase(payload))])
+      .select();
+    return error ? error : snakeCaseToCamelCase(data[0]);
   }
 
   async update(payload: T) {
     const { data, error } = await this.supabase
       .from(this.table)
       .update(flatObjectsById(camelCaseToSnakeCase(payload)))
-      .match({ id: (payload as any).id });
+      .match({ id: (payload as any).id })
+      .select();
 
-    return error ? error : data;
+    return error ? error : snakeCaseToCamelCase(data[0]);
   }
 
   async upsert(payload: T): Promise<any> {

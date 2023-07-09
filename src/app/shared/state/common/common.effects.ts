@@ -38,7 +38,7 @@ export abstract class CommonEffect<T> {
       delay(1500),
       mergeMap((action: any) =>
         from(this.service.create(action.payload)).pipe(
-          map(() => this.actions.createSuccess({ payload: action.payload })),
+          map((created) => this.actions.createSuccess({ payload: created })),
           catchError((err) => of(this.actions.createFail({ error: err }))),
         ),
       ),
@@ -51,9 +51,9 @@ export abstract class CommonEffect<T> {
       delay(1500),
       mergeMap((action: any) =>
         from(this.service.update(action.payload)).pipe(
-          map(() => {
+          map((updated) => {
             return this.actions.updateSuccess({
-              payload: action.payload,
+              payload: updated,
             });
           }),
           catchError((err) => of(this.actions.updateFail({ error: err }))),
