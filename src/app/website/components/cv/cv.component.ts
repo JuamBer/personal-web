@@ -30,6 +30,6 @@ export class CvComponent implements OnInit, AfterViewInit {
   }
 
   downloadCV(language: Language) {
-    window.open('https://drive.google.com/file/d/1qDmAqZUd_F5VsvMGbSiUaeHLAvL_aPUf/view?usp=sharing', '_blank');
+    window.open('https://drive.google.com/file/d/186ddhrvy_7H9-XsZIl7ZCFes8mkXLSQO/view?usp=drive_link', '_blank');
   }
 }
