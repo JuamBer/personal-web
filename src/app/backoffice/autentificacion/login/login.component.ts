@@ -1,10 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
+import { map } from 'rxjs';
+import { appRootTitle } from 'src/app/app.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
+
+export const loginTitleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+  const translateSrv = inject(TranslateService);
+  return translateSrv.get('pages.login.title').pipe(map((title) => `${appRootTitle} | Login`));
+};
 
 @Component({
   selector: 'app-login',
@@ -25,9 +32,6 @@ export class LoginComponent implements OnInit {
   formLogin: FormGroup;
   returnUrl: string = '/';
   loading: boolean = false;
-  errores: string[] = [];
-  // nombre: string = environment.nombre;
-  // logoUrl: string = environment.logo;
   res: string;
 
   ngOnInit(): void {

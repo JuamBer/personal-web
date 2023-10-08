@@ -91,6 +91,37 @@ export class CommonReducer<T, S extends CommonState<T>> {
       },
     })),
 
+    //LOAD MORE REDUCERS
+    on(this.actions.loadMore, (state) => ({
+      ...state,
+      loading: true,
+      action: {
+        type: ActionType.LOAD_MANY,
+        status: ActionStatus.PENDING,
+      },
+    })),
+    on(this.actions.loadMoreSuccess, (state, { payload }) => {
+      const selected = state.entities.find((i: any) => i.id === state.selectedId);
+
+      return {
+        ...state,
+        loading: false,
+        entities: [...state.entities, ...payload],
+        action: {
+          type: ActionType.LOAD_MANY,
+          status: ActionStatus.SUCCESS,
+        },
+      };
+    }),
+    on(this.actions.loadAllFail, (state, error) => ({
+      ...state,
+      loading: false,
+      action: {
+        type: ActionType.LOAD_MANY,
+        status: ActionStatus.ERROR,
+      },
+    })),
+
     //CREATE REDUCERS
     on(this.actions.create, (state) => ({
       ...state,

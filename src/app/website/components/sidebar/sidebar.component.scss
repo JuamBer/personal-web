@@ -146,8 +146,15 @@ body {
   font-size: 60px;
 }
 
-.hamburguesa {
+.hamburguer-menu {
   display: none;
+
+  fa-icon {
+    padding: 0.5em;
+    border-radius: 5px;
+    width: 2em;
+    aspect-ratio: 1/1;
+  }
 }
 
 @media screen and (max-height: 450px) {
@@ -170,7 +177,7 @@ body {
   .cms {
     display: none;
   }
-  .hamburguesa {
+  .hamburguer-menu {
     display: inline;
     width: 15%;
   }
@@ -203,9 +210,13 @@ body {
       }
     }
 
-    .hamburguesa {
+    .hamburguer-menu {
       font-size: 25px !important;
       cursor: pointer;
+
+      fa-icon:hover {
+        background: rgb(224, 224, 224);
+      }
     }
   }
 }

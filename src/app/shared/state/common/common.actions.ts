@@ -12,6 +12,13 @@ export abstract class CommonAction<T> {
 
   loadAllFail = createAction('[' + this.entityName + '] Load All Fail', props<{ error: any }>());
 
+  //LOAD MORE
+  loadMore = createAction('[' + this.entityName + '] Load More', props<{ payload?: null | LazyLoadEvent }>());
+
+  loadMoreSuccess = createAction('[' + this.entityName + '] Load More Success', props<{ payload: any }>());
+
+  loadMoreFail = createAction('[' + this.entityName + '] Load More Fail', props<{ error: any }>());
+
   //LOAD ONE
   loadOne = createAction('[' + this.entityName + '] Load One', props<{ id: number | string }>());
 

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { CertificateGroupStateModule } from '../backoffice/tables/certificate-group/state/certificate-group-state.module';
 import { LanguageSelectModule } from '../shared/components/language-select/language-select.module';
@@ -19,6 +20,7 @@ import { WebsiteRoutingModule } from './website-routing.module';
     LanguagesModule,
     PipesModule,
     DirectivesModule,
+    FontAwesomeModule,
   ],
 })
 export class WebsiteModule {}

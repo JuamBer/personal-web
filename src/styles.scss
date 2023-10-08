@@ -1,23 +1,20 @@
 @import './reset.scss';
 @import './assets/images/flags/flags.scss';
-
-@import './assets/sass/layout-cav.scss';
-@import 'primeng/resources/themes/lara-light-blue/theme.css';
 @import 'primeng/resources/primeng.css';
-
-@import './assets/sass/responsive_overrides.scss';
-
+@import './assets/sass/_responsive_overrides.scss';
+@import './assets/sass/layout.scss';
+@import './assets/sass/theme.scss';
 @import 'swiper/scss';
 @import 'swiper/scss/navigation';
 @import 'swiper/scss/pagination';
 
-@font-face {
-  font-family: 'Fixture';
-  src: local('Fixture'), url(./assets/fonts/Fixture-Regular.otf) format('truetype');
-}
-body {
-  font-family: var(--font-family);
-}
+// @font-face {
+//   font-family: 'Fixture';
+//   src: local('Fixture'), url(./assets/fonts/Fixture-Regular.otf) format('truetype');
+// }
+// body {
+//   font-family: var(--font-family);
+// }
 
 .hide-tabs-headers .p-tabview-nav {
   display: none;
@@ -254,7 +251,7 @@ body {
   label {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    // width: 100%;
     padding-right: 2em;
   }
 }

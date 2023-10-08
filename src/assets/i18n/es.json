@@ -10,7 +10,17 @@
   },
   "pages": {
     "home": "Resumen",
-    "certificates": "Certificados"
+    "certificates": "Certificados",
+    "login": {
+      "title": "Inicio de sesión",
+      "resetPassword": "¿Has olvidado tu contraseña?"
+    },
+    "reset-password": {
+      "title": "Enviar email para restablecer contraseña"
+    },
+    "form-reset-password": {
+      "title": "Restablecer contraseña"
+    }
   },
   "home": {
     "cv": "Currículum",
@@ -64,7 +74,10 @@
     "reject": "No",
     "accept": "Si",
     "deleteFilters": "Borrar Filtros",
-    "filter": "Filtrar"
+    "filter": "Filtrar",
+    "logIn": "Iniciar Sesión",
+    "resetPassword": "Restablecer Contraseña",
+    "sendEmail": "Enviar Email"
   },
   "form": {
     "errors": {
@@ -152,7 +165,10 @@
     "filterType": "Tipo de Filtro",
     "value": "Valor",
     "createdAt": "Creado en",
-    "updatedAt": "Actualizado en"
+    "updatedAt": "Actualizado en",
+    "password": "Contraseña",
+    "newPassword": "Nueva Contraseña",
+    "repeatNewPassword": "Repetir Nueva Contraseña"
   },
   "genericTable": {
     "currentPageReport": "Mostrando {first} hasta {last} de {totalRecords} entradas",

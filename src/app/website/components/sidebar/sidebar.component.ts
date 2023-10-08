@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
@@ -12,6 +13,7 @@ import { publicLanguageReducer } from 'src/app/shared/state/languages/public-lan
 export class SidebarComponent implements OnInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
+
   pages: any[] = [];
 
   ngOnInit(): void {
@@ -49,5 +51,9 @@ export class SidebarComponent implements OnInit {
     if (nav) {
       nav.style.width = '0%';
     }
+  }
+
+  get faBars() {
+    return faBars
   }
 }

@@ -16,10 +16,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormularioRecuperacionComponent } from './backoffice/autentificacion/formulario-recuperacion/formulario-recuperacion.component';
-import { LoginSuccessComponent } from './backoffice/autentificacion/login-success/login-success.component';
+import { FormResetPasswordComponent } from './backoffice/autentificacion/form-reset-password/form-reset-password.component';
 import { LoginComponent } from './backoffice/autentificacion/login/login.component';
-import { RecuperarPasswordComponent } from './backoffice/autentificacion/recuperar-password/recuperar-password.component';
+import { ResetPasswordComponent } from './backoffice/autentificacion/reset-password/reset-password.component';
 import { BackofficeModule } from './backoffice/layout/backoffice/backoffice.module';
 import { LanguageSelectModule } from './shared/components/language-select/language-select.module';
 import { LanguagesModule } from './shared/modules/languages.module';
@@ -30,13 +29,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
 }
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    LoginSuccessComponent,
-    FormularioRecuperacionComponent,
-    RecuperarPasswordComponent,
-  ],
+  declarations: [AppComponent, LoginComponent, FormResetPasswordComponent, ResetPasswordComponent],
   providers: [MessageService, ConfirmationService, PrimeNGConfig],
   bootstrap: [AppComponent],
   imports: [

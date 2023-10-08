@@ -1,36 +1,37 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { FormularioRecuperacionComponent } from './backoffice/autentificacion/formulario-recuperacion/formulario-recuperacion.component';
-import { LoginSuccessComponent } from './backoffice/autentificacion/login-success/login-success.component';
-import { LoginComponent } from './backoffice/autentificacion/login/login.component';
-import { RecuperarPasswordComponent } from './backoffice/autentificacion/recuperar-password/recuperar-password.component';
+import {
+  FormResetPasswordComponent,
+  formResetPasswordTitleResolver,
+} from './backoffice/autentificacion/form-reset-password/form-reset-password.component';
+import { LoginComponent, loginTitleResolver } from './backoffice/autentificacion/login/login.component';
+import {
+  ResetPasswordComponent,
+  resetPasswordTitleResolver,
+} from './backoffice/autentificacion/reset-password/reset-password.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     canActivate: [],
-    loadChildren: () =>
-      import('./website/website.module').then((m) => m.WebsiteModule),
+    loadChildren: () => import('./website/website.module').then((m) => m.WebsiteModule),
   },
   {
     path: 'backoffice',
-    loadChildren: () =>
-      import('./backoffice/layout/backoffice/backoffice.module').then(
-        (m) => m.BackofficeModule,
-      ),
+    loadChildren: () => import('./backoffice/layout/backoffice/backoffice.module').then((m) => m.BackofficeModule),
     canActivate: [AuthGuard],
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'login-success', component: LoginSuccessComponent },
-  { path: 'reset-password', component: RecuperarPasswordComponent },
+  { path: 'login', component: LoginComponent, title: loginTitleResolver },
+  { path: 'reset-password', component: ResetPasswordComponent, title: resetPasswordTitleResolver },
   {
     path: 'form-reset-password',
-    component: FormularioRecuperacionComponent,
+    component: FormResetPasswordComponent,
+    title: formResetPasswordTitleResolver,
   },
   {
     path: 'form-reset-password/:access_token/',
-    component: FormularioRecuperacionComponent,
+    component: FormResetPasswordComponent,
   },
   {
     path: '**',

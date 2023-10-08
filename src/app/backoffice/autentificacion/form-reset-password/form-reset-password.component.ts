@@ -1,16 +1,29 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
+import { map } from 'rxjs';
+import { appRootTitle } from 'src/app/app.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
+
+export const formResetPasswordTitleResolver: ResolveFn<string> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  const translateSrv = inject(TranslateService);
+  return translateSrv
+    .get('pages.form-reset-password.title')
+    .pipe(map((title) => `${appRootTitle} | Form Reset Password`));
+};
+
 @Component({
-  selector: 'app-recuperar-password',
-  templateUrl: './recuperar-password.component.html',
-  styleUrls: ['./recuperar-password.component.scss'],
+  selector: 'app-form-reset-password',
+  templateUrl: './form-reset-password.component.html',
+  styleUrls: ['./form-reset-password.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecuperarPasswordComponent implements OnInit {
+export class FormResetPasswordComponent implements OnInit {
   private messageSrv = inject(MessageService);
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
@@ -19,23 +32,31 @@ export class RecuperarPasswordComponent implements OnInit {
   private supabaseSrv = inject(AuthService);
 
   form: FormGroup;
+  returnUrl: string = '/';
+  token: string;
   loading: boolean = false;
   errores: string[] = [];
+
   res: string;
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.token = params['token'];
+    });
+
     this.form = this.fb.group({
-      correo: [undefined, Validators.required],
+      password: [undefined, Validators.required],
+      repeat_password: [undefined, Validators.required],
     });
   }
 
-  async recuperar() {
+  async onSubmit() {
     if (this.form.invalid) {
       return;
     }
     this.loading = true;
 
-    const { data, error } = await this.supabaseSrv.sendResetPassword(this.form.value.correo);
+    const { data, error } = await this.supabaseSrv.updatePassword(this.form.value.password);
     if (error instanceof Error) {
       this.messageSrv.add({
         severity: 'warn',
@@ -47,7 +68,7 @@ export class RecuperarPasswordComponent implements OnInit {
       this.messageSrv.add({
         severity: 'success',
         summary: 'Success',
-        detail: 'CHECK YOUR EMAIL',
+        detail: 'PASSOWRD CHANGED',
       });
     }
 

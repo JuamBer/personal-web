@@ -1,0 +1,22 @@
+@import '../../../../assets/sass/theme.scss';
+
+.auth-main-container {
+  background-color: rgba($primaryColor, 0.5);
+  height: 100vh;
+
+  .auth-container {
+    min-width: 35em;
+    background: white;
+    border: $primaryColor solid 0.25em;
+    border-radius: 0.5em;
+    padding: 3em;
+
+    button {
+      margin-bottom: 0.5em;
+    }
+
+    a {
+      color: black;
+    }
+  }
+}

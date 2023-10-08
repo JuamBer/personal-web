@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest, scan } from 'rxjs';
 import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
 import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
@@ -62,21 +62,30 @@ export class CertificatesComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.certificateGroups$.subscribe((certificateGroups) => {
-      if (!certificateGroups.length) {
-        this.store.dispatch(certificateGroupActions.loadAll({ payload: null }));
-      }
-      certificateGroups.forEach((certificateGroup) => {
-        this.tabIndexes.push({
-          groupId: certificateGroup.id,
-          value: 0,
+    combineLatest([this.certificateGroups$, this.certificateGroups$.pipe(scan((count) => count + 1, 0))]).subscribe(
+      ([certificateGroups, count]) => {
+        if (certificateGroups.length === 0 || count < 10) {
+          this.store.dispatch(
+            certificateGroupActions.loadAll({
+              payload: {
+                first: count - 1,
+                rows: 1,
+              },
+            }),
+          );
+        }
+
+        certificateGroups.forEach((certificateGroup) => {
+          this.tabIndexes.push({
+            groupId: certificateGroup.id,
+            value: 0,
+          });
         });
-      });
-    });
+      },
+    );
   }
 
   orderByDate(certificates: Certificate[]): Certificate[] {
-    console.log(certificates);
     if (certificates) {
       return [...certificates].sort((a, b) => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();

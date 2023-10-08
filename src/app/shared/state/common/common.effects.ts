@@ -19,6 +19,20 @@ export abstract class CommonEffect<T> {
     );
   });
 
+  loadMore$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(this.actions.loadMore),
+      delay(1500),
+      map((action: any) => action.payload),
+      exhaustMap((requestFilter) => {
+        return from(this.service.getAll(requestFilter)).pipe(
+          map((page: any) => this.actions.loadMoreSuccess({ payload: page })),
+          catchError((err) => of(this.actions.loadMoreFail({ error: err }))),
+        );
+      }),
+    );
+  });
+
   loadOne$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(this.actions.loadOne),
