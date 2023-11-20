@@ -6,9 +6,10 @@
       </span>
       <span class="ability">
         <div class="progress-border">
-          <div class="progress-filled" [style.width]="entity.percentage + '%'"></div>
+          <div class="progress-filled" [style.width]="entity.percentage + '%'">
+            <div class="progress-animation"></div>
+          </div>
         </div>
-        <!-- <progress [value]="entity.ability / 10"  max="100"></progress> -->
       </span>
     </li>
   </ul>

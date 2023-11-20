@@ -1,9 +1,9 @@
 .tools {
-   ul {
-     display: grid;
-     grid-template-columns: repeat(3, 1fr);
-     gap: 10px;
-   }
+  ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
 
   .tool {
     display: grid;
@@ -13,7 +13,7 @@
     .name {
       font-size: 18px;
       padding-bottom: 2.5px;
-        color: black;
+      color: black;
     }
     .ability {
       width: 90%;
@@ -22,14 +22,20 @@
         height: 15px;
         border: 0;
         border-radius: 5px;
-        background-color: #CECFD3;
+        background-color: #cecfd3;
       }
 
       .progress-filled {
         height: 15px;
         border: 0;
-        border-radius: 5px;
-        background-color: #4A9E98;
+        display: flex;
+
+        .progress-animation {
+          width: 100%;
+          border-radius: 5px;
+          background-color: #4a9e98;
+          animation: fillProgress 1s ease-in-out;
+        }
       }
 
       progress {
@@ -43,14 +49,14 @@
         height: 15px;
         border: 1px solid none;
         border-radius: 5px;
-        background-color: #CECFD3;
+        background-color: #cecfd3;
       }
 
       progress::-webkit-progress-value {
         width: 100%;
         height: 15px;
         border-radius: 5px;
-        background-color: #4A9E98;
+        background-color: #4a9e98;
       }
 
       progress::-moz-progress-bar {
@@ -58,7 +64,7 @@
         height: 15px;
         border: 0;
         border-radius: 5px;
-        background-color: #CECFD3;
+        background-color: #cecfd3;
       }
     }
   }
@@ -68,5 +74,11 @@
     grid-template-columns: repeat(1, 1fr) !important;
   }
 }
-
-
+@keyframes fillProgress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

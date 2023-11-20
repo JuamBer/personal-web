@@ -25,3 +25,18 @@ export class ToolsComponent implements OnInit {
     return TranslationUtils.getTranslation;
   }
 }
+function trigger(arg0: string, arg1: any[]): any {
+  throw new Error('Function not implemented.');
+}
+
+function state(arg0: string, arg1: any): any {
+  throw new Error('Function not implemented.');
+}
+
+function style(arg0: { transform: string }): any {
+  throw new Error('Function not implemented.');
+}
+
+function animate(arg0: number): any {
+  throw new Error('Function not implemented.');
+}
