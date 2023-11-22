@@ -11,5 +11,15 @@
     },
     "editor.formatOnSave": false
   },
-  "conventionalCommits.scopes": ["Backoffice", "Web", "CV", "GenericTable", "Auth", "Certificates", "Tools", "App"]
+  "conventionalCommits.scopes": [
+    "Backoffice",
+    "Web",
+    "CV",
+    "GenericTable",
+    "Auth",
+    "Certificates",
+    "Tools",
+    "App",
+    "Experiences"
+  ]
 }

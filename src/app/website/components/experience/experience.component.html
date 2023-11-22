@@ -1,7 +1,7 @@
-<div class="experience" *appLet="language$ | async as language">
+<div class="experience" *appLet="language$ | async as language" #positions>
   <ul *ngIf="!(loadingPositions$ | async)">
     <li *ngFor="let positionGrouped of positionsGrouped$ | async">
-      <div class="header">
+      <div class="header" [@positionsHeaderEnterAnimation]="positionsElementState">
         <div class="icon">
           <i *ngIf="positionGrouped.company.name !== 'Odec'" class="fa-solid fa-graduation-cap"></i>
           <i *ngIf="positionGrouped.company.name === 'Odec'" class="fa-solid fa-briefcase"></i>
@@ -10,7 +10,7 @@
           <h3>{{ positionGrouped.company.name }}</h3>
         </div>
       </div>
-      <div class="items">
+      <div class="items" [@positionsItemsEnterAnimation]="positionsElementState">
         <ul>
           <li class="item" *ngFor="let position of positionGrouped.positions">
             <div class="position">
