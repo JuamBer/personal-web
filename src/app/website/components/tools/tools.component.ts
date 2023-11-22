@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -11,6 +12,9 @@ import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
   templateUrl: './tools.component.html',
   styleUrls: ['./tools.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('animation', [transition(':enter', [style({ width: '0%' }), animate('1s', style({ width: '100%' }))])]),
+  ],
 })
 export class ToolsComponent implements OnInit {
   private store = inject(Store);
@@ -24,19 +28,4 @@ export class ToolsComponent implements OnInit {
   get getTranslation() {
     return TranslationUtils.getTranslation;
   }
-}
-function trigger(arg0: string, arg1: any[]): any {
-  throw new Error('Function not implemented.');
-}
-
-function state(arg0: string, arg1: any): any {
-  throw new Error('Function not implemented.');
-}
-
-function style(arg0: { transform: string }): any {
-  throw new Error('Function not implemented.');
-}
-
-function animate(arg0: number): any {
-  throw new Error('Function not implemented.');
 }
