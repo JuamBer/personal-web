@@ -1,5 +1,14 @@
-import { animate, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
@@ -13,17 +22,36 @@ import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
   styleUrls: ['./tools.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger('animation', [transition(':enter', [style({ width: '0%' }), animate('1s', style({ width: '100%' }))])]),
+    trigger('toolsEnterAnimation', [
+      state('inViewport', style({ width: '100%' })),
+      state('notInViewport', style({ width: '0%' })),
+      transition('notInViewport <=> inViewport', animate('1s')),
+    ]),
   ],
 })
-export class ToolsComponent implements OnInit {
+export class ToolsComponent implements AfterViewInit {
   private store = inject(Store);
+  private ref = inject(ChangeDetectorRef);
+
+  @ViewChild('tools') toolsElement: ElementRef;
+  toolsElementState: 'inViewport' | 'notInViewport' = 'notInViewport';
 
   @Input() entities: Skill[] = [];
   @Input() loading: boolean = false;
+
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
-  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        this.toolsElementState = entry.isIntersecting ? 'inViewport' : 'notInViewport';
+        if (this.toolsElementState === 'inViewport') {
+          this.ref.detectChanges();
+        }
+      });
+    });
+    observer.observe(this.toolsElement.nativeElement);
+  }
 
   get getTranslation() {
     return TranslationUtils.getTranslation;

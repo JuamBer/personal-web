@@ -1,4 +1,4 @@
-<div class="tools" *appLet="language$ | async as language">
+<div class="tools" *appLet="language$ | async as language" #tools>
   <ul *ngIf="!loading">
     <li *ngFor="let entity of entities" class="tool">
       <span class="name">
@@ -7,7 +7,7 @@
       <span class="ability">
         <div class="progress-border">
           <div class="progress-filled" [style.width]="entity.percentage + '%'">
-            <div class="progress-animation" @animation></div>
+            <div class="progress-animation" [@toolsEnterAnimation]="toolsElementState"></div>
           </div>
         </div>
       </span>
