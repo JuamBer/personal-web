@@ -1,13 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
-  AfterViewInit,
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
+  QueryList,
+  ViewChildren,
   inject,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -31,24 +32,19 @@ export class PositionGroupedByCompany {
   styleUrls: ['./experience.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger('positionsHeaderEnterAnimation', [
+    trigger('positionEnterAnimation', [
       state('inViewport', style({ transform: 'translateX(0)' })),
       state('notInViewport', style({ transform: 'translateX(+20%)' })),
       transition('notInViewport <=> inViewport', animate('0.15s')),
     ]),
-    trigger('positionsItemsEnterAnimation', [
-      state('inViewport', style({ transform: 'translateX(0)' })),
-      state('notInViewport', style({ transform: 'translateX(+20%)' })),
-      transition('notInViewport <=> inViewport', animate('0.25s')),
-    ]),
   ],
 })
-export class ExperienceComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ExperienceComponent implements OnInit, AfterViewChecked, OnDestroy {
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
 
-  @ViewChild('positions') positionsElement: ElementRef;
-  positionsElementState: 'inViewport' | 'notInViewport' = 'notInViewport';
+  @ViewChildren('position') positionElements: QueryList<ElementRef>;
+  positionElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
 
   unsubscribe$: Subject<void> = new Subject();
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
@@ -92,18 +88,19 @@ export class ExperienceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
+  ngAfterViewChecked(): void {
+    this.positionElements.forEach((positionElement) => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          this.positionsElementState = entry.isIntersecting ? 'inViewport' : 'notInViewport';
-          if (this.positionsElementState === 'inViewport') {
+          const positionsElementState = entry.isIntersecting ? 'inViewport' : 'notInViewport';
+          this.positionElementStates.set(positionElement.nativeElement.id, positionsElementState);
+          if (positionsElementState === 'inViewport') {
             this.ref.detectChanges();
           }
         });
       });
-      observer.observe(this.positionsElement.nativeElement);
-    }, 100);
+      observer.observe(positionElement.nativeElement);
+    });
   }
 
   ngOnInit(): void {
@@ -113,17 +110,21 @@ export class ExperienceComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
 
-    this.loadingPositions$.pipe(takeUntil(this.unsubscribe$)).subscribe((loading) => {
-      if (!loading && this.positionsElementState === 'inViewport') {
-        this.positionsElementState = 'notInViewport';
-        this.ref.detectChanges();
+    // this.loadingPositions$.pipe(takeUntil(this.unsubscribe$)).subscribe((loading) => {
+    //   if (!loading && this.positionsElementState === 'inViewport') {
+    //     this.positionsElementState = 'notInViewport';
+    //     this.ref.detectChanges();
 
-        setTimeout(() => {
-          this.positionsElementState = 'inViewport';
-          this.ref.detectChanges();
-        });
-      }
-    });
+    //     setTimeout(() => {
+    //       this.positionsElementState = 'inViewport';
+    //       this.ref.detectChanges();
+    //     });
+    //   }
+    // });
+  }
+
+  public getPositionEnterAnimationState(companyId: string): 'inViewport' | 'notInViewport' {
+    return this.positionElementStates.get(companyId) || 'notInViewport';
   }
 
   get getTranslation() {
