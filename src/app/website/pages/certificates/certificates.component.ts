@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, combineLatest, pairwise, scan, startWith, take } from 'rxjs';
+import { BehaviorSubject, Observable, pairwise, startWith, take, zip } from 'rxjs';
 import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
 import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
@@ -34,6 +34,7 @@ export class CertificatesComponent implements OnInit {
   certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
   loadingMoreCertificateGroups$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
   loadingCertificateGroups$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading).pipe(take(2));
+  certificateGroupCount$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   tabIndexes: { groupId: any; value: number }[] = [];
 
@@ -63,28 +64,32 @@ export class CertificatesComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    combineLatest([
-      this.certificateGroups$.pipe(startWith([]), pairwise()),
-      this.certificateGroups$.pipe(scan((count) => count + 1, 0)),
-    ]).subscribe(([[previousCertificateGroups, currentCertificateGroups], count]) => {
-      if (currentCertificateGroups.length === 0 || previousCertificateGroups.length < currentCertificateGroups.length) {
-        this.store.dispatch(
-          certificateGroupActions.loadMore({
-            payload: {
-              first: count - 1,
-              rows: 1,
-            },
-          }),
-        );
-      }
+    zip([this.certificateGroups$.pipe(startWith([]), pairwise()), this.certificateGroupCount$]).subscribe(
+      ([[previousCertificateGroups, currentCertificateGroups], count]) => {
+        if (
+          currentCertificateGroups.length === 0 ||
+          previousCertificateGroups.length < currentCertificateGroups.length
+        ) {
+          this.store.dispatch(
+            certificateGroupActions.loadMore({
+              payload: {
+                first: count,
+                rows: 1,
+              },
+            }),
+          );
+        }
 
-      currentCertificateGroups.forEach((certificateGroup) => {
-        this.tabIndexes.push({
-          groupId: certificateGroup.id,
-          value: 0,
+        currentCertificateGroups.forEach((certificateGroup) => {
+          this.tabIndexes.push({
+            groupId: certificateGroup.id,
+            value: 0,
+          });
         });
-      });
-    });
+
+        this.certificateGroupCount$.next(count + 1);
+      },
+    );
   }
 
   orderByDate(certificates: Certificate[]): Certificate[] {
