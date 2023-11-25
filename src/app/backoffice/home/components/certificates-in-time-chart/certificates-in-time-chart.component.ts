@@ -9,9 +9,9 @@ import { CertificateStateModule } from 'src/app/backoffice/tables/certificate/st
 import { certificateActions } from 'src/app/backoffice/tables/certificate/state/certificate.actions';
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { TranslationProvider } from 'src/app/shared/classes/translation';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
-import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 
 @Component({
   selector: 'app-certificates-in-time-chart',
@@ -22,7 +22,7 @@ import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
   imports: [CommonModule, LanguagesModule, ChartModule, CertificateStateModule],
   providers: [TitleCasePipe],
 })
-export class CertificatesInTimeChartComponent implements OnInit {
+export class CertificatesInTimeChartComponent extends TranslationProvider implements OnInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
   private titleCasePipe = inject(TitleCasePipe);
@@ -138,9 +138,5 @@ export class CertificatesInTimeChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(certificateActions.loadAll({}));
-  }
-
-  get getTranslation() {
-    return TranslationUtils.getTranslation;
   }
 }

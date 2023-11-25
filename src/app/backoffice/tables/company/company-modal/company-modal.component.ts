@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
 import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
+import { TranslationProvider } from 'src/app/shared/classes/translation';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
@@ -16,7 +17,6 @@ import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
-import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 import { Language } from '../../language/models/language.model';
 import { Company, CompanyFormGroup } from '../models/company.model';
 import { CompanyService } from '../services/company.service';
@@ -56,7 +56,7 @@ export const companyModalTitleResolver: ResolveFn<string> = (
   styleUrls: ['./company-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CompanyModalComponent implements OnInit, EntityModal<Company> {
+export class CompanyModalComponent extends TranslationProvider implements OnInit, EntityModal<Company> {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private store = inject(Store);
@@ -163,8 +163,5 @@ export class CompanyModalComponent implements OnInit, EntityModal<Company> {
 
   get ModalMode() {
     return ModalMode;
-  }
-  get getTranslation() {
-    return TranslationUtils.getTranslation;
   }
 }

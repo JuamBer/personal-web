@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
 import { filter, map, skip, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
+import { TranslationProvider } from 'src/app/shared/classes/translation';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
@@ -16,7 +17,6 @@ import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
-import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 import { Language } from '../../language/models/language.model';
 import { CertificateType, CertificateTypeFormGroup } from '../models/certificate-type.model';
 import { CertificateTypeService } from '../services/certificate-type.service';
@@ -63,7 +63,7 @@ export const certificateTypeModalTitleResolver: ResolveFn<string> = (
   styleUrls: ['./certificate-type-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CertificateTypeModalComponent implements OnInit, EntityModal<CertificateType> {
+export class CertificateTypeModalComponent extends TranslationProvider implements OnInit, EntityModal<CertificateType> {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private store = inject(Store);
@@ -173,8 +173,5 @@ export class CertificateTypeModalComponent implements OnInit, EntityModal<Certif
   }
   get InputTranslationsType() {
     return InputTranslationsType;
-  }
-  get getTranslation() {
-    return TranslationUtils.getTranslation;
   }
 }

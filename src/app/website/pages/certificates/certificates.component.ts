@@ -9,8 +9,8 @@ import { certificateTypeReducer } from 'src/app/backoffice/tables/certificate-ty
 import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { TranslationProvider } from 'src/app/shared/classes/translation';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
-import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOptions } from 'swiper';
 
 Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
@@ -21,7 +21,7 @@ Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
   styleUrls: ['./certificates.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CertificatesComponent implements OnInit {
+export class CertificatesComponent extends TranslationProvider implements OnInit {
   private store = inject(Store);
 
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
@@ -129,9 +129,5 @@ export class CertificatesComponent implements OnInit {
 
   open(url: string) {
     window.open(url, '_blank');
-  }
-
-  get getTranslation() {
-    return TranslationUtils.getTranslation;
   }
 }

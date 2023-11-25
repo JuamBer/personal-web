@@ -9,9 +9,9 @@ import { Language } from 'src/app/backoffice/tables/language/models/language.mod
 import { PositionStateModule } from 'src/app/backoffice/tables/position/state/position-state.module';
 import { positionActions } from 'src/app/backoffice/tables/position/state/position.actions';
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
+import { TranslationProvider } from 'src/app/shared/classes/translation';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
-import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 
 @Component({
   selector: 'app-positions-in-time-chart',
@@ -22,7 +22,7 @@ import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
   imports: [CommonModule, LanguagesModule, ChartModule, PositionStateModule],
   providers: [TitleCasePipe],
 })
-export class PositionsInTimeChartComponent implements OnInit {
+export class PositionsInTimeChartComponent extends TranslationProvider implements OnInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
   private titleCasePipe = inject(TitleCasePipe);
@@ -132,9 +132,5 @@ export class PositionsInTimeChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(positionActions.loadAll({}));
-  }
-
-  get getTranslation() {
-    return TranslationUtils.getTranslation;
   }
 }

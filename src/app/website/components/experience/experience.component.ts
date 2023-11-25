@@ -19,8 +19,8 @@ import { Language } from 'src/app/backoffice/tables/language/models/language.mod
 import { Position } from 'src/app/backoffice/tables/position/models/position.model';
 import { positionActions } from 'src/app/backoffice/tables/position/state/position.actions';
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
+import { TranslationProvider } from 'src/app/shared/classes/translation';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
-import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 
 export class PositionGroupedByCompany {
   company!: Company;
@@ -39,7 +39,7 @@ export class PositionGroupedByCompany {
     ]),
   ],
 })
-export class ExperienceComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class ExperienceComponent extends TranslationProvider implements OnInit, AfterViewChecked, OnDestroy {
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
 
@@ -109,25 +109,9 @@ export class ExperienceComponent implements OnInit, AfterViewChecked, OnDestroy 
         this.store.dispatch(positionActions.loadAll({ payload: null }));
       }
     });
-
-    // this.loadingPositions$.pipe(takeUntil(this.unsubscribe$)).subscribe((loading) => {
-    //   if (!loading && this.positionsElementState === 'inViewport') {
-    //     this.positionsElementState = 'notInViewport';
-    //     this.ref.detectChanges();
-
-    //     setTimeout(() => {
-    //       this.positionsElementState = 'inViewport';
-    //       this.ref.detectChanges();
-    //     });
-    //   }
-    // });
   }
 
   public getPositionEnterAnimationState(companyId: string): 'inViewport' | 'notInViewport' {
     return this.positionElementStates.get(companyId) || 'notInViewport';
-  }
-
-  get getTranslation() {
-    return TranslationUtils.getTranslation;
   }
 }

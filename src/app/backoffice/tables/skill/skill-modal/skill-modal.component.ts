@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, from } from 'rxjs';
 import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
+import { TranslationProvider } from 'src/app/shared/classes/translation';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode';
 import { ModalParams } from 'src/app/shared/models/modal-params';
@@ -14,7 +15,6 @@ import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
-import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 import { Language } from '../../language/models/language.model';
 import { SkillType } from '../../skill-type/models/skill-type.model';
 import { skillTypeActions } from '../../skill-type/state/skill-type.actions';
@@ -56,7 +56,7 @@ export const skillModalTitleResolver: ResolveFn<string> = (
   styleUrls: ['./skill-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkillModalComponent implements OnInit, EntityModal<Skill> {
+export class SkillModalComponent extends TranslationProvider implements OnInit, EntityModal<Skill> {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private store = inject(Store);
@@ -156,8 +156,5 @@ export class SkillModalComponent implements OnInit, EntityModal<Skill> {
   }
   get names() {
     return skillNames;
-  }
-  get getTranslation() {
-    return TranslationUtils.getTranslation;
   }
 }

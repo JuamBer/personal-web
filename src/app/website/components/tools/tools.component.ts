@@ -13,8 +13,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { Skill } from 'src/app/backoffice/tables/skill/models/skill.model';
+import { TranslationProvider } from 'src/app/shared/classes/translation';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
-import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
 
 @Component({
   selector: 'app-tools',
@@ -29,7 +29,7 @@ import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
     ]),
   ],
 })
-export class ToolsComponent implements AfterViewInit {
+export class ToolsComponent extends TranslationProvider implements AfterViewInit {
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
 
@@ -51,9 +51,5 @@ export class ToolsComponent implements AfterViewInit {
       });
     });
     observer.observe(this.toolsElement.nativeElement);
-  }
-
-  get getTranslation() {
-    return TranslationUtils.getTranslation;
   }
 }
