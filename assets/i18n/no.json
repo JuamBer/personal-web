@@ -14,8 +14,8 @@
   },
   "home": {
     "cv": "Gjenoppta",
-    "contacto": "Kontakt",
-    "trayectoria": "Bane",
+    "contact": "Kontakt",
+    "trajectory": "Bane",
     "socialNetworks": "Send meg en e-post til denne adressen contacto@juamber.com eller skriv meg gjennom en av mine profiler"
   },
   "cv": {
@@ -64,8 +64,6 @@
     }
   },
   "general": {
-    "reordenar": "omorganisere",
-    "opciones": "Alternativer",
     "inactive": "inaktiv",
     "active": "aktiv",
     "total": "Total",

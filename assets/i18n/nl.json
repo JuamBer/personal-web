@@ -14,8 +14,8 @@
   },
   "home": {
     "cv": "Cv",
-    "contacto": "Contact",
-    "trayectoria": "Traject",
+    "contact": "Contact",
+    "trajectory": "Traject",
     "socialNetworks": "Stuur me een e-mail naar dit adres contacto@juamber.com of schrijf me via een van mijn profielen"
   },
   "cv": {
@@ -64,8 +64,6 @@
     }
   },
   "general": {
-    "reordenar": "herschikken",
-    "opciones": "Opties",
     "inactive": "inactief",
     "active": "actief",
     "total": "Totaal",

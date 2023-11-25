@@ -24,8 +24,8 @@
   },
   "home": {
     "cv": "Currículum",
-    "contacto": "Contacto",
-    "trayectoria": "Trayectoria",
+    "contact": "Contacto",
+    "trajectory": "Trayectoria",
     "socialNetworks": "Envíeme un correo a esta dirección contacto@juamber.com o esbríbeme por alguno de mis perfiles"
   },
   "cv": {
@@ -85,8 +85,6 @@
     }
   },
   "general": {
-    "reordenar": "Reordenar",
-    "opciones": "Opciones",
     "inactive": "Inactivo/a",
     "active": "Activo/a",
     "total": "Total",
