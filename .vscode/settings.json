@@ -24,7 +24,8 @@
     "SocialNetworks",
     "Translations",
     "Services",
-    "Sidebar"
+    "Sidebar",
+    "LanguageSelect"
   ],
   "cSpell.words": [
     "cascadeselect",

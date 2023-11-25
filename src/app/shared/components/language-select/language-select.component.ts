@@ -30,7 +30,9 @@ export class LanguageSelectComponent implements OnInit {
       .select(publicLanguageReducer.getAll)
       .pipe(filter((i) => i != null))
       .subscribe((languages) => {
-        this.languages = languages.filter((language) => (language.active ? true : false));
+        this.languages = languages
+          .filter((language) => (language.active ? true : false))
+          .sort((a, b) => a.nativeName.localeCompare(b.nativeName));
       });
 
     this.store
@@ -46,7 +48,8 @@ export class LanguageSelectComponent implements OnInit {
       });
   }
 
-  onLanguageChange() {
+  onLanguageChange(event: any) {
+    this.language = event.value;
     this.store.dispatch(publicLanguageActions.loadOneSuccess({ payload: this.language }));
   }
 }

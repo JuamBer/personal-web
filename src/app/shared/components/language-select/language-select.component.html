@@ -1,10 +1,10 @@
 <div class="language-select">
   <div class="languages">
     <p-selectButton
-      (onChange)="onLanguageChange()"
+      (onChange)="onLanguageChange($event)"
       *ngIf="type === 'select-button'"
       [options]="languages"
-      [(ngModel)]="language"
+      [ngModel]="language"
       [style]="{ width: '100%' }"
     >
       <ng-template let-language pTemplate="item">
@@ -21,8 +21,9 @@
       *ngIf="type === 'dropdown'"
       [style]="{ height: '100%' }"
       [options]="languages"
-      [(ngModel)]="language"
-      (onChange)="onLanguageChange()"
+      [ngModel]="language"
+      [autoDisplayFirst]="false"
+      (onChange)="onLanguageChange($event)"
     >
       <ng-template pTemplate="selectedItem">
         <div class="language-item language-item-value" *ngIf="language">
