@@ -13,8 +13,8 @@ export class SkillService extends CommonService<Skill> {
     super(
       supabaseClient,
       skillNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
-      '*, skillType: "skill_types" ( * )',
-      '*, skillType: "skill_types" ( * )',
+      '*, skill_type: "skill_types" ( * )',
+      '*, skill_type: "skill_types" ( * )',
     );
   }
 }

@@ -12,8 +12,8 @@ export class CertificateService extends CommonService<Certificate> {
     super(
       supabaseClient,
       certificateNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
-      '*, "certificateType": "certificate_types" ( * ), "certificateGroup": "certificate_groups" ( * ), "company": "companies" ( * )',
-      '*, "certificateType": "certificate_types" ( * ), "certificateGroup": "certificate_groups" ( * ), "company": "companies" ( * )',
+      '*, "certificate_type": "certificate_types" ( * ), "certificate_group": "certificate_groups" ( * ), "company": "companies" ( * )',
+      '*, "certificate_type": "certificate_types" ( * ), "certificate_group": "certificate_groups" ( * ), "company": "companies" ( * )',
       'name_translations',
     );
   }
