@@ -1,0 +1,12 @@
+<div class="social-networks">
+  <p>
+    {{ 'home.socialNetworks' | translate }}
+  </p>
+  <ul>
+    <li *ngFor="let socialNetwork of socialNetworks">
+      <a [href]="socialNetwork.url" target="_blank">
+        <div><i [class]="socialNetwork.icon + ' fa-2x'"></i></div>
+      </a>
+    </li>
+  </ul>
+</div>

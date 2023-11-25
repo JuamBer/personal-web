@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DescargaComponent } from './descargas.component';
 
-describe('DescargaComponent', () => {
-  let component: DescargaComponent;
-  let fixture: ComponentFixture<DescargaComponent>;
+import { RRSSComponent } from './social-networks.component';
+
+describe('RRSSComponent', () => {
+  let component: RRSSComponent;
+  let fixture: ComponentFixture<RRSSComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DescargaComponent],
+      declarations: [RRSSComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DescargaComponent);
+    fixture = TestBed.createComponent(RRSSComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

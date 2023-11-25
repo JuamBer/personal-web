@@ -13,6 +13,7 @@ import { skillActions } from 'src/app/backoffice/tables/skill/state/skill.action
 import { skillReducer } from 'src/app/backoffice/tables/skill/state/skill.reducer';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { TranslationUtils } from 'src/app/shared/utils/translation.utils';
+import { SocialNetwork } from '../../components/social-networks/models/social-network.model';
 
 @Component({
   selector: 'app-home',
@@ -25,12 +26,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   private translateSrv = inject(TranslateService);
 
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
-
   skills$: Observable<Skill[]> = this.store.select(skillReducer.getAll);
   loadingSkills$: Observable<boolean> = this.store.select(skillReducer.getLoading);
   skillTypes$: Observable<SkillType[]> = this.store.select(skillTypeReducer.getAll);
   loadingSkillTypes$: Observable<boolean> = this.store.select(skillTypeReducer.getLoading);
-  rrss: any[] = [
+
+  socialNetworks: SocialNetwork[] = [
     {
       name: 'GitHub',
       url: 'https://github.com/JuamBer',
@@ -80,6 +81,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }),
     );
   }
+
   get getTranslation() {
     return TranslationUtils.getTranslation;
   }

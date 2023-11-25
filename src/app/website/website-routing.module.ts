@@ -21,10 +21,7 @@ const routes: Routes = [
         path: 'certificates',
         loadChildren: () => import('./pages/certificates/certificates.module').then((m) => m.CertificatesModule),
       },
-      {
-        path: 'descargas',
-        loadChildren: () => import('./pages/descargas/descargas.module').then((m) => m.DescargaModule),
-      },
+
       {
         path: '',
         redirectTo: '/home',

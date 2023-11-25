@@ -52,17 +52,17 @@ export class ExperienceComponent implements OnInit, AfterViewChecked, OnDestroy 
   positionsGrouped$: Observable<PositionGroupedByCompany[]> = this.store.select(positionReducer.getAll).pipe(
     map((positions) => positions.filter((position) => position.importance > 1)),
     map((positions) => {
-      let positionsgroupedByCompany: PositionGroupedByCompany[] = [];
+      let positionsGroupedByCompany: PositionGroupedByCompany[] = [];
       let positionsSorted = [...positions].sort((a, b) => {
         return new Date(b.dateFrom).getTime() - new Date(a.dateFrom).getTime();
       });
 
       positionsSorted.forEach((position) => {
-        const positionGrouped = positionsgroupedByCompany.find(
+        const positionGrouped = positionsGroupedByCompany.find(
           (positionGrouped) => positionGrouped.company.id === position.company.id,
         );
         if (positionGrouped) {
-          positionsgroupedByCompany = positionsgroupedByCompany.map((positionGrouped) => {
+          positionsGroupedByCompany = positionsGroupedByCompany.map((positionGrouped) => {
             if (positionGrouped.company.id === position.company.id) {
               return {
                 ...positionGrouped,
@@ -73,13 +73,13 @@ export class ExperienceComponent implements OnInit, AfterViewChecked, OnDestroy 
             }
           });
         } else {
-          positionsgroupedByCompany.push({
+          positionsGroupedByCompany.push({
             company: position.company,
             positions: [position],
           });
         }
       });
-      return positionsgroupedByCompany;
+      return positionsGroupedByCompany;
     }),
   );
 

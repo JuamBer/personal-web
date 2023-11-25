@@ -10,7 +10,7 @@ import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { CvComponent } from '../../components/cv/cv.component';
 import { ExperienceComponent } from '../../components/experience/experience.component';
-import { RRSSModule } from '../../components/rrss/rrss.module';
+import { SocialNetworksModule } from '../../components/social-networks/social-networks.module';
 import { ToolsComponent } from '../../components/tools/tools.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
@@ -20,9 +20,8 @@ import { HomeComponent } from './home.component';
   imports: [
     CommonModule,
     HomeRoutingModule,
-    RRSSModule,
+    SocialNetworksModule,
     HttpClientModule,
-
     SkillTypeStateModule,
     SkillStateModule,
     PositionStateModule,
