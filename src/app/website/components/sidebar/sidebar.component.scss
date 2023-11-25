@@ -186,6 +186,8 @@ body {
   .hamburger-button-menu {
     display: inline;
     width: 15%;
+    font-size: 30px;
+    cursor: pointer;
   }
   .my-container {
     display: none;
@@ -219,9 +221,23 @@ body {
     .hamburger-button-menu {
       font-size: 25px !important;
       cursor: pointer;
+      transition: all 0.15s ease-in-out;
 
-      fa-icon:hover {
-        background: rgb(224, 224, 224);
+      fa-icon {
+        padding: 0.5em;
+        border-radius: 5px;
+        width: 2em;
+        aspect-ratio: 1/1;
+        transition: all 0.15s ease-in-out; // Add transition property
+
+        &:hover {
+          background: #4a9e98;
+          color: white;
+        }
+      }
+
+      &:hover {
+        transform: scale(1.05); // Add scale transform on hover
       }
     }
   }
