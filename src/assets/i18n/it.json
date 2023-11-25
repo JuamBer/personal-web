@@ -14,8 +14,8 @@
   },
   "home": {
     "cv": "Riprendere",
-    "contacto": "Contatto",
-    "trayectoria": "Traiettoria",
+    "contact": "Contatto",
+    "trajectory": "Traiettoria",
     "socialNetworks": "Inviami una mail a questo indirizzo contacto@juamber.com o scrivimi tramite uno dei miei profili"
   },
   "cv": {
@@ -64,8 +64,6 @@
     }
   },
   "general": {
-    "reordenar": "riorganizzare",
-    "opciones": "Opzioni",
     "inactive": "inattivo",
     "active": "attivo",
     "total": "Totale",

@@ -14,8 +14,8 @@
   },
   "home": {
     "cv": "Resume",
-    "contacto": "Contact",
-    "trayectoria": "Trajectory",
+    "contact": "Contact",
+    "trajectory": "Trajectory",
     "socialNetworks": "Send me an email to this address contacto@juamber.com or write me through one of my profiles"
   },
   "cv": {
@@ -64,8 +64,6 @@
     }
   },
   "general": {
-    "reordenar": "rearrange",
-    "opciones": "Options",
     "inactive": "inactive",
     "active": "active",
     "total": "Total",

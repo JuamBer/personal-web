@@ -14,8 +14,8 @@
   },
   "home": {
     "cv": "Fortsetzen",
-    "contacto": "Kontakt",
-    "trayectoria": "Flugbahn",
+    "contact": "Kontakt",
+    "trajectory": "Flugbahn",
     "socialNetworks": "Schicken Sie mir eine E-Mail an die Adresse contacto@juamber.com oder schreiben Sie mir über eines meiner Profile"
   },
   "cv": {
@@ -64,8 +64,6 @@
     }
   },
   "general": {
-    "reordenar": "neu anordnen",
-    "opciones": "Optionen",
     "inactive": "inaktiv",
     "active": "aktiv",
     "total": "Gesamt",
