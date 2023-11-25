@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -20,6 +21,25 @@ import { SocialNetwork } from '../../components/social-networks/models/social-ne
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('enterAnimation', [
+      state(
+        'void',
+        style({
+          transform: 'scale(0.5)',
+          opacity: 0,
+        }),
+      ),
+      state(
+        '*',
+        style({
+          transform: 'scale(1)',
+          opacity: 1,
+        }),
+      ),
+      transition(':enter', animate('500ms ease-out')),
+    ]),
+  ],
 })
 export class HomeComponent extends TranslationProvider implements OnInit, AfterViewInit {
   private store = inject(Store);

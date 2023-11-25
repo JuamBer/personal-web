@@ -3,13 +3,13 @@
     <div class="container-info" style="margin-bottom: 60px">
       <div class="test">
         <div class="item vertical">
-          <div class="vertical-item">
+          <div class="vertical-item" [@enterAnimation]>
             <div class="title">
               <h3>{{ 'home.cv' | translate }}</h3>
             </div>
             <app-cv></app-cv>
           </div>
-          <div class="vertical-item">
+          <div class="vertical-item" [@enterAnimation]>
             <div class="title">
               <h3>{{ 'home.contact' | translate }}</h3>
             </div>
@@ -17,7 +17,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="title">
+          <div class="title" [@enterAnimation]>
             <h3>{{ 'home.trajectory' | translate }}</h3>
           </div>
           <app-experience></app-experience>
@@ -28,7 +28,7 @@
 
   <ng-container *ngIf="(loadingSkillTypes$ | async) === false">
     <div class="my-container" style="margin-bottom: 60px" *ngFor="let skillType of skillTypes$ | async">
-      <div class="container-info">
+      <div class="container-info" [@enterAnimation]>
         <div class="title">
           <h3>{{ getTranslation(language.acronym, skillType.nameTranslations) }}</h3>
         </div>

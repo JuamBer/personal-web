@@ -36,7 +36,7 @@ export class PositionGroupedByCompany {
     trigger('positionEnterAnimation', [
       state('inViewport', style({ transform: 'translateX(0)' })),
       state('notInViewport', style({ transform: 'translateX(+20%)' })),
-      transition('notInViewport <=> inViewport', animate('0.15s')),
+      transition('notInViewport => inViewport', animate('0.15s')),
     ]),
   ],
 })
@@ -97,6 +97,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
           this.positionElementStates.set(positionElement.nativeElement.id, positionsElementState);
           if (positionsElementState === 'inViewport') {
             this.ref.detectChanges();
+            observer.disconnect();
           }
         });
       });

@@ -47,6 +47,7 @@ export class ToolsComponent extends TranslationProvider implements AfterViewInit
         this.toolsElementState = entry.isIntersecting ? 'inViewport' : 'notInViewport';
         if (this.toolsElementState === 'inViewport') {
           this.ref.detectChanges();
+          observer.disconnect();
         }
       });
     });

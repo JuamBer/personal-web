@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
@@ -11,13 +11,11 @@ import { publicLanguageReducer } from 'src/app/shared/state/languages/public-lan
   styleUrls: ['./cv.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CvComponent implements OnInit, AfterViewInit {
+export class CvComponent implements AfterViewInit {
   private translateSrv = inject(TranslateService);
   private store = inject(Store);
 
   language!: Language;
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.store

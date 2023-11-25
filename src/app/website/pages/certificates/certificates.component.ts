@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, pairwise, startWith, take, zip } from 'rxjs';
@@ -20,6 +21,25 @@ Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
   templateUrl: './certificates.component.html',
   styleUrls: ['./certificates.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('enterAnimation', [
+      state(
+        'void',
+        style({
+          transform: 'scale(0.5)',
+          opacity: 0,
+        }),
+      ),
+      state(
+        '*',
+        style({
+          transform: 'scale(1)',
+          opacity: 1,
+        }),
+      ),
+      transition(':enter', animate('500ms ease-out')),
+    ]),
+  ],
 })
 export class CertificatesComponent extends TranslationProvider implements OnInit {
   private store = inject(Store);
