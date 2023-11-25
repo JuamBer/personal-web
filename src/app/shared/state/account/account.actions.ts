@@ -5,16 +5,12 @@ import { accountNames } from './account.names';
 export class AccountActions {
   static entityName = accountNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL);
 
-  //LOAD ONE
-  static loadUsuario = createAction('[' + AccountActions.entityName + '] Load Usuario');
+  static loadUser = createAction('[' + AccountActions.entityName + '] Load User');
 
-  static loadUsuarioSuccess = createAction(
-    '[' + AccountActions.entityName + '] Load Usuario Success',
+  static loadUserSuccess = createAction(
+    '[' + AccountActions.entityName + '] Load User Success',
     props<{ payload: any }>(),
   );
 
-  static loadUsuarioFail = createAction(
-    '[' + AccountActions.entityName + '] Load Usuario Fail',
-    props<{ error: any }>(),
-  );
+  static loadUserFail = createAction('[' + AccountActions.entityName + '] Load User Fail', props<{ error: any }>());
 }

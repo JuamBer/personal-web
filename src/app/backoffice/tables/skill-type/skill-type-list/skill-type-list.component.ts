@@ -13,9 +13,9 @@ import {
   TableEvent,
   TableEventType,
 } from 'src/app/shared/components/generic-table/models/generic-table.models';
-import { defaultGenericTableConfig } from 'src/app/shared/components/generic-table/utils/vairables';
+import { defaultGenericTableConfig } from 'src/app/shared/components/generic-table/utils/variables';
 import { EntityList } from 'src/app/shared/models/entity-list.model';
-import { ModalMode } from 'src/app/shared/models/modal-mode';
+import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Action } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';

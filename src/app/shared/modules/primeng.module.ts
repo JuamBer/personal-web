@@ -126,7 +126,7 @@ import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
     //FILE
     FileUploadModule,
 
-    //MESAGES
+    //MESSAGES
     MessagesModule,
     ToastModule,
 
@@ -197,7 +197,7 @@ import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
     //FILE
     FileUploadModule,
 
-    //MESAGES
+    //MESSAGES
     MessagesModule,
     ToastModule,
 

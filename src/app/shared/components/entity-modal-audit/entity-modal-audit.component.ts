@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AuditFields } from 'src/app/shared/models/audit-fields.model';
-import { ModalMode } from '../../models/modal-mode';
+import { ModalMode } from '../../models/modal-mode.model';
 
 @Component({
   selector: 'app-entity-modal-audit',

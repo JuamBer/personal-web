@@ -9,13 +9,13 @@ import { AccountActions } from './account.actions';
 export class AccountEffect {
   constructor(private actions$: Actions, private accountSrv: AuthService) {}
 
-  loadUsuario$ = createEffect(() =>
+  loadUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccountActions.loadUsuario),
+      ofType(AccountActions.loadUser),
       mergeMap(() =>
         of(this.accountSrv.session).pipe(
-          map((usuario: any) => AccountActions.loadUsuarioSuccess({ payload: usuario.user })),
-          catchError((err) => of(AccountActions.loadUsuarioFail({ error: err }))),
+          map((session) => AccountActions.loadUserSuccess({ payload: session.user })),
+          catchError((err) => of(AccountActions.loadUserFail({ error: err }))),
         ),
       ),
     ),

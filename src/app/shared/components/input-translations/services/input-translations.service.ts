@@ -8,12 +8,12 @@ export interface GoogleObj {
   target: string;
   source?: string;
 }
-export interface Gtranslation {
+export interface GoogleTranslation {
   translatedText: string;
 }
 export interface GoogleObjRes {
   data: {
-    translations: Gtranslation[];
+    translations: GoogleTranslation[];
   };
 }
 @Injectable({

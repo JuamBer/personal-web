@@ -4,18 +4,18 @@
       <p-dropdown appendTo="body" [options]="languagesToFill" [(ngModel)]="language" [style]="{ height: '100%' }">
         <ng-template pTemplate="selectedItem">
           <div class="language-item language-item-value" *ngIf="language">
-            <div class="banderita">
+            <div class="flag">
               <span class="" [class]="'flag flag-' + language.acronym"></span>
             </div>
-            <div class="nombre">{{ language.acronym | uppercase }}</div>
+            <div class="name">{{ language.acronym | uppercase }}</div>
           </div>
         </ng-template>
         <ng-template let-language pTemplate="item">
           <div class="language-item">
-            <div class="banderita">
+            <div class="flag">
               <span class="" [class]="'flag flag-' + language.acronym"></span>
             </div>
-            <div class="nombre">{{ language.acronym | uppercase }}</div>
+            <div class="name">{{ language.acronym | uppercase }}</div>
           </div>
         </ng-template>
       </p-dropdown>
@@ -177,10 +177,10 @@
               >
                 <ng-template pTemplate="selectedItem" let-language>
                   <div class="language-item language-item-value">
-                    <div class="banderita">
+                    <div class="flag">
                       <span class="" [class]="'flag flag-' + language.acronym"></span>
                     </div>
-                    <div class="nombre">
+                    <div class="name">
                       {{ language.acronym | uppercase }} | {{ language.nativeName | titlecase }} |
                       {{ language.name | titlecase }}
                     </div>
@@ -188,10 +188,10 @@
                 </ng-template>
                 <ng-template let-language pTemplate="item">
                   <div class="language-item">
-                    <div class="banderita">
+                    <div class="flag">
                       <span class="" [class]="'flag flag-' + language.acronym"></span>
                     </div>
-                    <div class="nombre">
+                    <div class="name">
                       {{ language.acronym | uppercase }} | {{ language.nativeName | titlecase }} |
                       {{ language.name | titlecase }}
                     </div>

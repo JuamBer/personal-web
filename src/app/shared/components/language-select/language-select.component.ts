@@ -36,9 +36,9 @@ export class LanguageSelectComponent implements OnInit {
     this.store
       .select(publicLanguageReducer.getOne)
       .pipe(filter((i) => i != null))
-      .subscribe((idioma) => {
-        this.language = idioma;
-        this.translateSrv.use(idioma.acronym);
+      .subscribe((language) => {
+        this.language = language;
+        this.translateSrv.use(language.acronym);
         this.translateSrv
           .get('calendar')
           .pipe(take(1))

@@ -9,7 +9,7 @@ import { CertificateStateModule } from 'src/app/backoffice/tables/certificate/st
 import { certificateActions } from 'src/app/backoffice/tables/certificate/state/certificate.actions';
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
-import { TranslationProvider } from 'src/app/shared/classes/translation';
+import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 
@@ -94,12 +94,12 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       );
       const datasets: ChartDataset<any, any>[] = [];
-      const fisrtCertificate = certificatesSorted[0];
+      const firstCertificate = certificatesSorted[0];
       const lastCertificate = certificatesSorted[certificatesSorted.length - 1];
 
       const labels: string[] = [];
       const labelsData: any[] = [];
-      const firstCertificateDate = new Date(fisrtCertificate.date);
+      const firstCertificateDate = new Date(firstCertificate.date);
       const lastCertificateDate = new Date(lastCertificate.date);
       for (let d = firstCertificateDate; d <= lastCertificateDate; d.setMonth(d.getMonth() + 1)) {
         labels.push(`${d.getMonth() + 1}/${d.getFullYear()}`);

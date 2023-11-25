@@ -53,7 +53,6 @@ body {
   }
 }
 
-//MODAL CARGANDO
 .loading-modal {
   position: absolute;
   background-color: #fff;
@@ -70,15 +69,6 @@ body {
   i {
     font-size: 2rem;
   }
-
-  &.arriba {
-    top: 10;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding-top: 100px;
-    align-items: flex-start;
-  }
 }
 
 .public-body {
@@ -94,18 +84,6 @@ body {
   margin-top: -100px !important;
 }
 
-.dialogPoliticas {
-  z-index: 900 !important;
-  margin-left: 500px;
-  margin-right: 50px;
-  width: 100%;
-}
-
-@media (max-width: 960px) {
-  .dialogPoliticas {
-    margin: 5%;
-  }
-}
 .p-sidebar-mask {
   background: none !important;
   z-index: 1 !important;
@@ -152,7 +130,7 @@ body {
 }
 
 /*
-PALETA COLORES
+COLOR PALLETTE
 #F9546B
 #FC7651
 #FFDB60

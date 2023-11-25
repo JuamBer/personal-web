@@ -9,7 +9,7 @@ import { Language } from 'src/app/backoffice/tables/language/models/language.mod
 import { PositionStateModule } from 'src/app/backoffice/tables/position/state/position-state.module';
 import { positionActions } from 'src/app/backoffice/tables/position/state/position.actions';
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
-import { TranslationProvider } from 'src/app/shared/classes/translation';
+import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 

@@ -263,14 +263,14 @@ export class CommonReducer<T, S extends CommonState<T>> {
     ...this.reducers,
   );
 
-  public getCommonFetureState = createFeatureSelector<S>(this.name);
-  public getAll = createSelector(this.getCommonFetureState, (state: S) => state.entities);
-  public getOne = createSelector(this.getCommonFetureState, (state: S) =>
+  public getCommonFeatureState = createFeatureSelector<S>(this.name);
+  public getAll = createSelector(this.getCommonFeatureState, (state: S) => state.entities);
+  public getOne = createSelector(this.getCommonFeatureState, (state: S) =>
     state.entities?.find((i: any) => i?.id === state.selectedId),
   );
-  public getCount = createSelector(this.getCommonFetureState, (state: S) => state.count);
-  public getAction = createSelector(this.getCommonFetureState, (state: S) => state.action);
-  public getLoading = createSelector(this.getCommonFetureState, (state: S) => state.loading);
+  public getCount = createSelector(this.getCommonFeatureState, (state: S) => state.count);
+  public getAction = createSelector(this.getCommonFeatureState, (state: S) => state.action);
+  public getLoading = createSelector(this.getCommonFeatureState, (state: S) => state.loading);
 }
 namespace CommonReducer {
   export interface AppState extends fromRoot.AppState {

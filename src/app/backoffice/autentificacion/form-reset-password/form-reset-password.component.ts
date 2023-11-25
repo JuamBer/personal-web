@@ -35,7 +35,6 @@ export class FormResetPasswordComponent implements OnInit {
   returnUrl: string = '/';
   token: string;
   loading: boolean = false;
-  errores: string[] = [];
 
   res: string;
 
@@ -68,7 +67,7 @@ export class FormResetPasswordComponent implements OnInit {
       this.messageSrv.add({
         severity: 'success',
         summary: 'Success',
-        detail: 'PASSOWRD CHANGED',
+        detail: 'PASSWORD CHANGED',
       });
     }
 

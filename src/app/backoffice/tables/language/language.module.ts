@@ -6,7 +6,7 @@ import { GenericTableModule } from 'src/app/shared/components/generic-table/gene
 import { TitleCasePipe } from '@angular/common';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
-import { LanguagesModule as Lmodule } from 'src/app/shared/modules/languages.module';
+import { LanguagesModule as _LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
 import { PrimeNgModule } from 'src/app/shared/modules/primeng.module';
 import { AccountStateModule } from 'src/app/shared/state/account/account.module';
@@ -20,9 +20,7 @@ import { LanguageStateModule } from './state/language-state.module';
   imports: [
     BasicModule,
     PrimeNgModule,
-
-    Lmodule,
-
+    _LanguagesModule,
     LanguageStateModule,
     AccountStateModule,
     LanguageRoutingModule,

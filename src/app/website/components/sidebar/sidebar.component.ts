@@ -3,6 +3,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { Page } from './models/page.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,7 +15,7 @@ export class SidebarComponent implements OnInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
 
-  pages: any[] = [];
+  pages: Page[] = [];
 
   ngOnInit(): void {
     this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
@@ -54,6 +55,6 @@ export class SidebarComponent implements OnInit {
   }
 
   get faBars() {
-    return faBars
+    return faBars;
   }
 }

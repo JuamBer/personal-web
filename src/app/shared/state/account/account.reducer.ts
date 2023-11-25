@@ -25,34 +25,34 @@ export const initialState: AccountState = {
 export const accountReducer = createReducer(
   initialState,
 
-  on(AccountActions.loadUsuario, (state) => ({
+  on(AccountActions.loadUser, (state) => ({
     ...state,
     loading: true,
     loaded: false,
   })),
-  on(AccountActions.loadUsuarioSuccess, (state, { payload }) => ({
+  on(AccountActions.loadUserSuccess, (state, { payload }) => ({
     ...state,
     loading: false,
     loaded: true,
     user: payload,
   })),
-  on(AccountActions.loadUsuarioFail, (state, { error }) => ({
+  on(AccountActions.loadUserFail, (state, { error }) => ({
     ...state,
     loading: false,
     loaded: false,
-    usuario: null,
+    user: null,
     error: error,
   })),
 );
 
-const getAccountFetureState = createFeatureSelector<AccountState>(
+const getAccountFeatureState = createFeatureSelector<AccountState>(
   accountNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
 );
 
-export const getUsuario = createSelector(getAccountFetureState, (state: AccountState) => state.user);
+export const getUser = createSelector(getAccountFeatureState, (state: AccountState) => state.user);
 
-export const isLoaded = createSelector(getAccountFetureState, (state: AccountState) => state.loaded);
+export const isLoaded = createSelector(getAccountFeatureState, (state: AccountState) => state.loaded);
 
-export const isLoading = createSelector(getAccountFetureState, (state: AccountState) => state.loading);
+export const isLoading = createSelector(getAccountFeatureState, (state: AccountState) => state.loading);
 
-export const getError = createSelector(getAccountFetureState, (state: AccountState) => state.error);
+export const getError = createSelector(getAccountFeatureState, (state: AccountState) => state.error);

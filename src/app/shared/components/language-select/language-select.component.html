@@ -9,10 +9,10 @@
     >
       <ng-template let-language pTemplate="item">
         <div class="language-item w-full">
-          <div class="banderita">
+          <div class="flag">
             <span class="" [class]="'flag flag-' + language.acronym"></span>
           </div>
-          <div class="nombre">{{ language.nativeName }}</div>
+          <div class="name">{{ language.nativeName }}</div>
         </div>
       </ng-template>
     </p-selectButton>
@@ -26,10 +26,10 @@
     >
       <ng-template pTemplate="selectedItem">
         <div class="language-item language-item-value" *ngIf="language">
-          <div class="banderita">
+          <div class="flag">
             <span class="" [class]="'flag flag-' + language.acronym"></span>
           </div>
-          <div class="nombre">
+          <div class="name">
             <ng-container *ngIf="mode === 'complete'"> {{ language.acronym | uppercase }} | </ng-container>
             {{ language.nativeName }}
             <ng-container *ngIf="mode === 'complete'"> | {{ language.name }} </ng-container>
@@ -38,7 +38,7 @@
       </ng-template>
       <ng-template let-language pTemplate="item">
         <div class="language-item">
-          <div class="banderita">
+          <div class="flag">
             <span class="" [class]="'flag flag-' + language.acronym"></span>
           </div>
           <ng-container *ngIf="mode === 'complete'"> {{ language.acronym | uppercase }} | </ng-container>

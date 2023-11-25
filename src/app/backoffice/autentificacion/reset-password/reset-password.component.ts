@@ -31,7 +31,6 @@ export class ResetPasswordComponent implements OnInit {
 
   form: FormGroup;
   loading: boolean = false;
-  errores: string[] = [];
   res: string;
 
   ngOnInit(): void {
@@ -46,7 +45,7 @@ export class ResetPasswordComponent implements OnInit {
     }
     this.loading = true;
 
-    const { data, error } = await this.supabaseSrv.sendResetPassword(this.form.value.correo);
+    const { data, error } = await this.supabaseSrv.sendResetPassword(this.form.value.email);
     if (error instanceof Error) {
       this.messageSrv.add({
         severity: 'warn',

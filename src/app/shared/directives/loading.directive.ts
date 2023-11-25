@@ -28,11 +28,11 @@ export class LoadingDirective implements AfterViewInit {
   constructor(
     private elementRef: ElementRef<HTMLDivElement>,
     private injector: Injector,
-    private changeDectector: ChangeDetectorRef,
+    private ref: ChangeDetectorRef,
   ) {}
 
   ngAfterViewInit(): void {
-    this.changeDectector.detectChanges();
+    this.ref.detectChanges();
     this.fontSizeValue = parseFloat(window.getComputedStyle(this.elementRef.nativeElement).fontSize) / 2;
 
     this.isLoading$.subscribe((isLoading) => {

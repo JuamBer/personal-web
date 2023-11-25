@@ -11,16 +11,4 @@ export class IsRequiredPipe implements PipeTransform {
     }
     return '';
   }
-
-  //   transform(control: AbstractControl): Observable<string> {
-  //     return control.valueChanges.pipe(
-  //       startWith(control.value),
-  //       map(() => {
-  //         if (control.hasValidator(Validators.required) && (!control.hasError('required') || !control.dirty)) {
-  //           return '*';
-  //         }
-  //         return '';
-  //       }),
-  //     );
-  //   }
 }

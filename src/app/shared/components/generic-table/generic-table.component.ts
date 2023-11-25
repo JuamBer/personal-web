@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { LazyLoadEvent } from 'primeng/api';
 import { ObjectUtils } from 'src/app/shared/utils/object.utils';
 import { FilterEvent, GenericTableConfig, SortEvent, TableEvent } from './models/generic-table.models';
-import { defaultGenericTableConfig } from './utils/vairables';
+import { defaultGenericTableConfig } from './utils/variables';
 
 @Component({
   selector: 'app-generic-table',

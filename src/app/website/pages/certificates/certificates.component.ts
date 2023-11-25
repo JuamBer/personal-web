@@ -9,7 +9,7 @@ import { certificateTypeReducer } from 'src/app/backoffice/tables/certificate-ty
 import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
-import { TranslationProvider } from 'src/app/shared/classes/translation';
+import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOptions } from 'swiper';
 

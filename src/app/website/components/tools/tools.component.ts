@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { Skill } from 'src/app/backoffice/tables/skill/models/skill.model';
-import { TranslationProvider } from 'src/app/shared/classes/translation';
+import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 
 @Component({

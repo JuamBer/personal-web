@@ -54,17 +54,6 @@
           margin: 0px;
         }
       }
-
-      .institucion {
-        h5 {
-          font-size: 15px;
-          font-weight: normal;
-          padding-bottom: 15px;
-          font-style: italic;
-          padding: 0px;
-          margin: 0px;
-        }
-      }
     }
 
     .img {
@@ -96,79 +85,6 @@
   }
 }
 
-.ruta-list {
-  width: 100%;
-
-  .ruta {
-    width: calc(100% - 40px);
-    height: 100%;
-    border-top: 5px solid #4a9e98;
-    background-color: rgba(74, 158, 152, 0.1);
-    padding: 20px;
-
-    .info {
-      .title {
-        h4 {
-          font-size: 20px;
-          font-weight: bold;
-          padding-bottom: 15px;
-          padding: 0px;
-          margin: 0px;
-        }
-      }
-
-      .institucion {
-        h5 {
-          font-size: 15px;
-          font-weight: normal;
-          padding-bottom: 15px;
-          font-style: italic;
-          padding: 0px;
-          margin: 0px;
-        }
-      }
-    }
-
-    .certificados {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-
-      .certificate {
-        width: calc(100%);
-        position: relative;
-        border-radius: 5px;
-
-        .img {
-          width: 100%;
-
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: scale-down;
-          }
-        }
-
-        .ver {
-          position: absolute;
-          bottom: 15px;
-          right: 15px;
-
-          a {
-            width: 30px;
-            height: 30px;
-            background-color: #4a9e98d8;
-            color: white;
-            padding: 10px;
-            border-radius: 2.5px;
-            margin-left: 10px;
-            text-decoration: none;
-          }
-        }
-      }
-    }
-  }
-}
 @media screen and (max-width: 800px) {
   .certificates {
     .my-container {
@@ -194,13 +110,6 @@
     ul {
       grid-template-columns: repeat(1, 1fr) !important;
       gap: 10px;
-    }
-
-    .certificados {
-      grid-template-columns: repeat(1, 1fr) !important;
-      gap: 10px;
-    }
-    .cr {
     }
   }
 }

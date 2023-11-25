@@ -1,8 +1,7 @@
 .landing-body {
   .landing-wrapper {
     .p-button {
-      box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.26),
-        0 1px 5px 0 rgba(0, 0, 0, 0.16);
+      box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
     }
 
     #header {
@@ -22,7 +21,7 @@
           padding: 15px 30px;
           @include border-box-sizing();
 
-          #menu-button {
+          #hamburger-button {
             display: none;
             color: $primaryTextColor;
             font-size: 28px;
@@ -257,12 +256,9 @@
           }
 
           &.pricing-basic {
-            -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-              0 8px 17px 0 rgba(0, 0, 0, 0.2);
-            -moz-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-              0 8px 17px 0 rgba(0, 0, 0, 0.2);
-            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-              0 8px 17px 0 rgba(0, 0, 0, 0.2);
+            -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
 
             .pricing-header {
               background-color: #ffffff;
@@ -322,12 +318,9 @@
           &.pricing-pro {
             margin-left: 10px;
             z-index: 2;
-            -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-              0 8px 17px 0 rgba(0, 0, 0, 0.2);
-            -moz-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-              0 8px 17px 0 rgba(0, 0, 0, 0.2);
-            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-              0 8px 17px 0 rgba(0, 0, 0, 0.2);
+            -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
 
             .pricing-header {
               background-color: #000000;
@@ -451,7 +444,7 @@
           .pre-header-content {
             width: 100%;
 
-            #menu-button {
+            #hamburger-button {
               display: block;
             }
 
@@ -467,12 +460,9 @@
               width: 225px;
               list-style: none;
               background-color: #ffffff;
-              -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-                0 8px 17px 0 rgba(0, 0, 0, 0.2);
-              -moz-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-                0 8px 17px 0 rgba(0, 0, 0, 0.2);
-              box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19),
-                0 8px 17px 0 rgba(0, 0, 0, 0.2);
+              -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+              -moz-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+              box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
               -webkit-animation-duration: 0.5s;
               -moz-animation-duration: 0.5s;
               animation-duration: 0.5s;

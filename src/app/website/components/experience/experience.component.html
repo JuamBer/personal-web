@@ -7,9 +7,9 @@
       [@positionEnterAnimation]="getPositionEnterAnimationState(positionGrouped.company.id)"
     >
       <div class="header">
-        <div class="icon">
-          <i *ngIf="positionGrouped.company.name !== 'Odec'" class="fa-solid fa-graduation-cap"></i>
-          <i *ngIf="positionGrouped.company.name === 'Odec'" class="fa-solid fa-briefcase"></i>
+        <div class="icon" [ngSwitch]="positionGrouped.company.type">
+          <i *ngSwitchCase="CompanyType.SCHOOL" class="fa-solid fa-graduation-cap"></i>
+          <i *ngSwitchCase="CompanyType.COMPANY" class="fa-solid fa-briefcase"></i>
         </div>
         <div class="organization">
           <h3>{{ positionGrouped.company.name }}</h3>
@@ -25,7 +25,7 @@
               <span>{{
                 (position.dateFrom | date : 'MM-yyyy') +
                   ' - ' +
-                  (position.dateTo ? (position.dateTo | date : 'MM-yyyy') : 'Actualidad')
+                  (position.dateTo ? (position.dateTo | date : 'MM-yyyy') : ('general.present' | translate))
               }}</span>
             </div>
           </li>

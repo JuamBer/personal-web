@@ -14,12 +14,13 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { CompanyType } from 'src/app/backoffice/tables/company/models/company-type.model';
 import { Company } from 'src/app/backoffice/tables/company/models/company.model';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { Position } from 'src/app/backoffice/tables/position/models/position.model';
 import { positionActions } from 'src/app/backoffice/tables/position/state/position.actions';
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
-import { TranslationProvider } from 'src/app/shared/classes/translation';
+import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 
 export class PositionGroupedByCompany {
@@ -111,7 +112,11 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
     });
   }
 
-  public getPositionEnterAnimationState(companyId: string): 'inViewport' | 'notInViewport' {
+  getPositionEnterAnimationState(companyId: string): 'inViewport' | 'notInViewport' {
     return this.positionElementStates.get(companyId) || 'notInViewport';
+  }
+
+  get CompanyType() {
+    return CompanyType;
   }
 }

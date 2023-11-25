@@ -23,5 +23,33 @@
     "Experiences",
     "SocialNetworks",
     "Translations"
+  ],
+  "cSpell.words": [
+    "cascadeselect",
+    "colorpicker",
+    "confirmpopup",
+    "datatable",
+    "dynamicdialog",
+    "emptymessage",
+    "García",
+    "ilike",
+    "inputgroup",
+    "inputmask",
+    "inputnumber",
+    "inputswitch",
+    "juamber",
+    "keyfilter",
+    "overlaypanel",
+    "progressbar",
+    "Sáez",
+    "scrollpanel",
+    "selectbutton",
+    "splitbutton",
+    "tabview",
+    "titlecase",
+    "togglebutton",
+    "treetable",
+    "tristatecheckbox",
+    "xmark"
   ]
 }

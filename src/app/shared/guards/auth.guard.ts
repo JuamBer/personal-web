@@ -7,13 +7,13 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard  {
+export class AuthGuard {
   constructor(private auth: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     return this.auth.getCurrentUser().pipe(
-      filter((val) => val !== null), // Filter out initial Behavior subject value
-      take(1), // Otherwise the Observable doesn't complete!
+      filter((val) => val !== null),
+      take(1),
       map((isAuthenticated) => {
         if (isAuthenticated) {
           return true;

@@ -11,7 +11,7 @@ import { skillTypeReducer } from 'src/app/backoffice/tables/skill-type/state/ski
 import { Skill } from 'src/app/backoffice/tables/skill/models/skill.model';
 import { skillActions } from 'src/app/backoffice/tables/skill/state/skill.actions';
 import { skillReducer } from 'src/app/backoffice/tables/skill/state/skill.reducer';
-import { TranslationProvider } from 'src/app/shared/classes/translation';
+import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { SocialNetwork } from '../../components/social-networks/models/social-network.model';
 

@@ -8,8 +8,8 @@ import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
-import { ModalMode } from 'src/app/shared/models/modal-mode';
-import { ModalParams } from 'src/app/shared/models/modal-params';
+import { ModalMode } from 'src/app/shared/models/modal-mode.model';
+import { ModalParams } from 'src/app/shared/models/modal-params.model';
 import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
@@ -30,7 +30,7 @@ export const positionModalTitleResolver: ResolveFn<string> = (
   state: RouterStateSnapshot,
 ) => {
   const store = inject(Store);
-  const positionSrbv = inject(PositionService);
+  const positionSrv = inject(PositionService);
   const translateSrv = inject(TranslateService);
   return store.select(publicLanguageReducer.getOne).pipe(
     filter((i) => !!i),
@@ -41,7 +41,7 @@ export const positionModalTitleResolver: ResolveFn<string> = (
           !route.paramMap.get('id')
             ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
             : switchMap((table) =>
-                from(positionSrbv.getTitle(route.paramMap.get('id'))).pipe(
+                from(positionSrv.getTitle(route.paramMap.get('id'))).pipe(
                   map(
                     (selected) =>
                       `${appRootTitle} | ${table} | ${

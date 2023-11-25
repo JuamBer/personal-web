@@ -1,45 +1,45 @@
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 
 export class FormUtils {
-  static markAllAsDirtyAndTouched(asbtractControl: AbstractControl) {
-    if (asbtractControl instanceof FormControl) {
-      asbtractControl.markAsTouched();
-      asbtractControl.markAsDirty();
-      asbtractControl.updateValueAndValidity();
+  static markAllAsDirtyAndTouched(abstractControl: AbstractControl) {
+    if (abstractControl instanceof FormControl) {
+      abstractControl.markAsTouched();
+      abstractControl.markAsDirty();
+      abstractControl.updateValueAndValidity();
     }
 
-    if (asbtractControl instanceof FormGroup) {
-      Object.entries(asbtractControl.controls).forEach(([key, asbtractControl]) => {
-        FormUtils.markAllAsDirtyAndTouched(asbtractControl);
+    if (abstractControl instanceof FormGroup) {
+      Object.entries(abstractControl.controls).forEach(([key, abstractControl]) => {
+        FormUtils.markAllAsDirtyAndTouched(abstractControl);
       });
     }
 
-    if (asbtractControl instanceof FormArray) {
-      asbtractControl.controls.forEach((asbtractControl) => {
-        FormUtils.markAllAsDirtyAndTouched(asbtractControl);
+    if (abstractControl instanceof FormArray) {
+      abstractControl.controls.forEach((abstractControl) => {
+        FormUtils.markAllAsDirtyAndTouched(abstractControl);
       });
     }
   }
 
-  static disableAllControls(asbtractControl: AbstractControl) {
-    asbtractControl.disable();
-    asbtractControl.updateValueAndValidity();
+  static disableAllControls(abstractControl: AbstractControl) {
+    abstractControl.disable();
+    abstractControl.updateValueAndValidity();
 
-    if (asbtractControl instanceof FormControl) {
-      asbtractControl.disable();
+    if (abstractControl instanceof FormControl) {
+      abstractControl.disable();
     }
 
-    if (asbtractControl instanceof FormGroup) {
-      asbtractControl.disable();
-      Object.entries(asbtractControl.controls).forEach(([key, asbtractControl]) => {
-        FormUtils.markAllAsDirtyAndTouched(asbtractControl);
+    if (abstractControl instanceof FormGroup) {
+      abstractControl.disable();
+      Object.entries(abstractControl.controls).forEach(([key, abstractControl]) => {
+        FormUtils.markAllAsDirtyAndTouched(abstractControl);
       });
     }
 
-    if (asbtractControl instanceof FormArray) {
-      asbtractControl.disable();
-      asbtractControl.controls.forEach((asbtractControl) => {
-        FormUtils.markAllAsDirtyAndTouched(asbtractControl);
+    if (abstractControl instanceof FormArray) {
+      abstractControl.disable();
+      abstractControl.controls.forEach((abstractControl) => {
+        FormUtils.markAllAsDirtyAndTouched(abstractControl);
       });
     }
   }

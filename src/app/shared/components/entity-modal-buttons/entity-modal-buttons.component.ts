@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Subject, map, skip, take, takeUntil } from 'rxjs';
-import { ModalMode } from '../../models/modal-mode';
+import { ModalMode } from '../../models/modal-mode.model';
 
 @Component({
   selector: 'app-entity-modal-buttons',

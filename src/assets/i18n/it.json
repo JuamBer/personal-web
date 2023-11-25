@@ -67,7 +67,8 @@
     "inactive": "inattivo",
     "active": "attivo",
     "total": "Totale",
-    "translations": "Traduzioni: {{name}}"
+    "translations": "Traduzioni: {{name}}",
+    "present": "Presente"
   },
   "tables": {
     "company": {

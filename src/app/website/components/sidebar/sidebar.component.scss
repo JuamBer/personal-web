@@ -139,14 +139,14 @@ body {
   color: #f1f1f1;
 }
 
-.overlay .closebtn {
+.overlay .close-button {
   position: absolute;
   top: 20px;
   right: 45px;
   font-size: 60px;
 }
 
-.hamburguer-menu {
+.hamburger-button-menu {
   display: none;
 
   fa-icon {
@@ -166,7 +166,7 @@ body {
     font-size: 20px;
   }
 
-  .overlay .closebtn {
+  .overlay .close-button {
     font-size: 40px;
     top: 15px;
     right: 35px;
@@ -177,7 +177,7 @@ body {
   .cms {
     display: none;
   }
-  .hamburguer-menu {
+  .hamburger-button-menu {
     display: inline;
     width: 15%;
   }
@@ -210,7 +210,7 @@ body {
       }
     }
 
-    .hamburguer-menu {
+    .hamburger-button-menu {
       font-size: 25px !important;
       cursor: pointer;
 
