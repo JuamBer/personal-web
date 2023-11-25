@@ -1,11 +1,11 @@
 .p-column-filter-row {
-  .p-column-filter-menu-button,
+  .p-column-filter-hamburger-button,
   .p-column-filter-clear-button {
     margin-left: $inlineSpacing;
   }
 }
 
-.p-column-filter-menu-button {
+.p-column-filter-hamburger-button {
   width: $actionIconWidth;
   height: $actionIconHeight;
   color: $actionIconColor;
@@ -20,14 +20,14 @@
     background: $actionIconHoverBg;
   }
 
-  &.p-column-filter-menu-button-open,
-  &.p-column-filter-menu-button-open:hover {
+  &.p-column-filter-hamburger-button-open,
+  &.p-column-filter-hamburger-button-open:hover {
     background: $actionIconHoverBg;
     color: $actionIconHoverColor;
   }
 
-  &.p-column-filter-menu-button-active,
-  &.p-column-filter-menu-button-active:hover {
+  &.p-column-filter-hamburger-button-active,
+  &.p-column-filter-hamburger-button-active:hover {
     background: $highlightBg;
     color: $highlightTextColor;
   }
