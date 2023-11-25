@@ -18,6 +18,7 @@ header {
       }
     }
   }
+
   .me {
     width: 100%;
     margin-bottom: 3.5%;
@@ -71,6 +72,11 @@ header {
           font-size: 30px;
           text-decoration: none;
           color: #d0dadc;
+
+          &:hover {
+            color: #345;
+            transition: color 0.25s ease-in-out;
+          }
         }
 
         a.active {
