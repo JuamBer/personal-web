@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   private store = inject(Store);
 
   ngOnInit() {
-    console.log('Corriendo con la configuración: ', environment.name);
+    console.info('Running with configuration: ', environment.name);
     this.store.dispatch(publicLanguageActions.loadAll({}));
   }
 }
