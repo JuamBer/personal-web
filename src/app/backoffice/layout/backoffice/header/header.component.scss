@@ -66,6 +66,7 @@ header {
     flex-direction: column;
   }
 }
+
 p-sidebar {
   .user {
     display: flex;
@@ -91,6 +92,25 @@ p-sidebar {
       &.active {
         background-color: #e9ecef;
       }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1em;
+    height: auto;
+
+    .company {
+      flex-direction: column;
+      gap: 0.5em;
+    }
+
+    .options {
+      flex-direction: column;
+      gap: 0.5em;
+      max-width: none;
     }
   }
 }

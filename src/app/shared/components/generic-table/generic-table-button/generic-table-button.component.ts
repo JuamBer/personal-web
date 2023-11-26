@@ -14,6 +14,8 @@ export class GenericTableButtonComponent<T> {
   @Input() entity: T | null = null;
   @Output() tableEvent: EventEmitter<TableEvent<T>> = new EventEmitter();
 
+  screenWidth = window.innerWidth;
+
   onTableEvent(event: TableEvent<T>) {
     this.tableEvent.emit(event);
   }

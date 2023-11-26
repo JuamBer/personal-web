@@ -8,14 +8,6 @@
 @import 'swiper/scss/navigation';
 @import 'swiper/scss/pagination';
 
-// @font-face {
-//   font-family: 'Fixture';
-//   src: local('Fixture'), url(./assets/fonts/Fixture-Regular.otf) format('truetype');
-// }
-// body {
-//   font-family: var(--font-family);
-// }
-
 .hide-tabs-headers .p-tabview-nav {
   display: none;
 }
@@ -292,4 +284,14 @@ label {
 
 .f-bold {
   font-weight: bold;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem;
+  }
 }

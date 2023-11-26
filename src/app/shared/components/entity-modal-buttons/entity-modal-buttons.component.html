@@ -1,6 +1,6 @@
 <form [formGroup]="form" *ngIf="modalMode !== ModalMode.VIEW">
   <div class="grid p-fluid p-0 m-0 mt-2 w-full">
-    <div class="lg:col-6 md:col-6 sm:col-12 xs:col-12 pl-0 ml-0 pr-1">
+    <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
       <button
         [disabled]="loading"
         pButton
@@ -12,7 +12,7 @@
         (click)="cancel.emit(true)"
       ></button>
     </div>
-    <div class="lg:col-6 md:col-6 sm:col-12 xs:col-12 pr-0 mr-0 pl-1">
+    <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
       <button
         [disabled]="loading"
         pButton
@@ -24,7 +24,7 @@
       ></button>
     </div>
 
-    <div class="col-12 p-0 m-0">
+    <div class="xs:col-12 sm:col-12 md:col-12 lg:col-12 p-1 m-0">
       <button
         [disabled]="loading || form.status === 'PENDING' || (pendingChanges$ | async) === false"
         pButton

@@ -22,7 +22,7 @@ export class LanguageSelectComponent implements OnInit {
   @Input() type: 'dropdown' | 'select-button' = 'dropdown';
   @Input() mode: 'simple' | 'complete' = 'simple';
 
-  languages: Language[];
+  languages: Language[] = [];
   language: Language;
 
   ngOnInit(): void {
