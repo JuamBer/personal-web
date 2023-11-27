@@ -11,16 +11,14 @@ import {
   inject,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, pairwise, startWith, take, zip } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, pairwise, startWith, zip } from 'rxjs';
 import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
 import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
-import { CertificateType } from 'src/app/backoffice/tables/certificate-type/models/certificate-type.model';
-import { certificateTypeReducer } from 'src/app/backoffice/tables/certificate-type/state/certificate-type.reducer';
 import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
-import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
+import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOptions } from 'swiper';
 
@@ -45,14 +43,11 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
 
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
-  certificates$: Observable<Certificate[]> = this.store.select(certificateReducer.getAll);
-  loadingCertificates$: Observable<boolean> = this.store.select(certificateReducer.getLoading);
-  certificateTypes$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
-  loadingCertificateTypes$: Observable<boolean> = this.store.select(certificateTypeReducer.getLoading);
-
   certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
-  loadingMoreCertificateGroups$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
-  loadingCertificateGroups$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading).pipe(take(2));
+  skillTypesActionStatus$: Observable<ActionStatus> = this.store.select(certificateGroupReducer.getAction).pipe(
+    filter((action) => !!action && action.type === ActionType.LOAD_MANY),
+    map((action) => action.status),
+  );
   certificateGroupCount$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   tabIndexes: { groupId: any; value: number }[] = [];
@@ -177,5 +172,9 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
 
   getCertificateGroupEnterAnimationState(certificateGroupId: string): 'inViewport' | 'notInViewport' {
     return this.certificateElementStates.get(certificateGroupId) || 'notInViewport';
+  }
+
+  get ActionStatus() {
+    return ActionStatus;
   }
 }

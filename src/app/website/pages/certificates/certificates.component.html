@@ -1,91 +1,79 @@
-<ng-container *appLet="loadingMoreCertificateGroups$ | async as loadingMoreCertificateGroups">
-  <ng-container *appLet="loadingCertificateGroups$ | async as loadingCertificateGroups">
-    <ng-container *appLet="language$ | async as language">
-      <div class="certificates">
-        <ng-container *ngIf="!loadingCertificateGroups; else loading">
-          <div class="my-container" *ngFor="let certificateGroup of certificateGroups$ | async">
-            <div class="container-info">
-              <div
-                class="title"
-                #group
-                [id]="certificateGroup.id"
-                [@certificateGroupEnterAnimation]="getCertificateGroupEnterAnimationState(certificateGroup.id)"
-              >
-                <h3>{{ getTranslation(language.acronym, certificateGroup.nameTranslations) }}</h3>
-              </div>
-              <swiper [config]="swiperConfig" id="{{ '.swiper' + certificateGroup?.id }}">
-                <ng-template swiperSlide *ngFor="let certificate of orderByDate(certificateGroup.certificates)">
-                  <div class="card swiper-slide">
-                    <div class="image-content">
-                      <div class="card-image">
-                        <div class="overlay">
-                          <h4>{{ getTranslation(language.acronym, certificate.nameTranslations) }}</h4>
-                          <h5>{{ certificate.date | date }}</h5>
-                          <p>{{ getTranslation(language.acronym, certificate.descriptionTranslations) }}</p>
-                        </div>
-                        <img
-                          [src]="certificate.image"
-                          [alt]="getTranslation(language.acronym, certificate.nameTranslations)"
-                          class="card-img"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="card-content">
-                      <div class="buttons">
-                        <button class="button" *ngIf="certificate.web">
-                          <i (click)="open(certificate.web)" class="fa-solid fa-globe"></i>
-                        </button>
-                        <button class="button" *ngIf="certificate.microsoftStore">
-                          <i (click)="open(certificate.microsoftStore)" class="fa-brands fa-microsoft"></i>
-                        </button>
-                        <button class="button" *ngIf="certificate.playStore">
-                          <i (click)="open(certificate.playStore)" class="fa-brands fa-google-play"></i>
-                        </button>
-                        <button class="button" *ngIf="certificate.github">
-                          <i (click)="open(certificate.github)" class="fa-brands fa-github"></i>
-                        </button>
-                        <button class="button" *ngIf="certificate.url">
-                          <i (click)="open(certificate.url)" class="fa-solid fa-link"></i>
-                        </button>
-                        <button class="button" *ngIf="certificate.pdf">
-                          <i (click)="open(certificate.pdf)" class="fa-solid fa-download"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </ng-template>
-              </swiper>
-            </div>
+<ng-container *appLet="language$ | async as language">
+  <ng-container [ngSwitch]="skillTypesActionStatus$ | async">
+    <div class="certificates">
+      <div class="my-container" *ngFor="let certificateGroup of certificateGroups$ | async">
+        <div class="container-info">
+          <div
+            class="title"
+            #group
+            [id]="certificateGroup.id"
+            [@certificateGroupEnterAnimation]="getCertificateGroupEnterAnimationState(certificateGroup.id)"
+          >
+            <h3>{{ getTranslation(language.acronym, certificateGroup.nameTranslations) }}</h3>
           </div>
-        </ng-container>
-        <ng-template #loading>
-          <div class="my-container" *ngFor="let certificateGroup of [0, 0]">
-            <div class="container-info">
-              <div class="title loading-title">
-                <h3>{{ 'general.loading' | translate }}</h3>
+          <swiper [config]="swiperConfig" id="{{ '.swiper' + certificateGroup?.id }}">
+            <ng-template swiperSlide *ngFor="let certificate of orderByDate(certificateGroup.certificates)">
+              <div class="card swiper-slide">
+                <div class="image-content">
+                  <div class="card-image">
+                    <div class="overlay">
+                      <h4>{{ getTranslation(language.acronym, certificate.nameTranslations) }}</h4>
+                      <h5>{{ certificate.date | date }}</h5>
+                      <p>{{ getTranslation(language.acronym, certificate.descriptionTranslations) }}</p>
+                    </div>
+                    <img
+                      [src]="certificate.image"
+                      [alt]="getTranslation(language.acronym, certificate.nameTranslations)"
+                      class="card-img"
+                    />
+                  </div>
+                </div>
+
+                <div class="card-content">
+                  <div class="buttons">
+                    <button class="button" *ngIf="certificate.web">
+                      <i (click)="open(certificate.web)" class="fa-solid fa-globe"></i>
+                    </button>
+                    <button class="button" *ngIf="certificate.microsoftStore">
+                      <i (click)="open(certificate.microsoftStore)" class="fa-brands fa-microsoft"></i>
+                    </button>
+                    <button class="button" *ngIf="certificate.playStore">
+                      <i (click)="open(certificate.playStore)" class="fa-brands fa-google-play"></i>
+                    </button>
+                    <button class="button" *ngIf="certificate.github">
+                      <i (click)="open(certificate.github)" class="fa-brands fa-github"></i>
+                    </button>
+                    <button class="button" *ngIf="certificate.url">
+                      <i (click)="open(certificate.url)" class="fa-solid fa-link"></i>
+                    </button>
+                    <button class="button" *ngIf="certificate.pdf">
+                      <i (click)="open(certificate.pdf)" class="fa-solid fa-download"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
-              <swiper [config]="swiperConfig">
-                <ng-template swiperSlide *ngFor="let certificate of [0, 0, 0]">
-                  <p-skeleton width="100%" height="20em"></p-skeleton>
-                </ng-template>
-              </swiper>
-            </div></div
-        ></ng-template>
-        <ng-container *ngIf="loadingMoreCertificateGroups">
-          <div class="my-container" *ngFor="let certificateGroup of [0]">
-            <div class="container-info">
-              <div class="title loading-title">
-                <h3>{{ 'general.loading' | translate }}</h3>
-              </div>
-              <swiper [config]="swiperConfig">
-                <ng-template swiperSlide *ngFor="let certificate of [0, 0, 0]">
-                  <p-skeleton width="100%" height="20em"></p-skeleton>
-                </ng-template>
-              </swiper>
-            </div></div
-        ></ng-container>
+            </ng-template>
+          </swiper>
+        </div>
       </div>
-    </ng-container>
+
+      <ng-container *ngSwitchCase="ActionStatus.PENDING">
+        <div class="my-container" *ngFor="let certificateGroup of [0]">
+          <div class="container-info">
+            <div class="title loading-title">
+              <h3>{{ 'general.loading' | translate }}</h3>
+            </div>
+            <swiper [config]="swiperConfig">
+              <ng-template swiperSlide *ngFor="let certificate of [0, 0, 0]">
+                <p-skeleton width="100%" height="20em"></p-skeleton>
+              </ng-template>
+            </swiper>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="ActionStatus.ERROR">
+        <app-generic-error></app-generic-error>
+      </ng-container>
+    </div>
   </ng-container>
 </ng-container>

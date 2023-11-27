@@ -101,8 +101,6 @@ export class CommonReducer<T, S extends CommonState<T>> {
       },
     })),
     on(this.actions.loadMoreSuccess, (state, { payload }) => {
-      const selected = state.entities.find((i: any) => i.id === state.selectedId);
-
       return {
         ...state,
         loading: false,
@@ -113,7 +111,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
         },
       };
     }),
-    on(this.actions.loadAllFail, (state, error) => ({
+    on(this.actions.loadMoreFail, (state, error) => ({
       ...state,
       loading: false,
       action: {
