@@ -34,10 +34,13 @@
       "message": "Do you want to delete the {{name}}?",
       "header": "Delete Confirmation"
     },
-    "toastDeleted": "She {{name}} has been deleted successfully",
-    "toastCreated": "She {{name}} has been created successfully",
-    "toastUpdated": "She {{name}} has been successfully modified",
-    "toastError": "ERR"
+    "toastDeleted": "The {{name}} has been deleted successfully",
+    "toastCreated": "The {{name}} has been created successfully",
+    "toastUpdated": "The {{name}} has been successfully modified",
+    "genericError": {
+      "title": "An error has occurred",
+      "message": "An unexpected error has occurred. Please try again later"
+    }
   },
   "buttons": {
     "view": "Detail {{name}}",

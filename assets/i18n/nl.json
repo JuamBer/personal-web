@@ -37,7 +37,10 @@
     "toastDeleted": "Zij {{name}} is succesvol verwijderd",
     "toastCreated": "Zij {{name}} is succesvol aangemaakt",
     "toastUpdated": "Zij {{name}} is succesvol gewijzigd",
-    "toastError": "ERR"
+    "genericError": {
+      "title": "Er is een fout opgetreden",
+      "message": "Er is een onverwachte fout opgetreden. Probeer het later opnieuw"
+    }
   },
   "buttons": {
     "view": "Detail {{name}}",

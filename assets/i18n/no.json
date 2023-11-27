@@ -37,7 +37,10 @@
     "toastDeleted": "Hun {{name}} har blitt slettet",
     "toastCreated": "Hun {{name}} har blitt opprettet",
     "toastUpdated": "Hun {{name}} har blitt endret",
-    "toastError": "FEIL"
+    "genericError": {
+      "title": "Det har oppstått en feil",
+      "message": "En uventet feil har oppstått. Prøv igjen senere"
+    }
   },
   "buttons": {
     "view": "Detalj {{name}}",

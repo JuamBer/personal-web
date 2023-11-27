@@ -37,7 +37,10 @@
     "toastDeleted": "Elle {{name}} a été supprimé avec succès",
     "toastCreated": "Elle {{name}} a été créé avec succès",
     "toastUpdated": "Elle {{name}} a été modifié avec succès",
-    "toastError": "SE TROMPER"
+    "genericError": {
+      "title": "Une erreur imprévue s'est produite",
+      "message": "Une erreur inattendue s'est produite, veuillez réessayer plus tard"
+    }
   },
   "buttons": {
     "view": "Détail {{name}}",
