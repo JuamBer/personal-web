@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
-import { skip, take } from 'rxjs';
+import { take } from 'rxjs';
 import { publicLanguageActions } from './shared/state/languages/public-language.actions';
 import { publicLanguageReducer } from './shared/state/languages/public-language.reducer';
 
@@ -19,12 +19,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     console.info('Running with configuration: ', environment.name);
+
     this.store.dispatch(publicLanguageActions.loadAll({}));
-    this.languages$.pipe(skip(1), take(1)).subscribe((languages) => {
-      const userLanguage = navigator.language.split('-')[0];
+    this.languages$.pipe(take(2)).subscribe((languages) => {
+      const userLanguage = (navigator.languages ? navigator.languages[0] : navigator.language).split('-')[0];
       const language = languages.find((l) => l.acronym === userLanguage);
       if (language) {
-        this.store.dispatch(publicLanguageActions.loadOne({ id: language.id }));
+        this.store.dispatch(publicLanguageActions.loadOneByAcronym({ acronym: language.acronym }));
       }
     });
   }

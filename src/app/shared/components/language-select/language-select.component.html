@@ -19,7 +19,7 @@
 
     <p-dropdown
       *ngIf="type === 'dropdown'"
-      [style]="{ height: '100%' }"
+      [style]="{ height: '100%', minWidth: '10em' }"
       [options]="languages"
       [ngModel]="language"
       [autoDisplayFirst]="false"

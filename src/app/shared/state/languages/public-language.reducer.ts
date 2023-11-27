@@ -1,37 +1,107 @@
-import { ReducerTypes } from '@ngrx/store';
+import { ReducerTypes, on } from '@ngrx/store';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { CommonReducer } from 'src/app/shared/state/common/common.reducer';
-import { defaultCommonState } from '../common/common-state';
+import { v4 as uuidv4 } from 'uuid';
+import { ActionStatus, ActionType, defaultCommonState } from '../common/common-state';
 import { Naming, NumberMode } from '../common/common.names';
 import { publicLanguageActions } from './public-language.actions';
 import { publicLanguageNames } from './public-language.names';
 import { PublicLanguageState } from './public-language.state';
 
+const englishId = uuidv4();
+
 export const initialState: PublicLanguageState = {
   ...(defaultCommonState as PublicLanguageState),
   entities: [
     {
-      id: '3f6c8b38-cf14-4305-9450-2286a1d0c777',
-      nativeName: 'Español',
-      name: 'Spanish',
-      acronym: 'es',
+      id: uuidv4(),
+      acronym: 'de',
+      nativeName: '',
+      name: '',
       active: true,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
-      id: '6e69d213-dc8f-447e-80c5-ba99bcc4c809',
-      nativeName: 'English',
-      name: 'English',
+      id: englishId,
       acronym: 'en',
+      nativeName: '',
+      name: '',
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: uuidv4(),
+      acronym: 'es',
+      nativeName: '',
+      name: '',
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: uuidv4(),
+      acronym: 'fr',
+      nativeName: '',
+      name: '',
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: uuidv4(),
+      acronym: 'it',
+      nativeName: '',
+      name: '',
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: uuidv4(),
+      acronym: 'nl',
+      nativeName: '',
+      name: '',
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: uuidv4(),
+      acronym: 'no',
+      nativeName: '',
+      name: '',
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: uuidv4(),
+      acronym: 'pt',
+      nativeName: '',
+      name: '',
       active: true,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
   ],
-  selectedId: '6e69d213-dc8f-447e-80c5-ba99bcc4c809',
+  selectedId: englishId,
 };
-const otherReducers: ReducerTypes<any, any>[] = [];
+const otherReducers: ReducerTypes<any, any>[] = [
+  on(publicLanguageActions.loadOneByAcronym, (state, { acronym }) => {
+    const selectedId = state.entities.find((language) => language.acronym === acronym)?.id;
+    return {
+      ...state,
+      loading: false,
+      selectedId,
+      action: {
+        type: ActionType.LOAD_ONE,
+        status: selectedId ? ActionStatus.SUCCESS : ActionStatus.ERROR,
+      },
+    };
+  }),
+];
 class PublicLanguageReducer extends CommonReducer<Language, PublicLanguageState> {
   private static instance: PublicLanguageReducer;
 
