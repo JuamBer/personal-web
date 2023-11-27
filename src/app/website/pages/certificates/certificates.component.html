@@ -31,22 +31,22 @@
 
                 <div class="card-content">
                   <div class="buttons">
-                    <button class="button" *ngIf="certificate.web">
+                    <button class="button" *ngIf="certificate.web" [attr.aria-label]="'Web'">
                       <i (click)="open(certificate.web)" class="fa-solid fa-globe"></i>
                     </button>
-                    <button class="button" *ngIf="certificate.microsoftStore">
+                    <button class="button" *ngIf="certificate.microsoftStore" [attr.aria-label]="'Microsoft Store'">
                       <i (click)="open(certificate.microsoftStore)" class="fa-brands fa-microsoft"></i>
                     </button>
-                    <button class="button" *ngIf="certificate.playStore">
+                    <button class="button" *ngIf="certificate.playStore" [attr.aria-label]="'Google Play Store'">
                       <i (click)="open(certificate.playStore)" class="fa-brands fa-google-play"></i>
                     </button>
-                    <button class="button" *ngIf="certificate.github">
+                    <button class="button" *ngIf="certificate.github" [attr.aria-label]="'Github Repository'">
                       <i (click)="open(certificate.github)" class="fa-brands fa-github"></i>
                     </button>
-                    <button class="button" *ngIf="certificate.url">
+                    <button class="button" *ngIf="certificate.url" [attr.aria-label]="'Certificate URL'">
                       <i (click)="open(certificate.url)" class="fa-solid fa-link"></i>
                     </button>
-                    <button class="button" *ngIf="certificate.pdf">
+                    <button class="button" *ngIf="certificate.pdf" [attr.aria-label]="'Certificate PDF'">
                       <i (click)="open(certificate.pdf)" class="fa-solid fa-download"></i>
                     </button>
                   </div>
