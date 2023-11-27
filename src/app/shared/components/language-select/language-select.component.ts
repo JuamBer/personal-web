@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { PrimeNGConfig } from 'primeng/api';
@@ -18,6 +26,7 @@ export class LanguageSelectComponent implements OnInit {
   private config = inject(PrimeNGConfig);
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
+  private ref = inject(ChangeDetectorRef);
 
   @Input() type: 'dropdown' | 'select-button' = 'dropdown';
   @Input() mode: 'simple' | 'complete' = 'simple';
@@ -45,6 +54,7 @@ export class LanguageSelectComponent implements OnInit {
           .get('calendar')
           .pipe(take(1))
           .subscribe((res) => this.config.setTranslation(res));
+        this.ref.detectChanges();
       });
   }
 

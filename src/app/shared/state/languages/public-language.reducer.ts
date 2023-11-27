@@ -29,7 +29,7 @@ export const initialState: PublicLanguageState = {
       updatedAt: new Date(),
     },
   ],
-  selectedId: '3f6c8b38-cf14-4305-9450-2286a1d0c777',
+  selectedId: '6e69d213-dc8f-447e-80c5-ba99bcc4c809',
 };
 const otherReducers: ReducerTypes<any, any>[] = [];
 class PublicLanguageReducer extends CommonReducer<Language, PublicLanguageState> {
