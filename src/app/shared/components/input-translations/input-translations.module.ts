@@ -5,10 +5,10 @@ import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DividerModule } from 'primeng/divider';
+import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { SidebarModule } from 'primeng/sidebar';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
-import { PrimeNgModule } from 'src/app/shared/modules/primeng.module';
 import { DirectivesModule } from '../../modules/directives.module';
 import { LanguagesModule } from '../../modules/languages.module';
 import { CapitalizePipe } from '../../pipes/capitalize.pipe';
@@ -24,8 +24,8 @@ import { InputTranslationsComponent } from './input-translations.component';
     RouterModule,
     AutoCompleteModule,
     PipesModule,
+    DropdownModule,
     LanguageSelectModule,
-    PrimeNgModule,
     SidebarModule,
     DirectivesModule,
     LanguagesModule,

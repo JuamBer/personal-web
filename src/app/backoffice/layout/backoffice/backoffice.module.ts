@@ -7,7 +7,6 @@ import { SidebarModule } from 'primeng/sidebar';
 import { LanguageSelectModule } from 'src/app/shared/components/language-select/language-select.module';
 import { BasicModule } from 'src/app/shared/modules/basic.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
-import { PrimeNgModule } from 'src/app/shared/modules/primeng.module';
 import { BackofficeRoutingModule } from './backoffice-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main/main.component';
@@ -19,7 +18,6 @@ import { MainComponent } from './main/main.component';
     LanguagesModule,
     CommonModule,
     BasicModule,
-    PrimeNgModule,
     BackofficeRoutingModule,
     BreadcrumbModule,
     ButtonModule,
