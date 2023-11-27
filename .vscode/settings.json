@@ -27,7 +27,8 @@
     "Sidebar",
     "LanguageSelect",
     "CommonState",
-    "GenericError"
+    "GenericError",
+    "Lighthouse"
   ],
   "cSpell.words": [
     "cascadeselect",

@@ -24,6 +24,7 @@
       [ngModel]="language"
       [autoDisplayFirst]="false"
       (onChange)="onLanguageChange($event)"
+      ariaLabel="Dropdown to select the language"
     >
       <ng-template pTemplate="selectedItem">
         <div class="language-item language-item-value" *ngIf="language">

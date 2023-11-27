@@ -37,7 +37,7 @@
 </header>
 
 <div id="myNav" class="overlay">
-  <a href="javascript:void(0)" class="close-button" (click)="closeNav()">&times;</a>
+  <a class="close-button" (click)="closeNav()">&times;</a>
   <div class="overlay-content">
     <a *ngFor="let page of pages" (click)="closeNav()" [routerLink]="'/' + page.page" routerLinkActive="active">{{
       page.name | titlecase

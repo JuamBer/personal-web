@@ -4,7 +4,7 @@
   </p>
   <ul>
     <li *ngFor="let socialNetwork of socialNetworks">
-      <a [href]="socialNetwork.url" target="_blank">
+      <a target="_blank" [href]="socialNetwork.url" [attr.aria-label]="socialNetwork.name">
         <div><i [class]="socialNetwork.icon + ' fa-2x'"></i></div>
       </a>
     </li>
