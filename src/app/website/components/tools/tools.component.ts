@@ -25,7 +25,7 @@ import { publicLanguageReducer } from 'src/app/shared/state/languages/public-lan
     trigger('toolsEnterAnimation', [
       state('inViewport', style({ width: '100%' })),
       state('notInViewport', style({ width: '0%' })),
-      transition('notInViewport <=> inViewport', animate('1s')),
+      transition('notInViewport <=> inViewport', animate('750ms ease-out')),
     ]),
   ],
 })

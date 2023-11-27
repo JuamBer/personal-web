@@ -17,6 +17,12 @@
         font-weight: bold;
         padding-bottom: 15px;
       }
+
+      &.loading-title {
+        h3 {
+          color: transparent;
+        }
+      }
     }
   }
 }
