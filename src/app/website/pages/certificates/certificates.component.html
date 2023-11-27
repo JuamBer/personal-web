@@ -5,7 +5,12 @@
         <ng-container *ngIf="!loadingCertificateGroups; else loading">
           <div class="my-container" *ngFor="let certificateGroup of certificateGroups$ | async">
             <div class="container-info">
-              <div class="title" [@enterAnimation]>
+              <div
+                class="title"
+                #group
+                [id]="certificateGroup.id"
+                [@certificateGroupEnterAnimation]="getCertificateGroupEnterAnimationState(certificateGroup.id)"
+              >
                 <h3>{{ getTranslation(language.acronym, certificateGroup.nameTranslations) }}</h3>
               </div>
               <swiper [config]="swiperConfig" id="{{ '.swiper' + certificateGroup?.id }}">

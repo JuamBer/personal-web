@@ -1,5 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  inject,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, pairwise, startWith, take, zip } from 'rxjs';
 import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
@@ -22,27 +31,16 @@ Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
   styleUrls: ['./certificates.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger('enterAnimation', [
-      state(
-        'void',
-        style({
-          transform: 'scale(0.5)',
-          opacity: 0,
-        }),
-      ),
-      state(
-        '*',
-        style({
-          transform: 'scale(1)',
-          opacity: 1,
-        }),
-      ),
-      transition(':enter', animate('500ms ease-out')),
+    trigger('certificateGroupEnterAnimation', [
+      state('inViewport', style({ transform: 'scale(1)', opacity: 1 })),
+      state('notInViewport', style({ transform: 'scale(0.5)', opacity: 0 })),
+      transition('notInViewport => inViewport', animate('500ms ease-out')),
     ]),
   ],
 })
 export class CertificatesComponent extends TranslationProvider implements OnInit {
   private store = inject(Store);
+  private ref = inject(ChangeDetectorRef);
 
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
@@ -83,6 +81,9 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
     spaceBetween: 25,
   };
 
+  @ViewChildren('group') certificateElements: QueryList<ElementRef>;
+  certificateElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
+
   ngOnInit(): void {
     zip([this.certificateGroups$.pipe(startWith([]), pairwise()), this.certificateGroupCount$]).subscribe(
       ([[previousCertificateGroups, currentCertificateGroups], count]) => {
@@ -110,6 +111,22 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
         this.certificateGroupCount$.next(count + 1);
       },
     );
+  }
+
+  ngAfterViewChecked(): void {
+    this.certificateElements.forEach((positionElement) => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const positionsElementState = entry.isIntersecting ? 'inViewport' : 'notInViewport';
+          this.certificateElementStates.set(positionElement.nativeElement.id, positionsElementState);
+          if (positionsElementState === 'inViewport') {
+            this.ref.detectChanges();
+            observer.disconnect();
+          }
+        });
+      });
+      observer.observe(positionElement.nativeElement);
+    });
   }
 
   orderByDate(certificates: Certificate[]): Certificate[] {
@@ -149,5 +166,9 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
 
   open(url: string) {
     window.open(url, '_blank');
+  }
+
+  getCertificateGroupEnterAnimationState(certificateGroupId: string): 'inViewport' | 'notInViewport' {
+    return this.certificateElementStates.get(certificateGroupId) || 'notInViewport';
   }
 }
