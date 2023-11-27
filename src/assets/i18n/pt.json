@@ -37,7 +37,10 @@
     "toastDeleted": "Ela {{name}} foi excluído com sucesso",
     "toastCreated": "Ela {{name}} foi criado com sucesso",
     "toastUpdated": "Ela {{name}} foi modificado com sucesso",
-    "toastError": "ERRAR"
+    "genericError": {
+      "title": "Ocorreu um erro",
+      "message": "Ocorreu um erro ao processar sua solicitação. Tente novamente mais tarde"
+    }
   },
   "buttons": {
     "view": "Detalhe {{name}}",

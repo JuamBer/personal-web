@@ -55,6 +55,10 @@
     "delete": {
       "success": "El/la {{name}} ha sido borrado correctamente",
       "error": "El/la {{name}} no ha podido ser borrado correctamente"
+    },
+    "genericError": {
+      "title": "Un error inesperado ha ocurrido",
+      "message": "Ha ocurrido un error inesperado, por favor inténtelo de nuevo más tarde"
     }
   },
   "buttons": {

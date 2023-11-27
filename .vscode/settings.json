@@ -26,7 +26,8 @@
     "Services",
     "Sidebar",
     "LanguageSelect",
-    "CommonState"
+    "CommonState",
+    "GenericError"
   ],
   "cSpell.words": [
     "cascadeselect",

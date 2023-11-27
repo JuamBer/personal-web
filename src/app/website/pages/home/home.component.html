@@ -1,7 +1,7 @@
 <ng-container *appLet="language$ | async as language">
   <div class="home">
     <div class="container-info" style="margin-bottom: 60px">
-      <div class="test">
+      <div class="container-child">
         <div class="item vertical">
           <div class="vertical-item" [@enterAnimation]>
             <div class="title">
@@ -26,7 +26,33 @@
     </div>
   </div>
 
-  <ng-container *ngIf="(loadingSkillTypes$ | async) === false">
+  <ng-container [ngSwitch]="skillTypesActionStatus$ | async">
+    <ng-container *ngSwitchCase="ActionStatus.SUCCESS">
+      <div class="my-container" style="margin-bottom: 60px" *ngFor="let skillType of skillTypes$ | async">
+        <div class="container-info" [@enterAnimation]>
+          <div class="title">
+            <h3>{{ getTranslation(language.acronym, skillType.nameTranslations) }}</h3>
+          </div>
+          <app-tools [entities]="(getSkills(skillType) | async)!"></app-tools>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="ActionStatus.PENDING">
+      <div class="my-container" style="margin-bottom: 60px" *ngFor="let skillType of [0, 0, 0]">
+        <div class="container-info">
+          <div class="title pb-5">
+            <p-skeleton width="50%" height="1.25em"></p-skeleton>
+          </div>
+          <app-tools [entities]="[]" [loading]="true"></app-tools>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="ActionStatus.ERROR">
+      <app-generic-error></app-generic-error>
+    </ng-container>
+  </ng-container>
+
+  <!-- <ng-container *ngIf="(loadingSkillTypes$ | async) === false">
     <div class="my-container" style="margin-bottom: 60px" *ngFor="let skillType of skillTypes$ | async">
       <div class="container-info" [@enterAnimation]>
         <div class="title">
@@ -45,7 +71,7 @@
         <app-tools [entities]="[]" [loading]="true"></app-tools>
       </div>
     </div>
-  </ng-container>
+  </ng-container> -->
 </ng-container>
 <br /><br /><br />
 <br /><br /><br />

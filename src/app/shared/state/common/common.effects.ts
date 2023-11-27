@@ -8,35 +8,35 @@ export abstract class CommonEffect<T> {
   loadAll$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(this.actions.loadAll),
-      delay(0),
+      delay(1500),
       map((action: any) => action.payload),
-      exhaustMap((requestFilter) => {
-        return from(this.service.getAll(requestFilter)).pipe(
+      exhaustMap((requestFilter) =>
+        from(this.service.getAll(requestFilter)).pipe(
           map((page: any) => this.actions.loadAllSuccess({ payload: page })),
           catchError((err) => of(this.actions.loadAllFail({ error: err }))),
-        );
-      }),
+        ),
+      ),
     );
   });
 
   loadMore$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(this.actions.loadMore),
-      delay(0),
+      delay(1500),
       map((action: any) => action.payload),
-      exhaustMap((requestFilter) => {
-        return from(this.service.getAll(requestFilter)).pipe(
+      exhaustMap((requestFilter) =>
+        from(this.service.getAll(requestFilter)).pipe(
           map((page: any) => this.actions.loadMoreSuccess({ payload: page })),
           catchError((err) => of(this.actions.loadMoreFail({ error: err }))),
-        );
-      }),
+        ),
+      ),
     );
   });
 
   loadOne$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(this.actions.loadOne),
-      delay(0),
+      delay(1500),
       mergeMap((action: any) =>
         from(this.service.getOne(action.id)).pipe(
           map((item: any) => this.actions.loadOneSuccess({ payload: item })),
@@ -49,7 +49,7 @@ export abstract class CommonEffect<T> {
   createOne$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(this.actions.create),
-      delay(0),
+      delay(1500),
       mergeMap((action: any) =>
         from(this.service.create(action.payload)).pipe(
           map((created) => this.actions.createSuccess({ payload: created })),
@@ -62,14 +62,14 @@ export abstract class CommonEffect<T> {
   updateOne$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(this.actions.update),
-      delay(0),
+      delay(1500),
       mergeMap((action: any) =>
         from(this.service.update(action.payload)).pipe(
-          map((updated) => {
-            return this.actions.updateSuccess({
+          map((updated) =>
+            this.actions.updateSuccess({
               payload: updated,
-            });
-          }),
+            }),
+          ),
           catchError((err) => of(this.actions.updateFail({ error: err }))),
         ),
       ),
@@ -79,7 +79,7 @@ export abstract class CommonEffect<T> {
   deleteOne$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(this.actions.delete),
-      delay(0),
+      delay(1500),
       mergeMap((action: any) =>
         from(this.service.delete(action.id)).pipe(
           map(() => this.actions.deleteSuccess({ id: action.id })),
@@ -92,7 +92,7 @@ export abstract class CommonEffect<T> {
   count$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(this.actions.count),
-      delay(0),
+      delay(1500),
       mergeMap(() =>
         from(this.service.count()).pipe(
           map((count: any) => this.actions.countSuccess({ payload: count })),

@@ -1,13 +1,14 @@
 .container-info {
   width: 100%;
 
-  .test {
+  .container-child {
     display: flex;
     justify-content: center;
+    gap: 10em;
   }
   .item {
-    padding-right: 5%;
-    width: 45%;
+    width: 50%;
+
     &.last {
       float: none;
     }
@@ -41,7 +42,7 @@
   .container-info {
     width: 100% !important;
 
-    .test {
+    .container-child {
       display: inline;
     }
     .item {

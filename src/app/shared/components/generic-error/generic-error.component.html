@@ -1,0 +1,15 @@
+<div
+  class="generic-error"
+  #error
+  [ngStyle]="{
+    'flex-direction': errorWidth > 600 ? 'row' : 'column'
+  }"
+>
+  <div class="image">
+    <fa-icon [icon]="faTriangleExclamation" size="6x"></fa-icon>
+  </div>
+  <div class="info">
+    <h1 class="text-center">{{ 'messages.genericError.title' | translate }}</h1>
+    <p class="text-center">{{ 'messages.genericError.message' | translate }}</p>
+  </div>
+</div>

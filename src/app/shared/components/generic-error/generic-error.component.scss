@@ -1,0 +1,25 @@
+.generic-error {
+  border: #4a9e98 solid 0.25em;
+  border-radius: 0.25em;
+  min-height: 20em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+
+  .image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

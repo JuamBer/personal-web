@@ -13,6 +13,7 @@ import { Skill } from 'src/app/backoffice/tables/skill/models/skill.model';
 import { skillActions } from 'src/app/backoffice/tables/skill/state/skill.actions';
 import { skillReducer } from 'src/app/backoffice/tables/skill/state/skill.reducer';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
+import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { SocialNetwork } from '../../components/social-networks/models/social-network.model';
 
@@ -49,8 +50,10 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
   skills$: Observable<Skill[]> = this.store.select(skillReducer.getAll);
   loadingSkills$: Observable<boolean> = this.store.select(skillReducer.getLoading);
   skillTypes$: Observable<SkillType[]> = this.store.select(skillTypeReducer.getAll);
-  loadingSkillTypes$: Observable<boolean> = this.store.select(skillTypeReducer.getLoading);
-
+  skillTypesActionStatus$: Observable<ActionStatus> = this.store.select(skillTypeReducer.getAction).pipe(
+    filter((action) => !!action && action.type === ActionType.LOAD_MANY),
+    map((action) => action.status),
+  );
   socialNetworks: SocialNetwork[] = [
     {
       name: 'GitHub',
@@ -100,5 +103,9 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
           .sort((a, b) => b.percentage - a.percentage);
       }),
     );
+  }
+
+  get ActionStatus() {
+    return ActionStatus;
   }
 }

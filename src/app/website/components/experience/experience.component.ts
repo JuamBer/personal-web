@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { CompanyType } from 'src/app/backoffice/tables/company/models/company-type.model';
 import { Company } from 'src/app/backoffice/tables/company/models/company.model';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
@@ -21,6 +21,7 @@ import { Position } from 'src/app/backoffice/tables/position/models/position.mod
 import { positionActions } from 'src/app/backoffice/tables/position/state/position.actions';
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
+import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 
 export class PositionGroupedByCompany {
@@ -49,7 +50,10 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
 
   unsubscribe$: Subject<void> = new Subject();
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
-  loadingPositions$: Observable<boolean> = this.store.select(positionReducer.getLoading);
+  positionsActionStatus$: Observable<ActionStatus> = this.store.select(positionReducer.getAction).pipe(
+    filter((action) => !!action && action.type === ActionType.LOAD_MANY),
+    map((action) => action.status),
+  );
   positionsGrouped$: Observable<PositionGroupedByCompany[]> = this.store.select(positionReducer.getAll).pipe(
     map((positions) => positions.filter((position) => position.importance > 1)),
     map((positions) => {
@@ -119,5 +123,9 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
 
   get CompanyType() {
     return CompanyType;
+  }
+
+  get ActionStatus() {
+    return ActionStatus;
   }
 }

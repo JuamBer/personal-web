@@ -37,7 +37,10 @@
     "toastDeleted": "Lei {{name}} è stato eliminato con successo",
     "toastCreated": "Lei {{name}} è stato creato con successo",
     "toastUpdated": "Lei {{name}} è stato modificato con successo",
-    "toastError": "ERR"
+    "genericError": {
+      "title": "Si è verificato un errore imprevisto",
+      "message": "Si è verificato un errore imprevisto, riprova più tardi"
+    }
   },
   "buttons": {
     "view": "Dettaglio {{name}}",

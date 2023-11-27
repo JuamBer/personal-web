@@ -37,7 +37,10 @@
     "toastDeleted": "Sie {{name}} wurde erfolgreich gelöscht",
     "toastCreated": "Sie {{name}} wurde erfolgreich erstellt",
     "toastUpdated": "Sie {{name}} wurde erfolgreich geändert",
-    "toastError": "IRREN"
+    "genericError": {
+      "title": "Ein Fehler ist aufgetreten",
+      "message": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal"
+    }
   },
   "buttons": {
     "view": "Detail {{name}}",

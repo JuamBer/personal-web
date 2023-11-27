@@ -1,56 +1,68 @@
-<div class="experience" *appLet="language$ | async as language">
-  <ul *ngIf="!(loadingPositions$ | async)">
-    <li
-      *ngFor="let positionGrouped of positionsGrouped$ | async"
-      #position
-      [id]="positionGrouped.company.id"
-      [@positionEnterAnimation]="getPositionEnterAnimationState(positionGrouped.company.id)"
-    >
-      <div class="header">
-        <div class="icon" [ngSwitch]="positionGrouped.company.type">
-          <i *ngSwitchCase="CompanyType.SCHOOL" class="fa-solid fa-graduation-cap"></i>
-          <i *ngSwitchCase="CompanyType.COMPANY" class="fa-solid fa-briefcase"></i>
-        </div>
-        <div class="organization">
-          <h3>{{ positionGrouped.company.name }}</h3>
-        </div>
-      </div>
-      <div class="items">
+<ng-container *appLet="language$ | async as language">
+  <ng-container [ngSwitch]="positionsActionStatus$ | async">
+    <ng-container *ngSwitchCase="ActionStatus.SUCCESS">
+      <div class="experience">
         <ul>
-          <li class="item" *ngFor="let position of positionGrouped.positions">
-            <div class="position">
-              <span>{{ getTranslation(language.acronym, position.nameTranslations) }}</span>
+          <li
+            *ngFor="let positionGrouped of positionsGrouped$ | async"
+            #position
+            [id]="positionGrouped.company.id"
+            [@positionEnterAnimation]="getPositionEnterAnimationState(positionGrouped.company.id)"
+          >
+            <div class="header">
+              <div class="icon" [ngSwitch]="positionGrouped.company.type">
+                <i *ngSwitchCase="CompanyType.SCHOOL" class="fa-solid fa-graduation-cap"></i>
+                <i *ngSwitchCase="CompanyType.COMPANY" class="fa-solid fa-briefcase"></i>
+              </div>
+              <div class="organization">
+                <h3>{{ positionGrouped.company.name }}</h3>
+              </div>
             </div>
-            <div class="date">
-              <span>{{
-                (position.dateFrom | date : 'MM-yyyy') +
-                  ' - ' +
-                  (position.dateTo ? (position.dateTo | date : 'MM-yyyy') : ('general.present' | translate))
-              }}</span>
+            <div class="items">
+              <ul>
+                <li class="item" *ngFor="let position of positionGrouped.positions">
+                  <div class="position">
+                    <span>{{ getTranslation(language.acronym, position.nameTranslations) }}</span>
+                  </div>
+                  <div class="date">
+                    <span>{{
+                      (position.dateFrom | date : 'MM-yyyy') +
+                        ' - ' +
+                        (position.dateTo ? (position.dateTo | date : 'MM-yyyy') : ('general.present' | translate))
+                    }}</span>
+                  </div>
+                </li>
+              </ul>
             </div>
           </li>
         </ul>
       </div>
-    </li>
-  </ul>
-
-  <ul *ngIf="loadingPositions$ | async">
-    <li *ngFor="let skeleton of [0, 0, 0, 0]">
-      <div class="header">
-        <p-skeleton width="100%" height="10px"></p-skeleton>
-      </div>
-      <div class="items">
+    </ng-container>
+    <ng-container *ngSwitchCase="ActionStatus.PENDING">
+      <div class="experience">
         <ul>
-          <li class="item" *ngFor="let position of [0, 0]">
-            <div class="position pb-1">
-              <p-skeleton width="80%"></p-skeleton>
+          <li *ngFor="let skeleton of [0, 0, 0, 0]">
+            <div class="header">
+              <p-skeleton width="100%" height="10px"></p-skeleton>
             </div>
-            <div class="date">
-              <p-skeleton width="60%"></p-skeleton>
+            <div class="items">
+              <ul>
+                <li class="item" *ngFor="let position of [0, 0]">
+                  <div class="position pb-1">
+                    <p-skeleton width="80%"></p-skeleton>
+                  </div>
+                  <div class="date">
+                    <p-skeleton width="60%"></p-skeleton>
+                  </div>
+                </li>
+              </ul>
             </div>
           </li>
         </ul>
       </div>
-    </li>
-  </ul>
-</div>
+    </ng-container>
+    <ng-container *ngSwitchCase="ActionStatus.ERROR">
+      <app-generic-error></app-generic-error>
+    </ng-container>
+  </ng-container>
+</ng-container>
