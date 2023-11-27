@@ -25,7 +25,8 @@
     "Translations",
     "Services",
     "Sidebar",
-    "LanguageSelect"
+    "LanguageSelect",
+    "CommonState"
   ],
   "cSpell.words": [
     "cascadeselect",
