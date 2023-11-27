@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -38,7 +39,7 @@ Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
     ]),
   ],
 })
-export class CertificatesComponent extends TranslationProvider implements OnInit {
+export class CertificatesComponent extends TranslationProvider implements OnInit, AfterViewChecked {
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
 
@@ -83,6 +84,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
 
   @ViewChildren('group') certificateElements: QueryList<ElementRef>;
   certificateElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
+  certificateElementAnimationsDone: string[] = [];
 
   ngOnInit(): void {
     zip([this.certificateGroups$.pipe(startWith([]), pairwise()), this.certificateGroupCount$]).subscribe(
@@ -115,13 +117,18 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
 
   ngAfterViewChecked(): void {
     this.certificateElements.forEach((positionElement) => {
+      if (this.certificateElementAnimationsDone.includes(positionElement.nativeElement.id)) {
+        return;
+      }
+
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const positionsElementState = entry.isIntersecting ? 'inViewport' : 'notInViewport';
           this.certificateElementStates.set(positionElement.nativeElement.id, positionsElementState);
           if (positionsElementState === 'inViewport') {
-            this.ref.detectChanges();
+            this.certificateElementAnimationsDone.push(positionElement.nativeElement.id);
             observer.disconnect();
+            this.ref.detectChanges();
           }
         });
       });
