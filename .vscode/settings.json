@@ -28,7 +28,8 @@
     "LanguageSelect",
     "CommonState",
     "GenericError",
-    "Lighthouse"
+    "Lighthouse",
+    "Assets"
   ],
   "cSpell.words": [
     "cascadeselect",
