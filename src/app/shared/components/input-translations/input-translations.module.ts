@@ -4,8 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { SidebarModule } from 'primeng/sidebar';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
@@ -32,6 +34,8 @@ import { InputTranslationsComponent } from './input-translations.component';
     FontAwesomeModule,
     DividerModule,
     InputTextareaModule,
+    InputTextModule,
+    ButtonModule,
   ],
   declarations: [InputTranslationsComponent],
   exports: [InputTranslationsComponent],

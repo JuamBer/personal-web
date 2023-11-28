@@ -6,10 +6,10 @@
     <div class="auth-container p-fluid">
       <div class="grid">
         <div class="col-9 pl-3">
-          <h3>{{ 'pages.login.title' | translate }}</h3>
+          <h3>{{ 'pages.logIn.title' | translate }}</h3>
         </div>
       </div>
-      <form [formGroup]="formLogin" (ngSubmit)="onSubmitLogin()">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmitLogin()">
         <div class="p-fluid">
           <div class="xs:col-12 lg:col-12 pt-1">
             <span class="p-float-label">
@@ -27,7 +27,7 @@
             <div>
               <button
                 *ngIf="!loading"
-                [disabled]="formLogin.invalid"
+                [disabled]="formGroup.invalid"
                 pButton
                 type="submit"
                 [label]="'buttons.logIn' | translate"
@@ -36,7 +36,7 @@
               ></button>
               <button
                 *ngIf="loading"
-                [disabled]="formLogin.invalid"
+                [disabled]="formGroup.invalid"
                 pButton
                 type="submit"
                 [label]="'buttons.logIn' | translate"
@@ -44,7 +44,7 @@
                 style="width: 100%"
               ></button>
               <a [routerLink]="['/reset-password']" class="my-5" style="font-size: 12px">{{
-                'pages.login.resetPassword' | translate
+                'pages.logIn.resetPassword' | translate
               }}</a>
             </div>
           </div>

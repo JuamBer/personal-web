@@ -10,6 +10,7 @@
         icon="fa-solid fa-xmark"
         *ngIf="modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE"
         (click)="cancel.emit(true)"
+        [attr.aria-label]="'Cancel'"
       ></button>
     </div>
     <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
@@ -21,6 +22,7 @@
         class="p-button-secondary p-button-sm"
         *ngIf="modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE"
         icon="fa-solid fa-broom"
+        [attr.aria-label]="'Reset'"
       ></button>
     </div>
 
@@ -40,6 +42,9 @@
                 }
         "
         icon="fa-solid fa-floppy-disk"
+        [attr.aria-label]="
+          (modalMode === ModalMode.CREATE ? 'Create' : 'Updated') + ' ' + ('tables.' + name + '.singular' | translate)
+        "
       ></button>
     </div>
   </div>

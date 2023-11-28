@@ -40,11 +40,9 @@ import { CertificateStateModule } from './state/certificate-state.module';
     BasicModule,
     CertificateRoutingModule,
     HttpClientModule,
-
     FormsModule,
     ReactiveFormsModule,
     InputTranslationsModule,
-
     ToastModule,
     ButtonModule,
     MessageModule,
@@ -64,11 +62,9 @@ import { CertificateStateModule } from './state/certificate-state.module';
     MultiSelectModule,
     LanguagesModule,
     AccountStateModule,
-
     CertificateTypeStateModule,
     CertificateGroupStateModule,
     CompanyStateModule,
-
     PipesModule,
     PipesModule,
     GenericTableModule,
@@ -76,6 +72,7 @@ import { CertificateStateModule } from './state/certificate-state.module';
     EntityModalAuditModule,
     CertificateStateModule,
     CertificateRoutingModule,
+    InputTextModule,
   ],
   providers: [TitleCasePipe],
 })

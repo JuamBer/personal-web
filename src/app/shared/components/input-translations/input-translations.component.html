@@ -83,6 +83,7 @@
       pRipple
       icon="pi pi-list"
       (click)="changeVisibility(true)"
+      [attr.aria-label]="'Open sidebar'"
     ></button>
   </div>
 
@@ -156,6 +157,7 @@
               pRipple
               icon="pi pi-trash"
               (click)="deleteLanguage(translationForm.controls['language'].value)"
+              [attr.aria-label]="'Delete language'"
             ></button>
           </div>
         </div>
@@ -208,6 +210,7 @@
               pRipple
               icon="pi pi-plus"
               (click)="addLanguage(this.languageToAddFormControl.value)"
+              [attr.aria-label]="'Add language'"
             ></button></div
         ></ng-container>
       </ng-container>

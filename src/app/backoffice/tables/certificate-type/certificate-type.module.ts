@@ -64,6 +64,7 @@ import { CertificateTypeStateModule } from './state/certificate-type-state.modul
     CertificateTypeRoutingModule,
     InputTranslationsModule,
     TableModule,
+    InputTextModule,
   ],
   providers: [TitleCasePipe],
 })

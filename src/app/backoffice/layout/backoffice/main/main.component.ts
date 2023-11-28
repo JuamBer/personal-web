@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main',
@@ -6,4 +6,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './main.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainComponent {}
+export class MainComponent implements OnInit {
+  ngOnInit(): void {
+    document.body.classList.remove('dark', 'light');
+    document.body.classList.add('light');
+  }
+}

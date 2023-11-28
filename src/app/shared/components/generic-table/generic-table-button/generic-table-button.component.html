@@ -6,4 +6,5 @@
   [pTooltip]="button.tooltip"
   [tooltipPosition]="tooltipPosition"
   (click)="onTableEvent({ value: entity, type: button.event })"
+  [attr.aria-label]="button.label ? button.label : button.tooltip"
 ></button>

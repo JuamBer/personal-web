@@ -10,7 +10,17 @@
   },
   "pages": {
     "home": "Sammendrag",
-    "certificates": "sertifikater"
+    "certificates": "Sertifikater",
+    "logIn": {
+      "title": "Logg inn",
+      "resetPassword": "Glemt passordet ditt?"
+    },
+    "resetPassword": {
+      "title": "Send e-post for å tilbakestille passord"
+    },
+    "formResetPassword": {
+      "title": "Tilbakestill passord"
+    }
   },
   "home": {
     "cv": "Gjenoppta",
@@ -59,7 +69,8 @@
     "reject": "Nei",
     "accept": "Ja",
     "deleteFilters": "Tøm filtre",
-    "filter": "Filter"
+    "filter": "Filter",
+    "logIn": "Logg inn"
   },
   "form": {
     "errors": {
@@ -146,7 +157,8 @@
     "filterType": "Filtertype",
     "value": "Verdi",
     "createdAt": "opprettet i",
-    "updatedAt": "oppdatert i"
+    "updatedAt": "oppdatert i",
+    "password": "Passord"
   },
   "genericTable": {
     "currentPageReport": "Viser {first} to {last} av {totalRecords} oppføringer",
