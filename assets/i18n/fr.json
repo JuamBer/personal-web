@@ -9,8 +9,18 @@
     "logOut": "sortir"
   },
   "pages": {
-    "home": "résumé",
-    "certificates": "certificats"
+    "home": "Résumé",
+    "certificates": "Certificats",
+    "logIn": {
+      "title": "Connexion",
+      "resetPassword": "Vous avez oublié votre mot de passe?"
+    },
+    "resetPassword": {
+      "title": "Envoyer un email pour réinitialiser le mot de passe"
+    },
+    "formResetPassword": {
+      "title": "Réinitialiser le mot de passe"
+    }
   },
   "home": {
     "cv": "CV",
@@ -59,7 +69,8 @@
     "reject": "Non",
     "accept": "Ouais",
     "deleteFilters": "Effacer les filtres",
-    "filter": "Filtre"
+    "filter": "Filtre",
+    "logIn": "S'identifier"
   },
   "form": {
     "errors": {
@@ -146,7 +157,8 @@
     "filterType": "Type de filtre",
     "value": "Valeur",
     "createdAt": "créé en",
-    "updatedAt": "mis à jour dans"
+    "updatedAt": "mis à jour dans",
+    "password": "Mot de passe"
   },
   "genericTable": {
     "currentPageReport": "Affichage de la {première} à la {dernière} entrées sur {totalRecords}",

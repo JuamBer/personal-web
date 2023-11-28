@@ -9,8 +9,18 @@
     "logOut": "Go out"
   },
   "pages": {
-    "home": "Summary",
-    "certificates": "certificates"
+    "home": "Home",
+    "certificates": "Certificates",
+    "logIn": {
+      "title": "Log In",
+      "resetPassword": "Forgot your password?"
+    },
+    "resetPassword": {
+      "title": "Send email to reset password"
+    },
+    "formResetPassword": {
+      "title": "Reset password"
+    }
   },
   "home": {
     "cv": "Resume",
@@ -59,7 +69,8 @@
     "reject": "No",
     "accept": "Yeah",
     "deleteFilters": "Clear Filters",
-    "filter": "Filter"
+    "filter": "Filter",
+    "logIn": "Login"
   },
   "form": {
     "errors": {
@@ -146,7 +157,8 @@
     "filterType": "Filter Type",
     "value": "Worth",
     "createdAt": "created in",
-    "updatedAt": "updated in"
+    "updatedAt": "updated in",
+    "password": "Password"
   },
   "genericTable": {
     "currentPageReport": "Showing {first} to {last} of {totalRecords} entries",

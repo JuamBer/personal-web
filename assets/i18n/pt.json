@@ -10,7 +10,17 @@
   },
   "pages": {
     "home": "Resumo",
-    "certificates": "certificados"
+    "certificates": "Certificados",
+    "logIn": {
+      "title": "Iniciar sessão",
+      "resetPassword": "Esqueceu a sua senha?"
+    },
+    "resetPassword": {
+      "title": "Enviar email para redefinir senha"
+    },
+    "formResetPassword": {
+      "title": "Redefinir senha"
+    }
   },
   "home": {
     "cv": "Retomar",
@@ -59,7 +69,8 @@
     "reject": "Não",
     "accept": "Sim",
     "deleteFilters": "Limpar Filtros",
-    "filter": "Filtro"
+    "filter": "Filtro",
+    "logIn": "Entrar"
   },
   "form": {
     "errors": {
@@ -146,7 +157,8 @@
     "filterType": "Tipo de filtro",
     "value": "Valor",
     "createdAt": "criado em",
-    "updatedAt": "atualizado em"
+    "updatedAt": "atualizado em",
+    "password": "Senha"
   },
   "genericTable": {
     "currentPageReport": "Mostrando {first} a {last} de {totalRecords} entradas",

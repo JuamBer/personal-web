@@ -9,8 +9,18 @@
     "logOut": "Esci"
   },
   "pages": {
-    "home": "Riepilogo",
-    "certificates": "certificati"
+    "home": "Casa",
+    "certificates": "Certificati",
+    "logIn": {
+      "title": "Accesso",
+      "resetPassword": "Hai dimenticato la password?"
+    },
+    "resetPassword": {
+      "title": "Invia email per reimpostare la password"
+    },
+    "formResetPassword": {
+      "title": "Reimposta password"
+    }
   },
   "home": {
     "cv": "Riprendere",
@@ -59,7 +69,8 @@
     "reject": "NO",
     "accept": "Sì",
     "deleteFilters": "Cancella filtri",
-    "filter": "Filtro"
+    "filter": "Filtro",
+    "logIn": "Accesso"
   },
   "form": {
     "errors": {
@@ -146,7 +157,8 @@
     "filterType": "Tipo di filtro",
     "value": "Di valore",
     "createdAt": "creato in",
-    "updatedAt": "aggiornato in"
+    "updatedAt": "aggiornato in",
+    "password": "Parola d'ordine"
   },
   "genericTable": {
     "currentPageReport": "Visualizzazione dal {first} al {last} di {totalRecords} voci",

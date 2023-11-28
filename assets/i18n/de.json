@@ -10,7 +10,17 @@
   },
   "pages": {
     "home": "Zusammenfassung",
-    "certificates": "Zertifikate"
+    "certificates": "Zertifikate",
+    "logIn": {
+      "title": "Anmelden",
+      "resetPassword": "Haben Sie Ihr Passwort vergessen?"
+    },
+    "resetPassword": {
+      "title": "E-Mail senden, um das Passwort zurückzusetzen"
+    },
+    "formResetPassword": {
+      "title": "Passwort zurücksetzen"
+    }
   },
   "home": {
     "cv": "Fortsetzen",
@@ -59,7 +69,8 @@
     "reject": "NEIN",
     "accept": "Ja",
     "deleteFilters": "Filter löschen",
-    "filter": "Filter"
+    "filter": "Filter",
+    "logIn": "Anmeldung"
   },
   "form": {
     "errors": {
@@ -146,7 +157,8 @@
     "filterType": "Filter Typ",
     "value": "Wert",
     "createdAt": "erstellt in",
-    "updatedAt": "aktualisiert in"
+    "updatedAt": "aktualisiert in",
+    "password": "Passwort"
   },
   "genericTable": {
     "currentPageReport": "Zeigt {ersten} bis {letzten} von {totalRecords} Einträgen",

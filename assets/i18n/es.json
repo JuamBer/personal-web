@@ -11,14 +11,14 @@
   "pages": {
     "home": "Resumen",
     "certificates": "Certificados",
-    "login": {
+    "logIn": {
       "title": "Inicio de sesión",
       "resetPassword": "¿Has olvidado tu contraseña?"
     },
-    "reset-password": {
+    "resetPassword": {
       "title": "Enviar email para restablecer contraseña"
     },
-    "form-reset-password": {
+    "formResetPassword": {
       "title": "Restablecer contraseña"
     }
   },

@@ -9,8 +9,18 @@
     "logOut": "Uitgaan"
   },
   "pages": {
-    "home": "Samenvatting",
-    "certificates": "certificaten"
+    "home": "Huis",
+    "certificates": "Certificaten",
+    "logIn": {
+      "title": "Inloggen",
+      "resetPassword": "Wachtwoord vergeten?"
+    },
+    "resetPassword": {
+      "title": "Stuur e-mail om wachtwoord te resetten"
+    },
+    "formResetPassword": {
+      "title": "Wachtwoord resetten"
+    }
   },
   "home": {
     "cv": "Cv",
@@ -59,7 +69,8 @@
     "reject": "Nee",
     "accept": "Ja",
     "deleteFilters": "Filters wissen",
-    "filter": "Filter"
+    "filter": "Filter",
+    "logIn": "Inloggen"
   },
   "form": {
     "errors": {
@@ -146,7 +157,8 @@
     "filterType": "Filtertype",
     "value": "Waard",
     "createdAt": "gemaakt in",
-    "updatedAt": "bijgewerkt in"
+    "updatedAt": "bijgewerkt in",
+    "password": "Wachtwoord"
   },
   "genericTable": {
     "currentPageReport": "Toont {eerste} tot {laatste} van {totalRecords} vermeldingen",
