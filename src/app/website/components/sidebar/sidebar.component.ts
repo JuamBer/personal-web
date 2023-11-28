@@ -22,6 +22,9 @@ export class SidebarComponent implements OnInit {
   pages: Page[] = [];
 
   ngOnInit(): void {
+    const deviceMode = window.matchMedia('(prefers-color-scheme: dark)');
+    this.colorModeFormControl.setValue(!deviceMode.matches);
+
     this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
       if (language) this.translateSrv.use(language.acronym);
     });
