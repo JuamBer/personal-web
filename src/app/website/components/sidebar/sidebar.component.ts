@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,6 +15,9 @@ import { Page } from './models/page.model';
 export class SidebarComponent implements OnInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
+  private fb = inject(FormBuilder);
+
+  colorModeFormControl = this.fb.control<boolean>(true);
 
   pages: Page[] = [];
 
@@ -24,6 +28,11 @@ export class SidebarComponent implements OnInit {
 
     this.translateSrv.onLangChange.subscribe((lang) => {
       this.loadPage();
+    });
+
+    this.colorModeFormControl.valueChanges.subscribe((value) => {
+      document.body.classList.remove('dark', 'light');
+      document.body.classList.add(value ? 'light' : 'dark');
     });
   }
 

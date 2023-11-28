@@ -15,6 +15,8 @@ export const appRootTitle = 'Juan Sáez García';
 export class AppComponent implements OnInit {
   private store = inject(Store);
 
+  mode: 'dark' | 'light' = 'light';
+
   languages$ = this.store.select(publicLanguageReducer.getAll);
 
   ngOnInit() {
@@ -28,5 +30,15 @@ export class AppComponent implements OnInit {
         this.store.dispatch(publicLanguageActions.loadOneByAcronym({ acronym: language.acronym }));
       }
     });
+
+    this.handleMode();
+  }
+
+  private handleMode() {
+    const deviceMode = window.matchMedia('(prefers-color-scheme: dark)');
+    this.mode = deviceMode.matches ? 'dark' : 'light';
+
+    document.body.classList.remove('dark', 'light');
+    document.body.classList.add(this.mode);
   }
 }

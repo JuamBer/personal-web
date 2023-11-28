@@ -12,9 +12,11 @@ header {
       padding: 2.5px;
       border-radius: 2px;
       transition: 0.25s;
+      color: var(--bgColor);
 
       &:hover {
-        background-color: #4a9e98;
+        background-color: var(--accentColor);
+        color: white;
       }
     }
   }
@@ -39,14 +41,14 @@ header {
 
     h1 {
       text-align: center;
-      color: #345;
+      color: var(--accentTextColor);
       font-weight: 800;
     }
 
     span {
       font-size: 17px;
       font-weight: 400;
-      background-color: #4a9e98;
+      background-color: var(--accentColor);
       padding: 5px;
       border-radius: 5px;
       color: white;
@@ -74,14 +76,14 @@ header {
           color: #d0dadc;
 
           &:hover {
-            color: #345;
+            color: var(--accentTextColor);
             transition: color 0.25s ease-in-out;
           }
         }
 
         a.active {
-          color: #345;
-          border-bottom: #4a9e98 solid 3px;
+          color: var(--accentTextColor);
+          border-bottom: var(--accentColor) solid 3px;
         }
       }
     }
@@ -166,7 +168,6 @@ body {
 @media screen and (max-height: 450px) {
   .cms {
     display: none;
-    background-color: red;
   }
   .overlay a {
     font-size: 20px;
@@ -231,7 +232,7 @@ body {
         transition: all 0.15s ease-in-out; // Add transition property
 
         &:hover {
-          background: #4a9e98;
+          background: var(--accentColor);
           color: white;
         }
       }

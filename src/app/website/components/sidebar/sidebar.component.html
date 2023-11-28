@@ -14,8 +14,14 @@
     <div>
       <span>{{ 'sidebar.description' | translate }}</span>
     </div>
-    <div class="mt-2">
+    <div class="mt-2 flex gap-2 align-items-stretch">
       <app-language-select></app-language-select>
+      <p-toggleButton
+        [formControl]="colorModeFormControl"
+        [offIcon]="'fa fa-moon'"
+        [onIcon]="'fa fa-sun'"
+        ariaLabel="Color mode"
+      ></p-toggleButton>
     </div>
   </div>
 

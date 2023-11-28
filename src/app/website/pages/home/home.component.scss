@@ -32,7 +32,7 @@
   padding-bottom: 15px;
 
   h3 {
-    color: black;
+    color: var(--textColor);
     font-size: 30px;
     font-weight: bold;
   }
@@ -69,7 +69,7 @@
   font-size: 16px;
   color: #fff;
   padding: 8px 16px;
-  background-color: #4a9e98;
+  background-color: var(--accentColor);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;

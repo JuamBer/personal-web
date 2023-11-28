@@ -13,7 +13,7 @@
     .name {
       font-size: 18px;
       padding-bottom: 2.5px;
-      color: black;
+      color: var(--textColor);
     }
     .ability {
       width: 90%;
@@ -33,7 +33,7 @@
         .progress-animation {
           width: 100%;
           border-radius: 5px;
-          background-color: #4a9e98;
+          background-color: var(--accentColor);
           // animation: fillProgress 1s ease-in-out;
         }
       }
@@ -56,7 +56,7 @@
         width: 100%;
         height: 15px;
         border-radius: 5px;
-        background-color: #4a9e98;
+        background-color: var(--accentColor);
       }
 
       progress::-moz-progress-bar {

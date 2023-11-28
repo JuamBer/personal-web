@@ -61,3 +61,49 @@ app-language-select {
     }
   }
 }
+.p-dropdown {
+  background: var(--bgColor);
+  color: var(--textColor);
+  border-color: var(--borderColor);
+
+  .name {
+    color: var(--textColor);
+  }
+
+  .p-dropdown-trigger-icon {
+    color: var(--textColor);
+  }
+
+  .p-dropdown-panel {
+    background: var(--bgColor);
+    color: var(--textColor);
+    border-color: var(--borderColor);
+
+    .p-dropdown-items-wrapper {
+      background: var(--bgColor);
+      color: var(--textColor);
+      border-color: var(--borderColor);
+
+      .p-dropdown-item {
+        background: var(--bgColor);
+        color: var(--textColor);
+        border-color: var(--borderColor);
+
+        &:hover {
+          background: var(--accentColor);
+          color: var(--textColor);
+        }
+
+        &.p-highlight {
+          background: var(--accentColor);
+          color: var(--textColor);
+        }
+      }
+
+      &:hover {
+        background: var(--accentColor);
+        color: var(--accentTextColor);
+      }
+    }
+  }
+}

@@ -8,15 +8,25 @@
   ul {
     display: flex;
     justify-content: start;
-    gap: 2em;
+    gap: 1em;
     list-style: none;
 
     a {
       text-decoration: none;
+
+      div {
+        border-bottom: 3px solid transparent;
+        padding: 0.5em 1em;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: var(--accentColor);
+        }
+      }
     }
 
     i {
-      color: black;
+      color: var(--textColor);
     }
   }
 }
