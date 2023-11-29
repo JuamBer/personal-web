@@ -258,6 +258,12 @@ export class CommonReducer<T, S extends CommonState<T>> {
       selectedId: null,
     })),
 
+    //UNLOAD
+    on(this.actions.unloadAll, (state) => ({
+      ...state,
+      entities: [],
+    })),
+
     ...this.reducers,
   );
 

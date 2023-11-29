@@ -86,6 +86,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.store.dispatch(certificateGroupActions.unloadAll());
   }
 
   ngOnInit(): void {

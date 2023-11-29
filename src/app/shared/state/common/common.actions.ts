@@ -57,4 +57,6 @@ export abstract class CommonAction<T> {
 
   //CUSTOM
   unload = createAction('[' + this.entityName + '] Unload');
+
+  unloadAll = createAction('[' + this.entityName + '] Unload All');
 }
