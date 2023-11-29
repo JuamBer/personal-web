@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SkeletonModule } from 'primeng/skeleton';
 import { LanguageStateModule } from 'src/app/backoffice/tables/language/state/language-state.module';
 import { PositionStateModule } from 'src/app/backoffice/tables/position/state/position-state.module';
@@ -31,6 +32,7 @@ import { HomeComponent } from './home.component';
     SkeletonModule,
     DirectivesModule,
     GenericErrorModule,
+    FontAwesomeModule,
   ],
   exports: [],
 })

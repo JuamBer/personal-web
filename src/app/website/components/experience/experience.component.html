@@ -11,8 +11,8 @@
           >
             <div class="header">
               <div class="icon" [ngSwitch]="positionGrouped.company.type">
-                <i *ngSwitchCase="CompanyType.SCHOOL" class="fa-solid fa-graduation-cap"></i>
-                <i *ngSwitchCase="CompanyType.COMPANY" class="fa-solid fa-briefcase"></i>
+                <fa-icon *ngSwitchCase="CompanyType.SCHOOL" [icon]="faGraduationCap"></fa-icon>
+                <fa-icon *ngSwitchCase="CompanyType.COMPANY" [icon]="faBriefcase"></fa-icon>
               </div>
               <div class="organization">
                 <h3>{{ positionGrouped.company.name }}</h3>

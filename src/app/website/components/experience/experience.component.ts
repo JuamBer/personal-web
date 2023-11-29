@@ -11,6 +11,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
+import { faBriefcase, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
@@ -127,5 +128,13 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
 
   get ActionStatus() {
     return ActionStatus;
+  }
+
+  get faGraduationCap() {
+    return faGraduationCap;
+  }
+
+  get faBriefcase() {
+    return faBriefcase;
   }
 }
