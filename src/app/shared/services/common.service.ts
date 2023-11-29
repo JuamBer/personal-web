@@ -1,6 +1,5 @@
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
-import { LazyLoadEvent } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { Filter, FilterType } from '../components/generic-table/models/generic-table.models';
 import { camelCaseToSnakeCase, flatObjectsById, snakeCaseToCamelCase } from '../utils/supabase-utils';
@@ -16,10 +15,11 @@ export class CommonService<T> {
 
   async getAll(lazyLoadEvent: TableLazyLoadEvent): Promise<T[] | PostgrestError> {
     let request = this.supabase.from(this.table).select(this.getAllSelection);
-    //TODO: LazyLoadEvent => TableLazyLoadEvent
-    // if (lazyLoadEvent && ('sortField' in lazyLoadEvent || 'rows' in lazyLoadEvent)) {
-    //   CommonService.applyFiltersAndSorting(request, lazyLoadEvent);
-    // }
+
+    if (lazyLoadEvent && ('sortField' in lazyLoadEvent || 'rows' in lazyLoadEvent)) {
+      CommonService.applyFiltersAndSorting(request, lazyLoadEvent);
+    }
+
     const { data, error } = await request;
     CommonService.handlePostgrestError(error);
     return snakeCaseToCamelCase(data);
@@ -85,40 +85,47 @@ export class CommonService<T> {
         [x: string]: any;
       }[]
     >,
-    lazyLoadEvent: LazyLoadEvent,
+    lazyLoadEvent: TableLazyLoadEvent,
   ) {
-    if (lazyLoadEvent.sortField && lazyLoadEvent.sortOrder) {
+    if (
+      lazyLoadEvent.sortField &&
+      lazyLoadEvent.sortOrder &&
+      lazyLoadEvent.sortField &&
+      typeof lazyLoadEvent.sortField === 'string'
+    ) {
       request = request.order(lazyLoadEvent.sortField, {
         ascending: lazyLoadEvent.sortOrder === 1,
       });
     }
-    if (lazyLoadEvent.filters) {
+    if (lazyLoadEvent.filters && !Array.isArray(lazyLoadEvent.filters)) {
       Object.entries(lazyLoadEvent.filters).forEach(([key, filterMetadata]) => {
-        const field = key;
-        const value = (filterMetadata.value as Filter).value;
-        if (value) {
-          switch ((filterMetadata.value as Filter).filterType) {
-            case FilterType.START_WITH:
-              request = request.ilike(field, `${value}%`);
-              break;
-            case FilterType.ENDS_WITH:
-              request = request.ilike(field, `%${value}`);
-              break;
-            case FilterType.EQUAL:
-              request = request.eq(field, value);
-              break;
-            case FilterType.NOT_EQUAL:
-              request = request.not(field, 'eq', value);
-              break;
-            case FilterType.CONTAINS:
-              request = request.ilike(field, `%${value}%`);
-              break;
-            case FilterType.NOT_CONTAINS:
-              request = request.not(field, 'like', `%${value}%`);
-              break;
-            default:
-              request = request.ilike(field, `%${value}%`);
-              break;
+        if (!Array.isArray(filterMetadata)) {
+          const field = key;
+          const value = (filterMetadata.value as Filter).value;
+          if (value) {
+            switch ((filterMetadata.value as Filter).filterType) {
+              case FilterType.START_WITH:
+                request = request.ilike(field, `${value}%`);
+                break;
+              case FilterType.ENDS_WITH:
+                request = request.ilike(field, `%${value}`);
+                break;
+              case FilterType.EQUAL:
+                request = request.eq(field, value);
+                break;
+              case FilterType.NOT_EQUAL:
+                request = request.not(field, 'eq', value);
+                break;
+              case FilterType.CONTAINS:
+                request = request.ilike(field, `%${value}%`);
+                break;
+              case FilterType.NOT_CONTAINS:
+                request = request.not(field, 'like', `%${value}%`);
+                break;
+              default:
+                request = request.ilike(field, `%${value}%`);
+                break;
+            }
           }
         }
       });

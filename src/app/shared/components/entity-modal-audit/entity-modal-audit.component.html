@@ -1,25 +1,27 @@
-<ng-container *ngIf="modalMode !== ModalMode.CREATE">
-  <section class="audit-fields flex justify-content-end mt-3" *ngIf="!loading; else loadingTemplate">
-    <ng-container *ngIf="entity">
-      <span class="info-container">
-        <div class="info">
-          <b class="title">{{ ('columns.createdAt' | translate) + ': ' }}</b>
-          <span class="data">{{ entity.createdAt | date : 'long' }}</span>
-        </div>
-        <div class="info">
-          <b class="title">{{ ('columns.updatedAt' | translate) + ': ' }}</b>
-          <span class="data" *ngIf="entity.updatedAt">{{ entity.updatedAt | date : 'long' }}</span>
-          <span class="data" *ngIf="!entity.updatedAt">N/A</span>
-        </div>
-      </span>
-    </ng-container>
-  </section>
-  <ng-template #loadingTemplate>
-    <div class="w-full mt-3 flex justify-content-end">
-      <div class="flex flex-column gap-2">
-        <p-skeleton width="20em" height="1em"></p-skeleton>
-        <p-skeleton width="20em" height="1em"></p-skeleton>
-      </div>
+@if(modalMode !== ModalMode.CREATE){ @if(!loading){
+<section class="audit-fields flex justify-content-end mt-3">
+  @if(entity){
+  <span class="info-container">
+    <div class="info">
+      <b class="title">{{ ('columns.createdAt' | translate) + ': ' }}</b>
+      <span class="data">{{ entity.createdAt | date : 'long' }}</span>
     </div>
-  </ng-template>
-</ng-container>
+    <div class="info">
+      <b class="title">{{ ('columns.updatedAt' | translate) + ': ' }}</b>
+      @if(entity.updatedAt){
+      <span class="data">{{ entity.updatedAt | date : 'long' }}</span>
+      } @else {
+      <span class="data">N/A</span>
+      }
+    </div>
+  </span>
+  }
+</section>
+} @else {
+<div class="w-full mt-3 flex justify-content-end">
+  <div class="flex flex-column gap-2">
+    <p-skeleton width="20em" height="1em"></p-skeleton>
+    <p-skeleton width="20em" height="1em"></p-skeleton>
+  </div>
+</div>
+} }

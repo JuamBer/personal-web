@@ -10,10 +10,22 @@ import { ModalMode } from '../../models/modal-mode.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EntityModalButtonsComponent<T> implements OnInit, OnDestroy {
-  @Input() loading: boolean = false;
-  @Input() name: string;
-  @Input() modalMode: ModalMode;
-  @Input() form: FormGroup;
+  @Input({
+    required: true,
+  })
+  loading: boolean = false;
+  @Input({
+    required: true,
+  })
+  name: string;
+  @Input({
+    required: true,
+  })
+  modalMode: ModalMode;
+  @Input({
+    required: true,
+  })
+  form: FormGroup;
   @Output() cancel = new EventEmitter();
   @Output() submit = new EventEmitter();
 

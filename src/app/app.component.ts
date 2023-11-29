@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
 import { publicLanguageActions } from './shared/state/languages/public-language.actions';
@@ -20,8 +19,11 @@ export class AppComponent implements OnInit {
   languages$ = this.store.select(publicLanguageReducer.getAll);
 
   ngOnInit() {
-    console.info('Running with configuration: ', environment.name);
+    this.handleLanguage();
+    this.handleMode();
+  }
 
+  handleLanguage() {
     this.store.dispatch(publicLanguageActions.loadAll({}));
     this.languages$.pipe(take(2)).subscribe((languages) => {
       const userLanguage = (navigator.languages ? navigator.languages[0] : navigator.language).split('-')[0];
@@ -30,14 +32,11 @@ export class AppComponent implements OnInit {
         this.store.dispatch(publicLanguageActions.loadOneByAcronym({ acronym: language.acronym }));
       }
     });
-
-    this.handleMode();
   }
 
-  private handleMode() {
+  handleMode() {
     const deviceMode = window.matchMedia('(prefers-color-scheme: dark)');
     this.mode = deviceMode.matches ? 'dark' : 'light';
-
     document.body.classList.remove('dark', 'light');
     document.body.classList.add(this.mode);
   }

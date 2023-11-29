@@ -1,6 +1,8 @@
-<form [formGroup]="form" *ngIf="modalMode !== ModalMode.VIEW">
+@if(modalMode !== ModalMode.VIEW){
+<form [formGroup]="form">
   <div class="grid p-fluid p-0 m-0 mt-2 w-full">
     <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
+      @if(modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE){
       <button
         [disabled]="loading"
         pButton
@@ -8,22 +10,23 @@
         [label]="'buttons.cancel' | translate"
         class="p-button-secondary p-button-sm"
         icon="fa-solid fa-xmark"
-        *ngIf="modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE"
         (click)="cancel.emit(true)"
         [attr.aria-label]="'Cancel'"
       ></button>
+      }
     </div>
     <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
+      @if(modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE){
       <button
         [disabled]="loading"
         pButton
         type="reset"
         [label]="'buttons.reset' | translate"
         class="p-button-secondary p-button-sm"
-        *ngIf="modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE"
         icon="fa-solid fa-broom"
         [attr.aria-label]="'Reset'"
       ></button>
+      }
     </div>
 
     <div class="xs:col-12 sm:col-12 md:col-12 lg:col-12 p-1 m-0">
@@ -49,3 +52,5 @@
     </div>
   </div>
 </form>
+
+}

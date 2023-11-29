@@ -13,6 +13,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
+import { DirectivesModule } from '../../modules/directives.module';
 import { GenericTableButtonComponent } from './generic-table-button/generic-table-button.component';
 import { GenericTableColumnComponent } from './generic-table-column/generic-table-column.component';
 import { GenericTableHeaderColumnComponent } from './generic-table-header-column/generic-table-header-column.component';
@@ -40,6 +41,7 @@ import { GenericTableComponent } from './generic-table.component';
     RadioButtonModule,
     TranslateModule,
     FontAwesomeModule,
+    DirectivesModule,
   ],
   exports: [GenericTableComponent],
 })

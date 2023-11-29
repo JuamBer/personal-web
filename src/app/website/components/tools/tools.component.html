@@ -1,6 +1,8 @@
 <div class="tools" *appLet="language$ | async as language" #tools>
-  <ul *ngIf="!loading">
-    <li *ngFor="let entity of entities" class="tool">
+  @if (!loading) {
+  <ul>
+    @for (entity of entities; track entity.id) {
+    <li class="tool">
       <span class="name">
         {{ entity.name }}
       </span>
@@ -12,12 +14,17 @@
         </div>
       </span>
     </li>
+    }
   </ul>
-  <ul *ngIf="loading">
-    <li *ngFor="let entity of [0, 0, 0, 0, 0, 0]" class="tool">
+  } @else {
+  <ul>
+    @for (entity of [0, 1, 2, 3, 4, 5]; track entity) {
+    <li class="tool">
       <span class="name pb-1 pt-1">
         <p-skeleton width="100%" height="1.5em"></p-skeleton>
       </span>
     </li>
+    }
   </ul>
+  }
 </div>

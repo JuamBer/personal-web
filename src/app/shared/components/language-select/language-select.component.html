@@ -1,8 +1,8 @@
 <div class="language-select">
   <div class="languages">
+    @switch (type) { @case ('select-button') {
     <p-selectButton
       (onChange)="onLanguageChange($event)"
-      *ngIf="type === 'select-button'"
       [options]="languages"
       [ngModel]="language"
       [style]="{ width: '100%' }"
@@ -16,9 +16,8 @@
         </div>
       </ng-template>
     </p-selectButton>
-
+    } @case ('dropdown') {
     <p-dropdown
-      *ngIf="type === 'dropdown'"
       [style]="{ height: '100%', minWidth: '10em' }"
       [options]="languages"
       [ngModel]="language"
@@ -49,5 +48,6 @@
         </div>
       </ng-template>
     </p-dropdown>
+    }}
   </div>
 </div>

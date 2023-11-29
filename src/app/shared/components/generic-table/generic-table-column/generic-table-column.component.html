@@ -1,30 +1,21 @@
-<div class="app-generic-table-column" [ngSwitch]="field.type">
-  <ng-container *ngSwitchCase="GenericFieldType.TEXT">
+<ng-container *appLet="language$ | async as language">
+  <div class="app-generic-table-column">
+    @switch (field.type) { @case(GenericFieldType.TEXT){
     {{ data }}
-  </ng-container>
-  <ng-container *ngSwitchCase="GenericFieldType.DATE">
-    {{ data | date : 'dd/MM/yyyy' }}
-  </ng-container>
-  <ng-container *ngSwitchCase="GenericFieldType.DATETIME">
-    {{ data | date : 'dd/MM/yyyy HH:mm' }}
-  </ng-container>
-  <ng-container *ngSwitchCase="GenericFieldType.IMAGE">
-    <img [src]="data" [alt]="field.label" />
-  </ng-container>
-  <ng-container *ngSwitchCase="GenericFieldType.BOOLEAN">
+    } @case(GenericFieldType.DATE){
+    {{ data | date : 'dd/MM/yyyy' }}} @case(GenericFieldType.DATETIME){ {{ data | date : 'dd/MM/yyyy HH:mm' }}}
+    @case(GenericFieldType.IMAGE){ <img [src]="data" [alt]="field.label" />} @case(GenericFieldType.BOOLEAN){
     <i
       class="pi"
       [ngClass]="{ 'pi-check': data, 'pi-times': !data }"
       [ngClass]="{ 'pi-check': data, 'pi-times': !data }"
       [ngStyle]="{ color: data ? '#22C55E' : '#DC2626' }"
     ></i>
-  </ng-container>
-  <ng-container *ngSwitchCase="GenericFieldType.PERCENTAGE">
+    } @case(GenericFieldType.PERCENTAGE){
     {{ data + '%' }}
-  </ng-container>
-  <ng-container *ngSwitchCase="GenericFieldType.TRANSLATIONS">
-    <ng-container *ngIf="language$ | async as language">
-      {{ translation$ | async }}
-    </ng-container>
-  </ng-container>
-</div>
+    } @case(GenericFieldType.TRANSLATIONS){ @if(language){
+    {{ translation$ | async }}
+
+    } }}
+  </div>
+</ng-container>

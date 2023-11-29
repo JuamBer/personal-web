@@ -28,8 +28,10 @@ export class LanguageSelectComponent implements OnInit {
   private translateSrv = inject(TranslateService);
   private ref = inject(ChangeDetectorRef);
 
-  @Input() type: 'dropdown' | 'select-button' = 'dropdown';
-  @Input() mode: 'simple' | 'complete' = 'simple';
+  @Input()
+  type: 'dropdown' | 'select-button' = 'dropdown';
+  @Input()
+  mode: 'simple' | 'complete' = 'simple';
 
   languages: Language[] = [];
   language: Language;

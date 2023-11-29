@@ -1,6 +1,6 @@
+@if(config){
 <p-table
   #dt
-  *ngIf="config"
   [value]="entities"
   [loading]="loading"
   [totalRecords]="count"
@@ -30,20 +30,23 @@
     <div class="flex align-items-center justify-content-between">
       <h1 class="m-0 p-0">{{ config.title }}</h1>
       <div class="flex justify-content-end align-items-center gap-3">
+        @for(button of config.buttons.top; track button){
         <app-generic-table-button
-          *ngFor="let button of config.buttons.top"
           [position]="'top'"
           [button]="button"
           [entity]="null"
           (tableEvent)="onTableEvent($event)"
         ></app-generic-table-button>
+        }
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th *ngIf="config.buttons.start.length > 0"></th>
-      <th *ngFor="let field of config.fields">
+      @if(config.buttons.start.length > 0){
+      <th></th>
+      } @for(field of config.fields; track field){
+      <th>
         <app-generic-table-header-column
           [field]="field"
           [lazyLoadEvent]="lazyLoadEventValue"
@@ -51,43 +54,54 @@
           (sort)="onSort($event)"
         ></app-generic-table-header-column>
       </th>
-      <th *ngIf="config.buttons.end.length > 0"></th>
+      } @if(config.buttons.end.length > 0){
+      <th></th>
+      }
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-entity>
     <tr class="p-selectable-row">
-      <th class="button-column" *ngIf="config.buttons.start.length > 0">
+      @if(config.buttons.start.length > 0){
+      <th class="button-column">
         <div class="button-container">
+          @for(button of config.buttons.start; track button){
           <app-generic-table-button
-            *ngFor="let button of config.buttons.start"
             [position]="'start'"
             [button]="button"
             [entity]="entity"
             (tableEvent)="onTableEvent($event)"
           ></app-generic-table-button>
+          }
         </div>
       </th>
-      <td *ngFor="let field of config.fields">
+      } @for(field of config.fields; track field){
+      <td>
         <app-generic-table-column [field]="field" [value]="entity"></app-generic-table-column>
       </td>
-      <th class="button-column" *ngIf="config.buttons.end.length > 0">
+      } @if(config.buttons.end.length > 0){
+      <th class="button-column">
         <div class="button-container">
+          @for(button of config.buttons.end; track button){
           <app-generic-table-button
-            *ngFor="let button of config.buttons.end"
             [position]="'end'"
             [button]="button"
             [entity]="entity"
             (tableEvent)="onTableEvent($event)"
           ></app-generic-table-button>
+          }
         </div>
       </th>
+      }
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage" let-frozen="frozen">
-    <tr *ngIf="frozen">
+    @if(frozen){
+    <tr>
       <td [attr.colspan]="config.buttons.start.length + config.fields.length + config.buttons.end.length">
         {{ 'genericTable.emptyMessage' | translate }}
       </td>
     </tr>
+    }
   </ng-template>
 </p-table>
+}

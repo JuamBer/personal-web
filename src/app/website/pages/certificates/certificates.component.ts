@@ -5,13 +5,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
   inject,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, filter, map, pairwise, startWith, zip } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, map, pairwise, startWith, takeUntil, zip } from 'rxjs';
 import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
 import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
@@ -37,10 +38,11 @@ Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
     ]),
   ],
 })
-export class CertificatesComponent extends TranslationProvider implements OnInit, AfterViewChecked {
+export class CertificatesComponent extends TranslationProvider implements OnInit, AfterViewChecked, OnDestroy {
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
 
+  unsubscribe$ = new Subject<void>();
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 
   certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
@@ -50,7 +52,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   );
   certificateGroupCount$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  tabIndexes: { groupId: any; value: number }[] = [];
+  tabIndexes: { groupId: string; value: number }[] = [];
 
   swiperConfig: SwiperOptions = {
     slidesPerView: 3,
@@ -81,9 +83,15 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   certificateElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
   certificateElementAnimationsDone: string[] = [];
 
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   ngOnInit(): void {
-    zip([this.certificateGroups$.pipe(startWith([]), pairwise()), this.certificateGroupCount$]).subscribe(
-      ([[previousCertificateGroups, currentCertificateGroups], count]) => {
+    zip([this.certificateGroups$.pipe(startWith([]), pairwise()), this.certificateGroupCount$])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(([[previousCertificateGroups, currentCertificateGroups], count]) => {
         if (
           currentCertificateGroups.length === 0 ||
           previousCertificateGroups.length < currentCertificateGroups.length
@@ -106,8 +114,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
         });
 
         this.certificateGroupCount$.next(count + 1);
-      },
-    );
+      });
   }
 
   ngAfterViewChecked(): void {

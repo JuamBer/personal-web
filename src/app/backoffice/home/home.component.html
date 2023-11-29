@@ -1,5 +1,6 @@
 <div class="grid p-2">
-  <div *ngFor="let name of names; let index = index" class="xs:col-12 sm:col-12 md:col-3 lg:col-3">
+  @for(name of names; track name; let index = $index){
+  <div class="xs:col-12 sm:col-12 md:col-3 lg:col-3">
     <app-entity-card
       [show]="true"
       [loading]="false"
@@ -9,6 +10,7 @@
       [icon]=""
     ></app-entity-card>
   </div>
+  }
   <div class="w-full grid p-fluid">
     <div class="xs:col-12 sm:col-12 md:col-12 lg:col-12 min-h-10 p-0 m-0">
       <app-positions-in-time-chart></app-positions-in-time-chart>

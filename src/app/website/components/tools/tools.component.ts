@@ -36,8 +36,12 @@ export class ToolsComponent extends TranslationProvider implements AfterViewInit
   @ViewChild('tools') toolsElement: ElementRef;
   toolsElementState: 'inViewport' | 'notInViewport' = 'notInViewport';
 
-  @Input() entities: Skill[] = [];
-  @Input() loading: boolean = false;
+  @Input({
+    required: true,
+  })
+  entities: Skill[] = [];
+  @Input()
+  loading: boolean = false;
 
   language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
 

@@ -2,9 +2,12 @@
   <div class="flex justify-content-between align-items-center m-0 p-0">
     <span class="w-full">
       {{ field.label | titlecase }}
-      <span class="translation" *ngIf="field.type === GenericFieldType.TRANSLATIONS">
+
+      @if(field.type === GenericFieldType.TRANSLATIONS){
+      <span class="translation">
         <fa-icon [icon]="faLanguage"></fa-icon>
       </span>
+      }
     </span>
     <div class="flex align-items-center justify-content-end gap-2 w-full">
       <fa-icon [icon]="filterIcon" class="cursor-pointer" (click)="filterTypes.toggle($event)"></fa-icon>
@@ -17,16 +20,16 @@
             <p-dropdown [options]="FilterType | keyvalue" [autoDisplayFirst]="false" formControlName="filterType">
               <ng-template pTemplate="selectedItem" let-filterType>
                 <div class="filter-type-item">
-                  <span>{{ 'genericTable.filters.' + filterType.key + '.name' | translate | uppercase }}</span>
+                  <span>{{ 'genericTable.filters.' + filterType?.key + '.name' | translate | uppercase }}</span>
                 </div>
               </ng-template>
               <ng-template pTemplate="item" let-filterType>
                 <div class="filter-type-item">
                   <p
-                    [pTooltip]="'genericTable.filters.' + filterType.key + '.description' | translate"
+                    [pTooltip]="'genericTable.filters.' + filterType?.key + '.description' | translate"
                     tooltipPosition="left"
                   >
-                    {{ 'genericTable.filters.' + filterType.key + '.name' | translate | uppercase }}
+                    {{ 'genericTable.filters.' + filterType?.key + '.name' | translate | uppercase }}
                     <span>
                       <fa-icon [icon]="faQuestion"></fa-icon>
                     </span>
@@ -38,19 +41,19 @@
           </span>
         </div>
 
-        <div class="filter col-12 mt-3" [ngSwitch]="field.type">
-          <ng-container *ngSwitchCase="GenericFieldType.TEXT">
-            <span class="p-float-label">
-              <input
-                type="text"
-                pInputText
-                (click)="$event.stopPropagation()"
-                class="p-inputtext-sm"
-                formControlName="value"
-              />
-              <label>{{ 'columns.value' | translate }} *</label>
-            </span>
-          </ng-container>
+        <div class="filter col-12 mt-3">
+          @switch (field.type){ @case (GenericFieldType.TEXT){
+          <span class="p-float-label">
+            <input
+              type="text"
+              pInputText
+              (click)="$event.stopPropagation()"
+              class="p-inputtext-sm"
+              formControlName="value"
+            />
+            <label>{{ 'columns.value' | translate }} *</label>
+          </span>
+          } }
         </div>
 
         <div class="col-12 flex justify-content-between gap-2 flex-column mt-2">

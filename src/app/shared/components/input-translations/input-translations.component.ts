@@ -34,24 +34,42 @@ export class InputTranslationsComponent implements OnInit {
   private inputTranslationsService = inject(InputTranslationsService);
   private capitalizePipe = inject(CapitalizePipe);
 
-  @Input() set translations(translations: Translation[]) {
+  @Input({
+    required: true,
+  })
+  set translations(translations: Translation[]) {
     if (Array.isArray(translations)) {
       this.translations$.next(translations);
     }
   }
 
   _showErrors: Observable<boolean>;
-  @Input() set showErrors(showErrors: Observable<boolean>) {
+  @Input({
+    required: true,
+  })
+  set showErrors(showErrors: Observable<boolean>) {
     this._showErrors = showErrors;
   }
 
   translations$: BehaviorSubject<Translation[]> = new BehaviorSubject<Translation[]>([]);
   suggestions$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
-  @Input() disabled: boolean;
-  @Input() form: FormArray<TranslationFormGroup>;
-  @Input() type: InputTranslationsType = InputTranslationsType.INPUT;
-  @Input() label: string = '';
+  @Input({
+    required: true,
+  })
+  disabled: boolean;
+  @Input({
+    required: true,
+  })
+  form: FormArray<TranslationFormGroup>;
+  @Input({
+    required: true,
+  })
+  type: InputTranslationsType = InputTranslationsType.INPUT;
+  @Input({
+    required: true,
+  })
+  label: string = '';
 
   visibility: boolean = false;
   languages: Language[] = [];
@@ -142,31 +160,32 @@ export class InputTranslationsComponent implements OnInit {
     return null;
   }
 
-  getActualTranslationControl() {
-    return this.form.controls.find(
-      (translationForm) => translationForm.controls['language'].value === this.language?.acronym,
-    );
-  }
   getActualTranslationInvalid() {
-    const translation = this.getActualTranslationControl();
+    const translation = this.actualTranslationControl;
     return translation?.invalid;
   }
   getActualTranslationDirty() {
-    const translation = this.getActualTranslationControl();
+    const translation = this.actualTranslationControl;
     return translation?.dirty;
   }
 
   getActualTranslation() {
-    const translation = this.getActualTranslationControl();
+    const translation = this.actualTranslationControl;
     return translation?.value?.value ? translation?.value?.value : '';
   }
   onActualTranslationChange(event: any) {
-    const translation = this.getActualTranslationControl();
+    const translation = this.actualTranslationControl;
     translation.patchValue({
       language: translation.value.language,
       value: event.target.value,
     });
     translation.markAsDirty();
+  }
+
+  get actualTranslationControl() {
+    return this.form.controls.find(
+      (translationForm) => translationForm.controls['language'].value === this.language?.acronym,
+    );
   }
 
   addLanguage(language: Language) {

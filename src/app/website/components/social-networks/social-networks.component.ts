@@ -9,5 +9,8 @@ import { SocialNetwork } from './models/social-network.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class SocialNetworksComponent {
-  @Input() socialNetworks: SocialNetwork[] = [];
+  @Input({
+    required: true,
+  })
+  socialNetworks: SocialNetwork[] = [];
 }

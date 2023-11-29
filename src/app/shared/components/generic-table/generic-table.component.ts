@@ -11,10 +11,22 @@ import { defaultGenericTableConfig } from './utils/variables';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenericTableComponent<T> implements OnInit {
-  @Input() config: GenericTableConfig<T> = defaultGenericTableConfig;
-  @Input() loading = true;
-  @Input() count = 0;
-  @Input() entities: T[] = [];
+  @Input({
+    required: true,
+  })
+  config: GenericTableConfig<T> = defaultGenericTableConfig;
+  @Input({
+    required: true,
+  })
+  loading = true;
+  @Input({
+    required: true,
+  })
+  count = 0;
+  @Input({
+    required: true,
+  })
+  entities: T[] = [];
   @Output() lazyLoadEvent: EventEmitter<TableLazyLoadEvent> = new EventEmitter();
   lazyLoadEventValue: TableLazyLoadEvent = {
     first: 0,

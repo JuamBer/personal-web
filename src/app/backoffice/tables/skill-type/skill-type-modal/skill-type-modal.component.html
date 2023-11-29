@@ -65,7 +65,8 @@
             [modalMode]="modalMode"
           ></app-entity-modal-audit>
         </form>
-        <div class="mt-5" *ngIf="modalMode === ModalMode.VIEW">
+        @if(modalMode === ModalMode.VIEW){
+        <div class="mt-5">
           <p-table [value]="entity?.skills" [tableStyle]="{ width: '100%' }" [loading]="loading">
             <ng-template pTemplate="caption">
               <h5 class="m-0 p-0 f-bold">{{ 'tables.skill.plural' | translate | titlecase }}</h5>
@@ -82,6 +83,7 @@
             </ng-template>
           </p-table>
         </div>
+        }
       </p-dialog>
     </ng-container>
   </ng-container>

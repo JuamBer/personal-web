@@ -9,9 +9,18 @@ import { ModalMode } from '../../models/modal-mode.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EntityModalAuditComponent<T extends AuditFields> {
-  @Input() loading: boolean = false;
-  @Input() modalMode: ModalMode;
-  @Input() entity: T;
+  @Input({
+    required: true,
+  })
+  loading: boolean = false;
+  @Input({
+    required: true,
+  })
+  modalMode: ModalMode;
+  @Input({
+    required: true,
+  })
+  entity: T;
 
   get ModalMode() {
     return ModalMode;
