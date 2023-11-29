@@ -11,17 +11,10 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
       },
-
-      {
-        path: 'blog',
-        loadChildren: () => import('./pages/blog/blog.module').then((m) => m.BlogModule),
-      },
-
       {
         path: 'certificates',
         loadChildren: () => import('./pages/certificates/certificates.module').then((m) => m.CertificatesModule),
       },
-
       {
         path: '',
         redirectTo: '/home',

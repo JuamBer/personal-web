@@ -30,12 +30,8 @@ const routes: Routes = [
     title: formResetPasswordTitleResolver,
   },
   {
-    path: 'form-reset-password/:access_token/',
-    component: FormResetPasswordComponent,
-  },
-  {
     path: '**',
-    redirectTo: 'errors/Not Found/404 NOT_FOUND/null/404/null',
+    redirectTo: '',
     pathMatch: 'full',
   },
 ];

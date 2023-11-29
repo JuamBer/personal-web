@@ -5,7 +5,7 @@ import { EntityModalAuditModule } from 'src/app/shared/components/entity-modal-a
 import { EntityModalButtonsModule } from 'src/app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
 import { GenericTableModule } from 'src/app/shared/components/generic-table/generic-table.module';
 
-import { TitleCasePipe } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -22,7 +22,7 @@ import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
-import { BasicModule } from 'src/app/shared/modules/basic.module';
+import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
 import { CertificateTypeListComponent } from './certificate-type-list/certificate-type-list.component';
@@ -33,7 +33,9 @@ import { CertificateTypeStateModule } from './state/certificate-type-state.modul
 @NgModule({
   declarations: [CertificateTypeListComponent, CertificateTypeModalComponent],
   imports: [
-    BasicModule,
+    CommonModule,
+    DirectivesModule,
+
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,

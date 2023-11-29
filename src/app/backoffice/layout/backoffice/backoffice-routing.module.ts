@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/shared/guards/auth.guard';
-import { BasicModule } from 'src/app/shared/modules/basic.module';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { certificateGroupNames } from '../../tables/certificate-group/state/certificate-group.names';
 import { certificateTypeNames } from '../../tables/certificate-type/state/certificate-type.names';
@@ -78,7 +77,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [BasicModule, RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 export class BackofficeRoutingModule {}

@@ -5,7 +5,7 @@ import { EntityModalAuditModule } from 'src/app/shared/components/entity-modal-a
 import { EntityModalButtonsModule } from 'src/app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
 import { GenericTableModule } from 'src/app/shared/components/generic-table/generic-table.module';
 
-import { TitleCasePipe } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -22,10 +22,9 @@ import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
-import { BasicModule } from 'src/app/shared/modules/basic.module';
+import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
-import { AccountStateModule } from 'src/app/shared/state/account/account.module';
 import { CompanyListComponent } from './company-list/company-list.component';
 import { CompanyModalComponent } from './company-modal/company-modal.component';
 import { CompanyRoutingModule } from './company-routing.module';
@@ -34,7 +33,9 @@ import { CompanyStateModule } from './state/company-state.module';
 @NgModule({
   declarations: [CompanyListComponent, CompanyModalComponent],
   imports: [
-    BasicModule,
+    CommonModule,
+    DirectivesModule,
+
     CompanyRoutingModule,
     HttpClientModule,
     InputTranslationsModule,
@@ -60,7 +61,6 @@ import { CompanyStateModule } from './state/company-state.module';
     TabViewModule,
     MultiSelectModule,
     LanguagesModule,
-    AccountStateModule,
 
     CompanyStateModule,
     EntityModalButtonsModule,

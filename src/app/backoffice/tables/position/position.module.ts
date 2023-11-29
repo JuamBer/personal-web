@@ -3,16 +3,16 @@ import { EntityModalAuditModule } from 'src/app/shared/components/entity-modal-a
 import { EntityModalButtonsModule } from 'src/app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
 import { GenericTableModule } from 'src/app/shared/components/generic-table/generic-table.module';
 
-import { TitleCasePipe } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
-import { BasicModule } from 'src/app/shared/modules/basic.module';
+import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
-import { AccountStateModule } from 'src/app/shared/state/account/account.module';
 import { CompanyStateModule } from '../company/state/company-state.module';
 import { PositionListComponent } from './position-list/position-list.component';
 import { PositionModalComponent } from './position-modal/position-modal.component';
@@ -22,11 +22,10 @@ import { PositionStateModule } from './state/position-state.module';
 @NgModule({
   declarations: [PositionListComponent, PositionModalComponent],
   imports: [
-    BasicModule,
+    CommonModule,
     PositionRoutingModule,
     LanguagesModule,
     PositionStateModule,
-    AccountStateModule,
     GenericTableModule,
     EntityModalButtonsModule,
     EntityModalAuditModule,
@@ -37,6 +36,8 @@ import { PositionStateModule } from './state/position-state.module';
     ToastModule,
     DialogModule,
     InputTranslationsModule,
+    DirectivesModule,
+    ReactiveFormsModule,
   ],
   providers: [TitleCasePipe],
 })

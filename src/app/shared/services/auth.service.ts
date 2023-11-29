@@ -37,7 +37,6 @@ export class AuthService {
 
   async loadUser() {
     if (this.currentUser.value) {
-      // User is already set, no need to do anything else
       return;
     }
     const user = await this.supabase.auth.getUser();
@@ -65,16 +64,11 @@ export class AuthService {
   }
 
   async signIn(email: string) {
-    // this.supabase.auth.signInWithOAuth;
     return await this.supabase.auth.signInWithOtp({
       email,
-      // options: {
-      //   emailRedirectTo: `${environment.webUrl}/backoffice`,
-      // },
     });
   }
   async signInLogin(email: string, pass: string) {
-    // this.supabase.auth.signInWithOAuth;
     return await this.supabase.auth.signInWithPassword({
       email: email,
       password: pass,

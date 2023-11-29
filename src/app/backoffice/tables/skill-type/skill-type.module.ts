@@ -1,4 +1,4 @@
-import { TitleCasePipe } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,10 +21,9 @@ import { EntityModalAuditModule } from 'src/app/shared/components/entity-modal-a
 import { EntityModalButtonsModule } from 'src/app/shared/components/entity-modal-buttons/entity-modal-buttons.module';
 import { GenericTableModule } from 'src/app/shared/components/generic-table/generic-table.module';
 import { InputTranslationsModule } from 'src/app/shared/components/input-translations/input-translations.module';
-import { BasicModule } from 'src/app/shared/modules/basic.module';
+import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
-import { AccountStateModule } from 'src/app/shared/state/account/account.module';
 import { SkillTypeListComponent } from './skill-type-list/skill-type-list.component';
 import { SkillTypeModalComponent } from './skill-type-modal/skill-type-modal.component';
 import { SkillTypeRoutingModule } from './skill-type-routing.module';
@@ -33,12 +32,13 @@ import { SkillTypeStateModule } from './state/skill-type-state.module';
 @NgModule({
   declarations: [SkillTypeListComponent, SkillTypeModalComponent],
   imports: [
-    BasicModule,
+    CommonModule,
     SkillTypeRoutingModule,
     HttpClientModule,
 
     FormsModule,
     ReactiveFormsModule,
+    DirectivesModule,
 
     ToastModule,
     ButtonModule,
@@ -58,7 +58,6 @@ import { SkillTypeStateModule } from './state/skill-type-state.module';
     TabViewModule,
     MultiSelectModule,
     LanguagesModule,
-    AccountStateModule,
     InputTranslationsModule,
 
     SkillTypeStateModule,

@@ -22,7 +22,6 @@ import { ResetPasswordComponent } from './backoffice/autentificacion/reset-passw
 import { BackofficeModule } from './backoffice/layout/backoffice/backoffice.module';
 import { LanguageSelectModule } from './shared/components/language-select/language-select.module';
 import { LanguagesModule } from './shared/modules/languages.module';
-import { AccountStateModule } from './shared/state/account/account.module';
 import { PublicLanguageStateModule } from './shared/state/languages/public-language-state.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -45,7 +44,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     LanguageSelectModule,
     ReactiveFormsModule,
     LanguagesModule,
-    AccountStateModule,
     PublicLanguageStateModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
