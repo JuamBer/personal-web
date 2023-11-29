@@ -3,6 +3,16 @@
     font-size: 20px;
     font-weight: lighter;
     margin-bottom: 30px;
+
+    a {
+      font-style: italic;
+      font-weight: 600;
+
+      &:hover {
+        transition: all 0.15s ease;
+        text-decoration: underline;
+      }
+    }
   }
 
   ul {
@@ -31,10 +41,12 @@
   }
 }
 @media screen and (max-width: 800px) {
-  ul {
-    li {
-      i {
-        font-size: 30px;
+  .social-networks {
+    ul {
+      li {
+        i {
+          font-size: 30px;
+        }
       }
     }
   }

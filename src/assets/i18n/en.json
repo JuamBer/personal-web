@@ -26,7 +26,7 @@
     "cv": "Resume",
     "contact": "Contact",
     "trajectory": "Trajectory",
-    "socialNetworks": "Send me an email to this address <b><u><a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a></u></b> or write me through one of my profiles"
+    "socialNetworks": "Send me an email to this address <a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a> or write me through one of my profiles"
   },
   "cv": {
     "title": "write me an email",

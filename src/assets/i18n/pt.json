@@ -26,7 +26,7 @@
     "cv": "Retomar",
     "contact": "Contato",
     "trajectory": "Trajetória",
-    "socialNetworks": "Envie-me um e-mail para este endereço <b><u><a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a></u></b> ou escreva-me através de um dos meus perfis"
+    "socialNetworks": "Envie-me um e-mail para este endereço <a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a> ou escreva-me através de um dos meus perfis"
   },
   "cv": {
     "title": "escreva-me um e-mail",
