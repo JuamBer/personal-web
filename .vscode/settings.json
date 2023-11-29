@@ -29,7 +29,8 @@
     "CommonState",
     "GenericError",
     "Lighthouse",
-    "Assets"
+    "Assets",
+    "Dependencies"
   ],
   "cSpell.words": [
     "cascadeselect",
