@@ -26,7 +26,7 @@
     "cv": "Fortsetzen",
     "contact": "Kontakt",
     "trajectory": "Flugbahn",
-    "socialNetworks": "Schicken Sie mir eine E-Mail an die Adresse <b><u><a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a></u></b> oder schreiben Sie mir über eines meiner Profile"
+    "socialNetworks": "Schicken Sie mir eine E-Mail an die Adresse <a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a> oder schreiben Sie mir über eines meiner Profile"
   },
   "cv": {
     "title": "schreib mir eine E-Mail",

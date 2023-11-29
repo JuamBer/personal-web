@@ -26,7 +26,7 @@
     "cv": "Riprendere",
     "contact": "Contatto",
     "trajectory": "Traiettoria",
-    "socialNetworks": "Inviami una mail a questo indirizzo <b><u><a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a></u></b> o scrivimi tramite uno dei miei profili"
+    "socialNetworks": "Inviami una mail a questo indirizzo <a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a> o scrivimi tramite uno dei miei profili"
   },
   "cv": {
     "title": "scrivimi una mail",

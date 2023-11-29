@@ -26,7 +26,7 @@
     "cv": "Cv",
     "contact": "Contact",
     "trajectory": "Traject",
-    "socialNetworks": "Stuur me een e-mail naar dit adres <b><u><a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a></u></b> of schrijf me via een van mijn profielen"
+    "socialNetworks": "Stuur me een e-mail naar dit adres <a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a> of schrijf me via een van mijn profielen"
   },
   "cv": {
     "title": "schrijf me een e-mail",
