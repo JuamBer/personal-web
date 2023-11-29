@@ -30,7 +30,8 @@
     "GenericError",
     "Lighthouse",
     "Assets",
-    "Dependencies"
+    "Dependencies",
+    "Deploy"
   ],
   "cSpell.words": [
     "cascadeselect",
