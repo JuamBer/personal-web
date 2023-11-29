@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { LazyLoadEvent } from 'primeng/api';
+import { TableLazyLoadEvent } from 'primeng/table';
 import { ObjectUtils } from 'src/app/shared/utils/object.utils';
 import { FilterEvent, GenericTableConfig, SortEvent, TableEvent } from './models/generic-table.models';
 import { defaultGenericTableConfig } from './utils/variables';
@@ -15,8 +15,8 @@ export class GenericTableComponent<T> implements OnInit {
   @Input() loading = true;
   @Input() count = 0;
   @Input() entities: T[] = [];
-  @Output() lazyLoadEvent: EventEmitter<LazyLoadEvent> = new EventEmitter();
-  lazyLoadEventValue: LazyLoadEvent = {
+  @Output() lazyLoadEvent: EventEmitter<TableLazyLoadEvent> = new EventEmitter();
+  lazyLoadEventValue: TableLazyLoadEvent = {
     first: 0,
     rows: 10,
     multiSortMeta: [],
@@ -31,7 +31,7 @@ export class GenericTableComponent<T> implements OnInit {
     this.onLazyLoad(this.lazyLoadEventValue);
   }
 
-  onLazyLoad(event: LazyLoadEvent) {
+  onLazyLoad(event: TableLazyLoadEvent) {
     if (!ObjectUtils.areObjectEquals(this.lazyLoadEventValue, event)) {
       this.lazyLoadEvent.emit(event);
       this.lazyLoadEventValue = event;
@@ -46,7 +46,7 @@ export class GenericTableComponent<T> implements OnInit {
   }
 
   onFilter(event: FilterEvent<T>) {
-    const lazyLoadEventCopy: LazyLoadEvent = {
+    const lazyLoadEventCopy: TableLazyLoadEvent = {
       ...this.lazyLoadEventValue,
       filters: {
         ...this.lazyLoadEventValue.filters,
@@ -63,7 +63,7 @@ export class GenericTableComponent<T> implements OnInit {
   }
 
   onSort(event: SortEvent<T>) {
-    const lazyLoadEventCopy: LazyLoadEvent = {
+    const lazyLoadEventCopy: TableLazyLoadEvent = {
       ...this.lazyLoadEventValue,
       sortOrder: event.sortOrder,
       sortField: event.field.field,

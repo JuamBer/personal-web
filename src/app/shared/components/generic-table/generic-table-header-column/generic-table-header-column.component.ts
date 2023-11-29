@@ -11,8 +11,8 @@ import {
   faSortUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { LazyLoadEvent } from 'primeng/api';
 import { OverlayPanel } from 'primeng/overlaypanel';
+import { TableLazyLoadEvent } from 'primeng/table';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import {
@@ -48,7 +48,7 @@ export class GenericTableHeaderColumnComponent<T> {
   @Output() filter = new EventEmitter<FilterEvent<T>>();
   @Output() sort = new EventEmitter<SortEvent<T>>();
 
-  @Input() set lazyLoadEvent(event: LazyLoadEvent) {
+  @Input() set lazyLoadEvent(event: TableLazyLoadEvent) {
     let isHighlight = false;
     if (event?.sortField !== this.field.field) {
       this.sorting = 'initial';
@@ -57,7 +57,7 @@ export class GenericTableHeaderColumnComponent<T> {
     }
 
     Object.entries(event?.filters)?.forEach(([k, v]) => {
-      if (k === this.field.field && v.value) {
+      if (k === this.field.field) {
         isHighlight = true;
       }
     });

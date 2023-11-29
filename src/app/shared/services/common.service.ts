@@ -1,6 +1,7 @@
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
 import { LazyLoadEvent } from 'primeng/api';
+import { TableLazyLoadEvent } from 'primeng/table';
 import { Filter, FilterType } from '../components/generic-table/models/generic-table.models';
 import { camelCaseToSnakeCase, flatObjectsById, snakeCaseToCamelCase } from '../utils/supabase-utils';
 
@@ -13,11 +14,12 @@ export class CommonService<T> {
     public titleSelection = 'name',
   ) {}
 
-  async getAll(lazyLoadEvent: LazyLoadEvent): Promise<T[] | PostgrestError> {
+  async getAll(lazyLoadEvent: TableLazyLoadEvent): Promise<T[] | PostgrestError> {
     let request = this.supabase.from(this.table).select(this.getAllSelection);
-    if (lazyLoadEvent && ('sortField' in lazyLoadEvent || 'rows' in lazyLoadEvent)) {
-      CommonService.applyFiltersAndSorting(request, lazyLoadEvent);
-    }
+    //TODO: LazyLoadEvent => TableLazyLoadEvent
+    // if (lazyLoadEvent && ('sortField' in lazyLoadEvent || 'rows' in lazyLoadEvent)) {
+    //   CommonService.applyFiltersAndSorting(request, lazyLoadEvent);
+    // }
     const { data, error } = await request;
     CommonService.handlePostgrestError(error);
     return snakeCaseToCamelCase(data);

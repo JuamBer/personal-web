@@ -3,7 +3,8 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { TableLazyLoadEvent } from 'primeng/table';
 import { BehaviorSubject, Observable, filter, map, startWith, switchMap } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
@@ -65,7 +66,7 @@ export class CertificateListComponent implements OnInit, EntityList<Certificate>
     });
   }
 
-  onLazyLoadEvent(event: LazyLoadEvent) {
+  onLazyLoadEvent(event: TableLazyLoadEvent) {
     this.store.dispatch(certificateActions.loadAll({ payload: event }));
   }
 

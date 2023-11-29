@@ -1,12 +1,13 @@
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { LazyLoadEvent } from 'primeng/api';
+import { TableLazyLoadEvent } from 'primeng/table';
 
 export abstract class CommonAction<T> {
   constructor(public entityName: string) {}
 
   //LOAD ALL
-  loadAll = createAction('[' + this.entityName + '] Load All', props<{ payload?: null | LazyLoadEvent }>());
+  loadAll = createAction('[' + this.entityName + '] Load All', props<{ payload?: null | TableLazyLoadEvent }>());
 
   loadAllSuccess = createAction('[' + this.entityName + '] Load All Success', props<{ payload: any }>());
 

@@ -4,7 +4,8 @@ import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '
 import { TitleCasePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { TableLazyLoadEvent } from 'primeng/table';
 import { BehaviorSubject, Observable, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
@@ -82,7 +83,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
     this.unsubscribe$.complete();
   }
 
-  onLazyLoadEvent(event: LazyLoadEvent) {
+  onLazyLoadEvent(event: TableLazyLoadEvent) {
     this.store.dispatch(skillTypeActions.loadAll({ payload: event }));
   }
 

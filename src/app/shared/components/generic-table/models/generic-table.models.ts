@@ -1,4 +1,4 @@
-import { LazyLoadEvent } from 'primeng/api';
+import { TableLazyLoadEvent } from 'primeng/table';
 
 export enum GenericFieldType {
   TEXT = 'TEXT',
@@ -84,6 +84,6 @@ export interface Filter {
   filterType: FilterType;
 }
 export interface RequestSpecification<T> {
-  lazyLoadEvent: LazyLoadEvent;
+  lazyLoadEvent: TableLazyLoadEvent;
   filters: FilterEvent<T>[];
 }

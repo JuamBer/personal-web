@@ -1,4 +1,4 @@
-import { LazyLoadEvent } from 'primeng/api';
+import { TableLazyLoadEvent } from 'primeng/table';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GenericTableConfig } from 'src/app/shared/components/generic-table/models/generic-table.models';
 import { CommonNames, Naming, NumberMode } from 'src/app/shared/state/common/common.names';
@@ -9,7 +9,7 @@ export interface EntityList<T> {
   count$: Observable<number>;
   tableConfig$: BehaviorSubject<GenericTableConfig<T>>;
   loadTableConfig: () => void;
-  onLazyLoadEvent: (event: LazyLoadEvent) => void;
+  onLazyLoadEvent: (event: TableLazyLoadEvent) => void;
   onTableEvent: (event: any) => void;
   get NumberMode(): typeof NumberMode;
   get Naming(): typeof Naming;
