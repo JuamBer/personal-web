@@ -1,7 +1,5 @@
 <div class="social-networks">
-  <p>
-    {{ 'home.socialNetworks' | translate }}
-  </p>
+  <p [innerHTML]="'home.socialNetworks' | translate"></p>
   <ul>
     <li *ngFor="let socialNetwork of socialNetworks">
       <a target="_blank" [href]="socialNetwork.url" [attr.aria-label]="socialNetwork.name">

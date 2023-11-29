@@ -372,3 +372,8 @@ body {
   color: var(--textColor);
   transition: background-color 0.5s ease, color 0.5s ease;
 }
+body {
+  a {
+    color: var(--textColor);
+  }
+}

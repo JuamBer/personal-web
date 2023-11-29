@@ -26,7 +26,7 @@
     "cv": "Gjenoppta",
     "contact": "Kontakt",
     "trajectory": "Bane",
-    "socialNetworks": "Send meg en e-post til denne adressen contacto@juamber.com eller skriv meg gjennom en av mine profiler"
+    "socialNetworks": "Send meg en e-post til denne adressen <b><u><a href=\"mailto:contacto@juamber.com\">contacto@juamber.com</a></u></b> eller skriv meg gjennom en av mine profiler"
   },
   "cv": {
     "title": "skriv meg en e-post",
