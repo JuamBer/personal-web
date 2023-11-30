@@ -9,8 +9,12 @@
     "logOut": "Gå ut"
   },
   "pages": {
-    "home": "Sammendrag",
-    "certificates": "Sertifikater",
+    "home": {
+      "title": "Sammendrag"
+    },
+    "certificates": {
+      "title": "Sertifikater"
+    },
     "logIn": {
       "title": "Logg inn",
       "resetPassword": "Glemt passordet ditt?"

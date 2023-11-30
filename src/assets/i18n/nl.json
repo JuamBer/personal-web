@@ -9,8 +9,12 @@
     "logOut": "Uitgaan"
   },
   "pages": {
-    "home": "Huis",
-    "certificates": "Certificaten",
+    "home": {
+      "title": "Huis"
+    },
+    "certificates": {
+      "title": "Certificaten"
+    },
     "logIn": {
       "title": "Inloggen",
       "resetPassword": "Wachtwoord vergeten?"

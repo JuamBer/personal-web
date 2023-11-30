@@ -1,10 +1,12 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { appRootTitle } from 'src/app/app.component';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { SkillType } from 'src/app/backoffice/tables/skill-type/models/skill-type.model';
 import { skillTypeActions } from 'src/app/backoffice/tables/skill-type/state/skill-type.actions';
@@ -16,6 +18,11 @@ import { TranslationProvider } from 'src/app/shared/models/translation-provider.
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { SocialNetwork } from '../../components/social-networks/models/social-network.model';
+
+export const homeTitleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+  const translateSrv = inject(TranslateService);
+  return translateSrv.get('pages.home.title').pipe(map((title) => `${appRootTitle} | ${title}`));
+};
 
 @Component({
   selector: 'app-home',

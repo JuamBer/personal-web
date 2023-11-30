@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { startWith } from 'rxjs';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { Page } from './models/page.model';
 
@@ -29,7 +30,7 @@ export class SidebarComponent implements OnInit {
       if (language) this.translateSrv.use(language.acronym);
     });
 
-    this.translateSrv.onLangChange.subscribe((lang) => {
+    this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe((lang) => {
       this.loadPage();
     });
 
@@ -42,11 +43,11 @@ export class SidebarComponent implements OnInit {
   loadPage() {
     this.pages = [
       {
-        name: this.translateSrv.instant('pages.home'),
+        name: this.translateSrv.instant('pages.home.title'),
         page: 'home',
       },
       {
-        name: this.translateSrv.instant('pages.certificates'),
+        name: this.translateSrv.instant('pages.certificates.title'),
         page: 'certificates',
       },
     ];

@@ -9,8 +9,12 @@
     "logOut": "Sair"
   },
   "pages": {
-    "home": "Resumo",
-    "certificates": "Certificados",
+    "home": {
+      "title": "Resumo"
+    },
+    "certificates": {
+      "title": "Certificados"
+    },
     "logIn": {
       "title": "Iniciar sessão",
       "resetPassword": "Esqueceu a sua senha?"

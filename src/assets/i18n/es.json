@@ -9,8 +9,12 @@
     "logOut": "Salir"
   },
   "pages": {
-    "home": "Resumen",
-    "certificates": "Certificados",
+    "home": {
+      "title": "Resumen"
+    },
+    "certificates": {
+      "title": "Certificados"
+    },
     "logIn": {
       "title": "Inicio de sesión",
       "resetPassword": "¿Has olvidado tu contraseña?"

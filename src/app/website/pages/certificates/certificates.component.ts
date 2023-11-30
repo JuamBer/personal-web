@@ -11,8 +11,11 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
+import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, filter, map, pairwise, startWith, takeUntil, zip } from 'rxjs';
+import { appRootTitle } from 'src/app/app.component';
 import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
 import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
@@ -24,6 +27,14 @@ import { publicLanguageReducer } from 'src/app/shared/state/languages/public-lan
 import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOptions } from 'swiper';
 
 Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
+
+export const certificatesTitleResolver: ResolveFn<string> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+) => {
+  const translateSrv = inject(TranslateService);
+  return translateSrv.get('pages.certificates.title').pipe(map((title) => `${appRootTitle} | ${title}`));
+};
 
 @Component({
   selector: 'app-certificates',
