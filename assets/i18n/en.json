@@ -9,8 +9,12 @@
     "logOut": "Go out"
   },
   "pages": {
-    "home": "Home",
-    "certificates": "Certificates",
+    "home": {
+      "title": "Home"
+    },
+    "certificates": {
+      "title": "Certificates"
+    },
     "logIn": {
       "title": "Log In",
       "resetPassword": "Forgot your password?"

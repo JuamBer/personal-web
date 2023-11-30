@@ -9,8 +9,12 @@
     "logOut": "Hinausgehen"
   },
   "pages": {
-    "home": "Zusammenfassung",
-    "certificates": "Zertifikate",
+    "home": {
+      "title": "Zusammenfassung"
+    },
+    "certificates": {
+      "title": "Zertifikate"
+    },
     "logIn": {
       "title": "Anmelden",
       "resetPassword": "Haben Sie Ihr Passwort vergessen?"

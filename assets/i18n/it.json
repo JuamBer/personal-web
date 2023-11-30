@@ -9,8 +9,12 @@
     "logOut": "Esci"
   },
   "pages": {
-    "home": "Casa",
-    "certificates": "Certificati",
+    "home": {
+      "title": "Casa"
+    },
+    "certificates": {
+      "title": "Certificati"
+    },
     "logIn": {
       "title": "Accesso",
       "resetPassword": "Hai dimenticato la password?"
