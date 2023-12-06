@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GenericTableComponent } from './generic-table.component';
 
 describe('GenericTableComponent', () => {
-  let component: GenericTableComponent<any>;
-  let fixture: ComponentFixture<GenericTableComponent<any>>;
+  let component: GenericTableComponent<unknown>;
+  let fixture: ComponentFixture<GenericTableComponent<unknown>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

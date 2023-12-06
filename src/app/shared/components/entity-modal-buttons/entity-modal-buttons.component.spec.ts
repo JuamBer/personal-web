@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EntityModalButtonsComponent } from './entity-modal-buttons.component';
 
 describe('EntityModalButtonsComponent', () => {
-  let component: EntityModalButtonsComponent<any>;
-  let fixture: ComponentFixture<EntityModalButtonsComponent<any>>;
+  let component: EntityModalButtonsComponent<unknown>;
+  let fixture: ComponentFixture<EntityModalButtonsComponent<unknown>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
