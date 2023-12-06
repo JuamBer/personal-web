@@ -116,7 +116,7 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
     this.entity$.subscribe((entity) => {
       if (!entity) return;
 
-      if (!this.form.controls.id && entity.id) {
+      if (!this.form.controls.id) {
         this.form.addControl('id', this.fb.control<string | undefined | null>(entity.id, [Validators.required]));
       }
 

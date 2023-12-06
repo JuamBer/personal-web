@@ -111,7 +111,6 @@ export class PositionListComponent implements OnInit, OnDestroy, EntityList<Posi
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            if (!event.value.id) return;
             this.store.dispatch(positionActions.delete({ id: event.value.id }));
           },
         });

@@ -114,7 +114,7 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
     this.entity$.subscribe((entity) => {
       if (!entity) return;
 
-      if (!this.form.controls.id && entity.id) {
+      if (!this.form.controls.id) {
         this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
       }
       this.form.patchValue({

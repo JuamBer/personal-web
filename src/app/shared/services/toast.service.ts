@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Message } from 'primeng/api';

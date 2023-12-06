@@ -111,7 +111,6 @@ export class SkillListComponent implements OnInit, OnDestroy, EntityList<Skill> 
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            if (!event.value.id) return;
             this.store.dispatch(skillActions.delete({ id: event.value.id }));
           },
         });

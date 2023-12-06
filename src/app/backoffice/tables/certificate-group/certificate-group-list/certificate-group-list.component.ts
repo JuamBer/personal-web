@@ -108,7 +108,6 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            if (!event.value.id) return;
             this.store.dispatch(certificateGroupActions.delete({ id: event.value.id }));
           },
         });

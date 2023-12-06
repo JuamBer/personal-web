@@ -111,7 +111,6 @@ export class CompanyListComponent implements OnInit, OnDestroy, EntityList<Compa
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            if (!event.value.id) return;
             this.store.dispatch(companyActions.delete({ id: event.value.id }));
           },
         });

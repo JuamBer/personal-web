@@ -106,7 +106,6 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            if (!event.value.id) return;
             this.store.dispatch(languageActions.delete({ id: event.value.id }));
           },
         });

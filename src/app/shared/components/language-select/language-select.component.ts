@@ -10,6 +10,8 @@ import {
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { PrimeNGConfig } from 'primeng/api';
+import { DropdownChangeEvent } from 'primeng/dropdown';
+import { SelectButtonChangeEvent } from 'primeng/selectbutton';
 import { filter, take } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageActions } from '../../state/languages/public-language.actions';
@@ -59,7 +61,7 @@ export class LanguageSelectComponent implements OnInit {
     });
   }
 
-  onLanguageChange(event: any) {
+  onLanguageChange(event: DropdownChangeEvent | SelectButtonChangeEvent) {
     this.language = event.value;
     this.store.dispatch(publicLanguageActions.loadOneSuccess({ payload: this.language }));
   }

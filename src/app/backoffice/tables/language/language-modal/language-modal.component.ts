@@ -102,7 +102,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
     this.entity$.subscribe((entity) => {
       if (!entity) return;
 
-      if (!this.form.controls.id && entity.id) {
+      if (!this.form.controls.id) {
         this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
       }
 

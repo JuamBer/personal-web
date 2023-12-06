@@ -16,7 +16,7 @@ export class AuthService {
   private supabase: SupabaseClient;
 
   _session: AuthSession | null = null;
-  private currentUser: BehaviorSubject<User | boolean> | any = new BehaviorSubject(null);
+  private currentUser = new BehaviorSubject<User | null>(null);
 
   constructor() {
     this.supabase = supabaseClient;
@@ -25,14 +25,10 @@ export class AuthService {
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         if (session) this.currentUser.next(session.user);
       } else {
-        this.currentUser.next(false);
+        this.currentUser.next(null);
       }
     });
-
-    // Trigger initial session load
     this.loadUser();
-
-    this.supabase.auth.onAuthStateChange((event, session) => {});
   }
 
   async loadUser() {
@@ -44,7 +40,7 @@ export class AuthService {
     if (user.data.user) {
       this.currentUser.next(user.data.user);
     } else {
-      this.currentUser.next(false);
+      this.currentUser.next(null);
     }
   }
 
@@ -87,13 +83,6 @@ export class AuthService {
     });
   }
 
-  async sendResetPasswordER(email: string) {
-    return await this.supabase.auth.updateUser({
-      email: 'juambersaezgarcia@gmail.com',
-      password: '86upSp8wSp99bikfbq0w',
-    });
-  }
-
   signOut() {
     return this.supabase.auth.signOut();
   }
@@ -115,11 +104,11 @@ export class AuthService {
     return this.supabase.storage.from('avatars').upload(filePath, file);
   }
 
-  getCurrentUser(): Observable<User> {
+  getCurrentUser(): Observable<User | null> {
     return this.currentUser.asObservable();
   }
 
-  getCurrentUserId(): string | any {
+  getCurrentUserId(): string | null {
     if (this.currentUser.value) {
       return (this.currentUser.value as User).id;
     } else {

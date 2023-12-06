@@ -31,7 +31,8 @@
     "Lighthouse",
     "Assets",
     "Dependencies",
-    "Deploy"
+    "Deploy",
+    "Resource"
   ],
   "cSpell.words": [
     "cascadeselect",
