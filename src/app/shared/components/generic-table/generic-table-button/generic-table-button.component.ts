@@ -8,11 +8,21 @@ import { GenericTableButton, GenericTableConfig, TableEvent } from '../models/ge
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenericTableButtonComponent<T> {
-  @Input() position: 'top' | 'start' | 'end';
-  @Input() tableConfig: GenericTableConfig<T>;
-  @Input() button: GenericTableButton;
-  @Input() entity: T | null = null;
-  @Output() tableEvent: EventEmitter<TableEvent<T>> = new EventEmitter();
+  @Input({
+    required: true,
+  })
+  position!: 'top' | 'start' | 'end';
+  @Input()
+  tableConfig: GenericTableConfig<T> | undefined;
+  @Input({
+    required: true,
+  })
+  button!: GenericTableButton;
+  @Input({
+    required: true,
+  })
+  entity!: T;
+  @Output() tableEvent: EventEmitter<TableEvent<T>> = new EventEmitter<TableEvent<T>>();
 
   screenWidth = window.innerWidth;
 

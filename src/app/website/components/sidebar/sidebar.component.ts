@@ -30,7 +30,7 @@ export class SidebarComponent implements OnInit {
       if (language) this.translateSrv.use(language.acronym);
     });
 
-    this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe((lang) => {
+    this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadPage();
     });
 

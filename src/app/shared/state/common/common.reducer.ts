@@ -1,21 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createFeatureSelector, createReducer, createSelector, on, ReducerTypes } from '@ngrx/store';
 import * as fromRoot from '../../../shared/state/app-state';
+import { Resource } from '../../models/resource.model';
 import { ActionStatus, ActionType, CommonState } from './common-state';
+import { CommonAction } from './common.actions';
 
-export class CommonReducer<T, S extends CommonState<T>> {
+export class CommonReducer<T extends Resource, S extends CommonState<T>> {
   constructor(
     private name: string,
-    private actions: any,
+    private actions: CommonAction<T>,
     private initialState: S,
-    private reducers: ReducerTypes<any, any>[],
+    private reducers: ReducerTypes<S, any>[],
   ) {}
 
   public reducer = createReducer(
     this.initialState,
 
     //LOAD ONE REDUCERS
-    on(this.actions.loadOne, (state) => ({
-      ...state,
+    on(this.actions.loadOne, (state): any => ({
+      ...(state as any),
       loading: true,
       action: {
         type: ActionType.LOAD_ONE,
@@ -24,7 +27,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
     })),
     on(this.actions.loadOneSuccess, (state, { payload }) => {
       const entities = [...state.entities];
-      const index = entities.findIndex((i: any) => i.id === payload.id);
+      const index = entities.findIndex((entity) => entity.id === payload.id);
       if (index >= 0) {
         entities[index] = payload;
       } else {
@@ -42,7 +45,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
         },
       };
     }),
-    on(this.actions.loadOneFail, (state, error) => ({
+    on(this.actions.loadOneFail, (state): any => ({
       ...state,
       loading: false,
       action: {
@@ -52,7 +55,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
     })),
 
     //LOAD ALL REDUCERS
-    on(this.actions.loadAll, (state) => ({
+    on(this.actions.loadAll, (state): any => ({
       ...state,
       loading: true,
       action: {
@@ -61,7 +64,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
       },
     })),
     on(this.actions.loadAllSuccess, (state, { payload }) => {
-      const selected = state.entities.find((i: any) => i.id === state.selectedId);
+      const selected = state.entities.find((entity) => entity.id === state.selectedId);
 
       return {
         ...state,
@@ -82,7 +85,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
         },
       };
     }),
-    on(this.actions.loadAllFail, (state, error) => ({
+    on(this.actions.loadAllFail, (state): any => ({
       ...state,
       loading: false,
       action: {
@@ -92,7 +95,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
     })),
 
     //LOAD MORE REDUCERS
-    on(this.actions.loadMore, (state) => ({
+    on(this.actions.loadMore, (state): any => ({
       ...state,
       loading: true,
       action: {
@@ -100,7 +103,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.loadMoreSuccess, (state, { payload }) => {
+    on(this.actions.loadMoreSuccess, (state, { payload }): any => {
       return {
         ...state,
         loading: false,
@@ -111,7 +114,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
         },
       };
     }),
-    on(this.actions.loadMoreFail, (state, error) => ({
+    on(this.actions.loadMoreFail, (state): any => ({
       ...state,
       loading: false,
       action: {
@@ -121,7 +124,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
     })),
 
     //CREATE REDUCERS
-    on(this.actions.create, (state) => ({
+    on(this.actions.create, (state): any => ({
       ...state,
       loading: true,
       action: {
@@ -129,7 +132,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.createSuccess, (state, { payload }) => {
+    on(this.actions.createSuccess, (state, { payload }): any => {
       return {
         ...state,
         loading: false,
@@ -141,7 +144,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
         },
       };
     }),
-    on(this.actions.createFail, (state, error) => ({
+    on(this.actions.createFail, (state): any => ({
       ...state,
       loading: false,
       action: {
@@ -151,7 +154,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
     })),
 
     //UPDATE REDUCERS
-    on(this.actions.update, (state) => ({
+    on(this.actions.update, (state): any => ({
       ...state,
       loading: true,
       action: {
@@ -159,26 +162,22 @@ export class CommonReducer<T, S extends CommonState<T>> {
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.updateSuccess, (state, { payload }) => {
-      console.log('update success', state, payload);
-
-      return {
-        ...state,
-        loading: false,
-        entities: state.entities.map((i: any) => {
-          if (i.id === payload.id) {
-            return payload;
-          } else {
-            return i;
-          }
-        }),
-        action: {
-          type: ActionType.UPDATE_ONE,
-          status: ActionStatus.SUCCESS,
-        },
-      };
-    }),
-    on(this.actions.createFail, (state, error) => ({
+    on(this.actions.updateSuccess, (state, { payload }): any => ({
+      ...state,
+      loading: false,
+      entities: state.entities.map((entity) => {
+        if (entity.id === payload.id) {
+          return payload;
+        } else {
+          return entity;
+        }
+      }),
+      action: {
+        type: ActionType.UPDATE_ONE,
+        status: ActionStatus.SUCCESS,
+      },
+    })),
+    on(this.actions.createFail, (state): any => ({
       ...state,
       loading: false,
       action: {
@@ -188,7 +187,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
     })),
 
     //DELETE REDUCERS
-    on(this.actions.delete, (state) => ({
+    on(this.actions.delete, (state): any => ({
       ...state,
       loading: true,
       action: {
@@ -196,25 +195,23 @@ export class CommonReducer<T, S extends CommonState<T>> {
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.deleteSuccess, (state, { id }) => {
-      return {
-        ...state,
-        loading: false,
-        count: state.count - 1,
-        entities: state.entities.filter((i: any) => {
-          if (i.id === id) {
-            return false;
-          } else {
-            return true;
-          }
-        }),
-        action: {
-          type: ActionType.DELETE_ONE,
-          status: ActionStatus.SUCCESS,
-        },
-      };
-    }),
-    on(this.actions.deleteFail, (state, error) => ({
+    on(this.actions.deleteSuccess, (state, { id }): any => ({
+      ...state,
+      loading: false,
+      count: state.count - 1,
+      entities: state.entities.filter((entity) => {
+        if (entity.id === id) {
+          return false;
+        } else {
+          return true;
+        }
+      }),
+      action: {
+        type: ActionType.DELETE_ONE,
+        status: ActionStatus.SUCCESS,
+      },
+    })),
+    on(this.actions.deleteFail, (state): any => ({
       ...state,
       loading: false,
       action: {
@@ -224,7 +221,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
     })),
 
     //COUNT REDUCERS
-    on(this.actions.count, (state) => ({
+    on(this.actions.count, (state): any => ({
       ...state,
       loading: true,
       action: {
@@ -232,7 +229,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.countSuccess, (state, { payload }) => {
+    on(this.actions.countSuccess, (state, { payload }): any => {
       return {
         ...state,
         loading: false,
@@ -243,7 +240,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
         },
       };
     }),
-    on(this.actions.countFail, (state, error) => ({
+    on(this.actions.countFail, (state): any => ({
       ...state,
       loading: false,
       action: {
@@ -253,15 +250,16 @@ export class CommonReducer<T, S extends CommonState<T>> {
     })),
 
     //UNLOAD
-    on(this.actions.unload, (state) => ({
+    on(this.actions.unload, (state): any => ({
       ...state,
       selectedId: null,
     })),
 
     //UNLOAD
-    on(this.actions.unloadAll, (state) => ({
+    on(this.actions.unloadAll, (state): any => ({
       ...state,
       entities: [],
+      selectedId: null,
     })),
 
     ...this.reducers,
@@ -276,6 +274,7 @@ export class CommonReducer<T, S extends CommonState<T>> {
   public getAction = createSelector(this.getCommonFeatureState, (state: S) => state.action);
   public getLoading = createSelector(this.getCommonFeatureState, (state: S) => state.loading);
 }
+// eslint-disable-next-line @typescript-eslint/no-namespace
 namespace CommonReducer {
   export interface AppState extends fromRoot.AppState {
     tags: CommonState<any>;

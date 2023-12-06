@@ -29,9 +29,9 @@
               <app-input-translations
                 [showErrors]="showErrors$"
                 [type]="InputTranslationsType.INPUT"
-                [translations]="(entity$ | async)?.nameTranslations"
+                [translations]="(entity$ | async)?.nameTranslations!"
                 [disabled]="modalMode === ModalMode.VIEW"
-                [form]="form.controls[field]"
+                [form]="$any(form.get(field))"
                 [label]="'columns.name' | translate"
               ></app-input-translations>
             </div>
@@ -44,9 +44,9 @@
               <app-input-translations
                 [showErrors]="showErrors$"
                 [type]="InputTranslationsType.TEXTAREA"
-                [translations]="(entity$ | async)?.descriptionTranslations"
+                [translations]="(entity$ | async)?.descriptionTranslations!"
                 [disabled]="modalMode === ModalMode.VIEW"
-                [form]="form.controls[field]"
+                [form]="$any(form.get(field))"
                 [label]="'columns.description' | translate"
               ></app-input-translations>
             </div>
@@ -61,7 +61,7 @@
           ></app-entity-modal-buttons>
           <app-entity-modal-audit
             [loading]="loading"
-            [entity]="entity$ | async"
+            [entity]="entity"
             [modalMode]="modalMode"
           ></app-entity-modal-audit>
         </form>

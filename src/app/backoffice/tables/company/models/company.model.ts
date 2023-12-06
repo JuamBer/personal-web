@@ -4,7 +4,6 @@ import { Translation, TranslationFormGroup } from 'src/app/shared/models/transla
 import { CompanyType } from './company-type.model';
 
 export interface Company extends AuditFields {
-  id: string;
   location: string;
   name: string;
   descriptionTranslations: Translation[];
@@ -12,8 +11,8 @@ export interface Company extends AuditFields {
 }
 
 export type CompanyFormGroup = FormGroup<{
-  id?: FormControl<string>;
-  location: FormControl<string | undefined>;
-  name: FormControl<string | undefined>;
+  id?: FormControl<string | null>;
+  location: FormControl<string | undefined | null>;
+  name: FormControl<string | undefined | null>;
   descriptionTranslations: FormArray<TranslationFormGroup>;
 }>;

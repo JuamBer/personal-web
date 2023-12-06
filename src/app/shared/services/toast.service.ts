@@ -7,7 +7,11 @@ import { Action, ActionStatus, ActionType } from '../state/common/common-state';
 export class ToastService {
   private translateSrv = inject(TranslateService);
 
-  getMessage(action: Action, entity: string): Message | undefined {
+  getMessage(action: Action | undefined, entity: string): Message | undefined {
+    if (!action) {
+      return undefined;
+    }
+
     switch (action.type) {
       case ActionType.COUNT: {
         switch (action.status) {

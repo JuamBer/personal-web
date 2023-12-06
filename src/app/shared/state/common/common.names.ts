@@ -29,9 +29,6 @@ export class CommonNames {
       case Naming.CAMEL_CASE:
         result = NamingUtils.kebabCaseToCamelCase(result);
         break;
-      case Naming.KEBAB_CASE:
-        result = result;
-        break;
       case Naming.PASCAL_CASE:
         result = NamingUtils.kebabCaseToPascalCase(result);
         break;

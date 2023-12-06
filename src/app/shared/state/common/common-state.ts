@@ -1,3 +1,5 @@
+import { Resource } from '../../models/resource.model';
+
 export enum ActionType {
   COUNT = 'COUNT',
   LOAD_ONE = 'LOAD_ONE',
@@ -18,15 +20,15 @@ export interface Action {
   type: ActionType;
   status: ActionStatus;
 }
-export interface CommonState<T> {
+export interface CommonState<T extends Resource> {
   entities: T[];
-  selectedId: string;
+  selectedId: string | undefined;
   count: number;
   loading: boolean;
-  action: Action;
+  action: Action | undefined;
 }
 
-export const defaultCommonState: CommonState<unknown> = {
+export const defaultCommonState: CommonState<Resource> = {
   entities: [],
   selectedId: undefined,
   count: 0,

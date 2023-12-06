@@ -27,7 +27,7 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
   private translateSrv = inject(TranslateService);
   private titleCasePipe = inject(TitleCasePipe);
 
-  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
   chartOptions$: Observable<ChartOptions> = this.translateSrv.onLangChange.pipe(
     startWith(this.translateSrv.currentLang),
     map(() => ({
@@ -88,8 +88,8 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
     this.store.select(certificateReducer.getAll),
     this.language$,
   ]).pipe(
-    filter(([certificates, language]) => certificates.length > 0),
-    map(([certificates, language]) => {
+    filter(([certificates]) => certificates.length > 0),
+    map(([certificates]) => {
       const certificatesSorted = [...certificates].sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
       );
@@ -110,7 +110,7 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
         });
       }
       let aux = 0;
-      const data = [];
+      const data: any[] = [];
       labelsData.forEach((labelData) => {
         const certificatesPerMonth =
           aux +

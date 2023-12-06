@@ -6,6 +6,6 @@ export interface Translation {
 }
 
 export type TranslationFormGroup = FormGroup<{
-  language: FormControl<string>;
-  value: FormControl<string | undefined>;
+  language: FormControl<string | null>;
+  value: FormControl<string | undefined | null>;
 }>;

@@ -40,7 +40,7 @@ export class LoadingDirective implements AfterViewInit {
     });
   }
 
-  handleLoading(isLoading) {
+  handleLoading(isLoading: boolean) {
     if (isLoading) {
       this.skeletonComponentRef = this.viewContainerRef.createComponent<Skeleton>(Skeleton);
       this.skeletonComponentRef.instance.height = `${

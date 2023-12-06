@@ -1,20 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { map } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
-export const formResetPasswordTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const formResetPasswordTitleResolver: ResolveFn<string> = () => {
   const translateSrv = inject(TranslateService);
-  return translateSrv
-    .get('pages.form-reset-password.title')
-    .pipe(map((title) => `${appRootTitle} | Form Reset Password`));
+  return translateSrv.get('pages.form-reset-password.title').pipe(map(() => `${appRootTitle} | Form Reset Password`));
 };
 
 @Component({
@@ -23,31 +18,17 @@ export const formResetPasswordTitleResolver: ResolveFn<string> = (
   styleUrls: ['./form-reset-password.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormResetPasswordComponent implements OnInit {
+export class FormResetPasswordComponent {
   private messageSrv = inject(MessageService);
   private fb = inject(FormBuilder);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private translateSrv = inject(TranslateService);
   private supabaseSrv = inject(AuthService);
 
-  form: FormGroup;
+  form: FormGroup = this.fb.group({
+    password: [undefined, Validators.required],
+    repeat_password: [undefined, Validators.required],
+  });
   returnUrl: string = '/';
-  token: string;
   loading: boolean = false;
-
-  res: string;
-
-  ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.token = params['token'];
-    });
-
-    this.form = this.fb.group({
-      password: [undefined, Validators.required],
-      repeat_password: [undefined, Validators.required],
-    });
-  }
 
   async onSubmit() {
     if (this.form.invalid) {
@@ -55,7 +36,7 @@ export class FormResetPasswordComponent implements OnInit {
     }
     this.loading = true;
 
-    const { data, error } = await this.supabaseSrv.updatePassword(this.form.value.password);
+    const { error } = await this.supabaseSrv.updatePassword(this.form.value.password);
     if (error instanceof Error) {
       this.messageSrv.add({
         severity: 'warn',
@@ -63,7 +44,6 @@ export class FormResetPasswordComponent implements OnInit {
         detail: error.message,
       });
     } else {
-      this.res = JSON.stringify(data);
       this.messageSrv.add({
         severity: 'success',
         summary: 'Success',

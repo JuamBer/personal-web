@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { certificateGroupNames } from '../tables/certificate-group/state/certificate-group.names';
 import { certificateTypeNames } from '../tables/certificate-type/state/certificate-type.names';
@@ -23,10 +21,8 @@ export interface Menu {
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent implements OnInit {
-  private translateSrv = inject(TranslateService);
+export class HomeComponent {
   private router = inject(Router);
-  private store = inject(Store);
 
   names: string[] = [
     certificateGroupNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
@@ -49,8 +45,6 @@ export class HomeComponent implements OnInit {
     skillNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     skillTypeNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
   ];
-
-  ngOnInit(): void {}
 
   goTo(url: string) {
     this.router.navigate([url]);

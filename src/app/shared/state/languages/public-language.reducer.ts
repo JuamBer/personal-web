@@ -88,9 +88,11 @@ export const initialState: PublicLanguageState = {
   ],
   selectedId: englishId,
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const otherReducers: ReducerTypes<any, any>[] = [
   on(publicLanguageActions.loadOneByAcronym, (state, { acronym }) => {
-    const selectedId = state.entities.find((language) => language.acronym === acronym)?.id;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const selectedId = state.entities.find((language: any) => language.acronym === acronym)?.id;
     return {
       ...state,
       loading: false,

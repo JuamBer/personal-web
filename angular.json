@@ -20,15 +20,10 @@
             "outputPath": "dist/personal-web",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
               "./node_modules/primeng/resources/primeng.min.css",
@@ -76,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "pro": {
-              "browserTarget": "personal-web:build:pro"
+              "buildTarget": "personal-web:build:pro"
             },
             "dev": {
-              "browserTarget": "personal-web:build:dev"
+              "buildTarget": "personal-web:build:dev"
             }
           },
           "defaultConfiguration": "dev"
@@ -87,35 +82,24 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "personal-web:build"
+            "buildTarget": "personal-web:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -123,10 +107,6 @@
   },
   "cli": {
     "analytics": "1241864f-3741-4cb1-83e3-4717bc51e8c5",
-    "schematicCollections": [
-      "@angular-eslint/schematics",
-      "@ngrx/schematics",
-      "@ngrx/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics", "@ngrx/schematics", "@ngrx/schematics"]
   }
 }

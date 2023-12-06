@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, from } from 'rxjs';
@@ -20,23 +20,20 @@ import { languageActions } from '../state/language.actions';
 import { languageNames } from '../state/language.names';
 import { languageReducer } from '../state/language.reducer';
 
-export const languageModalTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const languageModalTitleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot) => {
   const store = inject(Store);
   const languageSrv = inject(LanguageService);
   const translateSrv = inject(TranslateService);
   return store.select(publicLanguageReducer.getOne).pipe(
     filter((i) => !!i),
-    switchMap((language) =>
+    switchMap(() =>
       translateSrv
         .get(`tables.${languageNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`)
         .pipe(
           !route.paramMap.get('id')
             ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
             : switchMap((table) =>
-                from(languageSrv.getTitle(route.paramMap.get('id'))).pipe(
+                from(languageSrv.getTitle(route.paramMap.get('id')!)).pipe(
                   map((selected) => `${appRootTitle} | ${table} | ${selected.nativeName}`),
                 ),
               ),
@@ -51,7 +48,7 @@ export const languageModalTitleResolver: ResolveFn<string> = (
   styleUrls: ['./language-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LanguageModalComponent implements OnInit, EntityModal<Language> {
+export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<Language> {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private store = inject(Store);
@@ -65,7 +62,7 @@ export class LanguageModalComponent implements OnInit, EntityModal<Language> {
     active: this.fb.control<boolean>(true, [Validators.required]),
   });
 
-  unsubscribe$: Subject<boolean> = new Subject();
+  unsubscribe$: Subject<void> = new Subject();
   params$: Observable<ModalParams> = this.route.params.pipe(
     takeUntil(this.unsubscribe$),
     map((params) => params as ModalParams),
@@ -75,15 +72,16 @@ export class LanguageModalComponent implements OnInit, EntityModal<Language> {
     takeUntil(this.unsubscribe$),
     map((params) => ModalMode[params.modalMode]),
   );
-  entity$: Observable<Language> = this.store.select(languageReducer.getOne).pipe(
+  entity$: Observable<Language | undefined> = this.store.select(languageReducer.getOne).pipe(
     takeUntil(this.unsubscribe$),
     filter((entity) => !!entity),
   );
-  action$: Observable<Action> = this.store.select(languageReducer.getAction).pipe(
+  action$: Observable<Action | undefined> = this.store.select(languageReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
     filter(
       (action) =>
+        !!action &&
         (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
         action.status === ActionStatus.SUCCESS,
     ),
@@ -93,17 +91,21 @@ export class LanguageModalComponent implements OnInit, EntityModal<Language> {
     this.action$.subscribe(() => {
       this.hide();
     });
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(languageActions.loadOne({ id: params.id })));
+    this.params$.pipe(filter((params) => !!params.id)).subscribe((params) => {
+      if (!params.id) return;
+      this.store.dispatch(languageActions.loadOne({ id: params.id }));
+    });
 
     this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
       this.form.disable();
     });
     this.entity$.subscribe((entity) => {
-      if (!this.form.controls.id) {
+      if (!entity) return;
+
+      if (!this.form.controls.id && entity.id) {
         this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
       }
+
       this.form.patchValue({
         id: entity.id,
         name: entity.name,
@@ -115,7 +117,7 @@ export class LanguageModalComponent implements OnInit, EntityModal<Language> {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
@@ -131,10 +133,10 @@ export class LanguageModalComponent implements OnInit, EntityModal<Language> {
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(languageActions.create({ payload: this.form.value }));
+            this.store.dispatch(languageActions.create({ payload: this.form.value as Language }));
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(languageActions.update({ payload: this.form.value }));
+            this.store.dispatch(languageActions.update({ payload: this.form.value as Language }));
             break;
         }
       });

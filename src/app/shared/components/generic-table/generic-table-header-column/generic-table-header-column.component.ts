@@ -33,18 +33,21 @@ export class GenericTableHeaderColumnComponent<T> {
   private fb = inject(FormBuilder);
   private store = inject(Store);
 
-  @ViewChild(OverlayPanel) filterTypes: OverlayPanel;
+  @ViewChild(OverlayPanel) filterTypes!: OverlayPanel;
 
   filterFormGroup = this.fb.group({
     value: [undefined, [Validators.required]],
-    filterType: [undefined, [Validators.required]],
+    filterType: this.fb.control<FilterType | undefined>(undefined, [Validators.required]),
   });
 
   sorting: 'initial' | 'ascending' | 'descending' = 'initial';
 
   language$ = this.store.select(publicLanguageReducer.getOne);
 
-  @Input() field: GenericFieldConfig<T>;
+  @Input({
+    required: true,
+  })
+  field!: GenericFieldConfig<T>;
   @Output() filter = new EventEmitter<FilterEvent<T>>();
   @Output() sort = new EventEmitter<SortEvent<T>>();
 
@@ -56,11 +59,13 @@ export class GenericTableHeaderColumnComponent<T> {
       isHighlight = true;
     }
 
-    Object.entries(event?.filters)?.forEach(([k, v]) => {
-      if (k === this.field.field) {
-        isHighlight = true;
-      }
-    });
+    if (event?.filters && !Array.isArray(event?.filters)) {
+      Object.entries(event?.filters)?.forEach(([k]) => {
+        if (k === this.field.field) {
+          isHighlight = true;
+        }
+      });
+    }
 
     this.isHighlight = isHighlight;
   }

@@ -7,10 +7,11 @@
           class="title"
           #group
           [id]="certificateGroup.id"
-          [@certificateGroupEnterAnimation]="getCertificateGroupEnterAnimationState(certificateGroup.id)"
+          [@certificateGroupEnterAnimation]="getCertificateGroupEnterAnimationState(certificateGroup?.id)"
         >
           <h3>{{ getTranslation(language.acronym, certificateGroup.nameTranslations) }}</h3>
         </div>
+        @if(certificateGroup && certificateGroup.certificates){
         <swiper [config]="swiperConfig" [id]="'.swiper' + certificateGroup?.id">
           @for(certificate of orderByDate(certificateGroup.certificates); track certificate){
           <ng-template swiperSlide>
@@ -63,6 +64,7 @@
           </ng-template>
           }
         </swiper>
+        }
       </div>
     </div>
     } @switch (skillTypesActionStatus$ | async) { @case(ActionStatus.PENDING){

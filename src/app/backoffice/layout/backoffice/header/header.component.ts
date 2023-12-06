@@ -18,7 +18,7 @@ export class HeaderComponent {
   private translateSrv = inject(TranslateService);
 
   sidebarVisible = false;
-  user$ = this.authService.getCurrentUser() as Observable<any>;
+  user$ = this.authService.getCurrentUser();
 
   public breadcrumbs$: Observable<MenuItem[]> = this.router.events.pipe(
     startWith(undefined),

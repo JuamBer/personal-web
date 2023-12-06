@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 
 import { TitleCasePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -26,10 +26,7 @@ import { skillTypeActions } from '../state/skill-type.actions';
 import { skillTypeNames } from '../state/skill-type.names';
 import { skillTypeReducer } from '../state/skill-type.reducer';
 
-export const skillTypeListTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const skillTypeListTitleResolver: ResolveFn<string> = () => {
   const store = inject(Store);
   const translateSrv = inject(TranslateService);
 
@@ -58,18 +55,22 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
 
-  unsubscribe$: Subject<boolean> = new Subject();
-  action$: Observable<Action> = this.store.select(skillTypeReducer.getAction).pipe(takeUntil(this.unsubscribe$));
+  unsubscribe$: Subject<void> = new Subject();
+  action$: Observable<Action | undefined> = this.store
+    .select(skillTypeReducer.getAction)
+    .pipe(takeUntil(this.unsubscribe$));
   entities$: Observable<SkillType[]> = this.store.select(skillTypeReducer.getAll);
   loading$: Observable<boolean> = this.store.select(skillTypeReducer.getLoading);
   count$: Observable<number> = this.store.select(skillTypeReducer.getCount);
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<SkillType | undefined>>(undefined);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<SkillType> | undefined>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(skillTypeActions.count());
+
     this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadTableConfig();
     });
+
     this.action$.subscribe((action) => {
       const message = this.toastSrv.getMessage(action, this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR));
       if (message) {
@@ -79,7 +80,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
@@ -113,6 +114,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
+            if (!event.value.id) return;
             this.store.dispatch(skillTypeActions.delete({ id: event.value.id }));
           },
         });

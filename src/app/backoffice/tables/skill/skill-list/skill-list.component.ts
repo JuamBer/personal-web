@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -25,10 +25,7 @@ import { skillActions } from '../state/skill.actions';
 import { skillNames } from '../state/skill.names';
 import { skillReducer } from '../state/skill.reducer';
 
-export const skillListTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const skillListTitleResolver: ResolveFn<string> = () => {
   const store = inject(Store);
   const translateSrv = inject(TranslateService);
 
@@ -57,12 +54,14 @@ export class SkillListComponent implements OnInit, OnDestroy, EntityList<Skill> 
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
 
-  unsubscribe$: Subject<boolean> = new Subject();
-  action$: Observable<Action> = this.store.select(skillReducer.getAction).pipe(takeUntil(this.unsubscribe$));
+  unsubscribe$: Subject<void> = new Subject();
+  action$: Observable<Action | undefined> = this.store
+    .select(skillReducer.getAction)
+    .pipe(takeUntil(this.unsubscribe$));
   entities$: Observable<Skill[]> = this.store.select(skillReducer.getAll);
   loading$: Observable<boolean> = this.store.select(skillReducer.getLoading);
   count$: Observable<number> = this.store.select(skillReducer.getCount);
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<Skill | undefined>>(undefined);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<Skill> | undefined>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(skillActions.count());
@@ -78,7 +77,7 @@ export class SkillListComponent implements OnInit, OnDestroy, EntityList<Skill> 
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
@@ -112,6 +111,7 @@ export class SkillListComponent implements OnInit, OnDestroy, EntityList<Skill> 
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
+            if (!event.value.id) return;
             this.store.dispatch(skillActions.delete({ id: event.value.id }));
           },
         });

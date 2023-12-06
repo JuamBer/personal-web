@@ -1,10 +1,10 @@
 <div class="ui-g">
   <div class="p-col-12">
     <app-generic-table
-      [entities]="entities$ | async"
-      [loading]="loading$ | async"
-      [count]="count$ | async"
-      [config]="tableConfig$ | async"
+      [entities]="(entities$ | async)!"
+      [loading]="(loading$ | async)!"
+      [count]="(count$ | async)!"
+      [config]="(tableConfig$ | async)!"
       (lazyLoadEvent)="onLazyLoadEvent($event)"
       (tableEvent)="onTableEvent($event)"
     ></app-generic-table>

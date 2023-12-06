@@ -43,7 +43,7 @@ export class InputTranslationsComponent implements OnInit {
     }
   }
 
-  _showErrors: Observable<boolean>;
+  _showErrors!: Observable<boolean>;
   @Input({
     required: true,
   })
@@ -52,16 +52,16 @@ export class InputTranslationsComponent implements OnInit {
   }
 
   translations$: BehaviorSubject<Translation[]> = new BehaviorSubject<Translation[]>([]);
-  suggestions$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  suggestions$: BehaviorSubject<Translation[]> = new BehaviorSubject<Translation[]>([]);
 
   @Input({
     required: true,
   })
-  disabled: boolean;
+  disabled!: boolean;
   @Input({
     required: true,
   })
-  form: FormArray<TranslationFormGroup>;
+  form!: FormArray<TranslationFormGroup>;
   @Input({
     required: true,
   })
@@ -73,19 +73,44 @@ export class InputTranslationsComponent implements OnInit {
 
   visibility: boolean = false;
   languages: Language[] = [];
-  language: Language;
-  publicLanguage: Language;
+  language!: Language;
+  publicLanguage!: Language;
 
   languageToAddFormControl = new FormControl(null);
+
   languages$: Observable<Language[]> = this.store.select(publicLanguageReducer.getAll);
+
   activeLanguages$: Observable<Language[]> = this.store
     .select(publicLanguageReducer.getAll)
     .pipe(map((languages) => languages.filter((language) => language.active)));
-  languagesToFill$: Observable<Language[]>;
+
+  languagesToFill$: Observable<Language[]> = combineLatest([
+    this.languages$,
+    this.form.valueChanges.pipe(startWith(this.form.value)),
+  ]).pipe(
+    map(([languages, translations]) =>
+      languages.filter(
+        (language) =>
+          !!translations.find((translation) => translation.language === language.acronym) || language.active,
+      ),
+    ),
+  );
+
   disabledLanguages$: Observable<Language[]> = this.store
     .select(publicLanguageReducer.getAll)
     .pipe(map((languages) => languages.filter((language) => !language.active)));
-  languagesToAdd$: Observable<Language[]>;
+
+  languagesToAdd$: Observable<Language[]> = combineLatest([
+    this.disabledLanguages$,
+    this.form.valueChanges.pipe(startWith(this.form.value)),
+  ]).pipe(
+    map(([disabledLanguages, translations]) => {
+      const languagesToAdd = disabledLanguages.filter(
+        (language) => !translations.find((translation) => translation.language === language.acronym),
+      );
+      return languagesToAdd;
+    }),
+  );
 
   onHide() {
     FormUtils.markAllAsDirtyAndTouched(this.form);
@@ -99,28 +124,7 @@ export class InputTranslationsComponent implements OnInit {
         this.visibility = true;
       }
     });
-    this.languagesToFill$ = combineLatest([
-      this.languages$,
-      this.form.valueChanges.pipe(startWith(this.form.value)),
-    ]).pipe(
-      map(([languages, translations]) =>
-        languages.filter(
-          (language) =>
-            !!translations.find((translation) => translation.language === language.acronym) || language.active,
-        ),
-      ),
-    );
-    this.languagesToAdd$ = combineLatest([
-      this.disabledLanguages$,
-      this.form.valueChanges.pipe(startWith(this.form.value)),
-    ]).pipe(
-      map(([disabledLanguages, translations]) => {
-        const languagesToAdd = disabledLanguages.filter(
-          (language) => !translations.find((translation) => translation.language === language.acronym),
-        );
-        return languagesToAdd;
-      }),
-    );
+
     combineLatest([this.languagesToFill$, this.translations$]).subscribe(([languages, translations]) => {
       languages.forEach((language) => {
         if (this.form.value.findIndex((translation) => translation.language === language.acronym) < 0) {
@@ -143,9 +147,15 @@ export class InputTranslationsComponent implements OnInit {
       .select(publicLanguageReducer.getOne)
       .pipe(take(1))
       .subscribe((language) => {
-        this.language = language;
+        if (language) {
+          this.language = language;
+        }
       });
-    this.store.select(publicLanguageReducer.getOne).subscribe((language) => (this.publicLanguage = language));
+    this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
+      if (language) {
+        this.publicLanguage = language;
+      }
+    });
   }
 
   changeVisibility(visibility: boolean) {
@@ -173,13 +183,17 @@ export class InputTranslationsComponent implements OnInit {
     const translation = this.actualTranslationControl;
     return translation?.value?.value ? translation?.value?.value : '';
   }
-  onActualTranslationChange(event: any) {
+
+  onActualTranslationChange(event: Event) {
     const translation = this.actualTranslationControl;
-    translation.patchValue({
-      language: translation.value.language,
-      value: event.target.value,
-    });
-    translation.markAsDirty();
+    const value = event.target ? (event.target as HTMLInputElement).value : '';
+    if (translation) {
+      translation.patchValue({
+        language: translation.value.language,
+        value: value,
+      });
+      translation.markAsDirty();
+    }
   }
 
   get actualTranslationControl() {
@@ -188,25 +202,31 @@ export class InputTranslationsComponent implements OnInit {
     );
   }
 
-  addLanguage(language: Language) {
+  addLanguage(language: Language | null) {
+    if (!language) return;
+
     const languageForm: TranslationFormGroup = this.fb.group({
-      language: [language.acronym, [Validators.required]],
-      value: ['', [Validators.required]],
+      language: this.fb.control<string>(language.acronym, [Validators.required]),
+      value: this.fb.control<string | undefined>('', [Validators.required]),
     });
     this.form.push(languageForm);
   }
 
-  deleteLanguage(language: string) {
-    const index = this.form.controls.findIndex((translationForm) => translationForm.value.language === language);
+  removeLanguage(acronym: string | null) {
+    if (!acronym) return;
+
+    const index = this.form.controls.findIndex((translationForm) => translationForm.value.language === acronym);
     this.form.removeAt(index);
   }
 
-  showTimes(language: string, languages: Language[]) {
+  showTimes(language: string | null, languages: Language[]) {
     return !languages?.find((lang) => lang.acronym === language)?.active;
   }
 
-  setSuggestion(acronym: string) {
-    const spanishTranslation = this.form.value.find((translation) => translation.language === 'es').value;
+  setSuggestion(acronym: string | null) {
+    if (!acronym) return;
+
+    const spanishTranslation = this.form.value.find((translation) => translation.language === 'es')?.value;
 
     if (spanishTranslation) {
       this.inputTranslationsService
@@ -234,16 +254,18 @@ export class InputTranslationsComponent implements OnInit {
         });
     }
   }
-  getSuggestion(suggestions: any[], acronym: string) {
+  getSuggestion(suggestions: Translation[], acronym: string | null) {
+    if (!acronym) return;
+
     const suggestion = suggestions.find((s) => s.language === acronym)?.value;
     return suggestion ? suggestion : '';
   }
 
-  onKeyPress(event: KeyboardEvent, acronym: string) {
+  onKeyPress(event: KeyboardEvent, acronym: string | null) {
     if (event.key === 'Tab') {
       this.form.controls
         .find((translationForm) => translationForm.value.language === acronym)
-        .controls['value'].setValue(this.getSuggestion(this.suggestions$.getValue(), acronym));
+        ?.controls['value']?.setValue(this.getSuggestion(this.suggestions$.getValue(), acronym));
     }
   }
 

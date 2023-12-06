@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,17 +7,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./entity-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EntityCardComponent implements OnInit {
+export class EntityCardComponent {
   private router = inject(Router);
 
-  @Input() loading: boolean;
-  @Input() show: boolean;
-  @Input() title: string;
-  @Input() icon: string;
-  @Input() url: string;
-  @Input() count: string;
-
-  ngOnInit(): void {}
+  @Input() loading!: boolean;
+  @Input() show!: boolean;
+  @Input() title!: string;
+  @Input() icon!: string;
+  @Input() url!: string;
+  @Input() count!: string;
 
   goTo(url: string) {
     this.router.navigate([url]);

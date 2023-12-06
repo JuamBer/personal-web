@@ -2,9 +2,10 @@ import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { Filter, FilterType } from '../components/generic-table/models/generic-table.models';
+import { Resource } from '../models/resource.model';
 import { camelCaseToSnakeCase, flatObjectsById, snakeCaseToCamelCase } from '../utils/supabase-utils';
 
-export class CommonService<T> {
+export class CommonService<T extends Resource> {
   constructor(
     public supabase: SupabaseClient,
     public table: string,
@@ -13,8 +14,8 @@ export class CommonService<T> {
     public titleSelection = 'name',
   ) {}
 
-  async getAll(lazyLoadEvent: TableLazyLoadEvent): Promise<T[] | PostgrestError> {
-    let request = this.supabase.from(this.table).select(this.getAllSelection);
+  async getAll(lazyLoadEvent: TableLazyLoadEvent | null | undefined): Promise<T[]> {
+    const request = this.supabase.from(this.table).select(this.getAllSelection);
 
     if (lazyLoadEvent && ('sortField' in lazyLoadEvent || 'rows' in lazyLoadEvent)) {
       CommonService.applyFiltersAndSorting(request, lazyLoadEvent);
@@ -37,51 +38,54 @@ export class CommonService<T> {
     return snakeCaseToCamelCase(data);
   }
 
-  async create(payload: T): Promise<T | PostgrestError> {
+  async create(payload: T): Promise<T> {
     const { data, error } = await this.supabase
       .from(this.table)
       .insert([flatObjectsById(camelCaseToSnakeCase(payload))])
       .select();
     CommonService.handlePostgrestError(error);
-    return snakeCaseToCamelCase(data[0]);
+    return snakeCaseToCamelCase(data && data.length > 0 ? data[0] : null);
   }
 
-  async update(payload: T): Promise<T | PostgrestError> {
+  async update(payload: T): Promise<T> {
     const { data, error } = await this.supabase
       .from(this.table)
       .update(flatObjectsById(camelCaseToSnakeCase(payload)))
-      .match({ id: (payload as any).id })
+      .match({ id: payload.id })
       .select();
     CommonService.handlePostgrestError(error);
-    return snakeCaseToCamelCase(data[0]);
+    return snakeCaseToCamelCase(data && data.length > 0 ? data[0] : null);
   }
 
-  async upsert(payload: T): Promise<any | PostgrestError> {
+  async upsert(payload: T): Promise<T> {
     const { data, error } = await this.supabase
       .from(this.table)
       .upsert(flatObjectsById(camelCaseToSnakeCase(payload)))
       .select();
     CommonService.handlePostgrestError(error);
-    return data;
+    return snakeCaseToCamelCase(data && data.length > 0 ? data[0] : null);
   }
 
-  async delete(id: string): Promise<null | PostgrestError> {
+  async delete(id: string): Promise<null> {
     const { data, error } = await this.supabase.from(this.table).delete().match({ id });
     CommonService.handlePostgrestError(error);
     return data;
   }
 
-  async count(): Promise<number | PostgrestError> {
+  async count(): Promise<number> {
     const { count, error } = await this.supabase.from(this.table).select('*', { count: 'exact', head: true });
     CommonService.handlePostgrestError(error);
-    return count;
+    return count ? count : 0;
   }
 
   static applyFiltersAndSorting(
     request: PostgrestFilterBuilder<
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       any,
       {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         [x: string]: any;
       }[]
     >,
@@ -99,7 +103,7 @@ export class CommonService<T> {
     }
     if (lazyLoadEvent.filters && !Array.isArray(lazyLoadEvent.filters)) {
       Object.entries(lazyLoadEvent.filters).forEach(([key, filterMetadata]) => {
-        if (!Array.isArray(filterMetadata)) {
+        if (filterMetadata && !Array.isArray(filterMetadata)) {
           const field = key;
           const value = (filterMetadata.value as Filter).value;
           if (value) {
@@ -131,12 +135,18 @@ export class CommonService<T> {
       });
     }
 
-    if (Number.isInteger(lazyLoadEvent.first) && Number.isInteger(lazyLoadEvent.rows)) {
+    if (
+      lazyLoadEvent &&
+      lazyLoadEvent.first &&
+      Number.isInteger(lazyLoadEvent.first) &&
+      lazyLoadEvent.rows &&
+      Number.isInteger(lazyLoadEvent.rows)
+    ) {
       request = request.range(lazyLoadEvent.first, lazyLoadEvent.first + lazyLoadEvent.rows - 1);
     }
   }
 
-  static handlePostgrestError(error: PostgrestError) {
+  static handlePostgrestError(error: PostgrestError | null) {
     if (error) {
       throw new Error(error.message ? error.message : error.code);
     }

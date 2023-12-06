@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -25,10 +25,7 @@ import { positionActions } from '../state/position.actions';
 import { positionNames } from '../state/position.names';
 import { positionReducer } from '../state/position.reducer';
 
-export const positionListTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const positionListTitleResolver: ResolveFn<string> = () => {
   const store = inject(Store);
   const translateSrv = inject(TranslateService);
 
@@ -57,12 +54,14 @@ export class PositionListComponent implements OnInit, OnDestroy, EntityList<Posi
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
 
-  unsubscribe$: Subject<boolean> = new Subject();
-  action$: Observable<Action> = this.store.select(positionReducer.getAction).pipe(takeUntil(this.unsubscribe$));
+  unsubscribe$: Subject<void> = new Subject();
+  action$: Observable<Action | undefined> = this.store
+    .select(positionReducer.getAction)
+    .pipe(takeUntil(this.unsubscribe$));
   entities$: Observable<Position[]> = this.store.select(positionReducer.getAll);
   loading$: Observable<boolean> = this.store.select(positionReducer.getLoading);
   count$: Observable<number> = this.store.select(positionReducer.getCount);
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<Position | undefined>>(undefined);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<Position> | undefined>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(positionActions.count());
@@ -78,7 +77,7 @@ export class PositionListComponent implements OnInit, OnDestroy, EntityList<Posi
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
@@ -112,6 +111,7 @@ export class PositionListComponent implements OnInit, OnDestroy, EntityList<Posi
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
+            if (!event.value.id) return;
             this.store.dispatch(positionActions.delete({ id: event.value.id }));
           },
         });

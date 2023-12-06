@@ -4,14 +4,13 @@ import { Translation, TranslationFormGroup } from 'src/app/shared/models/transla
 import { Skill } from '../../skill/models/skill.model';
 
 export interface SkillType extends AuditFields {
-  id: string;
   nameTranslations: Translation[];
   descriptionTranslations: Translation[];
   skills?: Skill[];
 }
 
 export type SkillTypeFormGroup = FormGroup<{
-  id?: FormControl<string>;
+  id?: FormControl<string | undefined | null>;
   nameTranslations: FormArray<TranslationFormGroup>;
   descriptionTranslations: FormArray<TranslationFormGroup>;
 }>;

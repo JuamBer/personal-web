@@ -46,20 +46,20 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
 
-  @ViewChildren('position') positionElements: QueryList<ElementRef>;
+  @ViewChildren('position') positionElements!: QueryList<ElementRef<HTMLLIElement>>;
   positionElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
 
   unsubscribe$: Subject<void> = new Subject();
-  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
   positionsActionStatus$: Observable<ActionStatus> = this.store.select(positionReducer.getAction).pipe(
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
-    map((action) => action.status),
+    map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
   positionsGrouped$: Observable<PositionGroupedByCompany[]> = this.store.select(positionReducer.getAll).pipe(
     map((positions) => positions.filter((position) => position.importance > 1)),
     map((positions) => {
       let positionsGroupedByCompany: PositionGroupedByCompany[] = [];
-      let positionsSorted = [...positions].sort((a, b) => {
+      const positionsSorted = [...positions].sort((a, b) => {
         return new Date(b.dateFrom).getTime() - new Date(a.dateFrom).getTime();
       });
 
@@ -118,7 +118,8 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
     });
   }
 
-  getPositionEnterAnimationState(companyId: string): 'inViewport' | 'notInViewport' {
+  getPositionEnterAnimationState(companyId: string | undefined): 'inViewport' | 'notInViewport' {
+    if (!companyId) return 'notInViewport';
     return this.positionElementStates.get(companyId) || 'notInViewport';
   }
 

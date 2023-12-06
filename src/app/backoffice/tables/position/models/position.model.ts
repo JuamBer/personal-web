@@ -4,7 +4,6 @@ import { Translation, TranslationFormGroup } from 'src/app/shared/models/transla
 import { Company } from '../../company/models/company.model';
 
 export interface Position extends AuditFields {
-  id: string;
   nameTranslations: Translation[];
   descriptionTranslations: Translation[];
   company: Company;
@@ -15,11 +14,11 @@ export interface Position extends AuditFields {
 }
 
 export type PositionFormGroup = FormGroup<{
-  id?: FormControl<string>;
+  id?: FormControl<string | null>;
   nameTranslations: FormArray<TranslationFormGroup>;
   descriptionTranslations: FormArray<TranslationFormGroup>;
-  importance: FormControl<number>;
-  company: FormControl<Company | undefined>;
-  dateFrom: FormControl<Date | undefined>;
-  dateTo: FormControl<Date | undefined>;
+  importance: FormControl<number | null>;
+  company: FormControl<Company | undefined | null>;
+  dateFrom: FormControl<Date | undefined | null>;
+  dateTo: FormControl<Date | undefined | null>;
 }>;

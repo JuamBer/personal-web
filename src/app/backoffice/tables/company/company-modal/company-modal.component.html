@@ -24,8 +24,8 @@
               <span class="p-float-label">
                 <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
                 <label [for]="field">
-                  {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
-                  <span class="error">{{ form.controls[field] | errors | async }}</span>
+                  {{ 'columns.' + field | translate }} {{ form.get(field) | isRequired }}
+                  <span class="error">{{ form.get(field) | errors | async }}</span>
                 </label>
               </span>
             </div>
@@ -38,8 +38,8 @@
               <span class="p-float-label">
                 <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
                 <label [for]="field">
-                  {{ 'columns.' + field | translate }} {{ form.controls[field] | isRequired }}
-                  <span class="error">{{ form.controls[field] | errors | async }}</span>
+                  {{ 'columns.' + field | translate }} {{ form.get(field) | isRequired }}
+                  <span class="error">{{ form.get(field) | errors | async }}</span>
                 </label>
               </span>
             </div>
@@ -52,9 +52,9 @@
               <app-input-translations
                 [showErrors]="showErrors$"
                 [type]="InputTranslationsType.TEXTAREA"
-                [translations]="(entity$ | async)?.descriptionTranslations"
+                [translations]="(entity$ | async)?.descriptionTranslations!"
                 [disabled]="modalMode === ModalMode.VIEW"
-                [form]="form.controls[field]"
+                [form]="$any(form.get(field))"
                 [label]="'columns.description' | translate"
               ></app-input-translations>
             </div>
@@ -69,7 +69,7 @@
           ></app-entity-modal-buttons>
           <app-entity-modal-audit
             [loading]="loading"
-            [entity]="entity$ | async"
+            [entity]="entity"
             [modalMode]="modalMode"
           ></app-entity-modal-audit>
         </form>

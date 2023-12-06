@@ -35,7 +35,7 @@ export class GenericTableComponent<T> implements OnInit {
   };
 
   @Output() tableEvent: EventEmitter<TableEvent<T>> = new EventEmitter();
-  previousTableEvent: TableEvent<T>;
+  previousTableEvent: TableEvent<T> | undefined;
 
   filters: FilterEvent<T>[] = [];
 
@@ -87,8 +87,9 @@ export class GenericTableComponent<T> implements OnInit {
   }
 
   rowTrackBy(index: number, element: T): number {
-    if (this.config) {
-      return element[this.config.dataKey];
+    if (this.config && this.config.dataKey && Object.hasOwnProperty.call(element, this.config.dataKey)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (element as any)[this.config.dataKey];
     } else {
       return index;
     }

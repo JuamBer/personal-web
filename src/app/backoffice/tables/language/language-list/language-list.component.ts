@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -25,10 +25,7 @@ import { languageActions } from '../state/language.actions';
 import { languageNames } from '../state/language.names';
 import { languageReducer } from '../state/language.reducer';
 
-export const languageListTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const languageListTitleResolver: ResolveFn<string> = () => {
   const store = inject(Store);
   const translateSrv = inject(TranslateService);
 
@@ -57,12 +54,14 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
 
-  unsubscribe$: Subject<boolean> = new Subject();
-  action$: Observable<Action> = this.store.select(languageReducer.getAction).pipe(takeUntil(this.unsubscribe$));
+  unsubscribe$: Subject<void> = new Subject();
+  action$: Observable<Action | undefined> = this.store
+    .select(languageReducer.getAction)
+    .pipe(takeUntil(this.unsubscribe$));
   entities$: Observable<Language[]> = this.store.select(languageReducer.getAll);
   loading$: Observable<boolean> = this.store.select(languageReducer.getLoading);
   count$: Observable<number> = this.store.select(languageReducer.getCount);
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<Language | undefined>>(undefined);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<Language> | undefined>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(languageActions.count());
@@ -107,6 +106,7 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
+            if (!event.value.id) return;
             this.store.dispatch(languageActions.delete({ id: event.value.id }));
           },
         });

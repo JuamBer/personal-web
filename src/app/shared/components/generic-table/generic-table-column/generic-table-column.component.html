@@ -3,8 +3,9 @@
     @switch (field.type) { @case(GenericFieldType.TEXT){
     {{ data }}
     } @case(GenericFieldType.DATE){
-    {{ data | date : 'dd/MM/yyyy' }}} @case(GenericFieldType.DATETIME){ {{ data | date : 'dd/MM/yyyy HH:mm' }}}
-    @case(GenericFieldType.IMAGE){ <img [src]="data" [alt]="field.label" />} @case(GenericFieldType.BOOLEAN){
+    {{ asDate(data) | date : 'dd/MM/yyyy' }}} @case(GenericFieldType.DATETIME){
+    {{ asDate(data) | date : 'dd/MM/yyyy HH:mm' }}} @case(GenericFieldType.IMAGE){
+    <img [src]="data" [alt]="field.label" />} @case(GenericFieldType.BOOLEAN){
     <i
       class="pi"
       [ngClass]="{ 'pi-check': data, 'pi-times': !data }"

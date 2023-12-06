@@ -33,7 +33,7 @@ export class ToolsComponent extends TranslationProvider implements AfterViewInit
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
 
-  @ViewChild('tools') toolsElement: ElementRef;
+  @ViewChild('tools') toolsElement!: ElementRef<HTMLDivElement>;
   toolsElementState: 'inViewport' | 'notInViewport' = 'notInViewport';
 
   @Input({
@@ -43,7 +43,7 @@ export class ToolsComponent extends TranslationProvider implements AfterViewInit
   @Input()
   loading: boolean = false;
 
-  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
 
   ngAfterViewInit(): void {
     const observer = new IntersectionObserver((entries) => {

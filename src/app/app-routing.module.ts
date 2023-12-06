@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   FormResetPasswordComponent,
   formResetPasswordTitleResolver,
-} from './backoffice/autentificacion/form-reset-password/form-reset-password.component';
-import { LoginComponent, loginTitleResolver } from './backoffice/autentificacion/login/login.component';
+} from './backoffice/authentication/form-reset-password/form-reset-password.component';
+import { LoginComponent, loginTitleResolver } from './backoffice/authentication/login/login.component';
 import {
   ResetPasswordComponent,
   resetPasswordTitleResolver,
-} from './backoffice/autentificacion/reset-password/reset-password.component';
+} from './backoffice/authentication/reset-password/reset-password.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [

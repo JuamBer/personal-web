@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, from } from 'rxjs';
@@ -25,23 +25,20 @@ import { skillActions } from '../state/skill.actions';
 import { skillNames } from '../state/skill.names';
 import { skillReducer } from '../state/skill.reducer';
 
-export const skillModalTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const skillModalTitleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot) => {
   const store = inject(Store);
   const skillSrv = inject(SkillService);
   const translateSrv = inject(TranslateService);
   return store.select(publicLanguageReducer.getOne).pipe(
     filter((i) => !!i),
-    switchMap((language) =>
+    switchMap(() =>
       translateSrv
         .get(`tables.${skillNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`)
         .pipe(
           !route.paramMap.get('id')
             ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
             : switchMap((table) =>
-                from(skillSrv.getTitle(route.paramMap.get('id'))).pipe(
+                from(skillSrv.getTitle(route.paramMap.get('id')!)).pipe(
                   map((selected) => `${appRootTitle} | ${table} | ${selected.name}`),
                 ),
               ),
@@ -56,7 +53,7 @@ export const skillModalTitleResolver: ResolveFn<string> = (
   styleUrls: ['./skill-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkillModalComponent extends TranslationProvider implements OnInit, EntityModal<Skill> {
+export class SkillModalComponent extends TranslationProvider implements OnInit, OnDestroy, EntityModal<Skill> {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private store = inject(Store);
@@ -64,36 +61,39 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
 
   visible = true;
   form: SkillFormGroup = this.fb.group({
-    name: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    skillType: this.fb.control<SkillType | undefined>(undefined, [Validators.required]),
-    percentage: this.fb.control<number>(0, [Validators.required]),
+    name: this.fb.control<string | undefined | null>(undefined, [Validators.required]),
+    skillType: this.fb.control<SkillType | undefined | null>(undefined, [Validators.required]),
+    percentage: this.fb.control<number | null>(0, [Validators.required]),
   });
 
-  unsubscribe$: Subject<boolean> = new Subject();
+  unsubscribe$: Subject<void> = new Subject();
   params$: Observable<ModalParams> = this.route.params.pipe(
     takeUntil(this.unsubscribe$),
     map((params) => params as ModalParams),
   );
   loading$: Observable<boolean> = this.store.select(skillReducer.getLoading).pipe(takeUntil(this.unsubscribe$));
+
   modalMode$: Observable<ModalMode> = this.params$.pipe(
     takeUntil(this.unsubscribe$),
     map((params) => ModalMode[params.modalMode]),
   );
-  entity$: Observable<Skill> = this.store.select(skillReducer.getOne).pipe(
+
+  entity$: Observable<Skill | undefined> = this.store.select(skillReducer.getOne).pipe(
     takeUntil(this.unsubscribe$),
     filter((entity) => !!entity),
   );
-  action$: Observable<Action> = this.store.select(skillReducer.getAction).pipe(
+  action$: Observable<Action | undefined> = this.store.select(skillReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
     filter(
       (action) =>
+        !!action &&
         (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
         action.status === ActionStatus.SUCCESS,
     ),
   );
   skillTypes$: Observable<SkillType[]> = this.store.select(skillTypeReducer.getAll);
-  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
 
   ngOnInit(): void {
     this.store.dispatch(skillTypeActions.loadAll({}));
@@ -101,14 +101,20 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
     this.action$.subscribe(() => {
       this.hide();
     });
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(skillActions.loadOne({ id: params.id })));
+
+    this.params$.pipe(filter((params) => !!params.id)).subscribe((params) => {
+      if (!params.id) return;
+      this.store.dispatch(skillActions.loadOne({ id: params.id }));
+    });
+
     this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
       this.form.disable();
     });
+
     this.entity$.subscribe((entity) => {
-      if (!this.form.controls.id) {
+      if (!entity) return;
+
+      if (!this.form.controls.id && entity.id) {
         this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
       }
       this.form.patchValue({
@@ -121,7 +127,7 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
@@ -138,10 +144,10 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(skillActions.create({ payload: this.form.value }));
+            this.store.dispatch(skillActions.create({ payload: this.form.value as Skill }));
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(skillActions.update({ payload: this.form.value }));
+            this.store.dispatch(skillActions.update({ payload: this.form.value as Skill }));
             break;
         }
       });

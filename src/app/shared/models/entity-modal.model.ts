@@ -3,14 +3,15 @@ import { Observable, Subject } from 'rxjs';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ModalParams } from 'src/app/shared/models/modal-params.model';
 import { CommonNames, Naming, NumberMode } from 'src/app/shared/state/common/common.names';
+import { Resource } from './resource.model';
 
-export interface EntityModal<T> {
+export interface EntityModal<T extends Resource> {
   visible: boolean;
   form: FormGroup;
-  unsubscribe$: Subject<boolean>;
+  unsubscribe$: Subject<void>;
   params$: Observable<ModalParams>;
   modalMode$: Observable<ModalMode>;
-  entity$: Observable<T>;
+  entity$: Observable<T | undefined>;
   loading$: Observable<boolean>;
   hide: () => void;
   send: () => void;

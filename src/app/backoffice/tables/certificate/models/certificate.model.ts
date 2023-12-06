@@ -6,7 +6,6 @@ import { CertificateType } from '../../certificate-type/models/certificate-type.
 import { Company } from '../../company/models/company.model';
 
 export interface Certificate extends AuditFields {
-  id: string;
   nameTranslations: Translation[];
   descriptionTranslations: Translation[];
   url: string;
@@ -22,18 +21,18 @@ export interface Certificate extends AuditFields {
   certificateType: CertificateType;
 }
 export type CertificateFormGroup = FormGroup<{
-  id?: FormControl<string>;
+  id?: FormControl<string | null>;
   nameTranslations: FormArray<TranslationFormGroup>;
   descriptionTranslations: FormArray<TranslationFormGroup>;
-  image: FormControl<string | undefined>;
-  pdf: FormControl<string | undefined>;
-  url: FormControl<string | undefined>;
-  date: FormControl<Date>;
-  github: FormControl<string | undefined>;
-  web: FormControl<string | undefined>;
-  microsoftStore: FormControl<string | undefined>;
-  playStore: FormControl<string | undefined>;
-  company: FormControl<Company | undefined>;
-  certificateGroup: FormControl<CertificateGroup | undefined>;
-  certificateType: FormControl<CertificateType | undefined>;
+  image: FormControl<string | undefined | null>;
+  pdf: FormControl<string | undefined | null>;
+  url: FormControl<string | undefined | null>;
+  date: FormControl<Date | null>;
+  github: FormControl<string | undefined | null>;
+  web: FormControl<string | undefined | null>;
+  microsoftStore: FormControl<string | undefined | null>;
+  playStore: FormControl<string | undefined | null>;
+  company: FormControl<Company | undefined | null>;
+  certificateGroup: FormControl<CertificateGroup | undefined | null>;
+  certificateType: FormControl<CertificateType | undefined | null>;
 }>;

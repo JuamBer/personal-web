@@ -5,7 +5,12 @@ import { AbstractControl, Validators } from '@angular/forms';
   name: 'isRequired',
 })
 export class IsRequiredPipe implements PipeTransform {
-  transform(control: AbstractControl): string {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  transform(control: AbstractControl | any): string {
+    if (!control) {
+      return '';
+    }
+
     if (control.hasValidator(Validators.required) && (!control.hasError('required') || !control.dirty)) {
       return '*';
     }

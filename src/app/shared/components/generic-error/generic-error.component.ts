@@ -19,7 +19,7 @@ export class GenericErrorComponent implements AfterViewInit {
   private ref = inject(ChangeDetectorRef);
 
   @ViewChild('error') error!: ElementRef<HTMLDivElement>;
-  errorWidth: number;
+  errorWidth: number = 0;
 
   get faTriangleExclamation() {
     return faTriangleExclamation;

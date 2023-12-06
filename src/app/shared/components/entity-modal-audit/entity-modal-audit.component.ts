@@ -16,11 +16,11 @@ export class EntityModalAuditComponent<T extends AuditFields> {
   @Input({
     required: true,
   })
-  modalMode: ModalMode;
+  modalMode!: ModalMode;
   @Input({
     required: true,
   })
-  entity: T;
+  entity!: T;
 
   get ModalMode() {
     return ModalMode;

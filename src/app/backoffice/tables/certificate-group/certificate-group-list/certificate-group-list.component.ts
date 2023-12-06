@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -25,10 +25,7 @@ import { certificateGroupActions } from '../state/certificate-group.actions';
 import { certificateGroupNames } from '../state/certificate-group.names';
 import { certificateGroupReducer } from '../state/certificate-group.reducer';
 
-export const certificateGroupListTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const certificateGroupListTitleResolver: ResolveFn<string> = () => {
   const store = inject(Store);
   const translateSrv = inject(TranslateService);
 
@@ -56,12 +53,14 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
 
-  unsubscribe$: Subject<boolean> = new Subject();
-  action$: Observable<Action> = this.store.select(certificateGroupReducer.getAction).pipe(takeUntil(this.unsubscribe$));
+  unsubscribe$: Subject<void> = new Subject();
+  action$: Observable<Action | undefined> = this.store
+    .select(certificateGroupReducer.getAction)
+    .pipe(takeUntil(this.unsubscribe$));
   entities$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
   loading$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateGroupReducer.getCount);
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<CertificateGroup | undefined>>(undefined);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<CertificateGroup> | undefined>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(certificateGroupActions.count());
@@ -77,7 +76,7 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
@@ -109,6 +108,7 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
+            if (!event.value.id) return;
             this.store.dispatch(certificateGroupActions.delete({ id: event.value.id }));
           },
         });

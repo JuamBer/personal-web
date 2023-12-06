@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const snakeCaseToCamelCase = (o: any): any => {
   if (isObject(o) && !(o instanceof Date)) {
     const n: any = {};

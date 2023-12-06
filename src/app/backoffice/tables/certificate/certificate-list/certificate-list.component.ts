@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService } from 'primeng/api';
@@ -23,10 +23,7 @@ import { certificateActions } from '../state/certificate.actions';
 import { certificateNames } from '../state/certificate.names';
 import { certificateReducer } from '../state/certificate.reducer';
 
-export const certificateListTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const certificateListTitleResolver: ResolveFn<string> = () => {
   const store = inject(Store);
   const translateSrv = inject(TranslateService);
 
@@ -56,8 +53,8 @@ export class CertificateListComponent implements OnInit, EntityList<Certificate>
   entities$: Observable<Certificate[]> = this.store.select(certificateReducer.getAll);
   loading$: Observable<boolean> = this.store.select(certificateReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateReducer.getCount);
-  action$: Observable<Action> = this.store.select(certificateReducer.getAction);
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<Certificate | undefined>>(undefined);
+  action$: Observable<Action | undefined> = this.store.select(certificateReducer.getAction);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<Certificate> | undefined>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(certificateActions.count());
@@ -96,6 +93,7 @@ export class CertificateListComponent implements OnInit, EntityList<Certificate>
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
+            if (!event.value.id) return;
             this.store.dispatch(certificateActions.delete({ id: event.value.id }));
           },
         });

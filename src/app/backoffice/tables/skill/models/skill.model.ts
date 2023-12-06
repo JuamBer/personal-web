@@ -3,15 +3,14 @@ import { AuditFields } from 'src/app/shared/models/audit-fields.model';
 import { SkillType } from '../../skill-type/models/skill-type.model';
 
 export interface Skill extends AuditFields {
-  id: string;
   name: string;
   percentage: number;
   skillType: SkillType;
 }
 
 export type SkillFormGroup = FormGroup<{
-  id?: FormControl<string>;
-  name: FormControl<string | undefined>;
-  percentage: FormControl<number>;
-  skillType: FormControl<SkillType | undefined>;
+  id?: FormControl<string | null>;
+  name: FormControl<string | undefined | null>;
+  percentage: FormControl<number | null>;
+  skillType: FormControl<SkillType | undefined | null>;
 }>;

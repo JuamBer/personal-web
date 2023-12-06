@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, ResolveFn, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 
-export const loginTitleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const loginTitleResolver: ResolveFn<string> = () => {
   const translateSrv = inject(TranslateService);
-  return translateSrv.get('pages.login.title').pipe(map((title) => `${appRootTitle} | Login`));
+  return translateSrv.get('pages.login.title').pipe(map(() => `${appRootTitle} | Login`));
 };
 
 @Component({
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
       this.loading = true;
       const email = this.formGroup.value.email as string;
       const pass = this.formGroup.value.password as string;
-      const { data, error } = await this.supabaseSrv.signInLogin(email, pass);
+      const { error } = await this.supabaseSrv.signInLogin(email, pass);
 
       if (error) throw error;
       this.router.navigate(['backoffice']);

@@ -31,7 +31,7 @@
                 [type]="InputTranslationsType.INPUT"
                 [translations]="entity?.nameTranslations"
                 [disabled]="modalMode === ModalMode.VIEW"
-                [form]="form.controls[field]"
+                [form]="$any(form.get(field))"
                 [label]="'columns.name' | translate"
               ></app-input-translations>
             </div>
@@ -46,7 +46,7 @@
                 [type]="InputTranslationsType.TEXTAREA"
                 [translations]="entity?.descriptionTranslations"
                 [disabled]="modalMode === ModalMode.VIEW"
-                [form]="form.controls[field]"
+                [form]="$any(form.get(field))"
                 [label]="'columns.description' | translate"
               ></app-input-translations>
             </div>

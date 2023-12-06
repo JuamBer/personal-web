@@ -11,7 +11,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, filter, map, pairwise, startWith, takeUntil, zip } from 'rxjs';
@@ -28,10 +28,7 @@ import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOption
 
 Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
 
-export const certificatesTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const certificatesTitleResolver: ResolveFn<string> = () => {
   const translateSrv = inject(TranslateService);
   return translateSrv.get('pages.certificates.title').pipe(map((title) => `${appRootTitle} | ${title}`));
 };
@@ -54,12 +51,12 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   private ref = inject(ChangeDetectorRef);
 
   unsubscribe$ = new Subject<void>();
-  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
 
   certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
   skillTypesActionStatus$: Observable<ActionStatus> = this.store.select(certificateGroupReducer.getAction).pipe(
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
-    map((action) => action.status),
+    map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
   certificateGroupCount$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
@@ -90,7 +87,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
     spaceBetween: 25,
   };
 
-  @ViewChildren('group') certificateElements: QueryList<ElementRef>;
+  @ViewChildren('group') certificateElements!: QueryList<ElementRef>;
   certificateElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
   certificateElementAnimationsDone: string[] = [];
 
@@ -119,6 +116,8 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
         }
 
         currentCertificateGroups.forEach((certificateGroup) => {
+          if (!certificateGroup.id) return;
+
           this.tabIndexes.push({
             groupId: certificateGroup.id,
             value: 0,
@@ -183,13 +182,12 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
     });
   }
 
-  navigationNext(event: any) {}
-
   open(url: string) {
     window.open(url, '_blank');
   }
 
-  getCertificateGroupEnterAnimationState(certificateGroupId: string): 'inViewport' | 'notInViewport' {
+  getCertificateGroupEnterAnimationState(certificateGroupId: string | undefined): 'inViewport' | 'notInViewport' {
+    if (!certificateGroupId) return 'notInViewport';
     return this.certificateElementStates.get(certificateGroupId) || 'notInViewport';
   }
 

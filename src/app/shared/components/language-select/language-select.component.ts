@@ -34,7 +34,7 @@ export class LanguageSelectComponent implements OnInit {
   mode: 'simple' | 'complete' = 'simple';
 
   languages: Language[] = [];
-  language: Language;
+  language!: Language;
 
   ngOnInit(): void {
     this.store
@@ -46,18 +46,17 @@ export class LanguageSelectComponent implements OnInit {
           .sort((a, b) => a.nativeName.localeCompare(b.nativeName));
       });
 
-    this.store
-      .select(publicLanguageReducer.getOne)
-      .pipe(filter((i) => i != null))
-      .subscribe((language) => {
-        this.language = language;
-        this.translateSrv.use(language.acronym);
-        this.translateSrv
-          .get('calendar')
-          .pipe(take(1))
-          .subscribe((res) => this.config.setTranslation(res));
-        this.ref.detectChanges();
-      });
+    this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
+      if (!language) return;
+
+      this.language = language;
+      this.translateSrv.use(language.acronym);
+      this.translateSrv
+        .get('calendar')
+        .pipe(take(1))
+        .subscribe((res) => this.config.setTranslation(res));
+      this.ref.detectChanges();
+    });
   }
 
   onLanguageChange(event: any) {

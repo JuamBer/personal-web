@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -25,10 +25,7 @@ import { certificateTypeActions } from '../state/certificate-type.actions';
 import { certificateTypeNames } from '../state/certificate-type.names';
 import { certificateTypeReducer } from '../state/certificate-type.reducer';
 
-export const certificateTypeListTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const certificateTypeListTitleResolver: ResolveFn<string> = () => {
   const store = inject(Store);
   const translateSrv = inject(TranslateService);
 
@@ -57,12 +54,14 @@ export class CertificateTypeListComponent implements OnInit, OnDestroy, EntityLi
   private toastSrv = inject(ToastService);
   private titleCasePipe = inject(TitleCasePipe);
 
-  unsubscribe$: Subject<boolean> = new Subject();
-  action$: Observable<Action> = this.store.select(certificateTypeReducer.getAction).pipe(takeUntil(this.unsubscribe$));
+  unsubscribe$: Subject<void> = new Subject();
+  action$: Observable<Action | undefined> = this.store
+    .select(certificateTypeReducer.getAction)
+    .pipe(takeUntil(this.unsubscribe$));
   entities$: Observable<CertificateType[]> = this.store.select(certificateTypeReducer.getAll);
   loading$: Observable<boolean> = this.store.select(certificateTypeReducer.getLoading);
   count$: Observable<number> = this.store.select(certificateTypeReducer.getCount);
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<CertificateType | undefined>>(undefined);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<CertificateType> | undefined>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(certificateTypeActions.count());
@@ -78,7 +77,7 @@ export class CertificateTypeListComponent implements OnInit, OnDestroy, EntityLi
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
@@ -112,6 +111,7 @@ export class CertificateTypeListComponent implements OnInit, OnDestroy, EntityLi
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
+            if (!event.value.id) return;
             this.store.dispatch(certificateTypeActions.delete({ id: event.value.id }));
           },
         });

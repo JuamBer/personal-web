@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-sta
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { SocialNetwork } from '../../components/social-networks/models/social-network.model';
 
-export const homeTitleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const homeTitleResolver: ResolveFn<string> = () => {
   const translateSrv = inject(TranslateService);
   return translateSrv.get('pages.home.title').pipe(map((title) => `${appRootTitle} | ${title}`));
 };
@@ -53,13 +53,13 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
 
-  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
   skills$: Observable<Skill[]> = this.store.select(skillReducer.getAll);
   loadingSkills$: Observable<boolean> = this.store.select(skillReducer.getLoading);
   skillTypes$: Observable<SkillType[]> = this.store.select(skillTypeReducer.getAll);
   skillTypesActionStatus$: Observable<ActionStatus> = this.store.select(skillTypeReducer.getAction).pipe(
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
-    map((action) => action.status),
+    map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
   socialNetworks: SocialNetwork[] = [
     {
@@ -104,11 +104,9 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
 
   getSkills(skillType: SkillType): Observable<Skill[]> {
     return this.skills$.pipe(
-      map((skills) => {
-        return skills
-          .filter((skill) => skill.skillType.id === skillType.id)
-          .sort((a, b) => b.percentage - a.percentage);
-      }),
+      map((skills) =>
+        skills.filter((skill) => skill.skillType.id === skillType.id).sort((a, b) => b.percentage - a.percentage),
+      ),
     );
   }
 

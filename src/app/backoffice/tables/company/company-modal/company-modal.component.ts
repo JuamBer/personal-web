@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
@@ -24,24 +24,21 @@ import { companyActions } from '../state/company.actions';
 import { companyNames } from '../state/company.names';
 import { companyReducer } from '../state/company.reducer';
 
-export const companyModalTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const companyModalTitleResolver: ResolveFn<string> = (route: ActivatedRouteSnapshot) => {
   const store = inject(Store);
   const companyService = inject(CompanyService);
   const translateSrv = inject(TranslateService);
 
   return store.select(publicLanguageReducer.getOne).pipe(
     filter((i) => !!i),
-    switchMap((language) =>
+    switchMap(() =>
       translateSrv
         .get(`tables.${companyNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`)
         .pipe(
           !route.paramMap.get('id')
             ? map((table) => `${appRootTitle} | ${table} | ${translateSrv.instant('buttons.new', { name: '' })}`)
             : switchMap((table) =>
-                from(companyService.getTitle(route.paramMap.get('id'))).pipe(
+                from(companyService.getTitle(route.paramMap.get('id')!)).pipe(
                   map((selected) => `${appRootTitle} | ${table} | ${selected.name}`),
                 ),
               ),
@@ -56,7 +53,7 @@ export const companyModalTitleResolver: ResolveFn<string> = (
   styleUrls: ['./company-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CompanyModalComponent extends TranslationProvider implements OnInit, EntityModal<Company> {
+export class CompanyModalComponent extends TranslationProvider implements OnInit, OnDestroy, EntityModal<Company> {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private store = inject(Store);
@@ -69,7 +66,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
     location: this.fb.control<string | undefined>(undefined, [Validators.required]),
   });
 
-  unsubscribe$: Subject<boolean> = new Subject();
+  unsubscribe$: Subject<void> = new Subject();
   params$: Observable<ModalParams> = this.route.params.pipe(
     takeUntil(this.unsubscribe$),
     map((params) => params as ModalParams),
@@ -79,36 +76,44 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
     takeUntil(this.unsubscribe$),
     map((params) => ModalMode[params.modalMode]),
   );
-  entity$: Observable<Company> = this.store.select(companyReducer.getOne).pipe(
+  entity$: Observable<Company | undefined> = this.store.select(companyReducer.getOne).pipe(
     takeUntil(this.unsubscribe$),
     filter((entity) => !!entity),
   );
-  action$: Observable<Action> = this.store.select(companyReducer.getAction).pipe(
+  action$: Observable<Action | undefined> = this.store.select(companyReducer.getAction).pipe(
     takeUntil(this.unsubscribe$),
     skip(1),
     filter(
       (action) =>
+        !!action &&
         (action.type === ActionType.CREATE_ONE || action.type === ActionType.UPDATE_ONE) &&
         action.status === ActionStatus.SUCCESS,
     ),
   );
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
 
   ngOnInit(): void {
     this.action$.subscribe(() => {
       this.hide();
     });
-    this.params$
-      .pipe(filter((params) => !!params.id))
-      .subscribe((params) => this.store.dispatch(companyActions.loadOne({ id: params.id })));
+
+    this.params$.pipe(filter((params) => !!params.id)).subscribe((params) => {
+      if (!params.id) return;
+      this.store.dispatch(companyActions.loadOne({ id: params.id }));
+    });
+
     this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
       this.form.disable();
     });
+
     this.entity$.subscribe((entity) => {
-      if (!this.form.controls.id) {
+      if (!entity) return;
+
+      if (!this.form.controls.id && entity.id) {
         this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
       }
+
       this.form.patchValue({
         id: entity.id,
         location: entity.location,
@@ -119,7 +124,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
@@ -137,10 +142,10 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(companyActions.create({ payload: this.form.value }));
+            this.store.dispatch(companyActions.create({ payload: this.form.value as Company }));
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(companyActions.update({ payload: this.form.value }));
+            this.store.dispatch(companyActions.update({ payload: this.form.value as Company }));
             break;
         }
       });

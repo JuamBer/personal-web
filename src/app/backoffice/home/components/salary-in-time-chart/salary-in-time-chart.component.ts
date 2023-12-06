@@ -27,7 +27,7 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
   private translateSrv = inject(TranslateService);
   private titleCasePipe = inject(TitleCasePipe);
 
-  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
   chartOptions$: Observable<ChartOptions> = this.translateSrv.onLangChange.pipe(
     startWith(this.translateSrv.currentLang),
     map(() => ({
@@ -95,7 +95,7 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
       );
 
       const datasets: ChartDataset<any, any>[] = [];
-      const data = [];
+      const data: any[] = [];
       positionsSorted.forEach((position, index) => {
         data.push(position.hourlyWage);
       });
@@ -106,7 +106,7 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
       const res: ChartData<'bar', { key: string; value: number }[]> = {
         labels: positionsSorted.map(
           (position) =>
-            `${position.company.name} - ${this.getTranslation(language.acronym, position.nameTranslations)}`,
+            `${position.company.name} - ${this.getTranslation(language?.acronym, position.nameTranslations)}`,
         ),
         datasets,
       };

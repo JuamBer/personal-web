@@ -27,7 +27,7 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
   private translateSrv = inject(TranslateService);
   private titleCasePipe = inject(TitleCasePipe);
 
-  language$: Observable<Language> = this.store.select(publicLanguageReducer.getOne);
+  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
   chartOptions$: Observable<ChartOptions> = this.translateSrv.onLangChange.pipe(
     startWith(this.translateSrv.currentLang),
     map(() => ({
@@ -116,7 +116,7 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
 
           datasets.push({
             type: 'bar',
-            label: `${company.name} - ${this.getTranslation(language.acronym, position.nameTranslations)}`,
+            label: `${company.name} - ${this.getTranslation(language?.acronym, position.nameTranslations)}`,
             data: companies.map((c) => (c.id === company.id ? timeInYears : 0)),
           });
         });

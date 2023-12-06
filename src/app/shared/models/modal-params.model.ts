@@ -1,4 +1,6 @@
+import { ModalMode } from './modal-mode.model';
+
 export interface ModalParams {
   id?: string;
-  modalMode: string;
+  modalMode: ModalMode;
 }

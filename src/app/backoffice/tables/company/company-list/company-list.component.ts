@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -25,10 +25,7 @@ import { companyActions } from '../state/company.actions';
 import { companyNames } from '../state/company.names';
 import { companyReducer } from '../state/company.reducer';
 
-export const companyListTitleResolver: ResolveFn<string> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
+export const companyListTitleResolver: ResolveFn<string> = () => {
   const store = inject(Store);
   const translateSrv = inject(TranslateService);
 
@@ -57,12 +54,14 @@ export class CompanyListComponent implements OnInit, OnDestroy, EntityList<Compa
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
 
-  unsubscribe$: Subject<boolean> = new Subject();
-  action$: Observable<Action> = this.store.select(companyReducer.getAction).pipe(takeUntil(this.unsubscribe$));
+  unsubscribe$: Subject<void> = new Subject();
+  action$: Observable<Action | undefined> = this.store
+    .select(companyReducer.getAction)
+    .pipe(takeUntil(this.unsubscribe$));
   entities$: Observable<Company[]> = this.store.select(companyReducer.getAll);
   loading$: Observable<boolean> = this.store.select(companyReducer.getLoading);
   count$: Observable<number> = this.store.select(companyReducer.getCount);
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<Company | undefined>>(undefined);
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<Company> | undefined>(undefined);
 
   ngOnInit(): void {
     this.store.dispatch(companyActions.count());
@@ -78,7 +77,7 @@ export class CompanyListComponent implements OnInit, OnDestroy, EntityList<Compa
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
@@ -112,6 +111,7 @@ export class CompanyListComponent implements OnInit, OnDestroy, EntityList<Compa
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
+            if (!event.value.id) return;
             this.store.dispatch(companyActions.delete({ id: event.value.id }));
           },
         });

@@ -2,7 +2,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AuditFields } from 'src/app/shared/models/audit-fields.model';
 
 export interface Language extends AuditFields {
-  id: string;
   nativeName: string;
   name: string;
   acronym: string;
@@ -10,9 +9,9 @@ export interface Language extends AuditFields {
 }
 
 export type LanguageFormGroup = FormGroup<{
-  id?: FormControl<string>;
-  nativeName: FormControl<string | undefined>;
-  name: FormControl<string | undefined>;
-  acronym: FormControl<string | undefined>;
-  active: FormControl<boolean>;
+  id?: FormControl<string | null>;
+  nativeName: FormControl<string | undefined | null>;
+  name: FormControl<string | undefined | null>;
+  acronym: FormControl<string | undefined | null>;
+  active: FormControl<boolean | null>;
 }>;

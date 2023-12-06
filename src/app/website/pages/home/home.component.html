@@ -32,7 +32,7 @@
       <div class="title">
         <h3>{{ getTranslation(language.acronym, skillType.nameTranslations) }}</h3>
       </div>
-      <app-tools [entities]="getSkills(skillType) | async"></app-tools>
+      <app-tools [entities]="(getSkills(skillType) | async)!"></app-tools>
     </div>
   </div>
   } } @case (ActionStatus.PENDING) { @for(skillType of [0, 1, 2]; track skillType){

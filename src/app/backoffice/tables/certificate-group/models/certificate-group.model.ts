@@ -4,13 +4,12 @@ import { Translation, TranslationFormGroup } from 'src/app/shared/models/transla
 import { Certificate } from '../../certificate/models/certificate.model';
 
 export interface CertificateGroup extends AuditFields {
-  id: string;
   nameTranslations: Translation[];
   descriptionTranslations: Translation[];
   certificates?: Certificate[];
 }
 export type CertificateGroupFormGroup = FormGroup<{
-  id?: FormControl<string>;
+  id?: FormControl<string | null>;
   nameTranslations: FormArray<TranslationFormGroup>;
   descriptionTranslations: FormArray<TranslationFormGroup>;
 }>;
