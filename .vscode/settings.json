@@ -32,7 +32,8 @@
     "Assets",
     "Dependencies",
     "Deploy",
-    "Resource"
+    "Resource",
+    "Linter"
   ],
   "cSpell.words": [
     "cascadeselect",

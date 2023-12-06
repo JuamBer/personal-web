@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   OnInit,
   ViewEncapsulation,
   inject,
@@ -10,8 +11,8 @@ import {
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { faLanguage, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, startWith, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
+import { map, startWith, take, takeUntil } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -27,12 +28,14 @@ import { InputTranslationsService } from './services/input-translations.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class InputTranslationsComponent implements OnInit {
+export class InputTranslationsComponent implements OnInit, OnDestroy {
   private store = inject(Store);
   private fb = inject(FormBuilder);
   private ref = inject(ChangeDetectorRef);
   private inputTranslationsService = inject(InputTranslationsService);
   private capitalizePipe = inject(CapitalizePipe);
+
+  unsubscribe$ = new Subject<void>();
 
   @Input({
     required: true,
@@ -84,33 +87,13 @@ export class InputTranslationsComponent implements OnInit {
     .select(publicLanguageReducer.getAll)
     .pipe(map((languages) => languages.filter((language) => language.active)));
 
-  languagesToFill$: Observable<Language[]> = combineLatest([
-    this.languages$,
-    this.form.valueChanges.pipe(startWith(this.form.value)),
-  ]).pipe(
-    map(([languages, translations]) =>
-      languages.filter(
-        (language) =>
-          !!translations.find((translation) => translation.language === language.acronym) || language.active,
-      ),
-    ),
-  );
+  languagesToFill$!: Observable<Language[]>;
 
   disabledLanguages$: Observable<Language[]> = this.store
     .select(publicLanguageReducer.getAll)
     .pipe(map((languages) => languages.filter((language) => !language.active)));
 
-  languagesToAdd$: Observable<Language[]> = combineLatest([
-    this.disabledLanguages$,
-    this.form.valueChanges.pipe(startWith(this.form.value)),
-  ]).pipe(
-    map(([disabledLanguages, translations]) => {
-      const languagesToAdd = disabledLanguages.filter(
-        (language) => !translations.find((translation) => translation.language === language.acronym),
-      );
-      return languagesToAdd;
-    }),
-  );
+  languagesToAdd$!: Observable<Language[]>;
 
   onHide() {
     FormUtils.markAllAsDirtyAndTouched(this.form);
@@ -118,44 +101,82 @@ export class InputTranslationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._showErrors.subscribe((showErrors) => {
+    this._showErrors.pipe(takeUntil(this.unsubscribe$)).subscribe((showErrors) => {
       if (showErrors && this.form.invalid) {
         FormUtils.markAllAsDirtyAndTouched(this.form);
         this.visibility = true;
       }
     });
 
-    combineLatest([this.languagesToFill$, this.translations$]).subscribe(([languages, translations]) => {
-      languages.forEach((language) => {
-        if (this.form.value.findIndex((translation) => translation.language === language.acronym) < 0) {
-          const translation = translations.find((t) => t.language === language.acronym);
-          const languageForm: TranslationFormGroup = this.fb.group({
-            language: [language.acronym, [Validators.required]],
-            value: [translation?.value, [Validators.required]],
-          });
-          this.form.push(languageForm);
-          if (this.disabled) {
-            this.form.disable();
-            languageForm.disable();
+    combineLatest([this.languagesToFill$, this.translations$])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(([languages, translations]) => {
+        languages.forEach((language) => {
+          if (this.form.value.findIndex((translation) => translation.language === language.acronym) < 0) {
+            const translation = translations.find((t) => t.language === language.acronym);
+            const languageForm: TranslationFormGroup = this.fb.group({
+              language: [language.acronym, [Validators.required]],
+              value: [translation?.value, [Validators.required]],
+            });
+            this.form.push(languageForm);
+            if (this.disabled) {
+              this.form.disable();
+              languageForm.disable();
+            }
+            this.ref.detectChanges();
+            this.ref.markForCheck();
           }
-          this.ref.detectChanges();
-          this.ref.markForCheck();
-        }
+        });
       });
-    });
+
     this.store
       .select(publicLanguageReducer.getOne)
-      .pipe(take(1))
+      .pipe(take(1), takeUntil(this.unsubscribe$))
       .subscribe((language) => {
         if (language) {
           this.language = language;
         }
       });
-    this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
-      if (language) {
-        this.publicLanguage = language;
-      }
-    });
+
+    this.store
+      .select(publicLanguageReducer.getOne)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((language) => {
+        if (language) {
+          this.publicLanguage = language;
+        }
+      });
+
+    this.languagesToFill$ = combineLatest([
+      this.languages$,
+      this.form.valueChanges.pipe(startWith(this.form.value)),
+    ]).pipe(
+      takeUntil(this.unsubscribe$),
+      map(([languages, translations]) =>
+        languages.filter(
+          (language) =>
+            !!translations.find((translation) => translation.language === language.acronym) || language.active,
+        ),
+      ),
+    );
+
+    this.languagesToAdd$ = combineLatest([
+      this.disabledLanguages$,
+      this.form.valueChanges.pipe(startWith(this.form.value)),
+    ]).pipe(
+      takeUntil(this.unsubscribe$),
+      map(([disabledLanguages, translations]) => {
+        const languagesToAdd = disabledLanguages.filter(
+          (language) => !translations.find((translation) => translation.language === language.acronym),
+        );
+        return languagesToAdd;
+      }),
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   changeVisibility(visibility: boolean) {
