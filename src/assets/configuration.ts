@@ -1,7 +1,7 @@
 import { GenericTableConfig } from 'src/app/shared/components/generic-table/models/generic-table.models';
 
 interface Configuration {
-  defaultGenericTableConfig: GenericTableConfig<any>;
+  defaultGenericTableConfig: GenericTableConfig<unknown>;
 }
 
 export const configuration: Configuration = {

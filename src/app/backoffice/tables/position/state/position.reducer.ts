@@ -1,5 +1,4 @@
 import { ReducerTypes } from '@ngrx/store';
-import { defaultCommonState } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { CommonReducer } from 'src/app/shared/state/common/common.reducer';
 import { Position } from '../models/position.model';
@@ -7,10 +6,8 @@ import { positionActions } from './position.actions';
 import { positionNames } from './position.names';
 import { PositionState } from './position.state';
 
-const initialState: PositionState = {
-  ...(defaultCommonState as PositionState),
-};
-const otherReducers: ReducerTypes<any, any>[] = [];
+const initialState = new PositionState();
+const otherReducers: ReducerTypes<PositionState, any>[] = [];
 class PositionReducer extends CommonReducer<Position, PositionState> {
   private static instance: PositionReducer;
 

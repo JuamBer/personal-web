@@ -1,5 +1,4 @@
 import { ReducerTypes } from '@ngrx/store';
-import { defaultCommonState } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { CommonReducer } from 'src/app/shared/state/common/common.reducer';
 import { CertificateType } from '../models/certificate-type.model';
@@ -7,11 +6,8 @@ import { certificateTypeActions } from './certificate-type.actions';
 import { certificateTypeNames } from './certificate-type.names';
 import { CertificateTypeState } from './certificate-type.state';
 
-const initialState: CertificateTypeState = {
-  ...(defaultCommonState as CertificateTypeState),
-};
-
-const otherReducers: ReducerTypes<any, any>[] = [];
+const initialState = new CertificateTypeState();
+const otherReducers: ReducerTypes<CertificateTypeState, any>[] = [];
 
 export class CertificateTypeReducer extends CommonReducer<CertificateType, CertificateTypeState> {
   private static instance: CertificateTypeReducer;

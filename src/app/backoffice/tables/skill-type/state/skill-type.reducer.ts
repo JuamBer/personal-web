@@ -1,5 +1,4 @@
 import { ReducerTypes } from '@ngrx/store';
-import { defaultCommonState } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { CommonReducer } from 'src/app/shared/state/common/common.reducer';
 import { SkillType } from '../models/skill-type.model';
@@ -7,11 +6,8 @@ import { skillTypeActions } from './skill-type.actions';
 import { skillTypeNames } from './skill-type.names';
 import { SkillTypeState } from './skill-type.state';
 
-const initialState: SkillTypeState = {
-  ...(defaultCommonState as SkillTypeState),
-};
-
-const otherReducers: ReducerTypes<any, any>[] = [];
+const initialState = new SkillTypeState();
+const otherReducers: ReducerTypes<SkillTypeState, any>[] = [];
 
 class SkillTypeReducer extends CommonReducer<SkillType, SkillTypeState> {
   private static instance: SkillTypeReducer;

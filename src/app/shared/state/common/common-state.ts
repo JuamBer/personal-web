@@ -20,18 +20,10 @@ export interface Action {
   type: ActionType;
   status: ActionStatus;
 }
-export interface CommonState<T extends Resource> {
-  entities: T[];
+export class CommonState<T extends Resource> {
+  entities: T[] = [];
   selectedId: string | undefined;
-  count: number;
-  loading: boolean;
+  count: number = 0;
+  loading: boolean = false;
   action: Action | undefined;
 }
-
-export const defaultCommonState: CommonState<Resource> = {
-  entities: [],
-  selectedId: undefined,
-  count: 0,
-  loading: false,
-  action: undefined,
-};

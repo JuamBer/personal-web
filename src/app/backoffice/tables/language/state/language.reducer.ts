@@ -1,5 +1,4 @@
 import { ReducerTypes } from '@ngrx/store';
-import { defaultCommonState } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { CommonReducer } from 'src/app/shared/state/common/common.reducer';
 import { Language } from '../models/language.model';
@@ -7,10 +6,9 @@ import { languageActions } from './language.actions';
 import { languageNames } from './language.names';
 import { LanguageState } from './language.state';
 
-const initialState: LanguageState = {
-  ...(defaultCommonState as LanguageState),
-};
-const otherReducers: ReducerTypes<any, any>[] = [];
+const initialState = new LanguageState();
+const otherReducers: ReducerTypes<LanguageState, any>[] = [];
+
 class LanguageReducer extends CommonReducer<Language, LanguageState> {
   private static instance: LanguageReducer;
 

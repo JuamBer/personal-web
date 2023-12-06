@@ -1,5 +1,4 @@
 import { ReducerTypes } from '@ngrx/store';
-import { defaultCommonState } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { CommonReducer } from 'src/app/shared/state/common/common.reducer';
 import { CertificateGroup } from '../models/certificate-group.model';
@@ -7,11 +6,8 @@ import { CertificateGroupActions, certificateGroupActions } from './certificate-
 import { certificateGroupNames } from './certificate-group.names';
 import { CertificateGroupState } from './certificate-group.state';
 
-const initialState: CertificateGroupState = {
-  ...(defaultCommonState as CertificateGroupState),
-};
-
-const otherReducers: ReducerTypes<any, any>[] = [];
+const initialState = new CertificateGroupState();
+const otherReducers: ReducerTypes<CertificateGroupState, any>[] = [];
 
 export class CertificateGroupReducer extends CommonReducer<CertificateGroup, CertificateGroupState> {
   private static instance: CertificateGroupReducer;

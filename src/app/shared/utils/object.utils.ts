@@ -4,6 +4,7 @@ export class ObjectUtils {
     return JSON.stringify(obj1) === JSON.stringify(obj2);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static removeNullAndUndefinedAttributes(obj: any) {
     if (typeof obj === 'object') {
       Object.entries(obj).forEach(([k, v]) => {
