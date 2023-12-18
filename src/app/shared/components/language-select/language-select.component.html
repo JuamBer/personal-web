@@ -1,53 +1,56 @@
 <div class="language-select">
   <div class="languages">
-    @switch (type) { @case ('select-button') {
-    <p-selectButton
-      (onChange)="onLanguageChange($event)"
-      [options]="languages"
-      [ngModel]="language"
-      [style]="{ width: '100%' }"
-    >
-      <ng-template let-language pTemplate="item">
-        <div class="language-item w-full">
-          <div class="flag">
-            <span class="" [class]="'flag flag-' + language.acronym"></span>
-          </div>
-          <div class="name">{{ language.nativeName }}</div>
-        </div>
-      </ng-template>
-    </p-selectButton>
-    } @case ('dropdown') {
-    <p-dropdown
-      [style]="{ height: '100%', minWidth: '10em' }"
-      [options]="languages"
-      [ngModel]="language"
-      [autoDisplayFirst]="false"
-      (onChange)="onLanguageChange($event)"
-      ariaLabel="Dropdown to select the language"
-    >
-      <ng-template pTemplate="selectedItem">
-        <div class="language-item language-item-value" *ngIf="language">
-          <div class="flag">
-            <span class="" [class]="'flag flag-' + language.acronym"></span>
-          </div>
-          <div class="name">
-            <ng-container *ngIf="mode === 'complete'"> {{ language.acronym | uppercase }} | </ng-container>
-            {{ language.nativeName }}
-            <ng-container *ngIf="mode === 'complete'"> | {{ language.name }} </ng-container>
-          </div>
-        </div>
-      </ng-template>
-      <ng-template let-language pTemplate="item">
-        <div class="language-item">
-          <div class="flag">
-            <span class="" [class]="'flag flag-' + language.acronym"></span>
-          </div>
-          <ng-container *ngIf="mode === 'complete'"> {{ language.acronym | uppercase }} | </ng-container>
-          {{ language.nativeName }}
-          <ng-container *ngIf="mode === 'complete'"> | {{ language.name }} </ng-container>
-        </div>
-      </ng-template>
-    </p-dropdown>
-    }}
+    @switch (type) {
+      @case ('select-button') {
+        <p-selectButton
+          (onChange)="onLanguageChange($event)"
+          [options]="languages"
+          [ngModel]="language"
+          [style]="{ width: '100%' }"
+        >
+          <ng-template let-language pTemplate="item">
+            <div class="language-item w-full">
+              <div class="flag">
+                <span class="" [class]="'flag flag-' + language.acronym"></span>
+              </div>
+              <div class="name">{{ language.nativeName }}</div>
+            </div>
+          </ng-template>
+        </p-selectButton>
+      }
+      @case ('dropdown') {
+        <p-dropdown
+          [style]="{ height: '100%', minWidth: '10em' }"
+          [options]="languages"
+          [ngModel]="language"
+          [autoDisplayFirst]="false"
+          (onChange)="onLanguageChange($event)"
+          ariaLabel="Dropdown to select the language"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div class="language-item language-item-value" *ngIf="language">
+              <div class="flag">
+                <span class="" [class]="'flag flag-' + language.acronym"></span>
+              </div>
+              <div class="name">
+                <ng-container *ngIf="mode === 'complete'"> {{ language.acronym | uppercase }} | </ng-container>
+                {{ language.nativeName }}
+                <ng-container *ngIf="mode === 'complete'"> | {{ language.name }} </ng-container>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-language pTemplate="item">
+            <div class="language-item">
+              <div class="flag">
+                <span class="" [class]="'flag flag-' + language.acronym"></span>
+              </div>
+              <ng-container *ngIf="mode === 'complete'"> {{ language.acronym | uppercase }} | </ng-container>
+              {{ language.nativeName }}
+              <ng-container *ngIf="mode === 'complete'"> | {{ language.name }} </ng-container>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      }
+    }
   </div>
 </div>

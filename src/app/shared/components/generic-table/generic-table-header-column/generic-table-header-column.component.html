@@ -3,10 +3,10 @@
     <span class="w-full">
       {{ field.label | titlecase }}
 
-      @if(field.type === GenericFieldType.TRANSLATIONS){
-      <span class="translation">
-        <fa-icon [icon]="faLanguage"></fa-icon>
-      </span>
+      @if (field.type === GenericFieldType.TRANSLATIONS) {
+        <span class="translation">
+          <fa-icon [icon]="faLanguage"></fa-icon>
+        </span>
       }
     </span>
     <div class="flex align-items-center justify-content-end gap-2 w-full">
@@ -42,18 +42,20 @@
         </div>
 
         <div class="filter col-12 mt-3">
-          @switch (field.type){ @case (GenericFieldType.TEXT){
-          <span class="p-float-label">
-            <input
-              type="text"
-              pInputText
-              (click)="$event.stopPropagation()"
-              class="p-inputtext-sm"
-              formControlName="value"
-            />
-            <label>{{ 'columns.value' | translate }} *</label>
-          </span>
-          } }
+          @switch (field.type) {
+            @case (GenericFieldType.TEXT) {
+              <span class="p-float-label">
+                <input
+                  type="text"
+                  pInputText
+                  (click)="$event.stopPropagation()"
+                  class="p-inputtext-sm"
+                  formControlName="value"
+                />
+                <label>{{ 'columns.value' | translate }} *</label>
+              </span>
+            }
+          }
         </div>
 
         <div class="col-12 flex justify-content-between gap-2 flex-column mt-2">

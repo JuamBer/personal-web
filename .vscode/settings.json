@@ -34,7 +34,8 @@
     "Deploy",
     "Resource",
     "Linter",
-    "Tests"
+    "Tests",
+    "Format"
   ],
   "cSpell.words": [
     "cascadeselect",

@@ -218,8 +218,8 @@
                 <span class="error">{{ form.get(field) | errors | async }}</span>
               </label>
               <div class="w-full mt-3">
-                @if(form.controls['image'].value){
-                <img class="w-full" [src]="form.controls['image'].value" alt="image" />
+                @if (form.controls['image'].value) {
+                  <img class="w-full" [src]="form.controls['image'].value" alt="image" />
                 }
               </div>
             </span>

@@ -1,89 +1,98 @@
 <ng-container *appLet="language$ | async as language">
   <div class="certificates">
-    @for(certificateGroup of certificateGroups$ | async; track certificateGroup){
-    <div class="my-container">
-      <div class="container-info">
-        <div
-          class="title"
-          #group
-          [id]="certificateGroup.id"
-          [@certificateGroupEnterAnimation]="getCertificateGroupEnterAnimationState(certificateGroup?.id)"
-        >
-          <h3>{{ getTranslation(language.acronym, certificateGroup.nameTranslations) }}</h3>
-        </div>
-        @if(certificateGroup && certificateGroup.certificates){
-        <swiper [config]="swiperConfig" [id]="'.swiper' + certificateGroup?.id">
-          @for(certificate of orderByDate(certificateGroup.certificates); track certificate){
-          <ng-template swiperSlide>
-            <div class="card swiper-slide">
-              <div class="image-content">
-                <div class="card-image">
-                  <div class="overlay">
-                    <h4>{{ getTranslation(language.acronym, certificate.nameTranslations) }}</h4>
-                    <h5>{{ certificate.date | date }}</h5>
-                    <p>{{ getTranslation(language.acronym, certificate.descriptionTranslations) }}</p>
-                  </div>
-                  <img
-                    [src]="certificate.image"
-                    [alt]="getTranslation(language.acronym, certificate.nameTranslations)"
-                    class="card-img"
-                  />
-                </div>
-              </div>
+    @for (certificateGroup of certificateGroups$ | async; track certificateGroup) {
+      <div class="my-container">
+        <div class="container-info">
+          <div
+            class="title"
+            #group
+            [id]="certificateGroup.id"
+            [@certificateGroupEnterAnimation]="getCertificateGroupEnterAnimationState(certificateGroup?.id)"
+          >
+            <h3>{{ getTranslation(language.acronym, certificateGroup.nameTranslations) }}</h3>
+          </div>
+          @if (certificateGroup && certificateGroup.certificates) {
+            <swiper [config]="swiperConfig" [id]="'.swiper' + certificateGroup?.id">
+              @for (certificate of orderByDate(certificateGroup.certificates); track certificate) {
+                <ng-template swiperSlide>
+                  <div class="card swiper-slide">
+                    <div class="image-content">
+                      <div class="card-image">
+                        <div class="overlay">
+                          <h4>{{ getTranslation(language.acronym, certificate.nameTranslations) }}</h4>
+                          <h5>{{ certificate.date | date }}</h5>
+                          <p>{{ getTranslation(language.acronym, certificate.descriptionTranslations) }}</p>
+                        </div>
+                        <img
+                          [src]="certificate.image"
+                          [alt]="getTranslation(language.acronym, certificate.nameTranslations)"
+                          class="card-img"
+                        />
+                      </div>
+                    </div>
 
-              <div class="card-content">
-                <div class="buttons">
-                  @if (certificate.web) {
-                  <button class="button" [attr.aria-label]="'Web'">
-                    <i (click)="open(certificate.web)" class="fa-solid fa-globe"></i>
-                  </button>
-                  } @if (certificate.microsoftStore) {
-                  <button class="button" [attr.aria-label]="'Microsoft Store'">
-                    <i (click)="open(certificate.microsoftStore)" class="fa-brands fa-microsoft"></i>
-                  </button>
-                  } @if (certificate.playStore) {
-                  <button class="button" [attr.aria-label]="'Google Play Store'">
-                    <i (click)="open(certificate.playStore)" class="fa-brands fa-google-play"></i>
-                  </button>
-                  } @if (certificate.github) {
-                  <button class="button" [attr.aria-label]="'Github Repository'">
-                    <i (click)="open(certificate.github)" class="fa-brands fa-github"></i>
-                  </button>
-                  } @if (certificate.url) {
-                  <button class="button" [attr.aria-label]="'Certificate URL'">
-                    <i (click)="open(certificate.url)" class="fa-solid fa-link"></i>
-                  </button>
-                  } @if (certificate.pdf) {
-                  <button class="button" [attr.aria-label]="'Certificate PDF'">
-                    <i (click)="open(certificate.pdf)" class="fa-solid fa-download"></i>
-                  </button>
-                  }
-                </div>
-              </div>
-            </div>
-          </ng-template>
+                    <div class="card-content">
+                      <div class="buttons">
+                        @if (certificate.web) {
+                          <button class="button" [attr.aria-label]="'Web'">
+                            <i (click)="open(certificate.web)" class="fa-solid fa-globe"></i>
+                          </button>
+                        }
+                        @if (certificate.microsoftStore) {
+                          <button class="button" [attr.aria-label]="'Microsoft Store'">
+                            <i (click)="open(certificate.microsoftStore)" class="fa-brands fa-microsoft"></i>
+                          </button>
+                        }
+                        @if (certificate.playStore) {
+                          <button class="button" [attr.aria-label]="'Google Play Store'">
+                            <i (click)="open(certificate.playStore)" class="fa-brands fa-google-play"></i>
+                          </button>
+                        }
+                        @if (certificate.github) {
+                          <button class="button" [attr.aria-label]="'Github Repository'">
+                            <i (click)="open(certificate.github)" class="fa-brands fa-github"></i>
+                          </button>
+                        }
+                        @if (certificate.url) {
+                          <button class="button" [attr.aria-label]="'Certificate URL'">
+                            <i (click)="open(certificate.url)" class="fa-solid fa-link"></i>
+                          </button>
+                        }
+                        @if (certificate.pdf) {
+                          <button class="button" [attr.aria-label]="'Certificate PDF'">
+                            <i (click)="open(certificate.pdf)" class="fa-solid fa-download"></i>
+                          </button>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              }
+            </swiper>
           }
-        </swiper>
-        }
-      </div>
-    </div>
-    } @switch (skillTypesActionStatus$ | async) { @case(ActionStatus.PENDING){
-    <div class="my-container">
-      <div class="container-info">
-        <div class="title loading-title">
-          <h3>{{ 'general.loading' | translate }}</h3>
         </div>
-        <swiper [config]="swiperConfig">
-          @for(certificate of [0, 1, 2]; track certificate){
-          <ng-template swiperSlide>
-            <p-skeleton width="100%" height="20em"></p-skeleton>
-          </ng-template>
-          }
-        </swiper>
       </div>
-    </div>
-    } @case(ActionStatus.ERROR){
-    <app-generic-error></app-generic-error>
-    } }
+    }
+    @switch (skillTypesActionStatus$ | async) {
+      @case (ActionStatus.PENDING) {
+        <div class="my-container">
+          <div class="container-info">
+            <div class="title loading-title">
+              <h3>{{ 'general.loading' | translate }}</h3>
+            </div>
+            <swiper [config]="swiperConfig">
+              @for (certificate of [0, 1, 2]; track certificate) {
+                <ng-template swiperSlide>
+                  <p-skeleton width="100%" height="20em"></p-skeleton>
+                </ng-template>
+              }
+            </swiper>
+          </div>
+        </div>
+      }
+      @case (ActionStatus.ERROR) {
+        <app-generic-error></app-generic-error>
+      }
+    }
   </div>
 </ng-container>

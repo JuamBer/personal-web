@@ -1,16 +1,17 @@
 @if (!loading && show) {
-<div class="entity-card" (click)="goTo(url)">
-  <span class="entity-card-name">
-    <i style="font-size: 1.5rem" [class]="icon"></i>
-    <span>{{ title | titlecase }}</span>
-  </span>
-  <span class="entity-card-count"></span>
-  @if(count){
-  <span class="entity-card-badge">{{ count }}</span>
-  }
-</div>
-} @if (loading) {
-<div #loadingSkeleton>
-  <p-skeleton width="100%" height="7rem"></p-skeleton>
-</div>
+  <div class="entity-card" (click)="goTo(url)">
+    <span class="entity-card-name">
+      <i style="font-size: 1.5rem" [class]="icon"></i>
+      <span>{{ title | titlecase }}</span>
+    </span>
+    <span class="entity-card-count"></span>
+    @if (count) {
+      <span class="entity-card-badge">{{ count }}</span>
+    }
+  </div>
+}
+@if (loading) {
+  <div #loadingSkeleton>
+    <p-skeleton width="100%" height="7rem"></p-skeleton>
+  </div>
 }

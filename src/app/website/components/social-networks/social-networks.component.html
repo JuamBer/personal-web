@@ -1,12 +1,12 @@
 <div class="social-networks">
   <p [innerHTML]="'home.socialNetworks' | translate"></p>
   <ul>
-    @for(socialNetwork of socialNetworks; track socialNetwork){
-    <li>
-      <a target="_blank" [href]="socialNetwork.url" [attr.aria-label]="socialNetwork.name">
-        <div><i [class]="socialNetwork.icon + ' fa-2x'"></i></div>
-      </a>
-    </li>
+    @for (socialNetwork of socialNetworks; track socialNetwork) {
+      <li>
+        <a target="_blank" [href]="socialNetwork.url" [attr.aria-label]="socialNetwork.name">
+          <div><i [class]="socialNetwork.icon + ' fa-2x'"></i></div>
+        </a>
+      </li>
     }
   </ul>
 </div>

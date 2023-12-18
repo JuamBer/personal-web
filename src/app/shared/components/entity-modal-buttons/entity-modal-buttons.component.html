@@ -1,56 +1,55 @@
-@if(modalMode !== ModalMode.VIEW){
-<form [formGroup]="form">
-  <div class="grid p-fluid p-0 m-0 mt-2 w-full">
-    <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
-      @if(modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE){
-      <button
-        [disabled]="loading"
-        pButton
-        type="button"
-        [label]="'buttons.cancel' | translate"
-        class="p-button-secondary p-button-sm"
-        icon="fa-solid fa-xmark"
-        (click)="cancel.emit(true)"
-        [attr.aria-label]="'Cancel'"
-      ></button>
-      }
-    </div>
-    <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
-      @if(modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE){
-      <button
-        [disabled]="loading"
-        pButton
-        type="reset"
-        [label]="'buttons.reset' | translate"
-        class="p-button-secondary p-button-sm"
-        icon="fa-solid fa-broom"
-        [attr.aria-label]="'Reset'"
-      ></button>
-      }
-    </div>
+@if (modalMode !== ModalMode.VIEW) {
+  <form [formGroup]="form">
+    <div class="grid p-fluid p-0 m-0 mt-2 w-full">
+      <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
+        @if (modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE) {
+          <button
+            [disabled]="loading"
+            pButton
+            type="button"
+            [label]="'buttons.cancel' | translate"
+            class="p-button-secondary p-button-sm"
+            icon="fa-solid fa-xmark"
+            (click)="cancel.emit(true)"
+            [attr.aria-label]="'Cancel'"
+          ></button>
+        }
+      </div>
+      <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
+        @if (modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE) {
+          <button
+            [disabled]="loading"
+            pButton
+            type="reset"
+            [label]="'buttons.reset' | translate"
+            class="p-button-secondary p-button-sm"
+            icon="fa-solid fa-broom"
+            [attr.aria-label]="'Reset'"
+          ></button>
+        }
+      </div>
 
-    <div class="xs:col-12 sm:col-12 md:col-12 lg:col-12 p-1 m-0">
-      <button
-        [disabled]="loading || form.status === 'PENDING' || (pendingChanges$ | async) === false"
-        pButton
-        type="submit"
-        (click)="submit.emit(true)"
-        class="p-button-sm"
-        [label]="
-          'buttons.' + modalMode
-            | lowercase
-            | translate
-              : {
-                  name: 'tables.' + name + '.singular' | translate
-                }
-        "
-        icon="fa-solid fa-floppy-disk"
-        [attr.aria-label]="
-          (modalMode === ModalMode.CREATE ? 'Create' : 'Updated') + ' ' + ('tables.' + name + '.singular' | translate)
-        "
-      ></button>
+      <div class="xs:col-12 sm:col-12 md:col-12 lg:col-12 p-1 m-0">
+        <button
+          [disabled]="loading || form.status === 'PENDING' || (pendingChanges$ | async) === false"
+          pButton
+          type="submit"
+          (click)="submit.emit(true)"
+          class="p-button-sm"
+          [label]="
+            'buttons.' + modalMode
+              | lowercase
+              | translate
+                : {
+                    name: 'tables.' + name + '.singular' | translate
+                  }
+          "
+          icon="fa-solid fa-floppy-disk"
+          [attr.aria-label]="
+            (modalMode === ModalMode.CREATE ? 'Create' : 'Updated') + ' ' + ('tables.' + name + '.singular' | translate)
+          "
+        ></button>
+      </div>
     </div>
-  </div>
-</form>
-
+  </form>
 }

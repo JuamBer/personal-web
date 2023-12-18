@@ -26,23 +26,23 @@
           <div class="xs:col-12 lg:col-12">
             <div>
               @if (!loading) {
-              <button
-                [disabled]="formGroup.invalid"
-                pButton
-                type="submit"
-                [label]="'buttons.logIn' | translate"
-                icon="ui-icon-person"
-                style="width: 100%"
-              ></button>
+                <button
+                  [disabled]="formGroup.invalid"
+                  pButton
+                  type="submit"
+                  [label]="'buttons.logIn' | translate"
+                  icon="ui-icon-person"
+                  style="width: 100%"
+                ></button>
               } @else {
-              <button
-                [disabled]="formGroup.invalid"
-                pButton
-                type="submit"
-                [label]="'buttons.logIn' | translate"
-                icon="pi pi-spin pi-spinner"
-                style="width: 100%"
-              ></button>
+                <button
+                  [disabled]="formGroup.invalid"
+                  pButton
+                  type="submit"
+                  [label]="'buttons.logIn' | translate"
+                  icon="pi pi-spin pi-spinner"
+                  style="width: 100%"
+                ></button>
               }
               <a [routerLink]="['/reset-password']" class="my-5" style="font-size: 12px">{{
                 'pages.logIn.resetPassword' | translate
