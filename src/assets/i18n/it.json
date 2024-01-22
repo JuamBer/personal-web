@@ -194,6 +194,12 @@
       }
     }
   },
+  "time": {
+    "month": "mese",
+    "months": "mesi",
+    "year": "anno",
+    "years": "anni"
+  },
   "calendar": {
     "dayNames": ["Domenica", "Lunedi", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
     "dayNamesShort": ["sole", "lun", "mare", "mer", "gio", "ven", "sab"],

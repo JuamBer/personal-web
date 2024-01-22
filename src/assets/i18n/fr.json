@@ -194,6 +194,12 @@
       }
     }
   },
+  "time": {
+    "month": "mois",
+    "months": "mois",
+    "year": "an",
+    "years": "ans"
+  },
   "calendar": {
     "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
     "dayNamesShort": ["soleil", "lun", "mer", "épouser", "jeu", "ven", "assis"],

@@ -207,7 +207,12 @@
       }
     }
   },
-
+  "time": {
+    "month": "Mes",
+    "months": "Meses",
+    "year": "Año",
+    "years": "Años"
+  },
   "calendar": {
     "dayNames": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
     "dayNamesShort": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],

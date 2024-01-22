@@ -194,6 +194,12 @@
       }
     }
   },
+  "time": {
+    "month": "måned",
+    "months": "måneder",
+    "year": "år",
+    "years": "år"
+  },
   "calendar": {
     "dayNames": ["søndag", "mandag", "tirsdag", "onsdag", "Torsdag", "fredag", "lørdag"],
     "dayNamesShort": ["sol", "man", "hav", "ons", "tor", "fre", "satt"],

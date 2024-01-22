@@ -14,8 +14,8 @@ import {
 import { faBriefcase, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { CompanyType } from 'src/app/backoffice/tables/company/models/company-type.model';
 import { Company } from 'src/app/backoffice/tables/company/models/company.model';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
@@ -58,8 +58,11 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
     map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
-  positionsGrouped$: Observable<PositionGroupedByCompany[]> = this.store.select(positionReducer.getAll).pipe(
-    map((positions) => positions.filter((position) => position.importance > 1)),
+  positionsGrouped$: Observable<PositionGroupedByCompany[]> = combineLatest([
+    this.store.select(positionReducer.getAll),
+    this.translateSrv.onLangChange.pipe(startWith(undefined)),
+  ]).pipe(
+    map(([positions]) => positions.filter((position) => position.importance > 1)),
     map((positions) => {
       let positionsGroupedByCompany: PositionGroupedByCompany[] = [];
       const positionsSorted = [...positions].sort((a, b) => {
@@ -106,17 +109,19 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
           }
 
           if (years > 0) {
-            time += `${years} ${years === 1 ? this.translateSrv.instant('year') : this.translateSrv.instant('years')}`;
+            time += `${years} ${
+              years === 1 ? this.translateSrv.instant('time.year') : this.translateSrv.instant('time.years')
+            }`;
           }
           if (monthsLeft > 0) {
             time += `${years > 0 ? ' ' : ''}${monthsLeft + 1} ${
-              monthsLeft === 1 ? this.translateSrv.instant('month') : this.translateSrv.instant('months')
+              monthsLeft === 1 ? this.translateSrv.instant('time.month') : this.translateSrv.instant('time.months')
             }`;
           }
           return time;
         }, ''),
       }));
-
+      console.log(positionsGroupedByCompanyAndTime);
       return positionsGroupedByCompanyAndTime;
     }),
   );
