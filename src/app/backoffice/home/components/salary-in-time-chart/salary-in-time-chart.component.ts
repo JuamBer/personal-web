@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -96,7 +97,7 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
 
       const datasets: ChartDataset<any, any>[] = [];
       const data: any[] = [];
-      positionsSorted.forEach((position, index) => {
+      positionsSorted.forEach((position) => {
         data.push(position.hourlyWage);
       });
       datasets.push({
@@ -106,7 +107,7 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
       const res: ChartData<'bar', { key: string; value: number }[]> = {
         labels: positionsSorted.map(
           (position) =>
-            `${position.company.name} - ${this.getTranslation(language?.acronym, position.nameTranslations)}`,
+            `${position.company.name} - ${this.getTranslation(language?.acronym, position?.nameTranslations)}`,
         ),
         datasets,
       };

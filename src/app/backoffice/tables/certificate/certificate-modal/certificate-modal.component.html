@@ -102,10 +102,10 @@
                 appendTo="body"
               >
                 <ng-template let-item pTemplate="selectedItem">
-                  {{ getTranslation(language.acronym, item.nameTranslations) }}
+                  {{ getTranslation(language?.acronym, item?.nameTranslations) }}
                 </ng-template>
                 <ng-template let-item pTemplate="item">
-                  {{ getTranslation(language.acronym, item.nameTranslations) }}
+                  {{ getTranslation(language?.acronym, item?.nameTranslations) }}
                 </ng-template>
               </p-dropdown>
               <label [for]="field">
@@ -129,10 +129,10 @@
                 appendTo="body"
               >
                 <ng-template let-item pTemplate="selectedItem">
-                  {{ getTranslation(language.acronym, item.nameTranslations) }}
+                  {{ getTranslation(language?.acronym, item?.nameTranslations) }}
                 </ng-template>
                 <ng-template let-item pTemplate="item">
-                  {{ getTranslation(language.acronym, item.nameTranslations) }}
+                  {{ getTranslation(language?.acronym, item?.nameTranslations) }}
                 </ng-template>
               </p-dropdown>
               <label [for]="field">

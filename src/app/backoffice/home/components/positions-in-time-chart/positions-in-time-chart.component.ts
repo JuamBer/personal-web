@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -116,7 +117,7 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
 
           datasets.push({
             type: 'bar',
-            label: `${company.name} - ${this.getTranslation(language?.acronym, position.nameTranslations)}`,
+            label: `${company.name} - ${this.getTranslation(language?.acronym, position?.nameTranslations)}`,
             data: companies.map((c) => (c.id === company.id ? timeInYears : 0)),
           });
         });
