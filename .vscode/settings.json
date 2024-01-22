@@ -37,7 +37,8 @@
     "Tests",
     "Format",
     "SEO",
-    "Utils"
+    "Utils",
+    "Directives"
   ],
   "cSpell.words": [
     "cascadeselect",

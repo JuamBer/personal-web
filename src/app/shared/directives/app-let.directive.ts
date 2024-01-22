@@ -13,7 +13,10 @@ interface LetContext<T> {
 export class LetDirective<T> {
   private _context: LetContext<T> = {};
 
-  constructor(private _viewContainer: ViewContainerRef, private _templateRef: TemplateRef<LetContext<T>>) {
+  constructor(
+    private _viewContainer: ViewContainerRef,
+    private _templateRef: TemplateRef<LetContext<T>>,
+  ) {
     _viewContainer.createEmbeddedView(_templateRef, this._context);
   }
 

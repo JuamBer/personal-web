@@ -7,6 +7,7 @@ import {
   Injector,
   Input,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { Skeleton } from 'primeng/skeleton';
 import { BehaviorSubject } from 'rxjs';
@@ -15,6 +16,10 @@ import { BehaviorSubject } from 'rxjs';
   selector: '[appLoading]',
 })
 export class LoadingDirective implements AfterViewInit {
+  private elementRef = inject(ElementRef<HTMLDivElement>);
+  private injector = inject(Injector);
+  private ref = inject(ChangeDetectorRef);
+
   isLoading$ = new BehaviorSubject<boolean>(false);
 
   @Input() set appIsLoading(loading: boolean) {
@@ -24,12 +29,6 @@ export class LoadingDirective implements AfterViewInit {
   fontSizeValue: number = 12;
   viewContainerRef = this.injector.get(ViewContainerRef);
   skeletonComponentRef: ComponentRef<Skeleton> | undefined;
-
-  constructor(
-    private elementRef: ElementRef<HTMLDivElement>,
-    private injector: Injector,
-    private ref: ChangeDetectorRef,
-  ) {}
 
   ngAfterViewInit(): void {
     this.ref.detectChanges();
