@@ -194,6 +194,12 @@
       }
     }
   },
+  "time": {
+    "month": "maand",
+    "months": "maanden",
+    "year": "jaar",
+    "years": "jaar"
+  },
   "calendar": {
     "dayNames": ["Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"],
     "dayNamesShort": ["zon", "ma", "zee", "wo", "do", "vr", "za"],

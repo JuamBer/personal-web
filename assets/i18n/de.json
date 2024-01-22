@@ -194,6 +194,12 @@
       }
     }
   },
+  "time": {
+    "month": "Monat",
+    "months": "Monate",
+    "year": "Jahr",
+    "years": "Jahre"
+  },
   "calendar": {
     "dayNames": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
     "dayNamesShort": ["Sonne", "Mo", "Meer", "heiraten", "Do", "Fr", "saß"],
