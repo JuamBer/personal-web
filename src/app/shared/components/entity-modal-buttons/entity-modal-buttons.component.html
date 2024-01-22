@@ -1,5 +1,5 @@
 @if (modalMode !== ModalMode.VIEW) {
-  <form [formGroup]="form">
+  <form [formGroup]="form" class="w-full">
     <div class="grid p-fluid p-0 m-0 mt-2 w-full">
       <div class="xs:col-12 sm:col-12 md:col-6 lg:col-6 p-1 m-0">
         @if (modalMode === ModalMode.CREATE || modalMode === ModalMode.UPDATE) {
@@ -8,7 +8,7 @@
             pButton
             type="button"
             [label]="'buttons.cancel' | translate"
-            class="p-button-secondary p-button-sm"
+            class="p-button-secondary p-button-sm w-full"
             icon="fa-solid fa-xmark"
             (click)="cancel.emit(true)"
             [attr.aria-label]="'Cancel'"
@@ -22,7 +22,7 @@
             pButton
             type="reset"
             [label]="'buttons.reset' | translate"
-            class="p-button-secondary p-button-sm"
+            class="p-button-secondary p-button-sm w-full"
             icon="fa-solid fa-broom"
             [attr.aria-label]="'Reset'"
           ></button>
@@ -35,7 +35,7 @@
           pButton
           type="submit"
           (click)="submit.emit(true)"
-          class="p-button-sm"
+          class="p-button-sm w-full"
           [label]="
             'buttons.' + modalMode
               | lowercase
