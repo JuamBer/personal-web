@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { faBriefcase, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { CompanyType } from 'src/app/backoffice/tables/company/models/company-type.model';
@@ -27,6 +28,7 @@ import { publicLanguageReducer } from 'src/app/shared/state/languages/public-lan
 
 export class PositionGroupedByCompany {
   company!: Company;
+  time!: string;
   positions!: Position[];
 }
 @Component({
@@ -45,6 +47,7 @@ export class PositionGroupedByCompany {
 export class ExperienceComponent extends TranslationProvider implements OnInit, AfterViewChecked, OnDestroy {
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
+  private translateSrv = inject(TranslateService);
 
   @ViewChildren('position') positionElements!: QueryList<ElementRef<HTMLLIElement>>;
   positionElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
@@ -73,6 +76,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
               return {
                 ...positionGrouped,
                 positions: [...positionGrouped.positions, position],
+                time: '',
               };
             } else {
               return positionGrouped;
@@ -82,10 +86,38 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
           positionsGroupedByCompany.push({
             company: position.company,
             positions: [position],
+            time: '',
           });
         }
       });
-      return positionsGroupedByCompany;
+
+      const positionsGroupedByCompanyAndTime = positionsGroupedByCompany.map((positionGrouped) => ({
+        ...positionGrouped,
+        time: positionGrouped.positions.reduce((time, position) => {
+          const dateFrom = new Date(position.dateFrom);
+          const dateTo = position.dateTo ? new Date(position.dateTo) : new Date();
+          const months =
+            (dateTo.getFullYear() - dateFrom.getFullYear()) * 12 + (dateTo.getMonth() - dateFrom.getMonth());
+          const years = Math.floor(months / 12);
+          const monthsLeft = months % 12;
+
+          if (time) {
+            time += ' ';
+          }
+
+          if (years > 0) {
+            time += `${years} ${years === 1 ? this.translateSrv.instant('year') : this.translateSrv.instant('years')}`;
+          }
+          if (monthsLeft > 0) {
+            time += `${years > 0 ? ' ' : ''}${monthsLeft + 1} ${
+              monthsLeft === 1 ? this.translateSrv.instant('month') : this.translateSrv.instant('months')
+            }`;
+          }
+          return time;
+        }, ''),
+      }));
+
+      return positionsGroupedByCompanyAndTime;
     }),
   );
 

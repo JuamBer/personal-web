@@ -1,26 +1,42 @@
 .experience {
-
   .header {
-    margin-top: 10px;
     display: flex;
     justify-content: flex-start;
+    width: 100%;
+    padding-bottom: 0.75em;
+    margin-top: 0.75em;
 
     .icon {
       padding: 3.5px;
     }
 
     .organization {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.75em;
+      width: 100%;
+
       h3 {
+        padding: 0px;
+        margin: 0px;
         font-weight: bold;
         margin-left: 7.5px;
         font-size: 20px;
+      }
+
+      span {
+        font-size: 1em;
+        font-weight: lighter;
+        font-style: italic;
+        padding-top: 0.25em;
       }
     }
   }
 
   .items {
     .item {
-      list-style:disc;
+      list-style: disc;
       font-size: 25px;
       margin-left: 50px;
       margin-bottom: 5px;
@@ -28,7 +44,7 @@
       .position {
         span {
           font-size: 20px;
-          font-weight:lighter;
+          font-weight: lighter;
         }
       }
 
@@ -40,7 +56,6 @@
         }
       }
     }
-
   }
 }
 
