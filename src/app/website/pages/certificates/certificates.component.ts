@@ -53,7 +53,20 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   unsubscribe$ = new Subject<void>();
   language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
 
-  certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
+  certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll).pipe(
+    map((certificateGroups) =>
+      [...certificateGroups].sort((a, b) => (b?.certificates?.length || 0) - (a?.certificates?.length || 0)),
+    ),
+    map((certificateGroups) => {
+      const uniqueCertificateGroups: CertificateGroup[] = [];
+      certificateGroups.forEach((certificateGroup) => {
+        if (!uniqueCertificateGroups.find((cg) => cg.id === certificateGroup.id)) {
+          uniqueCertificateGroups.push(certificateGroup);
+        }
+      });
+      return uniqueCertificateGroups;
+    }),
+  );
   skillTypesActionStatus$: Observable<ActionStatus> = this.store.select(certificateGroupReducer.getAction).pipe(
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
     map((action) => (action ? action.status : ActionStatus.SUCCESS)),
