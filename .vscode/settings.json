@@ -36,7 +36,8 @@
     "Linter",
     "Tests",
     "Format",
-    "SEO"
+    "SEO",
+    "Utils"
   ],
   "cSpell.words": [
     "cascadeselect",

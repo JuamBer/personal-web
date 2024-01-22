@@ -9,7 +9,7 @@ export class FormUtils {
     }
 
     if (abstractControl instanceof FormGroup) {
-      Object.entries(abstractControl.controls).forEach(([key, abstractControl]) => {
+      Object.entries(abstractControl.controls).forEach(([, abstractControl]) => {
         FormUtils.markAllAsDirtyAndTouched(abstractControl);
       });
     }
@@ -31,7 +31,7 @@ export class FormUtils {
 
     if (abstractControl instanceof FormGroup) {
       abstractControl.disable();
-      Object.entries(abstractControl.controls).forEach(([key, abstractControl]) => {
+      Object.entries(abstractControl.controls).forEach(([, abstractControl]) => {
         FormUtils.markAllAsDirtyAndTouched(abstractControl);
       });
     }
