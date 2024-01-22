@@ -13,7 +13,7 @@
                   [style]="{ height: '100%' }"
                 >
                   <ng-template pTemplate="selectedItem">
-                    @if (language) {
+                    @if (language && language.acronym) {
                       <div class="language-item language-item-value">
                         <div class="flag">
                           <span class="" [class]="'flag flag-' + language.acronym"></span>
@@ -23,7 +23,7 @@
                     }
                   </ng-template>
                   <ng-template let-language pTemplate="item">
-                    @if (language) {
+                    @if (language && language.acronym) {
                       <div class="language-item">
                         <div class="flag">
                           <span class="" [class]="'flag flag-' + language.acronym"></span>
@@ -212,7 +212,7 @@
                         [autoDisplayFirst]="false"
                       >
                         <ng-template pTemplate="selectedItem" let-language>
-                          <div class="language-item language-item-value">
+                          <div class="language-item language-item-value" *ngIf="language">
                             <div class="flag">
                               <span class="" [class]="'flag flag-' + language.acronym"></span>
                             </div>
@@ -223,7 +223,7 @@
                           </div>
                         </ng-template>
                         <ng-template let-language pTemplate="item">
-                          <div class="language-item">
+                          <div class="language-item" *ngIf="language">
                             <div class="flag">
                               <span class="" [class]="'flag flag-' + language.acronym"></span>
                             </div>

@@ -7,6 +7,7 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { LanguagesModule as _LanguagesModule } from 'src/app/shared/modules/languages.module';
@@ -31,6 +32,7 @@ import { LanguageStateModule } from './state/language-state.module';
     InputSwitchModule,
     ReactiveFormsModule,
     DirectivesModule,
+    InputTextModule,
     CommonModule,
   ],
   providers: [TitleCasePipe],

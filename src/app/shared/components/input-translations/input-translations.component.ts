@@ -108,27 +108,6 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
       }
     });
 
-    combineLatest([this.languagesToFill$, this.translations$])
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(([languages, translations]) => {
-        languages.forEach((language) => {
-          if (this.form.value.findIndex((translation) => translation.language === language.acronym) < 0) {
-            const translation = translations.find((t) => t.language === language.acronym);
-            const languageForm: TranslationFormGroup = this.fb.group({
-              language: [language.acronym, [Validators.required]],
-              value: [translation?.value, [Validators.required]],
-            });
-            this.form.push(languageForm);
-            if (this.disabled) {
-              this.form.disable();
-              languageForm.disable();
-            }
-            this.ref.detectChanges();
-            this.ref.markForCheck();
-          }
-        });
-      });
-
     this.store
       .select(publicLanguageReducer.getOne)
       .pipe(take(1), takeUntil(this.unsubscribe$))
@@ -172,6 +151,27 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
         return languagesToAdd;
       }),
     );
+
+    combineLatest([this.languagesToFill$, this.translations$])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(([languages, translations]) => {
+        languages.forEach((language) => {
+          if (this.form.value.findIndex((translation) => translation.language === language.acronym) < 0) {
+            const translation = translations.find((t) => t.language === language.acronym);
+            const languageForm: TranslationFormGroup = this.fb.group({
+              language: [language.acronym, [Validators.required]],
+              value: [translation?.value, [Validators.required]],
+            });
+            this.form.push(languageForm);
+            if (this.disabled) {
+              this.form.disable();
+              languageForm.disable();
+            }
+            this.ref.detectChanges();
+            this.ref.markForCheck();
+          }
+        });
+      });
   }
 
   ngOnDestroy(): void {
