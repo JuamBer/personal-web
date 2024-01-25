@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { AppAutoFocusDirective } from '../directives/APP-autofocus.directive';
+import { AppAutoFocusDirective } from '../directives/app-autofocus.directive';
 import { LetDirective } from '../directives/app-let.directive';
 import { LoadingDirective } from '../directives/loading.directive';
 
