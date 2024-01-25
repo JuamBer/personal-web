@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from 'src/app/shared/services/common.service';
 
-import { environment } from '@env/environment';
-import { createClient } from '@supabase/supabase-js';
+import { supabaseClient } from 'src/app/shared/services/auth.service';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { CertificateGroup } from '../models/certificate-group.model';
 import { certificateGroupNames } from '../state/certificate-group.names';
@@ -12,7 +11,7 @@ import { certificateGroupNames } from '../state/certificate-group.names';
 export class CertificateGroupService extends CommonService<CertificateGroup> {
   constructor() {
     super(
-      createClient(environment.apiUrl, environment.apiKey),
+      supabaseClient,
       certificateGroupNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       'id, name_translations, description_translations, "certificates": "certificates" ( * )',
       '*, "certificates": "certificates" ( * )',

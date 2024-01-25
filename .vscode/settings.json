@@ -38,7 +38,8 @@
     "Format",
     "SEO",
     "Utils",
-    "Directives"
+    "Directives",
+    "CertificateGroups"
   ],
   "cSpell.words": [
     "cascadeselect",
