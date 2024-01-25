@@ -164,6 +164,12 @@
     "updatedAt": "bijgewerkt in",
     "password": "Wachtwoord"
   },
+  "enums": {
+    "companyType": {
+      "company": "Bedrijf",
+      "school": "School"
+    }
+  },
   "genericTable": {
     "currentPageReport": "Toont {eerste} tot {laatste} van {totalRecords} vermeldingen",
     "emptyMessage": "Het heeft geen vermeldingen gevonden",

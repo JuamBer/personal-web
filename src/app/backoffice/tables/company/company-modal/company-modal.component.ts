@@ -4,12 +4,13 @@ import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angu
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
+import { filter, map, skip, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ModalParams } from 'src/app/shared/models/modal-params.model';
+import { SelectOption } from 'src/app/shared/models/select-option.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
@@ -18,6 +19,7 @@ import { publicLanguageReducer } from 'src/app/shared/state/languages/public-lan
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
 import { Language } from '../../language/models/language.model';
+import { CompanyType } from '../models/company-type.model';
 import { Company, CompanyFormGroup } from '../models/company.model';
 import { CompanyService } from '../services/company.service';
 import { companyActions } from '../state/company.actions';
@@ -57,6 +59,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private store = inject(Store);
+  private translateSrv = inject(TranslateService);
   private fb = inject(FormBuilder);
 
   visible = true;
@@ -64,6 +67,11 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
     name: this.fb.control<string | undefined>(undefined, [Validators.required]),
     descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
     location: this.fb.control<string | undefined>(undefined, [Validators.required]),
+    type: this.fb.control<CompanyType>(CompanyType.COMPANY, [Validators.required]),
+    url: this.fb.control<string | undefined>(undefined, [
+      Validators.required,
+      Validators.pattern(/^(http|https):\/\//),
+    ]),
   });
 
   unsubscribe$: Subject<void> = new Subject();
@@ -93,6 +101,20 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
 
+  types$: Observable<SelectOption<CompanyType>[]> = this.translateSrv.onLangChange.pipe(
+    startWith(undefined),
+    map(() => [
+      {
+        label: this.translateSrv.instant('enums.companyType.company'),
+        value: CompanyType.COMPANY,
+      },
+      {
+        label: this.translateSrv.instant('enums.companyType.school'),
+        value: CompanyType.SCHOOL,
+      },
+    ]),
+  );
+
   ngOnInit(): void {
     this.action$.subscribe(() => {
       this.hide();
@@ -119,6 +141,8 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
         location: entity.location,
         name: entity.name,
         descriptionTranslations: entity.descriptionTranslations,
+        type: entity.type,
+        url: entity.url,
       });
     });
   }

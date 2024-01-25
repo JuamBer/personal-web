@@ -164,6 +164,12 @@
     "updatedAt": "oppdatert i",
     "password": "Passord"
   },
+  "enums": {
+    "companyType": {
+      "company": "Selskap",
+      "school": "Skole"
+    }
+  },
   "genericTable": {
     "currentPageReport": "Viser {first} to {last} av {totalRecords} oppføringer",
     "emptyMessage": "Den fant ingen oppføringer",

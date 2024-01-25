@@ -164,6 +164,12 @@
     "updatedAt": "aggiornato in",
     "password": "Parola d'ordine"
   },
+  "enums": {
+    "companyType": {
+      "company": "Azienda",
+      "school": "Scuola"
+    }
+  },
   "genericTable": {
     "currentPageReport": "Visualizzazione dal {first} al {last} di {totalRecords} voci",
     "emptyMessage": "Non ha trovato alcuna voce",

@@ -8,6 +8,7 @@ export interface Company extends AuditFields {
   name: string;
   descriptionTranslations: Translation[];
   type: CompanyType;
+  url: string;
 }
 
 export type CompanyFormGroup = FormGroup<{
@@ -15,4 +16,6 @@ export type CompanyFormGroup = FormGroup<{
   location: FormControl<string | undefined | null>;
   name: FormControl<string | undefined | null>;
   descriptionTranslations: FormArray<TranslationFormGroup>;
+  type: FormControl<CompanyType | null>;
+  url: FormControl<string | undefined | null>;
 }>;

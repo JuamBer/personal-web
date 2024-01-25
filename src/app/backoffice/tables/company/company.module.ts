@@ -18,6 +18,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessageModule } from 'primeng/message';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
@@ -61,6 +62,7 @@ import { CompanyStateModule } from './state/company-state.module';
     TabViewModule,
     MultiSelectModule,
     LanguagesModule,
+    SelectButtonModule,
 
     CompanyStateModule,
     EntityModalButtonsModule,

@@ -39,7 +39,8 @@
     "SEO",
     "Utils",
     "Directives",
-    "CertificateGroups"
+    "CertificateGroups",
+    "Companies"
   ],
   "cSpell.words": [
     "cascadeselect",

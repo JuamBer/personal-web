@@ -177,6 +177,12 @@
     "newPassword": "Nueva Contraseña",
     "repeatNewPassword": "Repetir Nueva Contraseña"
   },
+  "enums": {
+    "companyType": {
+      "company": "Compañia",
+      "school": "Escuela"
+    }
+  },
   "genericTable": {
     "currentPageReport": "Mostrando {first} hasta {last} de {totalRecords} entradas",
     "emptyMessage": "No se ha encontrado ninguna entrada",
