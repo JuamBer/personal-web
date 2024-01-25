@@ -26,7 +26,7 @@ export class ResetPasswordComponent {
   private translateSrv = inject(TranslateService);
   private supabaseSrv = inject(AuthService);
 
-  form: FormGroup = this.fb.group({
+  form: FormGroup = this.fb.nonNullable.group({
     email: [undefined, [Validators.required, Validators.email]],
   });
   loading: boolean = false;

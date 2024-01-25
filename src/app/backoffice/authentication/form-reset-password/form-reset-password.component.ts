@@ -23,7 +23,7 @@ export class FormResetPasswordComponent {
   private fb = inject(FormBuilder);
   private supabaseSrv = inject(AuthService);
 
-  form: FormGroup = this.fb.group({
+  form: FormGroup = this.fb.nonNullable.group({
     password: [undefined, Validators.required],
     repeat_password: [undefined, Validators.required],
   });

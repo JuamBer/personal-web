@@ -55,11 +55,11 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   private fb = inject(FormBuilder);
 
   visible = true;
-  form: LanguageFormGroup = this.fb.group({
-    name: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    nativeName: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    acronym: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    active: this.fb.control<boolean>(true, [Validators.required]),
+  form: LanguageFormGroup = this.fb.nonNullable.group({
+    name: this.fb.nonNullable.control<string | undefined>(undefined, [Validators.required]),
+    nativeName: this.fb.nonNullable.control<string | undefined>(undefined, [Validators.required]),
+    acronym: this.fb.nonNullable.control<string | undefined>(undefined, [Validators.required]),
+    active: this.fb.nonNullable.control<boolean>(true, [Validators.required]),
   });
 
   unsubscribe$: Subject<void> = new Subject();
@@ -103,7 +103,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
       if (!entity) return;
 
       if (!this.form.controls.id) {
-        this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
+        this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
       }
 
       this.form.patchValue({

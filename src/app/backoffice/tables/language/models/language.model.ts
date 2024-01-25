@@ -9,9 +9,9 @@ export interface Language extends AuditFields {
 }
 
 export type LanguageFormGroup = FormGroup<{
-  id?: FormControl<string | null>;
-  nativeName: FormControl<string | undefined | null>;
-  name: FormControl<string | undefined | null>;
-  acronym: FormControl<string | undefined | null>;
-  active: FormControl<boolean | null>;
+  id?: FormControl<string>;
+  nativeName: FormControl<string | undefined>;
+  name: FormControl<string | undefined>;
+  acronym: FormControl<string | undefined>;
+  active: FormControl<boolean>;
 }>;

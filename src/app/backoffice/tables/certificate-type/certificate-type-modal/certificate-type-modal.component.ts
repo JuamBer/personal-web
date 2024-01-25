@@ -41,11 +41,9 @@ export const certificateTypeModalTitleResolver: ResolveFn<string> = (route: Acti
                 from(certificateTypeSrv.getTitle(route.paramMap.get('id')!)).pipe(
                   map(
                     (selected) =>
-                      `${appRootTitle} | ${table} | ${
-                        selected?.nameTranslations?.find(
-                          (translation: Translation) => translation.language === language?.acronym,
-                        )?.value
-                      }`,
+                      `${appRootTitle} | ${table} | ${selected?.nameTranslations?.find(
+                        (translation: Translation) => translation.language === language?.acronym,
+                      )?.value}`,
                   ),
                 ),
               ),
@@ -70,9 +68,9 @@ export class CertificateTypeModalComponent
   private fb = inject(FormBuilder);
 
   visible = true;
-  form: CertificateTypeFormGroup = this.fb.group({
-    nameTranslations: this.fb.array<TranslationFormGroup>([]),
-    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
+  form: CertificateTypeFormGroup = this.fb.nonNullable.group({
+    nameTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
+    descriptionTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
   });
 
   unsubscribe$: Subject<void> = new Subject();
@@ -128,7 +126,7 @@ export class CertificateTypeModalComponent
       if (!entity) return;
 
       if (!this.form.controls.id) {
-        this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
+        this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
       }
 
       this.form.patchValue({

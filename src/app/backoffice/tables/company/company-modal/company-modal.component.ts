@@ -63,12 +63,12 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   private fb = inject(FormBuilder);
 
   visible = true;
-  form: CompanyFormGroup = this.fb.group({
-    name: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
-    location: this.fb.control<string | undefined>(undefined, [Validators.required]),
-    type: this.fb.control<CompanyType>(CompanyType.COMPANY, [Validators.required]),
-    url: this.fb.control<string | undefined>(undefined, [
+  form: CompanyFormGroup = this.fb.nonNullable.group({
+    name: this.fb.nonNullable.control<string | undefined>(undefined, [Validators.required]),
+    descriptionTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
+    location: this.fb.nonNullable.control<string | undefined>(undefined, [Validators.required]),
+    type: this.fb.nonNullable.control<CompanyType>(CompanyType.COMPANY, [Validators.required]),
+    url: this.fb.nonNullable.control<string | undefined>(undefined, [
       Validators.required,
       Validators.pattern(/^(http|https):\/\//),
     ]),
@@ -133,7 +133,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
       if (!entity) return;
 
       if (!this.form.controls.id) {
-        this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
+        this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
       }
 
       this.form.patchValue({

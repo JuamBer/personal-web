@@ -14,11 +14,11 @@ export interface Position extends AuditFields {
 }
 
 export type PositionFormGroup = FormGroup<{
-  id?: FormControl<string | null>;
+  id?: FormControl<string>;
   nameTranslations: FormArray<TranslationFormGroup>;
   descriptionTranslations: FormArray<TranslationFormGroup>;
-  importance: FormControl<number | null>;
-  company: FormControl<Company | undefined | null>;
-  dateFrom: FormControl<Date | undefined | null>;
-  dateTo: FormControl<Date | undefined | null>;
+  importance: FormControl<number>;
+  company: FormControl<Company | undefined>;
+  dateFrom: FormControl<Date | undefined>;
+  dateTo: FormControl<Date | undefined>;
 }>;

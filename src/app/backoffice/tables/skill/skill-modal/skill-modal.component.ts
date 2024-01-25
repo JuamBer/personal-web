@@ -60,10 +60,10 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
   private fb = inject(FormBuilder);
 
   visible = true;
-  form: SkillFormGroup = this.fb.group({
-    name: this.fb.control<string | undefined | null>(undefined, [Validators.required]),
-    skillType: this.fb.control<SkillType | undefined | null>(undefined, [Validators.required]),
-    percentage: this.fb.control<number | null>(0, [Validators.required]),
+  form: SkillFormGroup = this.fb.nonNullable.group({
+    name: this.fb.nonNullable.control<string | undefined | null>(undefined, [Validators.required]),
+    skillType: this.fb.nonNullable.control<SkillType | undefined | null>(undefined, [Validators.required]),
+    percentage: this.fb.nonNullable.control<number | null>(0, [Validators.required]),
   });
 
   unsubscribe$: Subject<void> = new Subject();
@@ -115,7 +115,7 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
       if (!entity) return;
 
       if (!this.form.controls.id) {
-        this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
+        this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
       }
       this.form.patchValue({
         id: entity.id,

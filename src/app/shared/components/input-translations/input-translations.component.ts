@@ -158,7 +158,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
         languages.forEach((language) => {
           if (this.form.value.findIndex((translation) => translation.language === language.acronym) < 0) {
             const translation = translations.find((t) => t.language === language.acronym);
-            const languageForm: TranslationFormGroup = this.fb.group({
+            const languageForm: TranslationFormGroup = this.fb.nonNullable.group({
               language: [language.acronym, [Validators.required]],
               value: [translation?.value, [Validators.required]],
             });
@@ -226,9 +226,9 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
   addLanguage(language: Language | null) {
     if (!language) return;
 
-    const languageForm: TranslationFormGroup = this.fb.group({
-      language: this.fb.control<string>(language.acronym, [Validators.required]),
-      value: this.fb.control<string | undefined>('', [Validators.required]),
+    const languageForm: TranslationFormGroup = this.fb.nonNullable.group({
+      language: this.fb.nonNullable.control<string>(language.acronym, [Validators.required]),
+      value: this.fb.nonNullable.control<string | undefined>('', [Validators.required]),
     });
     this.form.push(languageForm);
   }

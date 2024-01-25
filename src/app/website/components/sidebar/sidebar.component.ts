@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
   private translateSrv = inject(TranslateService);
   private fb = inject(FormBuilder);
 
-  colorModeFormControl = this.fb.control<boolean>(true);
+  colorModeFormControl = this.fb.nonNullable.control<boolean>(true);
 
   pages: Page[] = [];
 

@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   private router = inject(Router);
   private supabaseSrv = inject(AuthService);
 
-  formGroup: FormGroup = this.fb.group({
+  formGroup: FormGroup = this.fb.nonNullable.group({
     email: [undefined, [Validators.required, Validators.email]],
     password: [undefined, Validators.required],
   });

@@ -50,11 +50,9 @@ export const certificateModalTitleResolver: ResolveFn<string> = (route: Activate
                 from(certificateSrv.getTitle(route.paramMap.get('id')!)).pipe(
                   map(
                     (selected) =>
-                      `${appRootTitle} | ${table} | ${
-                        selected?.nameTranslations?.find(
-                          (translation: Translation) => translation.language === language?.acronym,
-                        )?.value
-                      }`,
+                      `${appRootTitle} | ${table} | ${selected?.nameTranslations?.find(
+                        (translation: Translation) => translation.language === language?.acronym,
+                      )?.value}`,
                   ),
                 ),
               ),
@@ -79,20 +77,20 @@ export class CertificateModalComponent
   private fb = inject(FormBuilder);
 
   visible = true;
-  form: CertificateFormGroup = this.fb.group({
-    nameTranslations: this.fb.array<TranslationFormGroup>([]),
-    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
-    url: this.fb.control<string | undefined>(undefined),
-    image: this.fb.control<string | undefined>(undefined),
-    pdf: this.fb.control<string | undefined>(undefined),
-    date: this.fb.control<Date>(new Date(), [Validators.required]),
-    github: this.fb.control<string | undefined>(undefined),
-    web: this.fb.control<string | undefined>(undefined),
-    microsoftStore: this.fb.control<string | undefined>(undefined),
-    playStore: this.fb.control<string | undefined>(undefined),
-    company: this.fb.control<Company | undefined>(undefined, [Validators.required]),
-    certificateType: this.fb.control<CertificateType | undefined>(undefined, [Validators.required]),
-    certificateGroup: this.fb.control<CertificateGroup | undefined>(undefined, [Validators.required]),
+  form: CertificateFormGroup = this.fb.nonNullable.group({
+    nameTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
+    descriptionTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
+    url: this.fb.nonNullable.control<string | undefined>(undefined),
+    image: this.fb.nonNullable.control<string | undefined>(undefined),
+    pdf: this.fb.nonNullable.control<string | undefined>(undefined),
+    date: this.fb.nonNullable.control<Date>(new Date(), [Validators.required]),
+    github: this.fb.nonNullable.control<string | undefined>(undefined),
+    web: this.fb.nonNullable.control<string | undefined>(undefined),
+    microsoftStore: this.fb.nonNullable.control<string | undefined>(undefined),
+    playStore: this.fb.nonNullable.control<string | undefined>(undefined),
+    company: this.fb.nonNullable.control<Company | undefined>(undefined, [Validators.required]),
+    certificateType: this.fb.nonNullable.control<CertificateType | undefined>(undefined, [Validators.required]),
+    certificateGroup: this.fb.nonNullable.control<CertificateGroup | undefined>(undefined, [Validators.required]),
   });
 
   unsubscribe$: Subject<void> = new Subject();
@@ -148,7 +146,7 @@ export class CertificateModalComponent
       if (!entity) return;
 
       if (!this.form.controls.id) {
-        this.form.addControl('id', this.fb.control<string | null>(entity.id, [Validators.required]));
+        this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
       }
 
       this.form.patchValue({

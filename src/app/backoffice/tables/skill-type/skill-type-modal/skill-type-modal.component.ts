@@ -42,11 +42,9 @@ export const skillTypeModalTitleResolver: ResolveFn<string> = (route: ActivatedR
                 from(skillTypeSrv.getTitle(route.paramMap.get('id')!)).pipe(
                   map(
                     (selected) =>
-                      `${appRootTitle} | ${table} | ${
-                        selected?.nameTranslations?.find(
-                          (translation: Translation) => translation.language === language?.acronym,
-                        )?.value
-                      }`,
+                      `${appRootTitle} | ${table} | ${selected?.nameTranslations?.find(
+                        (translation: Translation) => translation.language === language?.acronym,
+                      )?.value}`,
                   ),
                 ),
               ),
@@ -67,9 +65,9 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
   private fb = inject(FormBuilder);
 
   visible = true;
-  form: SkillTypeFormGroup = this.fb.group({
-    nameTranslations: this.fb.array<TranslationFormGroup>([]),
-    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
+  form: SkillTypeFormGroup = this.fb.nonNullable.group({
+    nameTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
+    descriptionTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
   });
 
   unsubscribe$: Subject<void> = new Subject();
@@ -117,7 +115,10 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
       if (!entity) return;
 
       if (!this.form.controls.id) {
-        this.form.addControl('id', this.fb.control<string | undefined | null>(entity.id, [Validators.required]));
+        this.form.addControl(
+          'id',
+          this.fb.nonNullable.control<string | undefined | null>(entity.id, [Validators.required]),
+        );
       }
 
       this.form.patchValue({

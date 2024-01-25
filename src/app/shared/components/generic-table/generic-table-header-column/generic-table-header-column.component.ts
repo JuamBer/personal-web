@@ -35,9 +35,9 @@ export class GenericTableHeaderColumnComponent<T> {
 
   @ViewChild(OverlayPanel) filterTypes!: OverlayPanel;
 
-  filterFormGroup = this.fb.group({
+  filterFormGroup = this.fb.nonNullable.group({
     value: [undefined, [Validators.required]],
-    filterType: this.fb.control<FilterType | undefined>(undefined, [Validators.required]),
+    filterType: this.fb.nonNullable.control<FilterType | undefined>(undefined, [Validators.required]),
   });
 
   sorting: 'initial' | 'ascending' | 'descending' = 'initial';

@@ -41,11 +41,9 @@ export const positionModalTitleResolver: ResolveFn<string> = (route: ActivatedRo
                 from(positionSrv.getTitle(route.paramMap.get('id')!)).pipe(
                   map(
                     (selected) =>
-                      `${appRootTitle} | ${table} | ${
-                        selected?.nameTranslations?.find(
-                          (translation: Translation) => translation.language === language?.acronym,
-                        )?.value
-                      }`,
+                      `${appRootTitle} | ${table} | ${selected?.nameTranslations?.find(
+                        (translation: Translation) => translation.language === language?.acronym,
+                      )?.value}`,
                   ),
                 ),
               ),
@@ -67,13 +65,13 @@ export class PositionModalComponent implements OnInit, EntityModal<Position> {
   private fb = inject(FormBuilder);
 
   visible = true;
-  form: PositionFormGroup = this.fb.group({
-    nameTranslations: this.fb.array<TranslationFormGroup>([]),
-    descriptionTranslations: this.fb.array<TranslationFormGroup>([]),
-    company: this.fb.control<Company | undefined>(undefined, [Validators.required]),
-    importance: this.fb.control<number>(0, [Validators.required, Validators.min(0), Validators.max(5)]),
-    dateFrom: this.fb.control<Date | undefined>(undefined, [Validators.required]),
-    dateTo: this.fb.control<Date | undefined>(undefined),
+  form: PositionFormGroup = this.fb.nonNullable.group({
+    nameTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
+    descriptionTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
+    company: this.fb.nonNullable.control<Company | undefined>(undefined, [Validators.required]),
+    importance: this.fb.nonNullable.control<number>(0, [Validators.required, Validators.min(0), Validators.max(5)]),
+    dateFrom: this.fb.nonNullable.control<Date | undefined>(undefined, [Validators.required]),
+    dateTo: this.fb.nonNullable.control<Date | undefined>(undefined),
   });
 
   unsubscribe$: Subject<void> = new Subject();
@@ -124,7 +122,7 @@ export class PositionModalComponent implements OnInit, EntityModal<Position> {
       if (!entity) return;
 
       if (!this.form.controls.id) {
-        this.form.addControl('id', this.fb.control<string>(entity.id, [Validators.required]));
+        this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
       }
       this.form.patchValue({
         id: entity.id,

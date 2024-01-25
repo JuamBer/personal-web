@@ -12,10 +12,10 @@ export interface Company extends AuditFields {
 }
 
 export type CompanyFormGroup = FormGroup<{
-  id?: FormControl<string | null>;
-  location: FormControl<string | undefined | null>;
-  name: FormControl<string | undefined | null>;
+  id?: FormControl<string>;
+  location: FormControl<string | undefined>;
+  name: FormControl<string | undefined>;
   descriptionTranslations: FormArray<TranslationFormGroup>;
-  type: FormControl<CompanyType | null>;
-  url: FormControl<string | undefined | null>;
+  type: FormControl<CompanyType>;
+  url: FormControl<string | undefined>;
 }>;
