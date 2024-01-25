@@ -21,7 +21,13 @@
                   }
                 </div>
                 <div class="organization">
-                  <h3>{{ positionGrouped.company.name }}</h3>
+                  <h3>
+                    @if (positionGrouped.company.url) {
+                      <a [href]="positionGrouped.company.url" target="_blank">{{ positionGrouped.company.name }}</a>
+                    } @else {
+                      {{ positionGrouped.company.name }}
+                    }
+                  </h3>
                   <span>({{ positionGrouped.time }})</span>
                 </div>
               </div>
