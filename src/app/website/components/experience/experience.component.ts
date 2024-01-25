@@ -121,7 +121,6 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
           return time;
         }, ''),
       }));
-      console.log(positionsGroupedByCompanyAndTime);
       return positionsGroupedByCompanyAndTime;
     }),
   );
