@@ -160,8 +160,8 @@ export class CompanyListComponent implements OnInit, OnDestroy, EntityList<Compa
           field: 'descriptionTranslations',
           label: this.translateSrv.instant('columns.description'),
           type: GenericFieldType.TRANSLATIONS,
-          filter: true,
-          sort: true,
+          filter: false,
+          sort: false,
         },
       ],
       buttons: {

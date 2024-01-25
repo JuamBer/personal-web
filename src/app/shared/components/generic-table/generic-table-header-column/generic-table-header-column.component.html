@@ -10,8 +10,13 @@
       }
     </span>
     <div class="flex align-items-center justify-content-end gap-2 w-full">
-      <fa-icon [icon]="filterIcon" class="cursor-pointer" (click)="filterTypes.toggle($event)"></fa-icon>
-      <fa-icon [icon]="sortIcon" class="cursor-pointer" (click)="onSort()"></fa-icon>
+      <fa-icon
+        *ngIf="field.filter"
+        [icon]="filterIcon"
+        class="cursor-pointer"
+        (click)="filterTypes.toggle($event)"
+      ></fa-icon>
+      <fa-icon *ngIf="field.sort" [icon]="sortIcon" class="cursor-pointer" (click)="onSort()"></fa-icon>
     </div>
     <p-overlayPanel #filterTypes [style]="{ maxWidth: '250px' }">
       <form class="grid p-fluid" [formGroup]="filterFormGroup" (ngSubmit)="onSubmit()">

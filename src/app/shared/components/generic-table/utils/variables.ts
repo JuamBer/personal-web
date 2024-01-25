@@ -1,6 +1,6 @@
 import { GenericTableConfig } from '../models/generic-table.models';
 
-export const defaultGenericTableConfig: GenericTableConfig<any> = {
+export const defaultGenericTableConfig: GenericTableConfig<unknown> = {
   dataKey: 'id',
   rowsPerPageOptions: [5, 10, 25, 50, 100],
   showCurrentPageReport: true,

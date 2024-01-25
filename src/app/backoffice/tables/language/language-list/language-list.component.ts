@@ -163,7 +163,7 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
           field: 'active',
           label: 'Active',
           type: GenericFieldType.BOOLEAN,
-          filter: true,
+          filter: false,
           sort: true,
         },
       ],

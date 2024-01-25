@@ -3,7 +3,7 @@ import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { Filter, FilterType } from '../components/generic-table/models/generic-table.models';
 import { Resource } from '../models/resource.model';
-import { camelCaseToSnakeCase, flatObjectsById, snakeCaseToCamelCase } from '../utils/supabase-utils';
+import { camelCaseToSnakeCase, flatObjectsById, snakeCaseToCamelCase, toSnakeCase } from '../utils/supabase-utils';
 
 export class CommonService<T extends Resource> {
   constructor(
@@ -97,14 +97,14 @@ export class CommonService<T extends Resource> {
       lazyLoadEvent.sortField &&
       typeof lazyLoadEvent.sortField === 'string'
     ) {
-      request = request.order(lazyLoadEvent.sortField, {
+      request = request.order(toSnakeCase(lazyLoadEvent.sortField), {
         ascending: lazyLoadEvent.sortOrder === 1,
       });
     }
     if (lazyLoadEvent.filters && !Array.isArray(lazyLoadEvent.filters)) {
       Object.entries(lazyLoadEvent.filters).forEach(([key, filterMetadata]) => {
         if (filterMetadata && !Array.isArray(filterMetadata)) {
-          const field = key;
+          const field = toSnakeCase(key);
           const value = (filterMetadata.value as Filter).value;
           if (value) {
             switch ((filterMetadata.value as Filter).filterType) {

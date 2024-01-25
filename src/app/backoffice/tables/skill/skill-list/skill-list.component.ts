@@ -153,15 +153,15 @@ export class SkillListComponent implements OnInit, OnDestroy, EntityList<Skill> 
           field: 'percentage',
           label: 'Percentage',
           type: GenericFieldType.PERCENTAGE,
-          filter: true,
+          filter: false,
           sort: true,
         },
         {
           field: 'skillType.nameTranslations',
           label: 'Skill Type',
           type: GenericFieldType.TRANSLATIONS,
-          filter: true,
-          sort: true,
+          filter: false,
+          sort: false,
         },
       ],
       buttons: {

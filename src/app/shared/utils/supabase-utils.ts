@@ -84,12 +84,12 @@ const isObject = function (o: any) {
   return o === Object(o) && !Array.isArray(o) && typeof o !== 'function';
 };
 
-const toCamelCase = (s: string) => {
+export const toCamelCase = (s: string) => {
   return s.replace(/([-_][a-z])/gi, ($1: string) => {
     return $1.toUpperCase().replace('-', '').replace('_', '');
   });
 };
 
-const toSnakeCase = (s: string) => {
+export const toSnakeCase = (s: string) => {
   return s.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 };
