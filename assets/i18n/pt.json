@@ -164,6 +164,12 @@
     "updatedAt": "atualizado em",
     "password": "Senha"
   },
+  "enums": {
+    "companyType": {
+      "company": "Empresa",
+      "school": "Escola"
+    }
+  },
   "genericTable": {
     "currentPageReport": "Mostrando {first} a {last} de {totalRecords} entradas",
     "emptyMessage": "Não encontrou nenhuma entrada",
