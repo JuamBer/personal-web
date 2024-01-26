@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Subject, filter, map, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -75,22 +75,36 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
 
   action$ = this.store.select(certificateGroupReducer.getAction);
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.handleLoadCount();
+    this.handleLoadTableConfig();
+    this.handleMessages();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  handleLoadCount() {
     this.store.dispatch(certificateGroupActions.count());
-    this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
-      this.loadTableConfig();
-    });
-    this.action$.subscribe((action) => {
+  }
+
+  handleLoadTableConfig() {
+    this.translateSrv.onLangChange
+      .pipe(takeUntil(this.unsubscribe$), startWith(this.translateSrv.currentLang))
+      .subscribe(() => {
+        this.loadTableConfig();
+      });
+  }
+
+  handleMessages() {
+    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
       const message = this.toastSrv.getMessage(action, this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR));
       if (message) {
         this.messageSrv.add(message);
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {

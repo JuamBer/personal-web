@@ -9,16 +9,26 @@ import { Resource } from './resource.model';
 export interface EntityList<T extends Resource> {
   entities$: Observable<T[]>;
   entities$$: Signal<T[]>;
+
   loading$: Observable<boolean>;
   loading$$: Signal<boolean>;
+
   count$: Observable<number>;
   count$$: Signal<number>;
+
   tableConfig$: BehaviorSubject<GenericTableConfig<T> | undefined>;
   tableConfig$$: Signal<GenericTableConfig<T> | undefined>;
+
   action$: Observable<Action | undefined>;
+
+  handleLoadCount: () => void;
+  handleMessages: () => void;
+  handleLoadTableConfig: () => void;
+
   loadTableConfig: () => void;
   onLazyLoadEvent: (event: TableLazyLoadEvent) => void;
   onTableEvent: (event: TableEvent<T>) => void;
+
   get NumberMode(): typeof NumberMode;
   get Naming(): typeof Naming;
   get names(): CommonNames;

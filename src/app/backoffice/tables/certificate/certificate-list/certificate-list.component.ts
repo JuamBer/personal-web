@@ -4,9 +4,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Subject, filter, map, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -17,6 +17,7 @@ import {
 import { defaultGenericTableConfig } from 'src/app/shared/components/generic-table/utils/variables';
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
+import { ToastService } from 'src/app/shared/services/toast.service';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { Certificate } from '../models/certificate.model';
@@ -50,6 +51,8 @@ export class CertificateListComponent implements OnInit, OnDestroy, EntityList<C
   private router = inject(Router);
   private translateSrv = inject(TranslateService);
   private titleCasePipe = inject(TitleCasePipe);
+  private toastSrv = inject(ToastService);
+  private messageSrv = inject(MessageService);
 
   unsubscribe$ = new Subject<void>();
 
@@ -74,15 +77,35 @@ export class CertificateListComponent implements OnInit, OnDestroy, EntityList<C
   action$ = this.store.select(certificateReducer.getAction);
 
   ngOnInit() {
-    this.store.dispatch(certificateActions.count());
-    this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
-      this.loadTableConfig();
-    });
+    this.handleLoadCount();
+    this.handleLoadTableConfig();
+    this.handleMessages();
   }
 
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  handleLoadCount() {
+    this.store.dispatch(certificateActions.count());
+  }
+
+  handleLoadTableConfig() {
+    this.translateSrv.onLangChange
+      .pipe(takeUntil(this.unsubscribe$), startWith(this.translateSrv.currentLang))
+      .subscribe(() => {
+        this.loadTableConfig();
+      });
+  }
+
+  handleMessages() {
+    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
+      const message = this.toastSrv.getMessage(action, this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR));
+      if (message) {
+        this.messageSrv.add(message);
+      }
+    });
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {

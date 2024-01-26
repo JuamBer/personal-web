@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Subject, filter, map, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -78,23 +78,35 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
   action$ = this.store.select(skillTypeReducer.getAction);
 
   ngOnInit() {
-    this.store.dispatch(skillTypeActions.count());
-
-    this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
-      this.loadTableConfig();
-    });
-
-    this.action$.subscribe((action) => {
-      const message = this.toastSrv.getMessage(action, this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR));
-      if (message) {
-        this.messageSrv.add(message);
-      }
-    });
+    this.handleLoadCount();
+    this.handleLoadTableConfig();
+    this.handleMessages();
   }
 
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  handleLoadCount() {
+    this.store.dispatch(skillTypeActions.count());
+  }
+
+  handleLoadTableConfig() {
+    this.translateSrv.onLangChange
+      .pipe(takeUntil(this.unsubscribe$), startWith(this.translateSrv.currentLang))
+      .subscribe(() => {
+        this.loadTableConfig();
+      });
+  }
+
+  handleMessages() {
+    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
+      const message = this.toastSrv.getMessage(action, this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR));
+      if (message) {
+        this.messageSrv.add(message);
+      }
+    });
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {
