@@ -51,19 +51,6 @@
                 ></app-input-translations>
               </div>
             </div>
-            <app-entity-modal-buttons
-              [loading]="loading"
-              [form]="form"
-              [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
-              [modalMode]="modalMode"
-              (cancel)="hide()"
-              (submit)="send()"
-            ></app-entity-modal-buttons>
-            <app-entity-modal-audit
-              [loading]="loading"
-              [entity]="entity"
-              [modalMode]="modalMode"
-            ></app-entity-modal-audit>
           </form>
           @if (modalMode === ModalMode.VIEW) {
             <div class="mt-5">
