@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData, ChartDataset, ChartOptions } from 'chart.js';
@@ -8,7 +10,6 @@ import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
 import { CertificateStateModule } from 'src/app/backoffice/tables/certificate/state/certificate-state.module';
 import { certificateActions } from 'src/app/backoffice/tables/certificate/state/certificate.actions';
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
-import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
@@ -27,7 +28,7 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
   private translateSrv = inject(TranslateService);
   private titleCasePipe = inject(TitleCasePipe);
 
-  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
+  language$ = this.store.select(publicLanguageReducer.getOne);
   chartOptions$: Observable<ChartOptions> = this.translateSrv.onLangChange.pipe(
     startWith(this.translateSrv.currentLang),
     map(() => ({
@@ -84,6 +85,8 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
       },
     })),
   );
+  chartOptions$$ = toSignal(this.chartOptions$);
+
   chartData$: Observable<ChartData<'bar', any[]>> = combineLatest([
     this.store.select(certificateReducer.getAll),
     this.language$,
@@ -135,8 +138,9 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
       return res;
     }),
   );
+  chartData$$ = toSignal(this.chartData$);
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.store.dispatch(certificateActions.loadAll({}));
   }
 }

@@ -9,12 +9,8 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { Skill } from 'src/app/backoffice/tables/skill/models/skill.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
-import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 
 @Component({
   selector: 'app-tools',
@@ -30,7 +26,6 @@ import { publicLanguageReducer } from 'src/app/shared/state/languages/public-lan
   ],
 })
 export class ToolsComponent extends TranslationProvider implements AfterViewInit {
-  private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
 
   @ViewChild('tools') toolsElement!: ElementRef<HTMLDivElement>;
@@ -40,10 +35,9 @@ export class ToolsComponent extends TranslationProvider implements AfterViewInit
     required: true,
   })
   entities: Skill[] = [];
+
   @Input()
   loading: boolean = false;
-
-  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
 
   ngAfterViewInit(): void {
     const observer = new IntersectionObserver((entries) => {

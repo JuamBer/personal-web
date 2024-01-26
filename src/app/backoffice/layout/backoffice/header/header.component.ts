@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
@@ -18,9 +19,11 @@ export class HeaderComponent {
   private translateSrv = inject(TranslateService);
 
   sidebarVisible = false;
-  user$ = this.authService.getCurrentUser();
 
-  public breadcrumbs$: Observable<MenuItem[]> = this.router.events.pipe(
+  user$ = this.authService.getCurrentUser();
+  user$$ = toSignal(this.user$);
+
+  breadcrumbs$: Observable<MenuItem[]> = this.router.events.pipe(
     startWith(undefined),
     debounceTime(200),
     map(() => {
@@ -34,6 +37,10 @@ export class HeaderComponent {
       }));
     }),
   );
+  breadcrumbs$$ = toSignal(this.breadcrumbs$, {
+    initialValue: [],
+  });
+
   menus = [
     {
       routerLink: '/backoffice/certificates',

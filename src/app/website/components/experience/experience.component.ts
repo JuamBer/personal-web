@@ -11,6 +11,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { faBriefcase, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,7 +19,6 @@ import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { CompanyType } from 'src/app/backoffice/tables/company/models/company-type.model';
 import { Company } from 'src/app/backoffice/tables/company/models/company.model';
-import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { Position } from 'src/app/backoffice/tables/position/models/position.model';
 import { positionActions } from 'src/app/backoffice/tables/position/state/position.actions';
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
@@ -52,12 +52,20 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   @ViewChildren('position') positionElements!: QueryList<ElementRef<HTMLLIElement>>;
   positionElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
 
-  unsubscribe$: Subject<void> = new Subject();
-  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
-  positionsActionStatus$: Observable<ActionStatus> = this.store.select(positionReducer.getAction).pipe(
+  unsubscribe$ = new Subject<void>();
+
+  language$ = this.store.select(publicLanguageReducer.getOne);
+  language$$ = toSignal(this.language$);
+
+  positionsActionStatus$ = this.store.select(positionReducer.getAction).pipe(
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
+    // eslint-disable-next-line @ngrx/avoid-mapping-selectors
     map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
+  positionsActionStatus$$ = toSignal(this.positionsActionStatus$, {
+    initialValue: ActionStatus.SUCCESS,
+  });
+
   positionsGrouped$: Observable<PositionGroupedByCompany[]> = combineLatest([
     this.store.select(positionReducer.getAll),
     this.translateSrv.onLangChange.pipe(startWith(undefined)),
@@ -124,13 +132,19 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
       return positionsGroupedByCompanyAndTime;
     }),
   );
+  positionsGrouped$$ = toSignal(this.positionsGrouped$, {
+    initialValue: [],
+  });
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+  ngOnInit() {
+    this.positionsGrouped$.pipe(takeUntil(this.unsubscribe$)).subscribe((positionsGrouped) => {
+      if (!positionsGrouped.length) {
+        this.store.dispatch(positionActions.loadAll({ payload: null }));
+      }
+    });
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterViewChecked() {
     this.positionElements.forEach((positionElement) => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -146,12 +160,9 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
     });
   }
 
-  ngOnInit(): void {
-    this.positionsGrouped$.pipe(takeUntil(this.unsubscribe$)).subscribe((positionsGrouped) => {
-      if (!positionsGrouped.length) {
-        this.store.dispatch(positionActions.loadAll({ payload: null }));
-      }
-    });
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   getPositionEnterAnimationState(companyId: string | undefined): 'inViewport' | 'notInViewport' {

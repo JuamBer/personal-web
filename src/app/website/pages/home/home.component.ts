@@ -1,19 +1,15 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
-import { Language } from 'src/app/backoffice/tables/language/models/language.model';
-import { SkillType } from 'src/app/backoffice/tables/skill-type/models/skill-type.model';
 import { skillTypeActions } from 'src/app/backoffice/tables/skill-type/state/skill-type.actions';
 import { skillTypeReducer } from 'src/app/backoffice/tables/skill-type/state/skill-type.reducer';
-import { Skill } from 'src/app/backoffice/tables/skill/models/skill.model';
-import { skillActions } from 'src/app/backoffice/tables/skill/state/skill.actions';
-import { skillReducer } from 'src/app/backoffice/tables/skill/state/skill.reducer';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
@@ -53,14 +49,23 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
 
-  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
-  skills$: Observable<Skill[]> = this.store.select(skillReducer.getAll);
-  loadingSkills$: Observable<boolean> = this.store.select(skillReducer.getLoading);
-  skillTypes$: Observable<SkillType[]> = this.store.select(skillTypeReducer.getAll);
+  language$ = this.store.select(publicLanguageReducer.getOne);
+  language$$ = toSignal(this.language$);
+
+  skillTypes$ = this.store.select(skillTypeReducer.getAll);
+  skillTypes$$ = toSignal(this.skillTypes$, {
+    initialValue: [],
+  });
+
   skillTypesActionStatus$: Observable<ActionStatus> = this.store.select(skillTypeReducer.getAction).pipe(
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
+    // eslint-disable-next-line @ngrx/avoid-mapping-selectors
     map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
+  skillTypesActionStatus$$ = toSignal(this.skillTypesActionStatus$, {
+    initialValue: ActionStatus.SUCCESS,
+  });
+
   socialNetworks: SocialNetwork[] = [
     {
       name: 'GitHub',
@@ -79,7 +84,7 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
     },
   ];
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this.store
       .select(publicLanguageReducer.getOne)
       .pipe(filter((i) => !!i))
@@ -88,26 +93,12 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
       });
   }
 
-  ngOnInit(): void {
-    this.skills$.subscribe((skills) => {
-      if (!skills.length) {
-        this.store.dispatch(skillActions.loadAll({ payload: null }));
-      }
-    });
-
+  ngOnInit() {
     this.skillTypes$.subscribe((skillTypes) => {
       if (!skillTypes.length) {
         this.store.dispatch(skillTypeActions.loadAll({ payload: null }));
       }
     });
-  }
-
-  getSkills(skillType: SkillType): Observable<Skill[]> {
-    return this.skills$.pipe(
-      map((skills) =>
-        skills.filter((skill) => skill.skillType.id === skillType.id).sort((a, b) => b.percentage - a.percentage),
-      ),
-    );
   }
 
   get ActionStatus() {

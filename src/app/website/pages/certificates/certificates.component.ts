@@ -11,6 +11,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,7 +21,6 @@ import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/mo
 import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
 import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
-import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
@@ -51,9 +51,12 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   private ref = inject(ChangeDetectorRef);
 
   unsubscribe$ = new Subject<void>();
-  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
+
+  language$ = this.store.select(publicLanguageReducer.getOne);
+  language$$ = toSignal(this.language$);
 
   certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll).pipe(
+    // eslint-disable-next-line @ngrx/avoid-mapping-selectors
     map((certificateGroups) =>
       [...certificateGroups].sort((a, b) => (b?.certificates?.length || 0) - (a?.certificates?.length || 0)),
     ),
@@ -67,10 +70,19 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
       return uniqueCertificateGroups;
     }),
   );
+  certificateGroups$$ = toSignal(this.certificateGroups$, {
+    initialValue: [],
+  });
+
   skillTypesActionStatus$: Observable<ActionStatus> = this.store.select(certificateGroupReducer.getAction).pipe(
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
+    // eslint-disable-next-line @ngrx/avoid-mapping-selectors
     map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
+  skillTypesActionStatus$$ = toSignal(this.skillTypesActionStatus$, {
+    initialValue: ActionStatus.SUCCESS,
+  });
+
   certificateGroupCount$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   tabIndexes: { groupId: string; value: number }[] = [];
@@ -104,13 +116,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   certificateElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
   certificateElementAnimationsDone: string[] = [];
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-    this.store.dispatch(certificateGroupActions.unloadAll());
-  }
-
-  ngOnInit(): void {
+  ngOnInit() {
     zip([this.certificateGroups$.pipe(startWith([]), pairwise()), this.certificateGroupCount$])
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(([[previousCertificateGroups, currentCertificateGroups], count]) => {
@@ -141,7 +147,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
       });
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterViewChecked() {
     this.certificateElements.forEach((positionElement) => {
       if (this.certificateElementAnimationsDone.includes(positionElement.nativeElement.id)) {
         return;
@@ -162,6 +168,12 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
     });
   }
 
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    this.store.dispatch(certificateGroupActions.unloadAll());
+  }
+
   orderByDate(certificates: Certificate[]): Certificate[] {
     if (certificates) {
       return [...certificates].sort((a, b) => {
@@ -174,6 +186,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   getTabIndex(certificateGroup: CertificateGroup) {
     return this.tabIndexes.find((tabIndex) => tabIndex.groupId === certificateGroup.id);
   }
+
   getIndex(certificateGroup: CertificateGroup) {
     this.getTabIndex(certificateGroup)!.value;
   }
@@ -182,6 +195,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
     const swiper = document.getElementById('.swiper' + certificateGroup.id) as unknown as Swiper;
     swiper.slideNext();
   }
+
   slidePrev(certificateGroup: CertificateGroup) {
     this.tabIndexes = this.tabIndexes.map((tabIndex) => {
       if (tabIndex.groupId === certificateGroup.id) {

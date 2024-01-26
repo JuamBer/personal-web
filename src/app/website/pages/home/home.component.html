@@ -1,59 +1,57 @@
-<ng-container *appLet="language$ | async as language">
-  <div class="home">
-    <div class="container-info" style="margin-bottom: 60px">
-      <div class="container-child">
-        <div class="item vertical">
-          <div class="vertical-item" [@enterAnimation]>
-            <div class="title">
-              <h3>{{ 'home.cv' | translate }}</h3>
-            </div>
-            <app-cv></app-cv>
+<div class="home">
+  <div class="container-info" style="margin-bottom: 60px">
+    <div class="container-child">
+      <div class="item vertical">
+        <div class="vertical-item" [@enterAnimation]>
+          <div class="title">
+            <h3>{{ 'home.cv' | translate }}</h3>
           </div>
-          <div class="vertical-item" [@enterAnimation]>
-            <div class="title">
-              <h3>{{ 'home.contact' | translate }}</h3>
-            </div>
-            <app-social-networks [socialNetworks]="socialNetworks"></app-social-networks>
-          </div>
+          <app-cv></app-cv>
         </div>
-        <div class="item">
-          <div class="title" [@enterAnimation]>
-            <h3>{{ 'home.trajectory' | translate }}</h3>
+        <div class="vertical-item" [@enterAnimation]>
+          <div class="title">
+            <h3>{{ 'home.contact' | translate }}</h3>
           </div>
-          <app-experience></app-experience>
+          <app-social-networks [socialNetworks]="socialNetworks"></app-social-networks>
         </div>
+      </div>
+      <div class="item">
+        <div class="title" [@enterAnimation]>
+          <h3>{{ 'home.trajectory' | translate }}</h3>
+        </div>
+        <app-experience></app-experience>
       </div>
     </div>
   </div>
-  @switch (skillTypesActionStatus$ | async) {
-    @case (ActionStatus.SUCCESS) {
-      @for (skillType of skillTypes$ | async; track skillType) {
-        <div class="my-container" style="margin-bottom: 60px">
-          <div class="container-info" [@enterAnimation]>
-            <div class="title">
-              <h3>{{ getTranslation(language?.acronym, skillType?.nameTranslations) }}</h3>
-            </div>
-            <app-tools [entities]="(getSkills(skillType) | async)!"></app-tools>
+</div>
+@switch (skillTypesActionStatus$$()) {
+  @case (ActionStatus.SUCCESS) {
+    @for (skillType of skillTypes$$(); track skillType) {
+      <div class="my-container" style="margin-bottom: 60px">
+        <div class="container-info" [@enterAnimation]>
+          <div class="title">
+            <h3>{{ getTranslation(language$$()?.acronym, skillType?.nameTranslations) }}</h3>
           </div>
+          <app-tools [entities]="skillType.skills!"></app-tools>
         </div>
-      }
-    }
-    @case (ActionStatus.PENDING) {
-      @for (skillType of [0, 1, 2]; track skillType) {
-        <div class="my-container" style="margin-bottom: 60px">
-          <div class="container-info">
-            <div class="title pb-5">
-              <p-skeleton width="50%" height="1.25em"></p-skeleton>
-            </div>
-            <app-tools [entities]="[]" [loading]="true"></app-tools>
-          </div>
-        </div>
-      }
-    }
-    @case (ActionStatus.ERROR) {
-      <app-generic-error></app-generic-error>
+      </div>
     }
   }
-</ng-container>
+  @case (ActionStatus.PENDING) {
+    @for (skillType of [0, 1, 2]; track skillType) {
+      <div class="my-container" style="margin-bottom: 60px">
+        <div class="container-info">
+          <div class="title pb-5">
+            <p-skeleton width="50%" height="1.25em"></p-skeleton>
+          </div>
+          <app-tools [entities]="[]" [loading]="true"></app-tools>
+        </div>
+      </div>
+    }
+  }
+  @case (ActionStatus.ERROR) {
+    <app-generic-error></app-generic-error>
+  }
+}
 <br /><br /><br />
 <br /><br /><br />
