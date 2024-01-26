@@ -4,8 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
+import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
@@ -105,38 +105,60 @@ export class CertificateGroupModalComponent
   language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
   language$$ = toSignal(this.language$);
 
-  ngOnInit(): void {
-    this.action$.subscribe(() => {
-      this.hide();
-    });
-
-    this.params$.pipe(filter((params) => !!params.id)).subscribe((params) => {
-      if (!params.id) return;
-      this.store.dispatch(certificateGroupActions.loadOne({ id: params.id }));
-    });
-
-    this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
-      this.form.disable();
-    });
-
-    this.entity$.subscribe((entity) => {
-      if (!entity) return;
-
-      if (!this.form.controls.id) {
-        this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
-      }
-      this.form.patchValue({
-        id: entity.id,
-        nameTranslations: entity.nameTranslations,
-        descriptionTranslations: entity.descriptionTranslations,
-      });
-    });
+  ngOnInit() {
+    this.handleLoadData();
+    this.handleParams();
+    this.handleEntity();
+    this.handleAction();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.store.dispatch(certificateGroupActions.unload());
+  }
+
+  handleLoadData() {}
+
+  handleParams() {
+    this.params$
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter((params) => !!params.id),
+      )
+      .subscribe((params) => {
+        if (!params.id) return;
+        this.store.dispatch(certificateGroupActions.loadOne({ id: params.id }));
+      });
+  }
+
+  handleEntity() {
+    combineLatest([this.entity$, this.modalMode$])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(([entity, modalMode]) => {
+        if (!entity || !modalMode) return;
+
+        if (!this.form.controls.id) {
+          this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
+        }
+
+        this.form.patchValue({
+          id: entity.id,
+          nameTranslations: entity.nameTranslations,
+          descriptionTranslations: entity.descriptionTranslations,
+        });
+
+        if (modalMode === ModalMode.VIEW) {
+          this.form.disable();
+        }
+      });
+  }
+
+  handleAction() {
+    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
+      if (!action) return;
+      this.hide();
+    });
   }
 
   hide() {

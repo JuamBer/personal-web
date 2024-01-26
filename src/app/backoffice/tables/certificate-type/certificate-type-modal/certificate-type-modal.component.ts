@@ -5,7 +5,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angu
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
-import { filter, map, skip, startWith, switchMap, take } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
@@ -107,28 +107,36 @@ export class CertificateTypeModalComponent
   language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
   language$$ = toSignal(this.language$);
 
-  ngOnInit(): void {
-    this.action$.subscribe(() => {
-      this.hide();
-    });
+  ngOnInit() {
+    this.handleLoadData();
+    this.handleParams();
+    this.handleEntity();
+    this.handleAction();
+  }
 
-    this.params$.pipe(filter((params) => !!params.id)).subscribe((params) => {
-      if (!params.id) return;
-      this.store.dispatch(certificateTypeActions.loadOne({ id: params.id }));
-    });
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    this.store.dispatch(certificateTypeActions.unload());
+  }
 
-    combineLatest([this.modalMode$, this.form.valueChanges.pipe(startWith(this.form.value))])
+  handleLoadData() {}
+
+  handleParams() {
+    this.params$
       .pipe(
-        filter(([modalMode]) => modalMode === ModalMode.VIEW),
-        take(1),
+        takeUntil(this.unsubscribe$),
+        filter((params) => !!params.id),
       )
-      .subscribe(() => {
-        this.form.disable();
-        FormUtils.disableAllControls(this.form);
+      .subscribe((params) => {
+        if (!params.id) return;
+        this.store.dispatch(certificateTypeActions.loadOne({ id: params.id }));
       });
+  }
 
-    this.entity$.subscribe((entity) => {
-      if (!entity) return;
+  handleEntity() {
+    combineLatest([this.entity$, this.modalMode$]).subscribe(([entity, modalMode]) => {
+      if (!entity || !modalMode) return;
 
       if (!this.form.controls.id) {
         this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
@@ -139,13 +147,18 @@ export class CertificateTypeModalComponent
         nameTranslations: entity.nameTranslations,
         descriptionTranslations: entity.descriptionTranslations,
       });
+
+      if (modalMode === ModalMode.VIEW) {
+        this.form.disable();
+      }
     });
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-    this.store.dispatch(certificateTypeActions.unload());
+  handleAction() {
+    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
+      if (!action) return;
+      this.hide();
+    });
   }
 
   hide() {
@@ -176,6 +189,7 @@ export class CertificateTypeModalComponent
       });
     }
   }
+
   get ModalMode() {
     return ModalMode;
   }

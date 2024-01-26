@@ -4,8 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, switchMap, take } from 'rxjs/operators';
+import { Observable, Subject, combineLatest, from } from 'rxjs';
+import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
@@ -91,20 +91,36 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
     ),
   );
 
-  ngOnInit(): void {
-    this.action$.subscribe(() => {
-      this.hide();
-    });
-    this.params$.pipe(filter((params) => !!params.id)).subscribe((params) => {
-      if (!params.id) return;
-      this.store.dispatch(languageActions.loadOne({ id: params.id }));
-    });
+  ngOnInit() {
+    this.handleLoadData();
+    this.handleParams();
+    this.handleEntity();
+    this.handleAction();
+  }
 
-    this.modalMode$.pipe(filter((modalMode) => modalMode === ModalMode.VIEW)).subscribe(() => {
-      this.form.disable();
-    });
-    this.entity$.subscribe((entity) => {
-      if (!entity) return;
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    this.store.dispatch(languageActions.unload());
+  }
+
+  handleLoadData() {}
+
+  handleParams() {
+    this.params$
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter((params) => !!params.id),
+      )
+      .subscribe((params) => {
+        if (!params.id) return;
+        this.store.dispatch(languageActions.loadOne({ id: params.id }));
+      });
+  }
+
+  handleEntity() {
+    combineLatest([this.entity$, this.modalMode$]).subscribe(([entity, modalMode]) => {
+      if (!entity || !modalMode) return;
 
       if (!this.form.controls.id) {
         this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
@@ -117,13 +133,17 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
         acronym: entity.acronym,
         active: entity.active,
       });
+
+      if (modalMode === ModalMode.VIEW) {
+        this.form.disable();
+      }
     });
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-    this.store.dispatch(languageActions.unload());
+  handleAction() {
+    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      this.hide();
+    });
   }
 
   hide() {
