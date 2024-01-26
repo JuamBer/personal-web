@@ -1,58 +1,140 @@
-<ng-container *appLet="languages$ | async as languages">
-  <ng-container *appLet="languagesToAdd$ | async as languagesToAdd">
-    <ng-container *appLet="languagesToFill$ | async as languagesToFill">
-      <ng-container *appLet="suggestions$ | async as suggestions">
-        @if (languagesToFill && language) {
-          <div class="translate-input">
-            <div class="p-inputgroup translation-input-preview">
-              <span class="p-float-label">
-                <p-dropdown
-                  appendTo="body"
-                  [options]="languagesToFill"
-                  [(ngModel)]="language"
-                  [style]="{ height: '100%' }"
-                >
-                  <ng-template pTemplate="selectedItem">
-                    @if (language && language.acronym) {
-                      <div class="language-item language-item-value">
-                        <div class="flag">
-                          <span class="" [class]="'flag flag-' + language.acronym"></span>
-                        </div>
-                        <div class="name">{{ language.acronym | uppercase }}</div>
-                      </div>
-                    }
-                  </ng-template>
-                  <ng-template let-language pTemplate="item">
-                    @if (language && language.acronym) {
-                      <div class="language-item">
-                        <div class="flag">
-                          <span class="" [class]="'flag flag-' + language.acronym"></span>
-                        </div>
-                        <div class="name">{{ language.acronym | uppercase }}</div>
-                      </div>
-                    }
-                  </ng-template>
-                </p-dropdown>
-                <label>{{ 'tables.language.singular' | translate }} </label>
-              </span>
-              @switch (type) {
-                @case (InputTranslationsType.INPUT) {
-                  @if (actualTranslationControl && languagesToFill.length > 0) {
-                    <span class="p-float-label translation">
+@if (languagesToFill$$() && language) {
+  <div class="translate-input">
+    <div class="p-inputgroup translation-input-preview">
+      <span class="p-float-label">
+        <p-dropdown appendTo="body" [options]="languagesToFill$$()" [(ngModel)]="language" [style]="{ height: '100%' }">
+          <ng-template pTemplate="selectedItem">
+            @if (language && language.acronym) {
+              <div class="language-item language-item-value">
+                <div class="flag">
+                  <span class="" [class]="'flag flag-' + language.acronym"></span>
+                </div>
+                <div class="name">{{ language.acronym | uppercase }}</div>
+              </div>
+            }
+          </ng-template>
+          <ng-template let-language pTemplate="item">
+            @if (language && language.acronym) {
+              <div class="language-item">
+                <div class="flag">
+                  <span class="" [class]="'flag flag-' + language.acronym"></span>
+                </div>
+                <div class="name">{{ language.acronym | uppercase }}</div>
+              </div>
+            }
+          </ng-template>
+        </p-dropdown>
+        <label>{{ 'tables.language.singular' | translate }} </label>
+      </span>
+      @switch (type) {
+        @case (InputTranslationsType.INPUT) {
+          @if (actualTranslationControl && languagesToFill$$().length > 0) {
+            <span class="p-float-label translation">
+              <input
+                (input)="onActualTranslationChange($event)"
+                type="text"
+                [value]="getActualTranslation()"
+                pInputText
+                class="p-inputtext-sm"
+                [ngClass]="{
+                  'ng-invalid': actualTranslationControl.invalid,
+                  'ng-dirty': actualTranslationControl.dirty
+                }"
+                [placeholder]="getSuggestion(suggestions$$(), actualTranslationControl.controls['language'].value)"
+                (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
+                (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
+                [formControl]="actualTranslationControl.controls['value']"
+              />
+              <label>
+                {{ label }} {{ actualTranslationControl.controls['value'] | isRequired }}
+                <span class="error">{{ actualTranslationControl.controls['value'] | errors | async }}</span>
+              </label>
+            </span>
+          }
+        }
+        @case (InputTranslationsType.TEXTAREA) {
+          @if (actualTranslationControl) {
+            <span class="p-float-label translation">
+              @if (languagesToFill$$().length > 0) {
+                <textarea
+                  rows="3"
+                  cols="30"
+                  pInputTextarea
+                  (input)="onActualTranslationChange($event)"
+                  type="text"
+                  [value]="getActualTranslation()"
+                  pInputText
+                  class="p-inputtext-sm"
+                  [ngClass]="{
+                    'ng-invalid': actualTranslationControl.invalid,
+                    'ng-dirty': actualTranslationControl.dirty
+                  }"
+                  [placeholder]="getSuggestion(suggestions$$(), actualTranslationControl.controls['language'].value)"
+                  (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
+                  (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
+                  [formControl]="actualTranslationControl.controls['value']"
+                ></textarea>
+              }
+
+              <label>
+                {{ label }} {{ actualTranslationControl.controls['value'] | isRequired }}
+                <span class="error">{{ actualTranslationControl.controls['value'] | errors | async }}</span>
+              </label>
+            </span>
+          }
+        }
+      }
+
+      <button
+        type="button"
+        class="p-button-sm"
+        pButton
+        pRipple
+        icon="pi pi-list"
+        (click)="changeVisibility(true)"
+        [attr.aria-label]="'Open sidebar'"
+      ></button>
+    </div>
+
+    <p-sidebar
+      [visible]="visibility"
+      position="right"
+      [baseZIndex]="20000"
+      (onHide)="onHide()"
+      appendTo="body"
+      [style]="{ maxWidth: '900px !important' }"
+      [styleClass]="type === InputTranslationsType.INPUT ? 'input-translations-input' : 'input-translations-textarea'"
+    >
+      <ng-template pTemplate="header">
+        <div class="w-full">
+          <h4 class="p-0 m-0 pl-2">{{ label }} <fa-icon [icon]="faLanguage"></fa-icon></h4>
+        </div>
+      </ng-template>
+      <div>
+        @for (actualTranslationControl of form.controls; track actualTranslationControl; let i = $index) {
+          <div [formGroup]="actualTranslationControl">
+            <div class="xs:col-12 lg:col-12 mt-3">
+              <div class="p-inputgroup translation-full-view">
+                <span class="p-inputgroup-addon">
+                  <span class="" [class]="'flag flag-' + actualTranslationControl.controls['language'].value"></span>
+                  <div class="pl-1">
+                    <b>{{ actualTranslationControl.controls['language'].value | uppercase }}</b>
+                  </div>
+                </span>
+                @switch (type) {
+                  @case (InputTranslationsType.INPUT) {
+                    <span class="p-float-label">
                       <input
-                        (input)="onActualTranslationChange($event)"
-                        type="text"
-                        [value]="getActualTranslation()"
                         pInputText
-                        class="p-inputtext-sm"
-                        [ngClass]="{
-                          'ng-invalid': actualTranslationControl.invalid,
-                          'ng-dirty': actualTranslationControl.dirty
+                        [style]="{
+                          width: '100%'
                         }"
-                        [placeholder]="getSuggestion(suggestions, actualTranslationControl.controls['language'].value)"
+                        [placeholder]="
+                          getSuggestion(suggestions$$(), actualTranslationControl.controls['language'].value)
+                        "
                         (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
                         (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
-                        [formControl]="actualTranslationControl.controls['value']"
+                        formControlName="value"
                       />
                       <label>
                         {{ label }} {{ actualTranslationControl.controls['value'] | isRequired }}
@@ -60,33 +142,21 @@
                       </label>
                     </span>
                   }
-                }
-                @case (InputTranslationsType.TEXTAREA) {
-                  @if (actualTranslationControl) {
-                    <span class="p-float-label translation">
-                      @if (languagesToFill.length > 0) {
-                        <textarea
-                          rows="3"
-                          cols="30"
-                          pInputTextarea
-                          (input)="onActualTranslationChange($event)"
-                          type="text"
-                          [value]="getActualTranslation()"
-                          pInputText
-                          class="p-inputtext-sm"
-                          [ngClass]="{
-                            'ng-invalid': actualTranslationControl.invalid,
-                            'ng-dirty': actualTranslationControl.dirty
-                          }"
-                          [placeholder]="
-                            getSuggestion(suggestions, actualTranslationControl.controls['language'].value)
-                          "
-                          (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
-                          (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
-                          [formControl]="actualTranslationControl.controls['value']"
-                        ></textarea>
-                      }
-
+                  @case (InputTranslationsType.TEXTAREA) {
+                    <span class="p-float-label">
+                      <textarea
+                        pInputTextarea
+                        #autoComplete
+                        [style]="{
+                          width: '100%'
+                        }"
+                        [placeholder]="
+                          getSuggestion(suggestions$$(), actualTranslationControl.controls['language'].value)
+                        "
+                        (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
+                        (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
+                        formControlName="value"
+                      ></textarea>
                       <label>
                         {{ label }} {{ actualTranslationControl.controls['value'] | isRequired }}
                         <span class="error">{{ actualTranslationControl.controls['value'] | errors | async }}</span>
@@ -94,167 +164,73 @@
                     </span>
                   }
                 }
-              }
-
-              <button
-                type="button"
-                class="p-button-sm"
-                pButton
-                pRipple
-                icon="pi pi-list"
-                (click)="changeVisibility(true)"
-                [attr.aria-label]="'Open sidebar'"
-              ></button>
-            </div>
-
-            <p-sidebar
-              [visible]="visibility"
-              position="right"
-              [baseZIndex]="20000"
-              (onHide)="onHide()"
-              appendTo="body"
-              [style]="{ maxWidth: '900px !important' }"
-              [styleClass]="
-                type === InputTranslationsType.INPUT ? 'input-translations-input' : 'input-translations-textarea'
-              "
-            >
-              <ng-template pTemplate="header"
-                ><h4 class="p-0 m-0 pl-2">{{ label }} <fa-icon [icon]="faLanguage"></fa-icon></h4
-              ></ng-template>
-              <div>
-                @for (actualTranslationControl of form.controls; track actualTranslationControl; let i = $index) {
-                  <div [formGroup]="actualTranslationControl">
-                    <div class="xs:col-12 lg:col-12 mt-3">
-                      <div class="p-inputgroup translation-full-view">
-                        <span class="p-inputgroup-addon">
-                          <span
-                            class=""
-                            [class]="'flag flag-' + actualTranslationControl.controls['language'].value"
-                          ></span>
-                          <div class="pl-1">
-                            <b>{{ actualTranslationControl.controls['language'].value | uppercase }}</b>
-                          </div>
-                        </span>
-                        @switch (type) {
-                          @case (InputTranslationsType.INPUT) {
-                            <span class="p-float-label">
-                              <input
-                                pInputText
-                                [style]="{
-                                  width: '100%'
-                                }"
-                                [placeholder]="
-                                  getSuggestion(suggestions, actualTranslationControl.controls['language'].value)
-                                "
-                                (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
-                                (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
-                                formControlName="value"
-                              />
-                              <label>
-                                {{ label }} {{ actualTranslationControl.controls['value'] | isRequired }}
-                                <span class="error">{{
-                                  actualTranslationControl.controls['value'] | errors | async
-                                }}</span>
-                              </label>
-                            </span>
-                          }
-                          @case (InputTranslationsType.TEXTAREA) {
-                            <span class="p-float-label">
-                              <textarea
-                                pInputTextarea
-                                #autoComplete
-                                [style]="{
-                                  width: '100%'
-                                }"
-                                [placeholder]="
-                                  getSuggestion(suggestions, actualTranslationControl.controls['language'].value)
-                                "
-                                (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
-                                (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
-                                formControlName="value"
-                              ></textarea>
-                              <label>
-                                {{ label }} {{ actualTranslationControl.controls['value'] | isRequired }}
-                                <span class="error">{{
-                                  actualTranslationControl.controls['value'] | errors | async
-                                }}</span>
-                              </label>
-                            </span>
-                          }
-                        }
-                        @if (showTimes(actualTranslationControl.controls['language'].value, languages)) {
-                          <button
-                            type="button"
-                            class="p-button-sm p-button-danger"
-                            pButton
-                            pRipple
-                            icon="pi pi-trash"
-                            (click)="removeLanguage(actualTranslationControl.controls['language'].value)"
-                            [attr.aria-label]="'Delete language'"
-                          ></button>
-                        }
-                      </div>
-                    </div>
-                  </div>
-                }
-                @if (languagesToAdd && languagesToAdd.length > 0) {
-                  <div class="w-full h-3em"></div>
-                  <p-divider></p-divider>
-                  <div class="w-full h-3em"></div>
-
-                  <div class="p-inputgroup language-to-add p-2 mt-1">
-                    <span class="p-float-label">
-                      <p-dropdown
-                        [style]="{ width: '100%' }"
-                        appendTo="body"
-                        [options]="languagesToAdd"
-                        [formControl]="languageToAddFormControl"
-                        [autoDisplayFirst]="false"
-                      >
-                        <ng-template pTemplate="selectedItem" let-language>
-                          <div class="language-item language-item-value" *ngIf="language">
-                            <div class="flag">
-                              <span class="" [class]="'flag flag-' + language.acronym"></span>
-                            </div>
-                            <div class="name">
-                              {{ language.acronym | uppercase }} | {{ language.nativeName | titlecase }} |
-                              {{ language.name | titlecase }}
-                            </div>
-                          </div>
-                        </ng-template>
-                        <ng-template let-language pTemplate="item">
-                          <div class="language-item" *ngIf="language">
-                            <div class="flag">
-                              <span class="" [class]="'flag flag-' + language.acronym"></span>
-                            </div>
-                            <div class="name">
-                              {{ language.acronym | uppercase }} | {{ language.nativeName | titlecase }} |
-                              {{ language.name | titlecase }}
-                            </div>
-                          </div>
-                        </ng-template>
-                      </p-dropdown>
-                      <label>{{ 'inputTranslations.languageToAdd' | translate }} </label>
-                    </span>
-                    <button
-                      [disabled]="
-                        !languageToAddFormControl.value || languageToAddFormControl.value === '' || form.disabled
-                      "
-                      type="button"
-                      class="p-button-sm"
-                      pButton
-                      pRipple
-                      icon="pi pi-plus"
-                      (click)="addLanguage(this.languageToAddFormControl.value)"
-                      [attr.aria-label]="'Add language'"
-                    ></button>
-                  </div>
+                @if (showTimes(actualTranslationControl.controls['language'].value, languages)) {
+                  <button
+                    type="button"
+                    class="p-button-sm p-button-danger"
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    (click)="removeLanguage(actualTranslationControl.controls['language'].value)"
+                    [attr.aria-label]="'Delete language'"
+                  ></button>
                 }
               </div>
-            </p-sidebar>
+            </div>
           </div>
         }
-      </ng-container>
-    </ng-container>
-  </ng-container>
-</ng-container>
+        @if (languagesToAdd$$() && languagesToAdd$$().length > 0) {
+          <div class="w-full h-3em"></div>
+          <p-divider></p-divider>
+          <div class="w-full h-3em"></div>
+
+          <div class="p-inputgroup language-to-add p-2 mt-1">
+            <span class="p-float-label">
+              <p-dropdown
+                [style]="{ width: '100%' }"
+                appendTo="body"
+                [options]="languagesToAdd$$()"
+                [formControl]="languageToAddFormControl"
+                [autoDisplayFirst]="false"
+              >
+                <ng-template pTemplate="selectedItem" let-language>
+                  <div class="language-item language-item-value" *ngIf="language">
+                    <div class="flag">
+                      <span class="" [class]="'flag flag-' + language.acronym"></span>
+                    </div>
+                    <div class="name">
+                      {{ language.acronym | uppercase }} | {{ language.nativeName | titlecase }} |
+                      {{ language.name | titlecase }}
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template let-language pTemplate="item">
+                  <div class="language-item" *ngIf="language">
+                    <div class="flag">
+                      <span class="" [class]="'flag flag-' + language.acronym"></span>
+                    </div>
+                    <div class="name">
+                      {{ language.acronym | uppercase }} | {{ language.nativeName | titlecase }} |
+                      {{ language.name | titlecase }}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+              <label>{{ 'inputTranslations.languageToAdd' | translate }} </label>
+            </span>
+            <button
+              [disabled]="!languageToAddFormControl.value || languageToAddFormControl.value === '' || form.disabled"
+              type="button"
+              class="p-button-sm"
+              pButton
+              pRipple
+              icon="pi pi-plus"
+              (click)="addLanguage(this.languageToAddFormControl.value)"
+              [attr.aria-label]="'Add language'"
+            ></button>
+          </div>
+        }
+      </div>
+    </p-sidebar>
+  </div>
+}

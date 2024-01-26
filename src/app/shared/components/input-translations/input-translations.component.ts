@@ -1,3 +1,4 @@
+/* eslint-disable @ngrx/avoid-mapping-selectors */
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,7 +8,9 @@ import {
   OnInit,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { faLanguage, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
@@ -54,8 +57,12 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
     this._showErrors = showErrors;
   }
 
-  translations$: BehaviorSubject<Translation[]> = new BehaviorSubject<Translation[]>([]);
-  suggestions$: BehaviorSubject<Translation[]> = new BehaviorSubject<Translation[]>([]);
+  translations$ = new BehaviorSubject<Translation[]>([]);
+
+  suggestions$ = new BehaviorSubject<Translation[]>([]);
+  suggestions$$ = toSignal(this.suggestions$, {
+    initialValue: [],
+  });
 
   @Input({
     required: true,
@@ -81,24 +88,22 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
 
   languageToAddFormControl = new FormControl(null);
 
-  languages$: Observable<Language[]> = this.store.select(publicLanguageReducer.getAll);
+  languages$ = this.store.select(publicLanguageReducer.getAll);
+  language$$ = toSignal(this.languages$);
 
-  activeLanguages$: Observable<Language[]> = this.store
+  activeLanguages$ = this.store
     .select(publicLanguageReducer.getAll)
     .pipe(map((languages) => languages.filter((language) => language.active)));
 
   languagesToFill$!: Observable<Language[]>;
+  languagesToFill$$ = signal([] as Language[]);
 
   disabledLanguages$: Observable<Language[]> = this.store
     .select(publicLanguageReducer.getAll)
     .pipe(map((languages) => languages.filter((language) => !language.active)));
 
   languagesToAdd$!: Observable<Language[]>;
-
-  onHide() {
-    FormUtils.markAllAsDirtyAndTouched(this.form);
-    this.changeVisibility(false);
-  }
+  languagesToAdd$$ = signal([] as Language[]);
 
   ngOnInit(): void {
     this._showErrors.pipe(takeUntil(this.unsubscribe$)).subscribe((showErrors) => {
@@ -138,6 +143,9 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
         ),
       ),
     );
+    this.languagesToFill$.subscribe((languages) => {
+      this.languagesToFill$$.set(languages);
+    });
 
     this.languagesToAdd$ = combineLatest([
       this.disabledLanguages$,
@@ -151,6 +159,9 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
         return languagesToAdd;
       }),
     );
+    this.languagesToAdd$.subscribe((languages) => {
+      this.languagesToAdd$$.set(languages);
+    });
 
     combineLatest([this.languagesToFill$, this.translations$])
       .pipe(takeUntil(this.unsubscribe$))
@@ -174,9 +185,16 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  onHide() {
+    console.log(this.form);
+
+    FormUtils.markAllAsDirtyAndTouched(this.form);
+    this.changeVisibility(false);
   }
 
   changeVisibility(visibility: boolean) {
@@ -215,12 +233,6 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
       });
       translation.markAsDirty();
     }
-  }
-
-  get actualTranslationControl() {
-    return this.form.controls.find(
-      (translationForm) => translationForm.controls['language'].value === this.language?.acronym,
-    );
   }
 
   addLanguage(language: Language | null) {
@@ -275,6 +287,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
         });
     }
   }
+
   getSuggestion(suggestions: Translation[], acronym: string | null) {
     if (!acronym) return;
 
@@ -288,6 +301,12 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
         .find((translationForm) => translationForm.value.language === acronym)
         ?.controls['value']?.setValue(this.getSuggestion(this.suggestions$.getValue(), acronym));
     }
+  }
+
+  get actualTranslationControl() {
+    return this.form.controls.find(
+      (translationForm) => translationForm.controls['language'].value === this.language?.acronym,
+    );
   }
 
   get InputTranslationsType() {
