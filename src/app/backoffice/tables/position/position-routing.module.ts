@@ -10,7 +10,12 @@ const routes: Routes = [
     component: PositionListComponent,
     children: [
       {
-        path: 'modal',
+        path: ':modalMode',
+        title: positionModalTitleResolver,
+        component: PositionModalComponent,
+      },
+      {
+        path: ':modalMode/:id',
         title: positionModalTitleResolver,
         component: PositionModalComponent,
       },

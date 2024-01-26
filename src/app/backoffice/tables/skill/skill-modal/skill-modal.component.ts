@@ -129,12 +129,18 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.store.dispatch(skillActions.unload());
   }
 
   hide() {
     this.visible = false;
-    this.store.dispatch(skillActions.unload());
-    this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
+    this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
+      if (modalMode === ModalMode.CREATE) {
+        this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
+      } else {
+        this.router.navigate([RouterUtils.getParentRoute(this.router.url, 2)]);
+      }
+    });
   }
 
   send() {

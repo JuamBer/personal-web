@@ -10,7 +10,12 @@ const routes: Routes = [
     component: CompanyListComponent,
     children: [
       {
-        path: 'modal',
+        path: ':modalMode',
+        title: companyModalTitleResolver,
+        component: CompanyModalComponent,
+      },
+      {
+        path: ':modalMode/:id',
         title: companyModalTitleResolver,
         component: CompanyModalComponent,
       },

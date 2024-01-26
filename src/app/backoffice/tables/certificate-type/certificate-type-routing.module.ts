@@ -16,7 +16,12 @@ const routes: Routes = [
     component: CertificateTypeListComponent,
     children: [
       {
-        path: 'modal',
+        path: ':modalMode',
+        title: certificateTypeModalTitleResolver,
+        component: CertificateTypeModalComponent,
+      },
+      {
+        path: ':modalMode/:id',
         title: certificateTypeModalTitleResolver,
         component: CertificateTypeModalComponent,
       },

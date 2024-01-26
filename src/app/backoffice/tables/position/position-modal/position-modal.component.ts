@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
@@ -58,7 +58,7 @@ export const positionModalTitleResolver: ResolveFn<string> = (route: ActivatedRo
   styleUrls: ['./position-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PositionModalComponent implements OnInit, EntityModal<Position> {
+export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Position> {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private store = inject(Store);
@@ -139,12 +139,18 @@ export class PositionModalComponent implements OnInit, EntityModal<Position> {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.store.dispatch(positionActions.unload());
   }
 
   hide() {
     this.visible = false;
-    this.store.dispatch(positionActions.unload());
-    this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
+    this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
+      if (modalMode === ModalMode.CREATE) {
+        this.router.navigate([RouterUtils.getParentRoute(this.router.url, 1)]);
+      } else {
+        this.router.navigate([RouterUtils.getParentRoute(this.router.url, 2)]);
+      }
+    });
   }
 
   send() {

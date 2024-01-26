@@ -10,7 +10,12 @@ const routes: Routes = [
     component: SkillTypeListComponent,
     children: [
       {
-        path: 'modal',
+        path: ':modalMode',
+        title: skillTypeModalTitleResolver,
+        component: SkillTypeModalComponent,
+      },
+      {
+        path: ':modalMode/:id',
         title: skillTypeModalTitleResolver,
         component: SkillTypeModalComponent,
       },

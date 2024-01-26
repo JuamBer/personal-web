@@ -70,15 +70,15 @@ export class CertificateListComponent implements OnInit, EntityList<Certificate>
   onTableEvent(event: TableEvent<Certificate>) {
     switch (event.type) {
       case TableEventType.CREATE: {
-        this.router.navigate([this.router.url, 'modal', { modalMode: ModalMode.CREATE }]);
+        this.router.navigate([this.router.url, ModalMode.CREATE]);
         break;
       }
       case TableEventType.VIEW: {
-        this.router.navigate([this.router.url, 'modal', { modalMode: ModalMode.VIEW, id: event.value.id }]);
+        this.router.navigate([this.router.url, ModalMode.VIEW, event.value.id]);
         break;
       }
       case TableEventType.UPDATE: {
-        this.router.navigate([this.router.url, 'modal', { modalMode: ModalMode.UPDATE, id: event.value.id }]);
+        this.router.navigate([this.router.url, ModalMode.UPDATE, event.value.id]);
         break;
       }
       case TableEventType.DELETE: {
