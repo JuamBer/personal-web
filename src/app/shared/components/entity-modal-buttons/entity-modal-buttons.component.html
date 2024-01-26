@@ -31,10 +31,10 @@
 
       <div class="xs:col-12 sm:col-12 md:col-12 lg:col-12 p-1 m-0">
         <button
-          [disabled]="loading || form.status === 'PENDING' || (pendingChanges$ | async) === false"
+          [disabled]="loading || form.status === 'PENDING' || pendingChanges$$() === false"
           pButton
           type="submit"
-          (click)="submit.emit(true)"
+          (click)="submitForm.emit(true)"
           class="p-button-sm w-full"
           [label]="
             'buttons.' + modalMode

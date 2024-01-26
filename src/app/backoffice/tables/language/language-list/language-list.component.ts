@@ -1,11 +1,12 @@
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Observable, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, map, startWith, switchMap } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -17,7 +18,6 @@ import { defaultGenericTableConfig } from 'src/app/shared/components/generic-tab
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { Action } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { Language } from '../models/language.model';
@@ -45,7 +45,7 @@ export const languageListTitleResolver: ResolveFn<string> = () => {
   styleUrls: ['./language-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LanguageListComponent implements OnInit, EntityList<Language> {
+export class LanguageListComponent implements OnInit, OnDestroy, EntityList<Language> {
   private store = inject(Store);
   private confirmationSrv = inject(ConfirmationService);
   private router = inject(Router);
@@ -54,14 +54,27 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
 
-  unsubscribe$: Subject<void> = new Subject();
-  action$: Observable<Action | undefined> = this.store
-    .select(languageReducer.getAction)
-    .pipe(takeUntil(this.unsubscribe$));
+  unsubscribe$ = new Subject<void>();
+
   entities$: Observable<Language[]> = this.store.select(languageReducer.getAll);
+  entities$$ = toSignal(this.entities$, {
+    initialValue: [],
+  });
+
   loading$: Observable<boolean> = this.store.select(languageReducer.getLoading);
+  loading$$ = toSignal(this.loading$, {
+    initialValue: false,
+  });
+
   count$: Observable<number> = this.store.select(languageReducer.getCount);
+  count$$ = toSignal(this.count$, {
+    initialValue: 0,
+  });
+
   tableConfig$ = new BehaviorSubject<GenericTableConfig<Language> | undefined>(undefined);
+  tableConfig$$ = toSignal(this.tableConfig$);
+
+  action$ = this.store.select(languageReducer.getAction);
 
   ngOnInit(): void {
     this.store.dispatch(languageActions.count());
@@ -74,6 +87,11 @@ export class LanguageListComponent implements OnInit, EntityList<Language> {
         this.messageSrv.add(message);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {

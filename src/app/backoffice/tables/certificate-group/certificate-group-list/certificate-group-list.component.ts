@@ -1,11 +1,12 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Observable, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, filter, map, startWith, switchMap } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -17,7 +18,6 @@ import { defaultGenericTableConfig } from 'src/app/shared/components/generic-tab
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { Action } from 'src/app/shared/state/common/common-state';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { CertificateGroup } from '../models/certificate-group.model';
@@ -53,14 +53,27 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
 
-  unsubscribe$: Subject<void> = new Subject();
-  action$: Observable<Action | undefined> = this.store
-    .select(certificateGroupReducer.getAction)
-    .pipe(takeUntil(this.unsubscribe$));
-  entities$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll);
-  loading$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
-  count$: Observable<number> = this.store.select(certificateGroupReducer.getCount);
+  unsubscribe$ = new Subject<void>();
+
+  entities$ = this.store.select(certificateGroupReducer.getAll);
+  entities$$ = toSignal(this.entities$, {
+    initialValue: [],
+  });
+
+  loading$ = this.store.select(certificateGroupReducer.getLoading);
+  loading$$ = toSignal(this.loading$, {
+    initialValue: false,
+  });
+
+  count$ = this.store.select(certificateGroupReducer.getCount);
+  count$$ = toSignal(this.count$, {
+    initialValue: 0,
+  });
+
   tableConfig$ = new BehaviorSubject<GenericTableConfig<CertificateGroup> | undefined>(undefined);
+  tableConfig$$ = toSignal(this.tableConfig$);
+
+  action$ = this.store.select(certificateGroupReducer.getAction);
 
   ngOnInit(): void {
     this.store.dispatch(certificateGroupActions.count());

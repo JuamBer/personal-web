@@ -1,11 +1,12 @@
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn, Router } from '@angular/router';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Observable, filter, map, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, Subject, filter, map, startWith, switchMap } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -43,24 +44,45 @@ export const certificateListTitleResolver: ResolveFn<string> = () => {
   styleUrls: ['./certificate-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CertificateListComponent implements OnInit, EntityList<Certificate> {
+export class CertificateListComponent implements OnInit, OnDestroy, EntityList<Certificate> {
   private store = inject(Store);
   private confirmationSrv = inject(ConfirmationService);
   private router = inject(Router);
   private translateSrv = inject(TranslateService);
   private titleCasePipe = inject(TitleCasePipe);
 
-  entities$: Observable<Certificate[]> = this.store.select(certificateReducer.getAll);
-  loading$: Observable<boolean> = this.store.select(certificateReducer.getLoading);
-  count$: Observable<number> = this.store.select(certificateReducer.getCount);
-  action$: Observable<Action | undefined> = this.store.select(certificateReducer.getAction);
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<Certificate> | undefined>(undefined);
+  unsubscribe$ = new Subject<void>();
 
-  ngOnInit(): void {
+  entities$ = this.store.select(certificateReducer.getAll);
+  entities$$ = toSignal(this.entities$, {
+    initialValue: [],
+  });
+
+  loading$ = this.store.select(certificateReducer.getLoading);
+  loading$$ = toSignal(this.loading$, {
+    initialValue: false,
+  });
+
+  count$ = this.store.select(certificateReducer.getCount);
+  count$$ = toSignal(this.count$, {
+    initialValue: 0,
+  });
+
+  tableConfig$ = new BehaviorSubject<GenericTableConfig<Certificate> | undefined>(undefined);
+  tableConfig$$ = toSignal(this.tableConfig$);
+
+  action$ = this.store.select(certificateReducer.getAction);
+
+  ngOnInit() {
     this.store.dispatch(certificateActions.count());
     this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadTableConfig();
     });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {

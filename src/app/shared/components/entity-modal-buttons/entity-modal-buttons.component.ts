@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Subject, map, skip, take, takeUntil } from 'rxjs';
 import { ModalMode } from '../../models/modal-mode.model';
@@ -27,10 +28,13 @@ export class EntityModalButtonsComponent<T> implements OnInit, OnDestroy {
   })
   form!: FormGroup;
   @Output() cancel = new EventEmitter();
-  @Output() submit = new EventEmitter();
+  @Output() submitForm = new EventEmitter();
 
-  unsubscribe$: Subject<void> = new Subject();
+  unsubscribe$ = new Subject<void>();
   pendingChanges$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  pendingChanges$$ = toSignal(this.pendingChanges$, {
+    initialValue: false,
+  });
   firstFormValue!: T;
 
   ngOnInit(): void {

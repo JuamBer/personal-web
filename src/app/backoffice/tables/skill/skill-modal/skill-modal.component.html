@@ -1,105 +1,92 @@
-<ng-container *appLet="language$ | async as language">
-  <ng-container *appLet="entity$ | async as entity">
-    <ng-container *appLet="modalMode$ | async as modalMode">
-      <ng-container *appLet="loading$ | async as loading">
-        <p-dialog
-          [draggable]="false"
-          [resizable]="false"
-          [header]="
-            'buttons.' + modalMode
-              | lowercase
-              | translate
-                : {
-                    name: 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.singular' | translate
-                  }
-          "
-          [modal]="true"
-          [(visible)]="visible"
-          (onHide)="hide()"
-          [style]="{ width: '100%', maxWidth: '40rem' }"
-        >
-          <form [formGroup]="form">
-            <div class="grid p-fluid mt-1">
-              <div
-                *appLet="'name' as field"
-                appLoading
-                [appIsLoading]="loading"
-                class="xs:col-12 md:col-6 lg:col-6 mt-3"
-              >
-                <span class="p-float-label">
-                  <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
-                  <label [for]="field">
-                    {{ 'columns.' + field | translate }} {{ form.get(field) | isRequired }}
-                    <span class="error">{{ form.get(field) | errors | async }}</span>
-                  </label>
-                </span>
-              </div>
+<p-dialog
+  [draggable]="false"
+  [resizable]="false"
+  [header]="
+    'buttons.' + modalMode$$()
+      | lowercase
+      | translate
+        : {
+            name: 'tables.' + names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR) + '.singular' | translate
+          }
+  "
+  [modal]="true"
+  [(visible)]="visible"
+  (onHide)="hide()"
+  [style]="{ width: '100%', maxWidth: '40rem' }"
+>
+  <form [formGroup]="form">
+    <div class="grid p-fluid mt-1">
+      <div *appLet="'name' as field" appLoading [appIsLoading]="loading$$()" class="xs:col-12 md:col-6 lg:col-6 mt-3">
+        <span class="p-float-label">
+          <input [id]="field" [formControlName]="field" type="text" class="p-inputtext-sm" pInputText />
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.get(field) | isRequired }}
+            <span class="error">{{ form.get(field) | errors | async }}</span>
+          </label>
+        </span>
+      </div>
 
-              <div
-                *appLet="'skillType' as field"
-                appLoading
-                [appIsLoading]="loading"
-                class="xs:col-12 md:col-6 lg:col-6 mt-3"
-              >
-                <span class="p-float-label">
-                  <p-dropdown
-                    dataKey="id"
-                    class="p-inputtext-sm"
-                    styleClass="app-dropdown"
-                    [style]="{ width: '100%', height: '100%' }"
-                    [autoDisplayFirst]="false"
-                    [options]="(skillTypes$ | async)!"
-                    [formControlName]="field"
-                    appendTo="body"
-                  >
-                    <ng-template let-item pTemplate="selectedItem">
-                      {{ getTranslation(language?.acronym, item?.nameTranslations) }}
-                    </ng-template>
-                    <ng-template let-item pTemplate="item">
-                      {{ getTranslation(language?.acronym, item?.nameTranslations) }}
-                    </ng-template>
-                  </p-dropdown>
-                  <label [for]="field">
-                    {{ 'tables.' + field + '.singular' | translate }} {{ form.get(field) | isRequired }}
-                    <span class="error">{{ form.get(field) | errors | async }}</span>
-                  </label>
-                </span>
-              </div>
-              <div
-                *appLet="'percentage' as field"
-                appLoading
-                [appIsLoading]="loading"
-                class="xs:col-12 md:col-12 lg:col-12 mt-3"
-              >
-                <div class="w-full flex align-items-center gap-3">
-                  <label [for]="field">
-                    {{ 'columns.' + field | translate }} {{ form.get(field) | isRequired }}
-                    <span class="error">{{ form.get(field) | errors | async }}</span>
-                  </label>
-                  <div class="w-full">
-                    <p-slider [step]="10" [formControlName]="field"></p-slider>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-          <ng-template pTemplate="footer">
-            <app-entity-modal-buttons
-              [loading]="loading"
-              [form]="form"
-              [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
-              [modalMode]="modalMode"
-              (cancel)="hide()"
-              (submit)="send()"
-            ></app-entity-modal-buttons>
-            <app-entity-modal-audit
-              [loading]="loading"
-              [entity]="entity"
-              [modalMode]="modalMode"
-            ></app-entity-modal-audit>
-          </ng-template>
-        </p-dialog>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-</ng-container>
+      <div
+        *appLet="'skillType' as field"
+        appLoading
+        [appIsLoading]="loading$$()"
+        class="xs:col-12 md:col-6 lg:col-6 mt-3"
+      >
+        <span class="p-float-label">
+          <p-dropdown
+            dataKey="id"
+            class="p-inputtext-sm"
+            styleClass="app-dropdown"
+            [style]="{ width: '100%', height: '100%' }"
+            [autoDisplayFirst]="false"
+            [options]="(skillTypes$ | async)!"
+            [formControlName]="field"
+            appendTo="body"
+          >
+            <ng-template let-item pTemplate="selectedItem">
+              {{ getTranslation(language$$()?.acronym, item?.nameTranslations) }}
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+              {{ getTranslation(language$$()?.acronym, item?.nameTranslations) }}
+            </ng-template>
+          </p-dropdown>
+          <label [for]="field">
+            {{ 'tables.' + field + '.singular' | translate }} {{ form.get(field) | isRequired }}
+            <span class="error">{{ form.get(field) | errors | async }}</span>
+          </label>
+        </span>
+      </div>
+      <div
+        *appLet="'percentage' as field"
+        appLoading
+        [appIsLoading]="loading$$()"
+        class="xs:col-12 md:col-12 lg:col-12 mt-3"
+      >
+        <div class="w-full flex align-items-center gap-3">
+          <label [for]="field">
+            {{ 'columns.' + field | translate }} {{ form.get(field) | isRequired }}
+            <span class="error">{{ form.get(field) | errors | async }}</span>
+          </label>
+          <div class="w-full">
+            <p-slider [step]="10" [formControlName]="field"></p-slider>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <app-entity-modal-buttons
+      [loading]="loading$$()"
+      [form]="form"
+      [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
+      [modalMode]="modalMode$$()"
+      (cancel)="hide()"
+      (submitForm)="send()"
+    ></app-entity-modal-buttons>
+    <app-entity-modal-audit
+      [loading]="loading$$()"
+      [entity]="entity$$()"
+      [modalMode]="modalMode$$()"
+    ></app-entity-modal-audit>
+  </ng-template>
+</p-dialog>

@@ -1,6 +1,7 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { AuditFields } from 'src/app/shared/models/audit-fields.model';
 import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
+import { Position } from '../../position/models/position.model';
 import { CompanyType } from './company-type.model';
 
 export interface Company extends AuditFields {
@@ -9,6 +10,8 @@ export interface Company extends AuditFields {
   descriptionTranslations: Translation[];
   type: CompanyType;
   url: string;
+
+  positions?: Position[];
 }
 
 export type CompanyFormGroup = FormGroup<{

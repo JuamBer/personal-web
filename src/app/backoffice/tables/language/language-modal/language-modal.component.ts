@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, from } from 'rxjs';
-import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
@@ -62,22 +63,25 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
     active: this.fb.nonNullable.control<boolean>(true, [Validators.required]),
   });
 
-  unsubscribe$: Subject<void> = new Subject();
-  params$: Observable<ModalParams> = this.route.params.pipe(
-    takeUntil(this.unsubscribe$),
-    map((params) => params as ModalParams),
-  );
-  loading$: Observable<boolean> = this.store.select(languageReducer.getLoading).pipe(takeUntil(this.unsubscribe$));
-  modalMode$: Observable<ModalMode> = this.params$.pipe(
-    takeUntil(this.unsubscribe$),
-    map((params) => ModalMode[params.modalMode]),
-  );
-  entity$: Observable<Language | undefined> = this.store.select(languageReducer.getOne).pipe(
-    takeUntil(this.unsubscribe$),
-    filter((entity) => !!entity),
-  );
+  unsubscribe$ = new Subject<void>();
+  params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
+
+  loading$: Observable<boolean> = this.store.select(languageReducer.getLoading);
+  loading$$ = toSignal(this.loading$, {
+    initialValue: false,
+  });
+
+  modalMode$: Observable<ModalMode> = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
+  modalMode$$ = toSignal(this.modalMode$, {
+    initialValue: ModalMode.VIEW,
+  });
+
+  entity$: Observable<Language | undefined> = this.store
+    .select(languageReducer.getOne)
+    .pipe(filter((entity) => !!entity));
+  entity$$ = toSignal(this.entity$);
+
   action$: Observable<Action | undefined> = this.store.select(languageReducer.getAction).pipe(
-    takeUntil(this.unsubscribe$),
     skip(1),
     filter(
       (action) =>
