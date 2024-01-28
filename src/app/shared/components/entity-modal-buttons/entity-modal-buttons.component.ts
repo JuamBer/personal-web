@@ -30,7 +30,7 @@ export class EntityModalButtonsComponent<T> implements OnInit, OnDestroy {
   @Output() cancel = new EventEmitter();
   @Output() submitForm = new EventEmitter();
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   pendingChanges$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   pendingChanges = toSignal(this.pendingChanges$, {
     initialValue: false,
@@ -38,14 +38,14 @@ export class EntityModalButtonsComponent<T> implements OnInit, OnDestroy {
   firstFormValue!: T;
 
   ngOnInit(): void {
-    this.form.valueChanges.pipe(skip(1), take(1), takeUntil(this.unsubscribe$)).subscribe((firstFormValue) => {
+    this.form.valueChanges.pipe(skip(1), take(1), takeUntil(this.destroy$)).subscribe((firstFormValue) => {
       this.firstFormValue = firstFormValue;
     });
 
     this.form.valueChanges
       .pipe(
         skip(2),
-        takeUntil(this.unsubscribe$),
+        takeUntil(this.destroy$),
         map((v) => JSON.stringify(v) !== JSON.stringify(this.firstFormValue)),
       )
       .subscribe((pendingChanges) => {
@@ -54,8 +54,8 @@ export class EntityModalButtonsComponent<T> implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   get ModalMode() {

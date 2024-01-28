@@ -73,7 +73,7 @@ export class CertificateGroupModalComponent
     descriptionTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
   });
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
@@ -113,8 +113,8 @@ export class CertificateGroupModalComponent
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.store.dispatch(certificateGroupActions.unload());
   }
 
@@ -123,7 +123,7 @@ export class CertificateGroupModalComponent
   handleParams() {
     this.params$
       .pipe(
-        takeUntil(this.unsubscribe$),
+        takeUntil(this.destroy$),
         filter((params) => !!params.id),
       )
       .subscribe((params) => {
@@ -134,7 +134,7 @@ export class CertificateGroupModalComponent
 
   handleEntity() {
     combineLatest([this.entity$, this.modalMode$])
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(([entity, modalMode]) => {
         if (!entity || !modalMode) return;
 
@@ -155,7 +155,7 @@ export class CertificateGroupModalComponent
   }
 
   handleAction() {
-    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
+    this.action$.pipe(takeUntil(this.destroy$)).subscribe((action) => {
       if (!action) return;
       this.hide();
     });

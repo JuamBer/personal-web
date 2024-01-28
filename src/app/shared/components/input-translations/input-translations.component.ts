@@ -38,7 +38,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
   private inputTranslationsService = inject(InputTranslationsService);
   private capitalizePipe = inject(CapitalizePipe);
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
 
   @Input({
     required: true,
@@ -105,7 +105,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
   languagesToAdd = signal([] as Language[]);
 
   ngOnInit(): void {
-    this._showErrors.pipe(takeUntil(this.unsubscribe$)).subscribe((showErrors) => {
+    this._showErrors.pipe(takeUntil(this.destroy$)).subscribe((showErrors) => {
       if (showErrors && this.form.invalid) {
         FormUtils.markAllAsDirtyAndTouched(this.form);
         this.visibility = true;
@@ -114,7 +114,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
 
     this.store
       .select(publicLanguageReducer.getOne)
-      .pipe(take(1), takeUntil(this.unsubscribe$))
+      .pipe(take(1), takeUntil(this.destroy$))
       .subscribe((language) => {
         if (language) {
           this.language = language;
@@ -123,7 +123,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
 
     this.store
       .select(publicLanguageReducer.getOne)
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((language) => {
         if (language) {
           this.publicLanguage = language;
@@ -134,7 +134,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
       this.languages$,
       this.form.valueChanges.pipe(startWith(this.form.value)),
     ]).pipe(
-      takeUntil(this.unsubscribe$),
+      takeUntil(this.destroy$),
       map(([languages, translations]) =>
         languages.filter(
           (language) =>
@@ -150,7 +150,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
       this.disabledLanguages$,
       this.form.valueChanges.pipe(startWith(this.form.value)),
     ]).pipe(
-      takeUntil(this.unsubscribe$),
+      takeUntil(this.destroy$),
       map(([disabledLanguages, translations]) => {
         const languagesToAdd = disabledLanguages.filter(
           (language) => !translations.find((translation) => translation.language === language.acronym),
@@ -163,7 +163,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
     });
 
     combineLatest([this.languagesToFill$, this.translations$])
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(([languages, translations]) => {
         languages.forEach((language) => {
           if (this.form.value.findIndex((translation) => translation.language === language.acronym) < 0) {
@@ -185,8 +185,8 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onHide() {

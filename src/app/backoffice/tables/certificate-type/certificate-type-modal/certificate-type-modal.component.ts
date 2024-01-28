@@ -74,7 +74,7 @@ export class CertificateTypeModalComponent
     descriptionTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
   });
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$: Observable<boolean> = this.store.select(certificateTypeReducer.getLoading);
@@ -115,8 +115,8 @@ export class CertificateTypeModalComponent
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.store.dispatch(certificateTypeActions.unload());
   }
 
@@ -125,7 +125,7 @@ export class CertificateTypeModalComponent
   handleParams() {
     this.params$
       .pipe(
-        takeUntil(this.unsubscribe$),
+        takeUntil(this.destroy$),
         filter((params) => !!params.id),
       )
       .subscribe((params) => {
@@ -155,7 +155,7 @@ export class CertificateTypeModalComponent
   }
 
   handleAction() {
-    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
+    this.action$.pipe(takeUntil(this.destroy$)).subscribe((action) => {
       if (!action) return;
       this.hide();
     });

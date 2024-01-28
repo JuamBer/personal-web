@@ -63,7 +63,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
     active: this.fb.nonNullable.control<boolean>(true, [Validators.required]),
   });
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$: Observable<boolean> = this.store.select(languageReducer.getLoading);
@@ -99,8 +99,8 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.store.dispatch(languageActions.unload());
   }
 
@@ -109,7 +109,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   handleParams() {
     this.params$
       .pipe(
-        takeUntil(this.unsubscribe$),
+        takeUntil(this.destroy$),
         filter((params) => !!params.id),
       )
       .subscribe((params) => {
@@ -141,7 +141,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   }
 
   handleAction() {
-    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+    this.action$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.hide();
     });
   }

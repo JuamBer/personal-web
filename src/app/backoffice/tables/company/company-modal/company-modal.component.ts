@@ -75,7 +75,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
     ]),
   });
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$: Observable<boolean> = this.store.select(companyReducer.getLoading);
@@ -129,8 +129,8 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.store.dispatch(companyActions.unload());
   }
 
@@ -139,7 +139,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   handleParams() {
     this.params$
       .pipe(
-        takeUntil(this.unsubscribe$),
+        takeUntil(this.destroy$),
         filter((params) => !!params.id),
       )
       .subscribe((params) => {
@@ -150,7 +150,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
 
   handleEntity() {
     combineLatest([this.entity$, this.modalMode$])
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(([entity, modalMode]) => {
         if (!entity || !modalMode) return;
 
@@ -174,7 +174,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   }
 
   handleAction() {
-    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+    this.action$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.hide();
     });
   }

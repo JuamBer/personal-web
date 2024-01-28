@@ -94,7 +94,7 @@ export class CertificateModalComponent
     certificateGroup: this.fb.nonNullable.control<CertificateGroup | undefined>(undefined, [Validators.required]),
   });
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$: Observable<boolean> = this.store.select(certificateReducer.getLoading);
@@ -137,8 +137,8 @@ export class CertificateModalComponent
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.store.dispatch(certificateActions.unload());
   }
 
@@ -149,7 +149,7 @@ export class CertificateModalComponent
   }
 
   handleParams() {
-    this.params$.pipe(takeUntil(this.unsubscribe$)).subscribe((params) => {
+    this.params$.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       if (!params.id) return;
       this.store.dispatch(certificateActions.loadOne({ id: params.id }));
     });
@@ -157,7 +157,7 @@ export class CertificateModalComponent
 
   handleEntity() {
     combineLatest([this.entity$, this.modalMode$])
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(([entity, modalMode]) => {
         if (!entity || !modalMode) return;
 
@@ -189,7 +189,7 @@ export class CertificateModalComponent
   }
 
   handleAction() {
-    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+    this.action$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.hide();
     });
   }

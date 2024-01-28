@@ -55,7 +55,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
 
   entities$ = this.store.select(skillTypeReducer.getAll);
   entities = toSignal(this.entities$, {
@@ -84,8 +84,8 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   handleLoadCount() {
@@ -94,14 +94,14 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
 
   handleLoadTableConfig() {
     this.translateSrv.onLangChange
-      .pipe(takeUntil(this.unsubscribe$), startWith(this.translateSrv.currentLang))
+      .pipe(takeUntil(this.destroy$), startWith(this.translateSrv.currentLang))
       .subscribe(() => {
         this.loadTableConfig();
       });
   }
 
   handleMessages() {
-    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe((action) => {
+    this.action$.pipe(takeUntil(this.destroy$)).subscribe((action) => {
       const message = this.toastSrv.getMessage(action, this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR));
       if (message) {
         this.messageSrv.add(message);

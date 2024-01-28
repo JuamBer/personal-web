@@ -50,7 +50,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
 
   language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
@@ -118,7 +118,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
 
   ngOnInit() {
     zip([this.certificateGroups$.pipe(startWith([]), pairwise()), this.certificateGroupCount$])
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(([[previousCertificateGroups, currentCertificateGroups], count]) => {
         if (
           currentCertificateGroups.length === 0 ||
@@ -169,8 +169,8 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.store.dispatch(certificateGroupActions.unloadAll());
   }
 

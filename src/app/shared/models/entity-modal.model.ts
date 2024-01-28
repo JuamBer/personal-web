@@ -10,7 +10,7 @@ export interface EntityModal<T extends Resource> {
   visible: boolean;
   form: FormGroup;
 
-  unsubscribe$: Subject<void>;
+  destroy$: Subject<void>;
 
   params$: Observable<ModalParams>;
 

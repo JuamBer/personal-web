@@ -52,7 +52,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   @ViewChildren('position') positionElements!: QueryList<ElementRef<HTMLLIElement>>;
   positionElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
 
   language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
@@ -137,7 +137,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   });
 
   ngOnInit() {
-    this.positionsGrouped$.pipe(takeUntil(this.unsubscribe$)).subscribe((positionsGrouped) => {
+    this.positionsGrouped$.pipe(takeUntil(this.destroy$)).subscribe((positionsGrouped) => {
       if (!positionsGrouped.length) {
         this.store.dispatch(positionActions.loadAll({ payload: null }));
       }
@@ -161,8 +161,8 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getPositionEnterAnimationState(companyId: string | undefined): 'inViewport' | 'notInViewport' {

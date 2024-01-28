@@ -75,7 +75,7 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
     dateTo: this.fb.nonNullable.control<Date | undefined>(undefined),
   });
 
-  unsubscribe$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$: Observable<boolean> = this.store.select(positionReducer.getLoading);
@@ -114,8 +114,8 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.store.dispatch(positionActions.unload());
   }
 
@@ -126,7 +126,7 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
   handleParams() {
     this.params$
       .pipe(
-        takeUntil(this.unsubscribe$),
+        takeUntil(this.destroy$),
         filter((params) => !!params.id),
       )
       .subscribe((params) => {
@@ -137,7 +137,7 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
 
   handleEntity() {
     combineLatest([this.entity$, this.modalMode$])
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(([entity, modalMode]) => {
         if (!entity || !modalMode) return;
 
@@ -162,7 +162,7 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
   }
 
   handleAction() {
-    this.action$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+    this.action$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.hide();
     });
   }
