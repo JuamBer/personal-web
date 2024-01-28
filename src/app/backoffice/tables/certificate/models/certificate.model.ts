@@ -17,8 +17,8 @@ export class Certificate extends AuditFields {
   playStore: string;
   microsoftStore: string;
   company: Company;
-  certificateGroup: CertificateGroup;
-  certificateType: CertificateType;
+  certificateGroup?: CertificateGroup;
+  certificateType?: CertificateType;
 
   constructor(certificate: Certificate) {
     super(certificate.id, certificate.createdAt, certificate.updatedAt);
@@ -33,8 +33,10 @@ export class Certificate extends AuditFields {
     this.playStore = certificate.playStore;
     this.microsoftStore = certificate.microsoftStore;
     this.company = certificate.company;
-    this.certificateGroup = certificate.certificateGroup;
-    this.certificateType = certificate.certificateType;
+    this.certificateGroup = certificate.certificateGroup
+      ? new CertificateGroup(certificate.certificateGroup)
+      : undefined;
+    this.certificateType = certificate.certificateType ? new CertificateType(certificate.certificateType) : undefined;
   }
 }
 export type CertificateFormGroup = FormGroup<{

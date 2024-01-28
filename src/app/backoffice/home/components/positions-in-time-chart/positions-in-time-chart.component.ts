@@ -101,11 +101,11 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
 
       const companies = positionsSorted
         .map((position) => position.company)
-        .filter((company, index, self) => self.findIndex((c) => c.id === company.id) === index);
+        .filter((company, index, self) => self.findIndex((c) => c && company && c.id === company.id) === index);
 
       companies.forEach((company) => {
         const companyPositions = positionsSorted
-          .filter((position) => position.company.id === company.id)
+          .filter((position) => position.company && position.company.id === company?.id)
           .sort((a, b) => a.dateFrom.getTime() - b.dateFrom.getTime());
 
         companyPositions.forEach((position) => {
@@ -117,14 +117,14 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
 
           datasets.push({
             type: 'bar',
-            label: `${company.name} - ${this.getTranslation(language?.acronym, position?.nameTranslations)}`,
-            data: companies.map((c) => (c.id === company.id ? timeInYears : 0)),
+            label: `${company?.name} - ${this.getTranslation(language?.acronym, position?.nameTranslations)}`,
+            data: companies.map((c) => (c && c.id === company?.id ? timeInYears : 0)),
           });
         });
       });
 
       const res: ChartData<'bar', { key: string; value: number }[]> = {
-        labels: companies.map((company) => company.name),
+        labels: companies.map((company) => company?.name),
         datasets,
       };
       return res;

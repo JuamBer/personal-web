@@ -5,13 +5,13 @@ import { SkillType } from '../../skill-type/models/skill-type.model';
 export class Skill extends AuditFields {
   name: string;
   percentage: number;
-  skillType: SkillType;
+  skillType?: SkillType;
 
   constructor(skill: Skill) {
     super(skill.id, skill.createdAt, skill.updatedAt);
     this.name = skill.name;
     this.percentage = skill.percentage;
-    this.skillType = skill.skillType;
+    this.skillType = skill.skillType ? new SkillType(skill.skillType) : undefined;
   }
 }
 

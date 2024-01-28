@@ -6,21 +6,21 @@ import { Company } from '../../company/models/company.model';
 export class Position extends AuditFields {
   nameTranslations: Translation[];
   descriptionTranslations: Translation[];
-  company: Company;
   dateFrom: Date;
   dateTo: Date | undefined;
   hourlyWage: number;
   importance: number;
+  company?: Company;
 
   constructor(position: Position) {
     super(position.id, position.createdAt, position.updatedAt);
     this.nameTranslations = position.nameTranslations;
     this.descriptionTranslations = position.descriptionTranslations;
-    this.company = position.company;
     this.dateFrom = new Date(position.dateFrom);
     this.dateTo = position.dateTo ? new Date(position.dateTo) : undefined;
     this.hourlyWage = position.hourlyWage;
     this.importance = position.importance;
+    this.company = position.company ? new Company(position.company) : undefined;
   }
 }
 

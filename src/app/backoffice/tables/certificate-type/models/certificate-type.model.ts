@@ -12,7 +12,7 @@ export class CertificateType extends AuditFields {
     super(certificateType.id, certificateType.createdAt, certificateType.updatedAt);
     this.nameTranslations = certificateType.nameTranslations;
     this.descriptionTranslations = certificateType.descriptionTranslations;
-    this.certificates = certificateType.certificates;
+    this.certificates = certificateType.certificates?.map((certificate) => new Certificate(certificate));
   }
 }
 export type CertificateTypeFormGroup = FormGroup<{

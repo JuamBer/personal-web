@@ -107,7 +107,7 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
       const res: ChartData<'bar', { key: string; value: number }[]> = {
         labels: positionsSorted.map(
           (position) =>
-            `${position.company.name} - ${this.getTranslation(language?.acronym, position?.nameTranslations)}`,
+            `${position.company?.name} - ${this.getTranslation(language?.acronym, position?.nameTranslations)}`,
         ),
         datasets,
       };

@@ -10,7 +10,6 @@ export class Company extends AuditFields {
   descriptionTranslations: Translation[];
   type: CompanyType;
   url: string;
-
   positions?: Position[];
 
   constructor(company: Company) {
@@ -20,7 +19,7 @@ export class Company extends AuditFields {
     this.descriptionTranslations = company.descriptionTranslations;
     this.type = company.type;
     this.url = company.url;
-    this.positions = company.positions;
+    this.positions = company.positions?.map((position) => new Position(position));
   }
 }
 

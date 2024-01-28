@@ -43,7 +43,8 @@
     "Companies",
     "SkillType",
     "InputTranslations",
-    "Styles"
+    "Styles",
+    "Classes"
   ],
   "cSpell.words": [
     "cascadeselect",

@@ -12,7 +12,7 @@ export class SkillType extends AuditFields {
     super(skillType.id, skillType.createdAt, skillType.updatedAt);
     this.nameTranslations = skillType.nameTranslations;
     this.descriptionTranslations = skillType.descriptionTranslations;
-    this.skills = skillType.skills;
+    this.skills = skillType.skills?.map((skill) => new Skill(skill));
   }
 }
 

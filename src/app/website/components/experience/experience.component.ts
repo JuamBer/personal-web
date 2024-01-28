@@ -79,11 +79,11 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
 
       positionsSorted.forEach((position) => {
         const positionGrouped = positionsGroupedByCompany.find(
-          (positionGrouped) => positionGrouped.company.id === position.company.id,
+          (positionGrouped) => position.company && positionGrouped.company.id === position.company.id,
         );
         if (positionGrouped) {
           positionsGroupedByCompany = positionsGroupedByCompany.map((positionGrouped) => {
-            if (positionGrouped.company.id === position.company.id) {
+            if (position.company && positionGrouped.company.id === position.company.id) {
               return {
                 ...positionGrouped,
                 positions: [...positionGrouped.positions, position],
@@ -93,7 +93,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
               return positionGrouped;
             }
           });
-        } else {
+        } else if (position.company) {
           positionsGroupedByCompany.push({
             company: position.company,
             positions: [position],
