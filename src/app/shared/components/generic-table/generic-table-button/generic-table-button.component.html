@@ -1,6 +1,6 @@
 <button
   pButton
-  [label]="screenWidth > 500 && button.label ? button.label : ''"
+  [label]="button.label ?? ''"
   [icon]="'pi ' + button.icon"
   [class]="buttonClasses"
   [pTooltip]="button.tooltip"
