@@ -41,7 +41,8 @@
     "Directives",
     "CertificateGroups",
     "Companies",
-    "SkillType"
+    "SkillType",
+    "InputTranslations"
   ],
   "cSpell.words": [
     "cascadeselect",

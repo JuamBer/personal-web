@@ -190,10 +190,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
   }
 
   onHide() {
-    console.log(this.form);
-
     FormUtils.markAllAsDirtyAndTouched(this.form);
-    this.changeVisibility(false);
   }
 
   changeVisibility(visibility: boolean) {
