@@ -151,6 +151,18 @@ textarea {
   }
 }
 
+.my-container {
+  width: 100% !important;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  .max-width {
+    width: 100%;
+    max-width: 1200px !important;
+  }
+}
+
 h1 {
   font-size: 2rem;
 }

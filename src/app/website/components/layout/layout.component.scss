@@ -1,11 +1,12 @@
-.layout-container {
-  width: 100% !important;
-  align-items: center;
+.my-container {
+  width: 80%;
+  padding: 10%;
+  padding-top: 5%;
   display: flex;
   justify-content: center;
 
-  .layout-max-width {
+  .max-width {
     width: 100%;
-    max-width: 1200px !important;
+    max-width: 1700px;
   }
 }
