@@ -31,11 +31,9 @@ export class LoadingDirective implements AfterViewInit {
   skeletonComponentRef: ComponentRef<Skeleton> | undefined;
 
   ngAfterViewInit(): void {
-    this.ref.detectChanges();
-    this.fontSizeValue = parseFloat(window.getComputedStyle(this.elementRef.nativeElement).fontSize) / 2;
-
     this.isLoading$.subscribe((isLoading) => {
       this.handleLoading(isLoading);
+      this.ref.detectChanges();
     });
   }
 
