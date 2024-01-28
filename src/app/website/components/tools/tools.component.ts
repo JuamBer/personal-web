@@ -40,6 +40,10 @@ export class ToolsComponent extends TranslationProvider implements AfterViewInit
   loading: boolean = false;
 
   ngAfterViewInit(): void {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      return;
+    }
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         this.toolsElementState = entry.isIntersecting ? 'inViewport' : 'notInViewport';

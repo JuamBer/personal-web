@@ -145,6 +145,10 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   }
 
   ngAfterViewChecked() {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      return;
+    }
+
     this.positionElements.forEach((positionElement) => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {

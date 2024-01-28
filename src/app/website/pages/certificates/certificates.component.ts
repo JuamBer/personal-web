@@ -150,6 +150,10 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   }
 
   ngAfterViewChecked() {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      return;
+    }
+
     this.certificateElements.forEach((positionElement) => {
       if (this.certificateElementAnimationsDone.includes(positionElement.nativeElement.id)) {
         return;
