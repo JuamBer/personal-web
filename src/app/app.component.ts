@@ -28,18 +28,21 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.handleLanguage();
     this.handleColorMode();
   }
 
   handleLanguage() {
-    this.store.dispatch(publicLanguageActions.loadAll({}));
-    this.languages$.pipe(take(2)).subscribe((languages) => {
-      const userLanguage = (navigator.languages ? navigator.languages[0] : navigator.language).split('-')[0];
-      const language = languages.find((l) => l.acronym === userLanguage);
-      if (language) {
-        this.store.dispatch(publicLanguageActions.loadOneByAcronym({ acronym: language.acronym }));
-      }
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.store.dispatch(publicLanguageActions.loadAll({}));
+      this.languages$.pipe(take(2)).subscribe((languages) => {
+        const userLanguage = (navigator.languages ? navigator.languages[0] : navigator.language).split('-')[0];
+        const language = languages.find((l) => l.acronym === userLanguage);
+        if (language) {
+          this.store.dispatch(publicLanguageActions.loadOneByAcronym({ acronym: language.acronym }));
+        }
+      });
+    }
   }
 
   handleColorMode() {
