@@ -50,15 +50,15 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
       scales: {
         x: {
           ticks: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-secondary'),
+            color: 'var(--text-color-secondary)',
           },
           grid: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--surface-border'),
+            color: 'var(--surface-border)',
           },
           title: {
             display: true,
             text: this.titleCasePipe.transform(this.translateSrv.instant('charts.certificatesInTime.xAxis')),
-            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color'),
+            color: 'var(--text-color)',
             font: {
               weight: 'normal',
               size: 18,
@@ -67,15 +67,15 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
         },
         y: {
           ticks: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-secondary'),
+            color: 'var(--text-color-secondary)',
           },
           grid: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--surface-border'),
+            color: 'var(--surface-border)',
           },
           title: {
             display: true,
             text: this.titleCasePipe.transform(this.translateSrv.instant('charts.certificatesInTime.yAxis')),
-            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color'),
+            color: 'var(--text-color)',
             font: {
               weight: 'normal',
               size: 18,

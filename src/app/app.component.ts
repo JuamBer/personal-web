@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
 import { publicLanguageActions } from './shared/state/languages/public-language.actions';
@@ -11,16 +12,23 @@ export const appRootTitle = 'Juan Sáez García';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   private store = inject(Store);
 
   mode: 'dark' | 'light' = 'light';
 
   languages$ = this.store.select(publicLanguageReducer.getAll);
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngOnInit() {
     this.handleLanguage();
-    this.handleMode();
+    this.handleColorMode();
+  }
+
+  ngAfterViewInit() {
+    this.handleColorMode();
   }
 
   handleLanguage() {
@@ -34,10 +42,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  handleMode() {
-    const deviceMode = window.matchMedia('(prefers-color-scheme: dark)');
-    this.mode = deviceMode.matches ? 'dark' : 'light';
-    document.body.classList.remove('dark', 'light');
-    document.body.classList.add(this.mode);
+  handleColorMode() {
+    if (isPlatformBrowser(this.platformId)) {
+      const deviceMode = window.matchMedia('(prefers-color-scheme: dark)');
+      this.mode = deviceMode.matches ? 'dark' : 'light';
+      document.body.classList.remove('dark', 'light');
+      document.body.classList.add(this.mode);
+    }
   }
 }

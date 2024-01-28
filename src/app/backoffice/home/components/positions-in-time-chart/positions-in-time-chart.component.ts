@@ -37,7 +37,7 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
       plugins: {
         legend: {
           labels: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color'),
+            color: 'var(--text-color)',
           },
         },
         title: {
@@ -53,15 +53,15 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
         x: {
           stacked: true,
           ticks: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-secondary'),
+            color: 'var(--text-color-secondary)',
           },
           grid: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--surface-border'),
+            color: 'var(--surface-border)',
           },
           title: {
             display: true,
             text: this.titleCasePipe.transform(this.translateSrv.instant('charts.positionsInTime.xAxis')),
-            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color'),
+            color: 'var(--text-color)',
             font: {
               weight: 'normal',
               size: 18,
@@ -71,15 +71,15 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
         y: {
           stacked: true,
           ticks: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color-secondary'),
+            color: 'var(--text-color-secondary)',
           },
           grid: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--surface-border'),
+            color: 'var(--surface-border)',
           },
           title: {
             display: true,
             text: this.titleCasePipe.transform(this.translateSrv.instant('charts.positionsInTime.yAxis')),
-            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color'),
+            color: 'var(--text-color)',
             font: {
               weight: 'normal',
               size: 18,

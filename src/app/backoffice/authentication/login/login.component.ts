@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ResolveFn, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,7 +19,7 @@ export const loginTitleResolver: ResolveFn<string> = () => {
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -31,9 +32,22 @@ export class LoginComponent implements OnInit {
   returnUrl: string = this.route.snapshot.queryParams['returnUrl'] || '/backoffice';
   loading: boolean = false;
 
-  ngOnInit(): void {
-    document.body.classList.remove('dark', 'light');
-    document.body.classList.add('light');
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  ngOnInit() {
+    this.handleColorMode();
+  }
+
+  ngAfterViewInit() {
+    this.handleColorMode();
+  }
+
+  handleColorMode() {
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.classList.remove('dark', 'light');
+      document.body.classList.add('light');
+    }
   }
 
   async onSubmitLogin(): Promise<void> {

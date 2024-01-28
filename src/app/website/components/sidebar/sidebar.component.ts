@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
@@ -13,7 +14,7 @@ import { Page } from './models/page.model';
   styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, AfterViewInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
   private fb = inject(FormBuilder);
@@ -22,9 +23,11 @@ export class SidebarComponent implements OnInit {
 
   pages: Page[] = [];
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngOnInit(): void {
-    const deviceMode = window.matchMedia('(prefers-color-scheme: dark)');
-    this.colorModeFormControl.setValue(!deviceMode.matches);
+    this.handleColorModeChange();
 
     this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
       if (language) this.translateSrv.use(language.acronym);
@@ -33,11 +36,21 @@ export class SidebarComponent implements OnInit {
     this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
       this.loadPage();
     });
+  }
 
-    this.colorModeFormControl.valueChanges.subscribe((value) => {
-      document.body.classList.remove('dark', 'light');
-      document.body.classList.add(value ? 'light' : 'dark');
-    });
+  ngAfterViewInit(): void {
+    this.handleColorModeChange();
+  }
+
+  handleColorModeChange() {
+    if (isPlatformBrowser(this.platformId)) {
+      const deviceMode = window.matchMedia('(prefers-color-scheme: dark)');
+      this.colorModeFormControl.setValue(!deviceMode.matches);
+      this.colorModeFormControl.valueChanges.subscribe((value) => {
+        document.body.classList.remove('dark', 'light');
+        document.body.classList.add(value ? 'light' : 'dark');
+      });
+    }
   }
 
   loadPage() {
