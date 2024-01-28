@@ -96,9 +96,7 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
     this.language$,
   ]).pipe(
     map(([positions, language]) => {
-      const positionsSorted = [...positions].sort(
-        (a, b) => new Date(a.dateFrom).getTime() - new Date(b.dateFrom).getTime(),
-      );
+      const positionsSorted = [...positions].sort((a, b) => a.dateFrom.getTime() - b.dateFrom.getTime());
       const datasets: ChartDataset<any, any>[] = [];
 
       const companies = positionsSorted
@@ -108,12 +106,12 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
       companies.forEach((company) => {
         const companyPositions = positionsSorted
           .filter((position) => position.company.id === company.id)
-          .sort((a, b) => new Date(a.dateFrom).getTime() - new Date(b.dateFrom).getTime());
+          .sort((a, b) => a.dateFrom.getTime() - b.dateFrom.getTime());
 
         companyPositions.forEach((position) => {
-          const dateFrom = new Date(position.dateFrom);
+          const dateFrom = position.dateFrom;
 
-          const dateTo = position.dateTo ? new Date(position.dateTo) : new Date();
+          const dateTo = position.dateTo ? new Date() : new Date();
           const timeInSeconds = Math.abs(dateTo.getTime() - dateFrom.getTime()) / 1000;
           const timeInYears = timeInSeconds / 31536000;
 

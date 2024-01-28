@@ -93,17 +93,15 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
   ]).pipe(
     filter(([certificates]) => certificates.length > 0),
     map(([certificates]) => {
-      const certificatesSorted = [...certificates].sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-      );
+      const certificatesSorted = [...certificates].sort((a, b) => a.date.getTime() - b.date.getTime());
       const datasets: ChartDataset<any, any>[] = [];
       const firstCertificate = certificatesSorted[0];
       const lastCertificate = certificatesSorted[certificatesSorted.length - 1];
 
       const labels: string[] = [];
       const labelsData: any[] = [];
-      const firstCertificateDate = new Date(firstCertificate.date);
-      const lastCertificateDate = new Date(lastCertificate.date);
+      const firstCertificateDate = firstCertificate.date;
+      const lastCertificateDate = lastCertificate.date;
       for (let d = firstCertificateDate; d <= lastCertificateDate; d.setMonth(d.getMonth() + 1)) {
         labels.push(`${d.getMonth() + 1}/${d.getFullYear()}`);
         labelsData.push({
@@ -118,7 +116,7 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
         const certificatesPerMonth =
           aux +
           certificatesSorted.filter((certificate) => {
-            const certificateDate = new Date(certificate.date);
+            const certificateDate = certificate.date;
             return (
               certificateDate.getFullYear() === labelData.year && certificateDate.getMonth() + 1 === labelData.month
             );

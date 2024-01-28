@@ -177,7 +177,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   orderByDate(certificates: Certificate[]): Certificate[] {
     if (certificates) {
       return [...certificates].sort((a, b) => {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+        return b.date.getTime() - a.date.getTime();
       });
     }
     return [];

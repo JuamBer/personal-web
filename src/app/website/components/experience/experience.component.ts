@@ -74,7 +74,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
     map((positions) => {
       let positionsGroupedByCompany: PositionGroupedByCompany[] = [];
       const positionsSorted = [...positions].sort((a, b) => {
-        return new Date(b.dateFrom).getTime() - new Date(a.dateFrom).getTime();
+        return b.dateFrom.getTime() - a.dateFrom.getTime();
       });
 
       positionsSorted.forEach((position) => {
@@ -105,8 +105,8 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
       const positionsGroupedByCompanyAndTime = positionsGroupedByCompany.map((positionGrouped) => ({
         ...positionGrouped,
         time: positionGrouped.positions.reduce((time, position) => {
-          const dateFrom = new Date(position.dateFrom);
-          const dateTo = position.dateTo ? new Date(position.dateTo) : new Date();
+          const dateFrom = position.dateFrom;
+          const dateTo = position.dateTo ? position.dateTo : new Date();
           const months =
             (dateTo.getFullYear() - dateFrom.getFullYear()) * 12 + (dateTo.getMonth() - dateFrom.getMonth());
           const years = Math.floor(months / 12);

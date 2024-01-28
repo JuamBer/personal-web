@@ -8,7 +8,7 @@ export class Position extends AuditFields {
   descriptionTranslations: Translation[];
   company: Company;
   dateFrom: Date;
-  dateTo: Date;
+  dateTo: Date | undefined;
   hourlyWage: number;
   importance: number;
 
@@ -18,7 +18,7 @@ export class Position extends AuditFields {
     this.descriptionTranslations = position.descriptionTranslations;
     this.company = position.company;
     this.dateFrom = new Date(position.dateFrom);
-    this.dateTo = new Date(position.dateTo);
+    this.dateTo = position.dateTo ? new Date(position.dateTo) : undefined;
     this.hourlyWage = position.hourlyWage;
     this.importance = position.importance;
   }

@@ -93,9 +93,7 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
   ]).pipe(
     map(([positions, language]) => {
       const positionsFiltered = [...positions].filter((position) => !!position.hourlyWage);
-      const positionsSorted = positionsFiltered.sort(
-        (a, b) => new Date(a.dateFrom).getTime() - new Date(b.dateFrom).getTime(),
-      );
+      const positionsSorted = positionsFiltered.sort((a, b) => a.dateFrom.getTime() - b.dateFrom.getTime());
 
       const datasets: ChartDataset<any, any>[] = [];
       const data: any[] = [];
