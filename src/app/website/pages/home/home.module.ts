@@ -10,6 +10,7 @@ import { SkillStateModule } from 'src/app/backoffice/tables/skill/state/skill-st
 import { GenericErrorModule } from 'src/app/shared/components/generic-error/generic-error.module';
 import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
+import { PipesModule } from 'src/app/shared/modules/pipes.module';
 import { CvComponent } from '../../components/cv/cv.component';
 import { ExperienceComponent } from '../../components/experience/experience.component';
 import { SocialNetworksModule } from '../../components/social-networks/social-networks.module';
@@ -33,6 +34,7 @@ import { HomeComponent } from './home.component';
     DirectivesModule,
     GenericErrorModule,
     FontAwesomeModule,
+    PipesModule,
   ],
   exports: [],
 })

@@ -1,7 +1,7 @@
 <div class="tools" #tools>
   @if (!loading) {
     <ul>
-      @for (entity of entities; track entity.id) {
+      @for (entity of entities | sortBy: 'percentage'; track entity.id) {
         <li class="tool">
           <span class="name">
             {{ entity.name }}
