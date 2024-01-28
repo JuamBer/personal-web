@@ -2,7 +2,7 @@
   [draggable]="false"
   [resizable]="false"
   [header]="
-    'buttons.' + modalMode$$()
+    'buttons.' + modalMode()
       | lowercase
       | translate
         : {
@@ -19,14 +19,14 @@
       <div
         *appLet="'nameTranslations' as field"
         appLoading
-        [appIsLoading]="loading$$()"
+        [appIsLoading]="loading()"
         class="xs:col-12 md:col-12 lg:col-12 mt-3"
       >
         <app-input-translations
           [showErrors]="showErrors$"
           [type]="InputTranslationsType.INPUT"
-          [translations]="entity$$()?.nameTranslations!"
-          [disabled]="modalMode$$() === ModalMode.VIEW"
+          [translations]="entity()?.nameTranslations!"
+          [disabled]="modalMode() === ModalMode.VIEW"
           [form]="$any(form.get(field))"
           [label]="'columns.name' | translate"
         ></app-input-translations>
@@ -34,23 +34,23 @@
       <div
         *appLet="'descriptionTranslations' as field"
         appLoading
-        [appIsLoading]="loading$$()"
+        [appIsLoading]="loading()"
         class="xs:col-12 md:col-12 lg:col-12 mt-3"
       >
         <app-input-translations
           [showErrors]="showErrors$"
           [type]="InputTranslationsType.TEXTAREA"
-          [translations]="entity$$()?.descriptionTranslations!"
-          [disabled]="modalMode$$() === ModalMode.VIEW"
+          [translations]="entity()?.descriptionTranslations!"
+          [disabled]="modalMode() === ModalMode.VIEW"
           [form]="$any(form.get(field))"
           [label]="'columns.description' | translate"
         ></app-input-translations>
       </div>
     </div>
   </form>
-  @if (modalMode$$() === ModalMode.VIEW) {
+  @if (modalMode() === ModalMode.VIEW) {
     <div class="mt-5">
-      <p-table [value]="entity$$()?.skills!" [tableStyle]="{ width: '100%' }" [loading]="loading$$()">
+      <p-table [value]="entity()?.skills!" [tableStyle]="{ width: '100%' }" [loading]="loading()">
         <ng-template pTemplate="caption">
           <h5 class="m-0 p-0 f-bold">{{ 'tables.skill.plural' | translate | titlecase }}</h5>
         </ng-template>
@@ -69,17 +69,17 @@
   }
   <ng-template pTemplate="footer">
     <app-entity-modal-buttons
-      [loading]="loading$$()"
+      [loading]="loading()"
       [form]="form"
       [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
-      [modalMode]="modalMode$$()"
+      [modalMode]="modalMode()"
       (cancel)="hide()"
       (submitForm)="send()"
     ></app-entity-modal-buttons>
     <app-entity-modal-audit
-      [loading]="loading$$()"
-      [entity]="entity$$()"
-      [modalMode]="modalMode$$()"
+      [loading]="loading()"
+      [entity]="entity()"
+      [modalMode]="modalMode()"
     ></app-entity-modal-audit>
   </ng-template>
 </p-dialog>

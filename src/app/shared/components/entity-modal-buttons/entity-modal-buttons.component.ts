@@ -32,7 +32,7 @@ export class EntityModalButtonsComponent<T> implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
   pendingChanges$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  pendingChanges$$ = toSignal(this.pendingChanges$, {
+  pendingChanges = toSignal(this.pendingChanges$, {
     initialValue: false,
   });
   firstFormValue!: T;

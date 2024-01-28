@@ -24,13 +24,13 @@
     </div>
   </div>
 </div>
-@switch (skillTypesActionStatus$$()) {
+@switch (skillTypesActionStatus()) {
   @case (ActionStatus.SUCCESS) {
-    @for (skillType of skillTypes$$(); track skillType) {
+    @for (skillType of skillTypes(); track skillType) {
       <div class="my-container" style="margin-bottom: 60px">
         <div class="container-info" [@enterAnimation]>
           <div class="title">
-            <h3>{{ getTranslation(language$$()?.acronym, skillType?.nameTranslations) }}</h3>
+            <h3>{{ getTranslation(language()?.acronym, skillType?.nameTranslations) }}</h3>
           </div>
           <app-tools [entities]="skillType.skills!"></app-tools>
         </div>

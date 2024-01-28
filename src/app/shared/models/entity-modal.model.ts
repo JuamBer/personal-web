@@ -15,13 +15,13 @@ export interface EntityModal<T extends Resource> {
   params$: Observable<ModalParams>;
 
   modalMode$: Observable<ModalMode>;
-  modalMode$$: Signal<ModalMode | undefined>;
+  modalMode: Signal<ModalMode | undefined>;
 
   entity$: Observable<T | undefined>;
-  entity$$: Signal<T | undefined>;
+  entity: Signal<T | undefined>;
 
   loading$: Observable<boolean>;
-  loading$$: Signal<boolean | undefined>;
+  loading: Signal<boolean | undefined>;
 
   handleLoadData(): void;
   handleParams(): void;

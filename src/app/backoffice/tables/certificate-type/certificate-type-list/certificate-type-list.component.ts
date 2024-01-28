@@ -57,22 +57,22 @@ export class CertificateTypeListComponent implements OnInit, OnDestroy, EntityLi
   unsubscribe$ = new Subject<void>();
 
   entities$ = this.store.select(certificateTypeReducer.getAll);
-  entities$$ = toSignal(this.entities$, {
+  entities = toSignal(this.entities$, {
     initialValue: [],
   });
 
   loading$ = this.store.select(certificateTypeReducer.getLoading);
-  loading$$ = toSignal(this.loading$, {
+  loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
   count$ = this.store.select(certificateTypeReducer.getCount);
-  count$$ = toSignal(this.count$, {
+  count = toSignal(this.count$, {
     initialValue: 0,
   });
 
   tableConfig$ = new BehaviorSubject<GenericTableConfig<CertificateType> | undefined>(undefined);
-  tableConfig$$ = toSignal(this.tableConfig$);
+  tableConfig = toSignal(this.tableConfig$);
 
   action$ = this.store.select(certificateTypeReducer.getAction);
 

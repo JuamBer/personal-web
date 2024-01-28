@@ -79,19 +79,19 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$: Observable<boolean> = this.store.select(positionReducer.getLoading);
-  loading$$ = toSignal(this.loading$, {
+  loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
   modalMode$: Observable<ModalMode> = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
-  modalMode$$ = toSignal(this.modalMode$, {
+  modalMode = toSignal(this.modalMode$, {
     initialValue: ModalMode.VIEW,
   });
 
   entity$: Observable<Position | undefined> = this.store
     .select(positionReducer.getOne)
     .pipe(filter((entity) => !!entity));
-  entity$$ = toSignal(this.entity$);
+  entity = toSignal(this.entity$);
 
   action$: Observable<Action | undefined> = this.store.select(positionReducer.getAction).pipe(
     skip(1),

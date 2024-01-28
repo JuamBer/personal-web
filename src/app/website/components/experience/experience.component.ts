@@ -55,14 +55,14 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   unsubscribe$ = new Subject<void>();
 
   language$ = this.store.select(publicLanguageReducer.getOne);
-  language$$ = toSignal(this.language$);
+  language = toSignal(this.language$);
 
   positionsActionStatus$ = this.store.select(positionReducer.getAction).pipe(
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
     // eslint-disable-next-line @ngrx/avoid-mapping-selectors
     map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
-  positionsActionStatus$$ = toSignal(this.positionsActionStatus$, {
+  positionsActionStatus = toSignal(this.positionsActionStatus$, {
     initialValue: ActionStatus.SUCCESS,
   });
 
@@ -132,7 +132,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
       return positionsGroupedByCompanyAndTime;
     }),
   );
-  positionsGrouped$$ = toSignal(this.positionsGrouped$, {
+  positionsGrouped = toSignal(this.positionsGrouped$, {
     initialValue: [],
   });
 

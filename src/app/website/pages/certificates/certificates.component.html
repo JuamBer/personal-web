@@ -1,5 +1,5 @@
 <div class="certificates">
-  @for (certificateGroup of certificateGroups$$(); track certificateGroup) {
+  @for (certificateGroup of certificateGroups(); track certificateGroup) {
     <div class="my-container">
       <div class="container-info">
         <div
@@ -8,7 +8,7 @@
           [id]="certificateGroup.id"
           [@certificateGroupEnterAnimation]="getCertificateGroupEnterAnimationState(certificateGroup?.id)"
         >
-          <h3>{{ getTranslation(language$$()?.acronym, certificateGroup?.nameTranslations) }}</h3>
+          <h3>{{ getTranslation(language()?.acronym, certificateGroup?.nameTranslations) }}</h3>
         </div>
         @if (certificateGroup && certificateGroup.certificates) {
           <swiper [config]="swiperConfig" [id]="'.swiper' + certificateGroup?.id">
@@ -18,13 +18,13 @@
                   <div class="image-content">
                     <div class="card-image">
                       <div class="overlay">
-                        <h4>{{ getTranslation(language$$()?.acronym, certificate?.nameTranslations) }}</h4>
+                        <h4>{{ getTranslation(language()?.acronym, certificate?.nameTranslations) }}</h4>
                         <h5>{{ certificate.date | date }}</h5>
-                        <p>{{ getTranslation(language$$()?.acronym, certificate?.descriptionTranslations) }}</p>
+                        <p>{{ getTranslation(language()?.acronym, certificate?.descriptionTranslations) }}</p>
                       </div>
                       <img
                         [src]="certificate.image"
-                        [alt]="getTranslation(language$$()?.acronym, certificate?.nameTranslations)"
+                        [alt]="getTranslation(language()?.acronym, certificate?.nameTranslations)"
                         class="card-img"
                       />
                     </div>
@@ -72,7 +72,7 @@
       </div>
     </div>
   }
-  @switch (skillTypesActionStatus$$()) {
+  @switch (skillTypesActionStatus()) {
     @case (ActionStatus.PENDING) {
       <div class="my-container">
         <div class="container-info">

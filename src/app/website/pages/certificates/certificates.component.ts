@@ -53,7 +53,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   unsubscribe$ = new Subject<void>();
 
   language$ = this.store.select(publicLanguageReducer.getOne);
-  language$$ = toSignal(this.language$);
+  language = toSignal(this.language$);
 
   certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll).pipe(
     // eslint-disable-next-line @ngrx/avoid-mapping-selectors
@@ -70,7 +70,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
       return uniqueCertificateGroups;
     }),
   );
-  certificateGroups$$ = toSignal(this.certificateGroups$, {
+  certificateGroups = toSignal(this.certificateGroups$, {
     initialValue: [],
   });
 
@@ -79,7 +79,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
     // eslint-disable-next-line @ngrx/avoid-mapping-selectors
     map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
-  skillTypesActionStatus$$ = toSignal(this.skillTypesActionStatus$, {
+  skillTypesActionStatus = toSignal(this.skillTypesActionStatus$, {
     initialValue: ActionStatus.SUCCESS,
   });
 

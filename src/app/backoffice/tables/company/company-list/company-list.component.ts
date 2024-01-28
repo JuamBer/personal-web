@@ -57,22 +57,22 @@ export class CompanyListComponent implements OnInit, OnDestroy, EntityList<Compa
   unsubscribe$ = new Subject<void>();
 
   entities$ = this.store.select(companyReducer.getAll);
-  entities$$ = toSignal(this.entities$, {
+  entities = toSignal(this.entities$, {
     initialValue: [],
   });
 
   loading$ = this.store.select(companyReducer.getLoading);
-  loading$$ = toSignal(this.loading$, {
+  loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
   count$ = this.store.select(companyReducer.getCount);
-  count$$ = toSignal(this.count$, {
+  count = toSignal(this.count$, {
     initialValue: 0,
   });
 
   tableConfig$ = new BehaviorSubject<GenericTableConfig<Company> | undefined>(undefined);
-  tableConfig$$ = toSignal(this.tableConfig$);
+  tableConfig = toSignal(this.tableConfig$);
 
   action$ = this.store.select(companyReducer.getAction);
 

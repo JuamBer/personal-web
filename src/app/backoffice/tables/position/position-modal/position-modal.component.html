@@ -2,7 +2,7 @@
   [draggable]="false"
   [resizable]="false"
   [header]="
-    'buttons.' + modalMode$$()
+    'buttons.' + modalMode()
       | lowercase
       | translate
         : {
@@ -19,25 +19,20 @@
       <div
         *appLet="'nameTranslations' as field"
         appLoading
-        [appIsLoading]="loading$$()"
+        [appIsLoading]="loading()"
         class="xs:col-12 md:col-6 lg:col-6 mt-3"
       >
         <app-input-translations
           [showErrors]="showErrors$"
           [type]="InputTranslationsType.INPUT"
-          [translations]="entity$$()?.nameTranslations!"
-          [disabled]="modalMode$$() === ModalMode.VIEW"
+          [translations]="entity()?.nameTranslations!"
+          [disabled]="modalMode() === ModalMode.VIEW"
           [form]="$any(form.get(field))"
           [label]="'columns.name' | translate"
         ></app-input-translations>
       </div>
 
-      <div
-        *appLet="'company' as field"
-        appLoading
-        [appIsLoading]="loading$$()"
-        class="xs:col-12 md:col-6 lg:col-6 mt-3"
-      >
+      <div *appLet="'company' as field" appLoading [appIsLoading]="loading()" class="xs:col-12 md:col-6 lg:col-6 mt-3">
         <span class="p-float-label">
           <p-dropdown
             dataKey="id"
@@ -60,24 +55,19 @@
       <div
         *appLet="'descriptionTranslations' as field"
         appLoading
-        [appIsLoading]="loading$$()"
+        [appIsLoading]="loading()"
         class="xs:col-12 md:col-12 lg:col-12 mt-3"
       >
         <app-input-translations
           [showErrors]="showErrors$"
           [type]="InputTranslationsType.TEXTAREA"
-          [translations]="entity$$()?.descriptionTranslations!"
-          [disabled]="modalMode$$() === ModalMode.VIEW"
+          [translations]="entity()?.descriptionTranslations!"
+          [disabled]="modalMode() === ModalMode.VIEW"
           [form]="$any(form.get(field))"
           [label]="'columns.description' | translate"
         ></app-input-translations>
       </div>
-      <div
-        *appLet="'dateFrom' as field"
-        appLoading
-        [appIsLoading]="loading$$()"
-        class="xs:col-12 md:col-6 lg:col-6 mt-3"
-      >
+      <div *appLet="'dateFrom' as field" appLoading [appIsLoading]="loading()" class="xs:col-12 md:col-6 lg:col-6 mt-3">
         <span class="p-float-label">
           <p-calendar
             class="p-calendar-sm"
@@ -92,7 +82,7 @@
           </label>
         </span>
       </div>
-      <div *appLet="'dateTo' as field" appLoading [appIsLoading]="loading$$()" class="xs:col-12 md:col-6 lg:col-6 mt-3">
+      <div *appLet="'dateTo' as field" appLoading [appIsLoading]="loading()" class="xs:col-12 md:col-6 lg:col-6 mt-3">
         <span class="p-float-label">
           <p-calendar
             class="p-calendar-sm"
@@ -111,17 +101,17 @@
   </form>
   <ng-template pTemplate="footer">
     <app-entity-modal-buttons
-      [loading]="loading$$()"
+      [loading]="loading()"
       [form]="form"
       [name]="names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)"
-      [modalMode]="modalMode$$()"
+      [modalMode]="modalMode()"
       (cancel)="hide()"
       (submitForm)="send()"
     ></app-entity-modal-buttons>
     <app-entity-modal-audit
-      [loading]="loading$$()"
-      [entity]="entity$$()"
-      [modalMode]="modalMode$$()"
+      [loading]="loading()"
+      [entity]="entity()"
+      [modalMode]="modalMode()"
     ></app-entity-modal-audit>
   </ng-template>
 </p-dialog>

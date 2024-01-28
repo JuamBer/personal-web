@@ -1,8 +1,8 @@
-@if (languagesToFill$$() && language) {
+@if (languagesToFill() && language) {
   <div class="translate-input">
     <div class="p-inputgroup translation-input-preview">
       <span class="p-float-label">
-        <p-dropdown appendTo="body" [options]="languagesToFill$$()" [(ngModel)]="language" [style]="{ height: '100%' }">
+        <p-dropdown appendTo="body" [options]="languagesToFill()" [(ngModel)]="language" [style]="{ height: '100%' }">
           <ng-template pTemplate="selectedItem">
             @if (language && language.acronym) {
               <div class="language-item language-item-value">
@@ -28,7 +28,7 @@
       </span>
       @switch (type) {
         @case (InputTranslationsType.INPUT) {
-          @if (actualTranslationControl && languagesToFill$$().length > 0) {
+          @if (actualTranslationControl && languagesToFill().length > 0) {
             <span class="p-float-label translation">
               <input
                 (input)="onActualTranslationChange($event)"
@@ -40,7 +40,7 @@
                   'ng-invalid': actualTranslationControl.invalid,
                   'ng-dirty': actualTranslationControl.dirty
                 }"
-                [placeholder]="getSuggestion(suggestions$$(), actualTranslationControl.controls['language'].value)"
+                [placeholder]="getSuggestion(suggestions(), actualTranslationControl.controls['language'].value)"
                 (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
                 (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
                 [formControl]="actualTranslationControl.controls['value']"
@@ -55,7 +55,7 @@
         @case (InputTranslationsType.TEXTAREA) {
           @if (actualTranslationControl) {
             <span class="p-float-label translation">
-              @if (languagesToFill$$().length > 0) {
+              @if (languagesToFill().length > 0) {
                 <textarea
                   rows="3"
                   cols="30"
@@ -69,7 +69,7 @@
                     'ng-invalid': actualTranslationControl.invalid,
                     'ng-dirty': actualTranslationControl.dirty
                   }"
-                  [placeholder]="getSuggestion(suggestions$$(), actualTranslationControl.controls['language'].value)"
+                  [placeholder]="getSuggestion(suggestions(), actualTranslationControl.controls['language'].value)"
                   (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
                   (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
                   [formControl]="actualTranslationControl.controls['value']"
@@ -130,7 +130,7 @@
                           width: '100%'
                         }"
                         [placeholder]="
-                          getSuggestion(suggestions$$(), actualTranslationControl.controls['language'].value)
+                          getSuggestion(suggestions(), actualTranslationControl.controls['language'].value)
                         "
                         (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
                         (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
@@ -151,7 +151,7 @@
                           width: '100%'
                         }"
                         [placeholder]="
-                          getSuggestion(suggestions$$(), actualTranslationControl.controls['language'].value)
+                          getSuggestion(suggestions(), actualTranslationControl.controls['language'].value)
                         "
                         (focus)="setSuggestion(actualTranslationControl.controls['language'].value)"
                         (keydown)="onKeyPress($event, actualTranslationControl.controls['language'].value)"
@@ -179,7 +179,7 @@
             </div>
           </div>
         }
-        @if (languagesToAdd$$() && languagesToAdd$$().length > 0) {
+        @if (languagesToAdd() && languagesToAdd().length > 0) {
           <div class="w-full h-3em"></div>
           <p-divider></p-divider>
           <div class="w-full h-3em"></div>
@@ -189,7 +189,7 @@
               <p-dropdown
                 [style]="{ width: '100%' }"
                 appendTo="body"
-                [options]="languagesToAdd$$()"
+                [options]="languagesToAdd()"
                 [formControl]="languageToAddFormControl"
                 [autoDisplayFirst]="false"
               >

@@ -85,7 +85,7 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
       },
     })),
   );
-  chartOptions$$ = toSignal(this.chartOptions$);
+  chartOptions = toSignal(this.chartOptions$);
 
   chartData$: Observable<ChartData<'bar', any[]>> = combineLatest([
     this.store.select(positionReducer.getAll),
@@ -116,7 +116,7 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
       return res;
     }),
   );
-  chartData$$ = toSignal(this.chartData$);
+  chartData = toSignal(this.chartData$);
 
   ngOnInit() {
     this.store.dispatch(positionActions.loadAll({}));

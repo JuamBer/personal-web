@@ -57,22 +57,22 @@ export class LanguageListComponent implements OnInit, OnDestroy, EntityList<Lang
   unsubscribe$ = new Subject<void>();
 
   entities$: Observable<Language[]> = this.store.select(languageReducer.getAll);
-  entities$$ = toSignal(this.entities$, {
+  entities = toSignal(this.entities$, {
     initialValue: [],
   });
 
   loading$: Observable<boolean> = this.store.select(languageReducer.getLoading);
-  loading$$ = toSignal(this.loading$, {
+  loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
   count$: Observable<number> = this.store.select(languageReducer.getCount);
-  count$$ = toSignal(this.count$, {
+  count = toSignal(this.count$, {
     initialValue: 0,
   });
 
   tableConfig$ = new BehaviorSubject<GenericTableConfig<Language> | undefined>(undefined);
-  tableConfig$$ = toSignal(this.tableConfig$);
+  tableConfig = toSignal(this.tableConfig$);
 
   action$ = this.store.select(languageReducer.getAction);
 

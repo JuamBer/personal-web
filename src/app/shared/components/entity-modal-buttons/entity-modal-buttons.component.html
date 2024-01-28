@@ -31,7 +31,7 @@
 
       <div class="xs:col-12 sm:col-12 md:col-12 lg:col-12 p-1 m-0">
         <button
-          [disabled]="loading || form.status === 'PENDING' || pendingChanges$$() === false"
+          [disabled]="loading || form.status === 'PENDING' || pendingChanges() === false"
           pButton
           type="submit"
           (click)="submitForm.emit(true)"

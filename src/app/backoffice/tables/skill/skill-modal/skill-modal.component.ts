@@ -71,17 +71,17 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$: Observable<boolean> = this.store.select(skillReducer.getLoading);
-  loading$$ = toSignal(this.loading$, {
+  loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
   modalMode$: Observable<ModalMode> = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
-  modalMode$$ = toSignal(this.modalMode$, {
+  modalMode = toSignal(this.modalMode$, {
     initialValue: ModalMode.VIEW,
   });
 
   entity$: Observable<Skill | undefined> = this.store.select(skillReducer.getOne).pipe(filter((entity) => !!entity));
-  entity$$ = toSignal(this.entity$);
+  entity = toSignal(this.entity$);
 
   action$: Observable<Action | undefined> = this.store.select(skillReducer.getAction).pipe(
     skip(1),
@@ -96,7 +96,7 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
   skillTypes$: Observable<SkillType[]> = this.store.select(skillTypeReducer.getAll);
 
   language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
-  language$$ = toSignal(this.language$);
+  language = toSignal(this.language$);
 
   ngOnInit() {
     this.handleLoadData();

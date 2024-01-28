@@ -1,8 +1,8 @@
-@switch (positionsActionStatus$$()) {
+@switch (positionsActionStatus()) {
   @case (ActionStatus.SUCCESS) {
     <div class="experience">
       <ul>
-        @for (positionGrouped of positionsGrouped$$(); track positionGrouped) {
+        @for (positionGrouped of positionsGrouped(); track positionGrouped) {
           <li
             #position
             [id]="positionGrouped.company.id"
@@ -35,7 +35,7 @@
                 @for (position of positionGrouped.positions; track position) {
                   <li class="item">
                     <div class="position">
-                      <span>{{ getTranslation(language$$()?.acronym, position?.nameTranslations) }}</span>
+                      <span>{{ getTranslation(language()?.acronym, position?.nameTranslations) }}</span>
                     </div>
                     <div class="date">
                       <span>{{

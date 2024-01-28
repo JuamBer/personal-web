@@ -50,10 +50,10 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
   private translateSrv = inject(TranslateService);
 
   language$ = this.store.select(publicLanguageReducer.getOne);
-  language$$ = toSignal(this.language$);
+  language = toSignal(this.language$);
 
   skillTypes$ = this.store.select(skillTypeReducer.getAll);
-  skillTypes$$ = toSignal(this.skillTypes$, {
+  skillTypes = toSignal(this.skillTypes$, {
     initialValue: [],
   });
 
@@ -62,7 +62,7 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
     // eslint-disable-next-line @ngrx/avoid-mapping-selectors
     map((action) => (action ? action.status : ActionStatus.SUCCESS)),
   );
-  skillTypesActionStatus$$ = toSignal(this.skillTypesActionStatus$, {
+  skillTypesActionStatus = toSignal(this.skillTypesActionStatus$, {
     initialValue: ActionStatus.SUCCESS,
   });
 

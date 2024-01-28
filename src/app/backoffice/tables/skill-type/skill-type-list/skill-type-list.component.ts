@@ -58,22 +58,22 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
   unsubscribe$ = new Subject<void>();
 
   entities$ = this.store.select(skillTypeReducer.getAll);
-  entities$$ = toSignal(this.entities$, {
+  entities = toSignal(this.entities$, {
     initialValue: [],
   });
 
   loading$ = this.store.select(skillTypeReducer.getLoading);
-  loading$$ = toSignal(this.loading$, {
+  loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
   count$ = this.store.select(skillTypeReducer.getCount);
-  count$$ = toSignal(this.count$, {
+  count = toSignal(this.count$, {
     initialValue: 0,
   });
 
   tableConfig$ = new BehaviorSubject<GenericTableConfig<SkillType> | undefined>(undefined);
-  tableConfig$$ = toSignal(this.tableConfig$);
+  tableConfig = toSignal(this.tableConfig$);
 
   action$ = this.store.select(skillTypeReducer.getAction);
 

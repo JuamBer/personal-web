@@ -85,7 +85,7 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
       },
     })),
   );
-  chartOptions$$ = toSignal(this.chartOptions$);
+  chartOptions = toSignal(this.chartOptions$);
 
   chartData$: Observable<ChartData<'bar', any[]>> = combineLatest([
     this.store.select(certificateReducer.getAll),
@@ -138,7 +138,7 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
       return res;
     }),
   );
-  chartData$$ = toSignal(this.chartData$);
+  chartData = toSignal(this.chartData$);
 
   ngOnInit() {
     this.store.dispatch(certificateActions.loadAll({}));

@@ -21,7 +21,7 @@ export class HeaderComponent {
   sidebarVisible = false;
 
   user$ = this.authService.getCurrentUser();
-  user$$ = toSignal(this.user$);
+  user = toSignal(this.user$);
 
   breadcrumbs$: Observable<MenuItem[]> = this.router.events.pipe(
     startWith(undefined),
@@ -37,7 +37,7 @@ export class HeaderComponent {
       }));
     }),
   );
-  breadcrumbs$$ = toSignal(this.breadcrumbs$, {
+  breadcrumbs = toSignal(this.breadcrumbs$, {
     initialValue: [],
   });
 

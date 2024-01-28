@@ -89,7 +89,7 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
       },
     })),
   );
-  chartOptions$$ = toSignal(this.chartOptions$);
+  chartOptions = toSignal(this.chartOptions$);
 
   chartData$: Observable<ChartData<'bar', any[]>> = combineLatest([
     this.store.select(positionReducer.getAll),
@@ -132,7 +132,7 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
       return res;
     }),
   );
-  chartData$$ = toSignal(this.chartData$);
+  chartData = toSignal(this.chartData$);
 
   ngOnInit() {
     this.store.dispatch(positionActions.loadAll({}));

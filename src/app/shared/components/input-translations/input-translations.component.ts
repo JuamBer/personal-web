@@ -60,7 +60,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
   translations$ = new BehaviorSubject<Translation[]>([]);
 
   suggestions$ = new BehaviorSubject<Translation[]>([]);
-  suggestions$$ = toSignal(this.suggestions$, {
+  suggestions = toSignal(this.suggestions$, {
     initialValue: [],
   });
 
@@ -89,21 +89,20 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
   languageToAddFormControl = new FormControl(null);
 
   languages$ = this.store.select(publicLanguageReducer.getAll);
-  language$$ = toSignal(this.languages$);
 
   activeLanguages$ = this.store
     .select(publicLanguageReducer.getAll)
     .pipe(map((languages) => languages.filter((language) => language.active)));
 
   languagesToFill$!: Observable<Language[]>;
-  languagesToFill$$ = signal([] as Language[]);
+  languagesToFill = signal([] as Language[]);
 
   disabledLanguages$: Observable<Language[]> = this.store
     .select(publicLanguageReducer.getAll)
     .pipe(map((languages) => languages.filter((language) => !language.active)));
 
   languagesToAdd$!: Observable<Language[]>;
-  languagesToAdd$$ = signal([] as Language[]);
+  languagesToAdd = signal([] as Language[]);
 
   ngOnInit(): void {
     this._showErrors.pipe(takeUntil(this.unsubscribe$)).subscribe((showErrors) => {
@@ -144,7 +143,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
       ),
     );
     this.languagesToFill$.subscribe((languages) => {
-      this.languagesToFill$$.set(languages);
+      this.languagesToFill.set(languages);
     });
 
     this.languagesToAdd$ = combineLatest([
@@ -160,7 +159,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
       }),
     );
     this.languagesToAdd$.subscribe((languages) => {
-      this.languagesToAdd$$.set(languages);
+      this.languagesToAdd.set(languages);
     });
 
     combineLatest([this.languagesToFill$, this.translations$])
