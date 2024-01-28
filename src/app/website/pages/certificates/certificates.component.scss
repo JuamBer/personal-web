@@ -220,7 +220,10 @@
 }
 .button:hover {
   background: var(--hoverBgColor);
-  color: var(--hoverTextColor);
+
+  fa-icon {
+    color: var(--hoverTextColor);
+  }
 }
 
 .swiper-navBtn {

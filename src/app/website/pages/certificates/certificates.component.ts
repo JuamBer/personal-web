@@ -13,6 +13,8 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn } from '@angular/router';
+import { faGithub, faGooglePlay, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
+import { faDownload, faGlobe, faLink } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, filter, map, pairwise, startWith, takeUntil, zip } from 'rxjs';
@@ -209,10 +211,6 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
     });
   }
 
-  open(url: string) {
-    window.open(url, '_blank');
-  }
-
   getCertificateGroupEnterAnimationState(certificateGroupId: string | undefined): 'inViewport' | 'notInViewport' {
     if (!certificateGroupId) return 'notInViewport';
     return this.certificateElementStates.get(certificateGroupId) || 'notInViewport';
@@ -220,5 +218,29 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
 
   get ActionStatus() {
     return ActionStatus;
+  }
+
+  get faGlobe() {
+    return faGlobe;
+  }
+
+  get faMicrosoft() {
+    return faMicrosoft;
+  }
+
+  get faGooglePlay() {
+    return faGooglePlay;
+  }
+
+  get faGithub() {
+    return faGithub;
+  }
+
+  get faLink() {
+    return faLink;
+  }
+
+  get faDownload() {
+    return faDownload;
   }
 }

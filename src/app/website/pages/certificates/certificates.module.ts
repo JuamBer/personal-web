@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 import { SkeletonModule } from 'primeng/skeleton';
 import { GenericErrorModule } from 'src/app/shared/components/generic-error/generic-error.module';
@@ -20,6 +21,7 @@ import { CertificatesComponent } from './certificates.component';
     DirectivesModule,
     TranslateModule,
     GenericErrorModule,
+    FontAwesomeModule,
   ],
 })
 export class CertificatesModule {}

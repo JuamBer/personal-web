@@ -44,7 +44,8 @@
     "SkillType",
     "InputTranslations",
     "Styles",
-    "Classes"
+    "Classes",
+    "SSR"
   ],
   "cSpell.words": [
     "cascadeselect",
