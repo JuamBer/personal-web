@@ -27,7 +27,7 @@ jobs:
 
       - name: Install and build
         working-directory: ./
-        run: npm install && npm run build:pro && cp dist/personal-web/index.html dist/personal-web/404.html
+        run: npm install && npm run build:pro && cp dist/personal-web/browser/index.html dist/personal-web/browser/404.html
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
