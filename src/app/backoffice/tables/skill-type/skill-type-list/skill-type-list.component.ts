@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ResolveFn, Router } from '@angular/router';
 
 import { TitleCasePipe } from '@angular/common';
@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
+import { Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -72,8 +72,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
     initialValue: 0,
   });
 
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<SkillType> | undefined>(undefined);
-  tableConfig = toSignal(this.tableConfig$);
+  tableConfig = signal<GenericTableConfig<SkillType> | undefined>(undefined);
 
   action$ = this.store.select(skillTypeReducer.getAction);
 
@@ -164,7 +163,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
     optionButtons.push({ action: 'edit', icon: 'pi pi-pencil' });
     optionButtons.push({ action: 'delete', icon: 'pi pi-trash' });
 
-    this.tableConfig$.next({
+    this.tableConfig.set({
       ...defaultGenericTableConfig,
       title: this.titleCasePipe.transform(
         this.translateSrv.instant(`tables.${this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`),

@@ -1,12 +1,12 @@
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Observable, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -71,8 +71,7 @@ export class LanguageListComponent implements OnInit, OnDestroy, EntityList<Lang
     initialValue: 0,
   });
 
-  tableConfig$ = new BehaviorSubject<GenericTableConfig<Language> | undefined>(undefined);
-  tableConfig = toSignal(this.tableConfig$);
+  tableConfig = signal<GenericTableConfig<Language> | undefined>(undefined);
 
   action$ = this.store.select(languageReducer.getAction);
 
@@ -163,7 +162,7 @@ export class LanguageListComponent implements OnInit, OnDestroy, EntityList<Lang
     optionButtons.push({ action: 'edit', icon: 'pi pi-pencil' });
     optionButtons.push({ action: 'delete', icon: 'pi pi-trash' });
 
-    this.tableConfig$.next({
+    this.tableConfig.set({
       ...defaultGenericTableConfig,
       title: this.titleCasePipe.transform(
         this.translateSrv.instant(`tables.${this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.plural`),

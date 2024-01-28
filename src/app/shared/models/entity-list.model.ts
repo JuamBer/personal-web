@@ -1,6 +1,6 @@
 import { Signal } from '@angular/core';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { GenericTableConfig, TableEvent } from 'src/app/shared/components/generic-table/models/generic-table.models';
 import { CommonNames, Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { Action } from '../state/common/common-state';
@@ -16,7 +16,6 @@ export interface EntityList<T extends Resource> {
   count$: Observable<number>;
   count: Signal<number>;
 
-  tableConfig$: BehaviorSubject<GenericTableConfig<T> | undefined>;
   tableConfig: Signal<GenericTableConfig<T> | undefined>;
 
   action$: Observable<Action | undefined>;
