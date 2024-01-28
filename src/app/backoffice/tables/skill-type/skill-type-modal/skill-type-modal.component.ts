@@ -143,11 +143,7 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
           );
         }
 
-        this.form.patchValue({
-          id: entity.id,
-          nameTranslations: entity.nameTranslations,
-          descriptionTranslations: entity.descriptionTranslations,
-        });
+        this.form.patchValue(entity);
 
         if (modalMode === ModalMode.VIEW) {
           this.form.disable();

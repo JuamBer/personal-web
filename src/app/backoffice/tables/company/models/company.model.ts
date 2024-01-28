@@ -4,7 +4,7 @@ import { Translation, TranslationFormGroup } from 'src/app/shared/models/transla
 import { Position } from '../../position/models/position.model';
 import { CompanyType } from './company-type.model';
 
-export interface Company extends AuditFields {
+export class Company extends AuditFields {
   location: string;
   name: string;
   descriptionTranslations: Translation[];
@@ -12,6 +12,16 @@ export interface Company extends AuditFields {
   url: string;
 
   positions?: Position[];
+
+  constructor(company: Company) {
+    super(company.id, company.createdAt, company.updatedAt);
+    this.location = company.location;
+    this.name = company.name;
+    this.descriptionTranslations = company.descriptionTranslations;
+    this.type = company.type;
+    this.url = company.url;
+    this.positions = company.positions;
+  }
 }
 
 export type CompanyFormGroup = FormGroup<{

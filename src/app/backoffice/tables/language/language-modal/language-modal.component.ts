@@ -126,13 +126,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
         this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
       }
 
-      this.form.patchValue({
-        id: entity.id,
-        name: entity.name,
-        nativeName: entity.nativeName,
-        acronym: entity.acronym,
-        active: entity.active,
-      });
+      this.form.patchValue(entity);
 
       if (modalMode === ModalMode.VIEW) {
         this.form.disable();

@@ -10,6 +10,7 @@ import { certificateNames } from '../state/certificate.names';
 export class CertificateService extends CommonService<Certificate> {
   constructor() {
     super(
+      Certificate,
       supabaseClient,
       certificateNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       '*, "certificate_type": "certificate_types" ( * ), "certificate_group": "certificate_groups" ( * ), "company": "companies" ( * )',

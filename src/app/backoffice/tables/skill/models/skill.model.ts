@@ -2,10 +2,17 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AuditFields } from 'src/app/shared/models/audit-fields.model';
 import { SkillType } from '../../skill-type/models/skill-type.model';
 
-export interface Skill extends AuditFields {
+export class Skill extends AuditFields {
   name: string;
   percentage: number;
   skillType: SkillType;
+
+  constructor(skill: Skill) {
+    super(skill.id, skill.createdAt, skill.updatedAt);
+    this.name = skill.name;
+    this.percentage = skill.percentage;
+    this.skillType = skill.skillType;
+  }
 }
 
 export type SkillFormGroup = FormGroup<{

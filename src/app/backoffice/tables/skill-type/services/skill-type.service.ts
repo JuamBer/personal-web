@@ -11,6 +11,7 @@ import { skillTypeNames } from '../state/skill-type.names';
 export class SkillTypeService extends CommonService<SkillType> {
   constructor() {
     super(
+      SkillType,
       supabaseClient,
       skillTypeNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       'id, name_translations, description_translations, skills ( * )',

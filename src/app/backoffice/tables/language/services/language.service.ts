@@ -10,6 +10,6 @@ import { languageNames } from '../state/language.names';
 })
 export class LanguageService extends CommonService<Language> {
   constructor() {
-    super(supabaseClient, languageNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL), '*', '*', 'native_name');
+    super(Language, supabaseClient, languageNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL), '*', '*', 'native_name');
   }
 }

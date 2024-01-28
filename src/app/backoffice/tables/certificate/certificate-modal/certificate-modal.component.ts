@@ -165,22 +165,7 @@ export class CertificateModalComponent
           this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
         }
 
-        this.form.patchValue({
-          id: entity.id,
-          nameTranslations: entity.nameTranslations,
-          descriptionTranslations: entity.descriptionTranslations,
-          url: entity.url,
-          image: entity.image,
-          pdf: entity.pdf,
-          date: new Date(entity.date),
-          github: entity.github,
-          web: entity.web,
-          microsoftStore: entity.microsoftStore,
-          playStore: entity.playStore,
-          company: entity.company,
-          certificateType: entity.certificateType,
-          certificateGroup: entity.certificateGroup,
-        });
+        this.form.patchValue(entity);
 
         if (modalMode === ModalMode.CREATE) {
           this.form.disable();

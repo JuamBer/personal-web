@@ -5,7 +5,7 @@ import { CertificateGroup } from '../../certificate-group/models/certificate-gro
 import { CertificateType } from '../../certificate-type/models/certificate-type.model';
 import { Company } from '../../company/models/company.model';
 
-export interface Certificate extends AuditFields {
+export class Certificate extends AuditFields {
   nameTranslations: Translation[];
   descriptionTranslations: Translation[];
   url: string;
@@ -19,6 +19,23 @@ export interface Certificate extends AuditFields {
   company: Company;
   certificateGroup: CertificateGroup;
   certificateType: CertificateType;
+
+  constructor(certificate: Certificate) {
+    super(certificate.id, certificate.createdAt, certificate.updatedAt);
+    this.nameTranslations = certificate.nameTranslations;
+    this.descriptionTranslations = certificate.descriptionTranslations;
+    this.url = certificate.url;
+    this.image = certificate.image;
+    this.github = certificate.github;
+    this.pdf = certificate.pdf;
+    this.date = new Date(certificate.date);
+    this.web = certificate.web;
+    this.playStore = certificate.playStore;
+    this.microsoftStore = certificate.microsoftStore;
+    this.company = certificate.company;
+    this.certificateGroup = certificate.certificateGroup;
+    this.certificateType = certificate.certificateType;
+  }
 }
 export type CertificateFormGroup = FormGroup<{
   id?: FormControl<string>;

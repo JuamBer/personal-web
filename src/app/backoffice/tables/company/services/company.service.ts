@@ -11,6 +11,7 @@ import { companyNames } from '../state/company.names';
 export class CompanyService extends CommonService<Company> {
   constructor() {
     super(
+      Company,
       supabaseClient,
       companyNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       '*',

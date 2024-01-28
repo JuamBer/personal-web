@@ -11,6 +11,7 @@ import { certificateGroupNames } from '../state/certificate-group.names';
 export class CertificateGroupService extends CommonService<CertificateGroup> {
   constructor() {
     super(
+      CertificateGroup,
       supabaseClient,
       certificateGroupNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       'id, name_translations, description_translations, "certificates": "certificates" ( * )',

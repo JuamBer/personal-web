@@ -137,12 +137,7 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
           this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
         }
 
-        this.form.patchValue({
-          id: entity.id,
-          name: entity.name,
-          skillType: entity.skillType,
-          percentage: entity.percentage,
-        });
+        this.form.patchValue(entity);
 
         if (modalMode === ModalMode.VIEW) {
           this.form.disable();

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
 import { TableLazyLoadEvent } from 'primeng/table';
@@ -7,6 +8,7 @@ import { camelCaseToSnakeCase, flatObjectsById, snakeCaseToCamelCase, toSnakeCas
 
 export class CommonService<T extends Resource> {
   constructor(
+    public factory: new (data: any) => T,
     public supabase: SupabaseClient,
     public table: string,
     public getAllSelection = '*',
@@ -23,19 +25,20 @@ export class CommonService<T extends Resource> {
 
     const { data, error } = await request;
     CommonService.handlePostgrestError(error);
-    return snakeCaseToCamelCase(data);
+
+    return snakeCaseToCamelCase(data).map((item: T) => new this.factory(item));
   }
 
   async getTitle(id: string): Promise<T> {
     const { data, error } = await this.supabase.from(this.table).select(this.titleSelection).match({ id }).single();
     CommonService.handlePostgrestError(error);
-    return snakeCaseToCamelCase(data);
+    return new this.factory(snakeCaseToCamelCase(data));
   }
 
   async getOne(id: string): Promise<T> {
     const { data, error } = await this.supabase.from(this.table).select(this.getOneSelection).match({ id }).single();
     CommonService.handlePostgrestError(error);
-    return snakeCaseToCamelCase(data);
+    return new this.factory(snakeCaseToCamelCase(data));
   }
 
   async create(payload: T): Promise<T> {
@@ -44,7 +47,7 @@ export class CommonService<T extends Resource> {
       .insert([flatObjectsById(camelCaseToSnakeCase(payload))])
       .select();
     CommonService.handlePostgrestError(error);
-    return snakeCaseToCamelCase(data && data.length > 0 ? data[0] : null);
+    return new this.factory(snakeCaseToCamelCase(data && data.length > 0 ? data[0] : null));
   }
 
   async update(payload: T): Promise<T> {
@@ -54,7 +57,7 @@ export class CommonService<T extends Resource> {
       .match({ id: payload.id })
       .select();
     CommonService.handlePostgrestError(error);
-    return snakeCaseToCamelCase(data && data.length > 0 ? data[0] : null);
+    return new this.factory(snakeCaseToCamelCase(data && data.length > 0 ? data[0] : null));
   }
 
   async upsert(payload: T): Promise<T> {
@@ -63,7 +66,7 @@ export class CommonService<T extends Resource> {
       .upsert(flatObjectsById(camelCaseToSnakeCase(payload)))
       .select();
     CommonService.handlePostgrestError(error);
-    return snakeCaseToCamelCase(data && data.length > 0 ? data[0] : null);
+    return new this.factory(snakeCaseToCamelCase(data && data.length > 0 ? data[0] : null));
   }
 
   async delete(id: string): Promise<null> {

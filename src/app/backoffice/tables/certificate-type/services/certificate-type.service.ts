@@ -11,6 +11,7 @@ import { certificateTypeNames } from '../state/certificate-type.names';
 export class CertificateTypeService extends CommonService<CertificateType> {
   constructor() {
     super(
+      CertificateType,
       supabaseClient,
       certificateTypeNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       'id, name_translations, description_translations',

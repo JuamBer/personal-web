@@ -12,6 +12,7 @@ import { positionNames } from '../state/position.names';
 export class PositionService extends CommonService<Position> {
   constructor() {
     super(
+      Position,
       supabaseClient,
       positionNames.name(Naming.SNAKE_CASE, NumberMode.PLURAL),
       '*, company: companies ( * )',

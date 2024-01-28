@@ -145,15 +145,7 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
           this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
         }
 
-        this.form.patchValue({
-          id: entity.id,
-          nameTranslations: entity.nameTranslations,
-          descriptionTranslations: entity.descriptionTranslations,
-          importance: entity.importance,
-          dateFrom: new Date(entity.dateFrom),
-          dateTo: new Date(entity.dateTo),
-          company: entity.company,
-        });
+        this.form.patchValue(entity);
 
         if (modalMode === ModalMode.VIEW) {
           this.form.disable();

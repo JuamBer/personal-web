@@ -158,14 +158,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
           this.form.addControl('id', this.fb.nonNullable.control<string>(entity.id, [Validators.required]));
         }
 
-        this.form.patchValue({
-          id: entity.id,
-          location: entity.location,
-          name: entity.name,
-          descriptionTranslations: entity.descriptionTranslations,
-          type: entity.type,
-          url: entity.url,
-        });
+        this.form.patchValue(entity);
 
         if (modalMode === ModalMode.VIEW) {
           this.form.disable();
