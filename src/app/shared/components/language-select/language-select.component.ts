@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -36,7 +37,9 @@ export class LanguageSelectComponent implements OnInit {
   mode: 'simple' | 'complete' = 'simple';
 
   languages: Language[] = [];
-  language!: Language;
+  languagesSignal = signal<Language[]>([]);
+  language: Language | undefined;
+  languageSignal = signal<Language | undefined>(undefined);
 
   ngOnInit(): void {
     this.store
@@ -46,23 +49,29 @@ export class LanguageSelectComponent implements OnInit {
         this.languages = languages
           .filter((language) => (language.active ? true : false))
           .sort((a, b) => a.nativeName.localeCompare(b.nativeName));
+        this.languagesSignal.set(this.languages);
       });
 
     this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
       if (!language) return;
 
       this.language = language;
+      this.languageSignal.set(this.language);
       this.translateSrv.use(language.acronym);
       this.translateSrv
         .get('calendar')
         .pipe(take(1))
         .subscribe((res) => this.config.setTranslation(res));
-      this.ref.detectChanges();
     });
   }
 
   onLanguageChange(event: DropdownChangeEvent | SelectButtonChangeEvent) {
     this.language = event.value;
+    if (!this.language) {
+      return;
+    }
+    this.languageSignal.set(this.language);
+
     this.store.dispatch(publicLanguageActions.loadOneSuccess({ payload: this.language }));
   }
 }

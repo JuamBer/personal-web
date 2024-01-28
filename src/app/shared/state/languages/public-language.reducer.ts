@@ -1,90 +1,13 @@
 import { ReducerTypes, on } from '@ngrx/store';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { CommonReducer } from 'src/app/shared/state/common/common.reducer';
-import { v4 as uuidv4 } from 'uuid';
 import { ActionStatus, ActionType } from '../common/common-state';
 import { Naming, NumberMode } from '../common/common.names';
 import { publicLanguageActions } from './public-language.actions';
 import { publicLanguageNames } from './public-language.names';
 import { PublicLanguageState } from './public-language.state';
 
-const englishId = uuidv4();
 export const initialState = new PublicLanguageState();
-initialState.selectedId = englishId;
-initialState.entities = [
-  {
-    id: uuidv4(),
-    acronym: 'de',
-    nativeName: '',
-    name: '',
-    active: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: englishId,
-    acronym: 'en',
-    nativeName: '',
-    name: '',
-    active: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: uuidv4(),
-    acronym: 'es',
-    nativeName: '',
-    name: '',
-    active: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: uuidv4(),
-    acronym: 'fr',
-    nativeName: '',
-    name: '',
-    active: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: uuidv4(),
-    acronym: 'it',
-    nativeName: '',
-    name: '',
-    active: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: uuidv4(),
-    acronym: 'nl',
-    nativeName: '',
-    name: '',
-    active: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: uuidv4(),
-    acronym: 'no',
-    nativeName: '',
-    name: '',
-    active: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: uuidv4(),
-    acronym: 'pt',
-    nativeName: '',
-    name: '',
-    active: true,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const otherReducers: ReducerTypes<any, any>[] = [

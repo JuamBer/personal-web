@@ -20,22 +20,21 @@
       }
       @case ('dropdown') {
         <p-dropdown
-          [style]="{ height: '100%', minWidth: '10em' }"
-          [options]="languages"
+          [options]="languagesSignal()"
           [ngModel]="language"
           [autoDisplayFirst]="false"
           (onChange)="onLanguageChange($event)"
           ariaLabel="Dropdown to select the language"
         >
-          <ng-template pTemplate="selectedItem">
-            <div class="language-item language-item-value" *ngIf="language">
+          <ng-template let-languageSelected pTemplate="selectedItem">
+            <div class="language-item language-item-value" *ngIf="languageSelected">
               <div class="flag">
-                <span class="" [class]="'flag flag-' + language.acronym"></span>
+                <span class="" [class]="'flag flag-' + languageSelected.acronym"></span>
               </div>
               <div class="name">
-                <ng-container *ngIf="mode === 'complete'"> {{ language.acronym | uppercase }} | </ng-container>
-                {{ language.nativeName }}
-                <ng-container *ngIf="mode === 'complete'"> | {{ language.name }} </ng-container>
+                <ng-container *ngIf="mode === 'complete'"> {{ languageSelected.acronym | uppercase }} | </ng-container>
+                {{ languageSelected.nativeName }}
+                <ng-container *ngIf="mode === 'complete'"> | {{ languageSelected.name }} </ng-container>
               </div>
             </div>
           </ng-template>

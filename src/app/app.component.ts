@@ -42,6 +42,11 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.store.dispatch(publicLanguageActions.loadOneByAcronym({ acronym: language.acronym }));
         }
       });
+    } else {
+      this.store.dispatch(publicLanguageActions.loadAll({}));
+      this.languages$.pipe(take(2)).subscribe(() => {
+        this.store.dispatch(publicLanguageActions.loadOneByAcronym({ acronym: 'es' }));
+      });
     }
   }
 

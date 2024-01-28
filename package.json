@@ -12,7 +12,11 @@
     "watch": "ng build --watch --configuration dev",
     "test": "ng test",
     "lint": "eslint .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "dev:ssr": "ng run personal-web:serve-ssr  --port 4201",
+    "serve:ssr": "node dist/personal-web/server/main.js --port 4201",
+    "build:ssr": "ng build && ng run personal-web:server",
+    "prerender": "ng run personal-web:prerender"
   },
   "private": true,
   "dependencies": {

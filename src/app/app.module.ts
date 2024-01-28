@@ -1,7 +1,7 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
@@ -29,7 +29,13 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 @NgModule({
   declarations: [AppComponent, LoginComponent, FormResetPasswordComponent, ResetPasswordComponent],
-  providers: [MessageService, ConfirmationService, PrimeNGConfig],
+  providers: [
+    MessageService,
+    ConfirmationService,
+    PrimeNGConfig,
+    provideHttpClient(withFetch()),
+    provideClientHydration(),
+  ],
   bootstrap: [AppComponent],
   imports: [
     ToastModule,

@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/personal-web",
+            "outputPath": "dist/personal-web/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -101,6 +101,65 @@
           "options": {
             "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/personal-web/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "pro": {
+              "outputHashing": "media"
+            },
+            "dev": {
+              "buildOptimizer": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "pro"
+        },
+        "serve-ssr": {
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
+          "configurations": {
+            "dev": {
+              "browserTarget": "personal-web:build:dev",
+              "serverTarget": "personal-web:server:dev"
+            },
+            "pro": {
+              "browserTarget": "personal-web:build:pro",
+              "serverTarget": "personal-web:server:pro"
+            }
+          },
+          "defaultConfiguration": "dev"
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "routes": ["/"]
+          },
+          "configurations": {
+            "pro": {
+              "browserTarget": "personal-web:build:pro",
+              "serverTarget": "personal-web:server:pro"
+            },
+            "dev": {
+              "browserTarget": "personal-web:build:dev",
+              "serverTarget": "personal-web:server:dev"
+            }
+          },
+          "defaultConfiguration": "pro"
         }
       }
     }
