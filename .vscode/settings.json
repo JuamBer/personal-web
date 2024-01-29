@@ -45,7 +45,8 @@
     "InputTranslations",
     "Styles",
     "Classes",
-    "SSR"
+    "SSR",
+    "GitHubActions"
   ],
   "cSpell.words": [
     "cascadeselect",
