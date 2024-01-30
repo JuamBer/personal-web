@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { By } from '@angular/platform-browser';
+import { TranslatePipeStub } from 'src/app/shared/tests/stubs';
 import { CvComponent } from './cv.component';
 
 describe('CvComponent', () => {
@@ -8,9 +10,8 @@ describe('CvComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CvComponent ]
-    })
-    .compileComponents();
+      declarations: [CvComponent, TranslatePipeStub],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -21,5 +22,18 @@ describe('CvComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call downloadCV method', () => {
+    spyOn(component, 'downloadCV');
+    component.downloadCV();
+    expect(component.downloadCV).toHaveBeenCalled();
+  });
+
+  it('should call downloadCV method when button is clicked', () => {
+    spyOn(component, 'downloadCV');
+    const button = fixture.debugElement.query(By.css('.button'));
+    button.triggerEventHandler('click', null);
+    expect(component.downloadCV).toHaveBeenCalled();
   });
 });

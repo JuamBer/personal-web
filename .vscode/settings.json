@@ -46,7 +46,8 @@
     "Styles",
     "Classes",
     "SSR",
-    "GitHubActions"
+    "GitHubActions",
+    "VSCode"
   ],
   "cSpell.words": [
     "cascadeselect",
