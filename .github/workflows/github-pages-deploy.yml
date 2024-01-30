@@ -25,9 +25,15 @@ jobs:
         env:
           ENVIRONMENT: '${{ secrets.ENVIRONMENT }}'
 
-      - name: Install and build
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm run test
+
+      - name: Build App
         working-directory: ./
-        run: npm install && npm run build:pro && cp dist/personal-web/browser/index.html dist/personal-web/browser/404.html
+        run: npm run build:pro && cp dist/personal-web/browser/index.html dist/personal-web/browser/404.html
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
