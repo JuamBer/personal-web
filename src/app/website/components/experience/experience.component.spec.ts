@@ -60,10 +60,6 @@ describe('ExperienceComponent', () => {
     fixture.detectChanges();
   });
 
-  it('example error test', () => {
-    expect(false).toBe(true);
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
