@@ -21,7 +21,6 @@ describe('ErrorsPipe', () => {
 
   it('should return observable with empty string if control is null or undefined', (done) => {
     pipe.transform(null).subscribe((result) => {
-      console.log('result: ' + result);
       expect(result).toBe('');
       done();
     });
