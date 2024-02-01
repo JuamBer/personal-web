@@ -48,7 +48,8 @@
     "SSR",
     "GitHubActions",
     "VSCode",
-    "Layout"
+    "Layout",
+    "Position"
   ],
   "cSpell.words": [
     "cascadeselect",
