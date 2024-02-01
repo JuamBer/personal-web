@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'sortBy',
 })
-export class SorByPipe<T> implements PipeTransform {
+export class SortByPipe<T> implements PipeTransform {
   transform(items: any[], key: string, order: string = 'desc'): T[] {
     if (!items || !key) {
       return items;

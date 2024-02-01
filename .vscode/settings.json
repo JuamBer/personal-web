@@ -53,7 +53,8 @@
     "Language",
     "CertificateType",
     "CertificateGroup",
-    "Certificate"
+    "Certificate",
+    "Pipes"
   ],
   "cSpell.words": [
     "cascadeselect",

@@ -14,7 +14,7 @@ export class ErrorsPipe implements PipeTransform {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transform(control: AbstractControl | any): Observable<string> {
     if (!control) {
-      return new Observable<string>();
+      return new Observable<string>().pipe(startWith(''));
     }
 
     return control.valueChanges.pipe(
