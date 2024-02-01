@@ -3,25 +3,17 @@ const fs = require('fs');
 const path = require('path');
 
 const dir = 'src/environments';
-
 const file = 'environment.ts';
-
 const prodFile = 'environment.prod.ts';
 
 const content = `${process.env.ENVIRONMENT}`;
 
 fs.access(dir, fs.constants.F_OK, (err) => {
   if (err) {
-    // Directory doesn't exist console.log("src doesn't exist, creating now", process.cwd());
-
-    // Create /src
-
     fs.mkdir(dir, { recursive: true }, (err) => {
       if (err) throw err;
     });
   }
-
-  // Now write to file
 
   try {
     console.log('Writing to file', content);
