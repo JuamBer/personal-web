@@ -14,28 +14,30 @@ jobs:
         node-version: [18.0]
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v1
 
-      - name: Generate Environment File From GitHub Secrets
+      - name: Setup node.js
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: node github-generate-environment.js
+
+      - name: Generate environment file from github secrets
+        run: node github-generate-environment.js
         env:
           ENVIRONMENT: '${{ secrets.ENVIRONMENT }}'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Run Tests
+      - name: Run tests
         run: npm run test
 
-      - name: Build App
+      - name: Build app
         working-directory: ./
         run: npm run build:pro && cp dist/personal-web/browser/index.html dist/personal-web/browser/404.html
 
-      - name: Deploy
+      - name: Deploy to gh-pages branch
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: gh-pages # The branch the action should deploy to.
