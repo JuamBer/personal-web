@@ -51,7 +51,8 @@
     "Layout",
     "Position",
     "Language",
-    "CertificateType"
+    "CertificateType",
+    "CertificateGroup"
   ],
   "cSpell.words": [
     "cascadeselect",
