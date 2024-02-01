@@ -2,12 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { generateOneMockSkill } from 'src/app/backoffice/tables/skill/models/skill.mock';
+import { mockSkill } from 'src/app/backoffice/tables/skill/models/skill.mock';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
 import { TestUtils } from 'src/app/shared/utils/test.utils';
 import { ToolsComponent } from './tools.component';
 
-const entities = TestUtils.generateManyMocks(generateOneMockSkill, 2);
+const entities = TestUtils.generateManyMocks(mockSkill, 2);
 
 @Component({
   template: `<app-tools [entities]="entities" [loading]="loading"></app-tools>`,

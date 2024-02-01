@@ -1,14 +1,14 @@
 import { faker } from '@faker-js/faker';
-import { generateMockTranslations } from 'src/app/shared/models/translation.mock';
-import { generateOneMockCertificateGroup } from '../../certificate-group/models/certificate-group.mock';
-import { generateOneMockCertificateType } from '../../certificate-type/models/certificate-type.mock';
-import { generateOneMockCompany } from '../../company/models/company.mock';
+import { mockTranslations } from 'src/app/shared/models/translation.mock';
+import { mockCertificateGroup } from '../../certificate-group/models/certificate-group.mock';
+import { mockCertificateType } from '../../certificate-type/models/certificate-type.mock';
+import { mockCompany } from '../../company/models/company.mock';
 import { Certificate } from './certificate.model';
 
-export const generateOneMockCertificate = (): Certificate => ({
+export const mockCertificate = (): Certificate => ({
   id: faker.string.uuid(),
-  nameTranslations: generateMockTranslations(),
-  descriptionTranslations: generateMockTranslations(),
+  nameTranslations: mockTranslations(),
+  descriptionTranslations: mockTranslations(),
   url: faker.internet.url(),
   image: faker.image.url(),
   github: faker.internet.url(),
@@ -17,9 +17,9 @@ export const generateOneMockCertificate = (): Certificate => ({
   web: faker.internet.url(),
   playStore: faker.internet.url(),
   microsoftStore: faker.internet.url(),
-  company: generateOneMockCompany(),
-  certificateGroup: generateOneMockCertificateGroup(),
-  certificateType: generateOneMockCertificateType(),
+  company: mockCompany(),
+  certificateGroup: mockCertificateGroup(),
+  certificateType: mockCertificateType(),
   createdAt: faker.date.past(),
   updatedAt: new Date(),
 });

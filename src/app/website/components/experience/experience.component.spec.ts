@@ -10,7 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { SkeletonModule } from 'primeng/skeleton';
 import { CertificateGroupEffect } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.effects';
-import { generateOneMockCompany } from 'src/app/backoffice/tables/company/models/company.mock';
+import { mockCompany } from 'src/app/backoffice/tables/company/models/company.mock';
 import { LanguageStateModule } from 'src/app/backoffice/tables/language/state/language-state.module';
 import { PositionStateModule } from 'src/app/backoffice/tables/position/state/position-state.module';
 import { SkillTypeStateModule } from 'src/app/backoffice/tables/skill-type/state/skill-type-state.module';
@@ -65,7 +65,7 @@ describe('ExperienceComponent', () => {
   });
 
   it('should display company information when ActionStatus is SUCCESS', () => {
-    const company = generateOneMockCompany();
+    const company = mockCompany();
     const time = '2020 - Present';
     const positionsGrouped: PositionGroupedByCompany[] = [
       {

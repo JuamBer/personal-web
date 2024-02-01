@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker';
-import { generateMockTranslations } from 'src/app/shared/models/translation.mock';
+import { mockTranslations } from 'src/app/shared/models/translation.mock';
 import { CertificateGroup } from './certificate-group.model';
 
-export const generateOneMockCertificateGroup = (): CertificateGroup => ({
+export const mockCertificateGroup = (): CertificateGroup => ({
   id: faker.string.uuid(),
-  nameTranslations: generateMockTranslations(),
-  descriptionTranslations: generateMockTranslations(),
+  nameTranslations: mockTranslations(),
+  descriptionTranslations: mockTranslations(),
   createdAt: faker.date.past(),
   updatedAt: new Date(),
 });
