@@ -50,7 +50,8 @@
     "VSCode",
     "Layout",
     "Position",
-    "Language"
+    "Language",
+    "CertificateType"
   ],
   "cSpell.words": [
     "cascadeselect",
