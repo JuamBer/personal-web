@@ -170,21 +170,6 @@ export class CertificateListComponent implements OnInit, OnDestroy, EntityList<C
   }
 
   loadTableConfig() {
-    const optionButtons = [];
-    const topButtons = [];
-
-    topButtons.push({
-      action: 'add',
-      icon: 'pi pi-plus',
-      label: this.translateSrv.instant('buttons.new', {
-        name: this.translateSrv.instant('tables.certificate.singular'),
-      }),
-    });
-
-    optionButtons.push({ action: 'view', icon: 'pi pi-search-plus' });
-    optionButtons.push({ action: 'edit', icon: 'pi pi-pencil' });
-    optionButtons.push({ action: 'delete', icon: 'pi pi-trash' });
-
     this.tableConfig.set({
       ...defaultGenericTableConfig,
       title: this.titleCasePipe.transform(
