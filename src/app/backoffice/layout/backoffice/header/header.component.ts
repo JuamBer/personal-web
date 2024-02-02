@@ -6,6 +6,7 @@ import { MenuItem } from 'primeng/api';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { NamingUtils } from 'src/app/shared/utils/naming.utils';
+import { RegexUtils } from 'src/app/shared/utils/regex.utils';
 
 @Component({
   selector: 'app-header',
@@ -28,11 +29,9 @@ export class HeaderComponent {
     debounceTime(200),
     map(() => {
       const splittedUrls = this.router.url.split('/');
-      const filteredSplittedUrls = splittedUrls.filter((i) => i !== '');
+      const filteredSplittedUrls = splittedUrls.filter((i) => i !== '' && !RegexUtils.isId(i));
       return filteredSplittedUrls.map((filteredSplittedUrl, index) => ({
-        label: this.translateSrv.instant(
-          `breadcrumbs.${NamingUtils.kebabCaseToCamelCase(filteredSplittedUrl.split(';')[0])}`,
-        ),
+        label: this.getBreadcrumbsLabel(filteredSplittedUrl),
         routerLink: filteredSplittedUrls.slice(0, index + 1).join('/'),
       }));
     }),
@@ -87,5 +86,19 @@ export class HeaderComponent {
   logOut() {
     this.authService.signOut();
     this.router.navigate(['/login']);
+  }
+
+  getBreadcrumbsLabel(filteredSplittedUrl: string) {
+    console.log(filteredSplittedUrl);
+    switch (filteredSplittedUrl) {
+      case 'VIEW':
+        return 'View';
+      case 'CREATE':
+        return 'Create';
+      case 'UPDATE':
+        return 'Update';
+      default:
+        return this.translateSrv.instant(`breadcrumbs.${NamingUtils.kebabCaseToCamelCase(filteredSplittedUrl)}`);
+    }
   }
 }
