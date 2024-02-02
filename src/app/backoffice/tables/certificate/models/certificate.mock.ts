@@ -4,7 +4,6 @@ import { mockTranslations } from 'src/app/shared/models/translation.mock';
 import { mockCertificateGroup } from '../../certificate-group/models/certificate-group.mock';
 import { mockCertificateType } from '../../certificate-type/models/certificate-type.mock';
 import { mockCompany } from '../../company/models/company.mock';
-import { Language } from '../../language/models/language.model';
 import { Certificate } from './certificate.model';
 
 export const mockCertificate = (): Certificate => ({
@@ -24,5 +23,5 @@ export const mockCertificate = (): Certificate => ({
   certificateType: mockCertificateType(),
   createdAt: faker.date.past(),
   updatedAt: new Date(),
-  getDisplayName: (language: Language) => '',
+  getDisplayName: (acronym: string) => '',
 });
