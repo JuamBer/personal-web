@@ -17,15 +17,16 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
     this.initialState,
 
     //LOAD ONE REDUCERS
-    on(this.actions.loadOne, (state, { actionId }): any => ({
+    on(this.actions.loadOne, (state, { actionId, feedback }): any => ({
       ...(state as any),
       action: {
         id: actionId,
         type: ActionType.LOAD_ONE,
         status: ActionStatus.PENDING,
+        feedback,
       },
     })),
-    on(this.actions.loadOneSuccess, (state, { actionId, payload }) => {
+    on(this.actions.loadOneSuccess, (state, { actionId, feedback, payload }) => {
       const entities = [...state.entities];
       const index = entities.findIndex((entity) => entity.id === payload.id);
       if (index >= 0) {
@@ -42,28 +43,32 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
           id: actionId,
           type: ActionType.LOAD_ONE,
           status: ActionStatus.SUCCESS,
+          feedback,
+          entity: payload,
         },
       };
     }),
-    on(this.actions.loadOneFail, (state, { actionId }): any => ({
+    on(this.actions.loadOneFail, (state, { actionId, feedback }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.LOAD_ONE,
         status: ActionStatus.ERROR,
+        feedback,
       },
     })),
 
     //LOAD ALL REDUCERS
-    on(this.actions.loadAll, (state, { actionId }): any => ({
+    on(this.actions.loadAll, (state, { actionId, feedback }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.LOAD_MANY,
         status: ActionStatus.PENDING,
+        feedback,
       },
     })),
-    on(this.actions.loadAllSuccess, (state, { actionId, payload }) => {
+    on(this.actions.loadAllSuccess, (state, { actionId, feedback, payload }) => {
       const selected = state.entities.find((entity) => entity.id === state.selectedId);
 
       return {
@@ -82,29 +87,32 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
           id: actionId,
           type: ActionType.LOAD_MANY,
           status: ActionStatus.SUCCESS,
+          feedback,
         },
       };
     }),
-    on(this.actions.loadAllFail, (state, { actionId }): any => ({
+    on(this.actions.loadAllFail, (state, { actionId, feedback }): any => ({
       ...state,
 
       action: {
         id: actionId,
         type: ActionType.LOAD_MANY,
         status: ActionStatus.ERROR,
+        feedback,
       },
     })),
 
     //LOAD MORE REDUCERS
-    on(this.actions.loadMore, (state, { actionId }): any => ({
+    on(this.actions.loadMore, (state, { actionId, feedback }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.LOAD_MANY,
         status: ActionStatus.PENDING,
+        feedback,
       },
     })),
-    on(this.actions.loadMoreSuccess, (state, { actionId, payload }): any => {
+    on(this.actions.loadMoreSuccess, (state, { actionId, feedback, payload }): any => {
       return {
         ...state,
         entities: [...state.entities, ...payload],
@@ -112,28 +120,32 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
           id: actionId,
           type: ActionType.LOAD_MANY,
           status: ActionStatus.SUCCESS,
+          feedback,
         },
       };
     }),
-    on(this.actions.loadMoreFail, (state, { actionId }): any => ({
+    on(this.actions.loadMoreFail, (state, { actionId, feedback }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.LOAD_MANY,
         status: ActionStatus.ERROR,
+        feedback,
       },
     })),
 
     //CREATE REDUCERS
-    on(this.actions.create, (state, { actionId }): any => ({
+    on(this.actions.create, (state, { actionId, feedback, payload }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.CREATE_ONE,
         status: ActionStatus.PENDING,
+        feedback,
+        entity: payload,
       },
     })),
-    on(this.actions.createSuccess, (state, { actionId, payload }): any => {
+    on(this.actions.createSuccess, (state, { actionId, feedback, payload }): any => {
       return {
         ...state,
         entities: [...state.entities, payload],
@@ -142,28 +154,33 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
           id: actionId,
           type: ActionType.CREATE_ONE,
           status: ActionStatus.SUCCESS,
+          feedback,
+          entity: payload,
         },
       };
     }),
-    on(this.actions.createFail, (state, { actionId }): any => ({
+    on(this.actions.createFail, (state, { actionId, feedback }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.CREATE_ONE,
         status: ActionStatus.ERROR,
+        feedback,
       },
     })),
 
     //UPDATE REDUCERS
-    on(this.actions.update, (state, { actionId }): any => ({
+    on(this.actions.update, (state, { actionId, feedback, payload }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.UPDATE_ONE,
         status: ActionStatus.PENDING,
+        feedback,
+        entity: payload,
       },
     })),
-    on(this.actions.updateSuccess, (state, { actionId, payload }): any => ({
+    on(this.actions.updateSuccess, (state, { actionId, feedback, payload }): any => ({
       ...state,
       entities: state.entities.map((entity) => {
         if (entity.id === payload.id) {
@@ -176,27 +193,32 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
         id: actionId,
         type: ActionType.UPDATE_ONE,
         status: ActionStatus.SUCCESS,
+        feedback,
+        entity: payload,
       },
     })),
-    on(this.actions.createFail, (state, { actionId }): any => ({
+    on(this.actions.createFail, (state, { actionId, feedback }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.UPDATE_ONE,
         status: ActionStatus.ERROR,
+        feedback,
       },
     })),
 
     //DELETE REDUCERS
-    on(this.actions.delete, (state, { actionId }): any => ({
+    on(this.actions.delete, (state, { actionId, feedback, id }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.DELETE_ONE,
         status: ActionStatus.PENDING,
+        feedback,
+        entity: state.entities.find((entity) => entity.id === id),
       },
     })),
-    on(this.actions.deleteSuccess, (state, { actionId, id }): any => ({
+    on(this.actions.deleteSuccess, (state, { actionId, feedback, id }): any => ({
       ...state,
       count: state.count - 1,
       entities: state.entities.filter((entity) => {
@@ -210,27 +232,32 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
         id: actionId,
         type: ActionType.DELETE_ONE,
         status: ActionStatus.SUCCESS,
+        feedback,
+        entity: state.entities.find((entity) => entity.id === id),
       },
     })),
-    on(this.actions.deleteFail, (state, { actionId }): any => ({
+    on(this.actions.deleteFail, (state, { actionId, feedback, id }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.DELETE_ONE,
         status: ActionStatus.ERROR,
+        feedback,
+        entity: state.entities.find((entity) => entity.id === id),
       },
     })),
 
     //COUNT REDUCERS
-    on(this.actions.count, (state, { actionId }): any => ({
+    on(this.actions.count, (state, { actionId, feedback }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.COUNT,
         status: ActionStatus.PENDING,
+        feedback,
       },
     })),
-    on(this.actions.countSuccess, (state, { actionId, payload }): any => {
+    on(this.actions.countSuccess, (state, { actionId, feedback, payload }): any => {
       return {
         ...state,
         count: payload,
@@ -238,15 +265,17 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
           id: actionId,
           type: ActionType.COUNT,
           status: ActionStatus.SUCCESS,
+          feedback,
         },
       };
     }),
-    on(this.actions.countFail, (state, { actionId }): any => ({
+    on(this.actions.countFail, (state, { actionId, feedback }): any => ({
       ...state,
       action: {
         id: actionId,
         type: ActionType.COUNT,
         status: ActionStatus.ERROR,
+        feedback,
       },
     })),
 

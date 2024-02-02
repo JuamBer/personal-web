@@ -15,6 +15,7 @@ import { DropdownChangeEvent } from 'primeng/dropdown';
 import { SelectButtonChangeEvent } from 'primeng/selectbutton';
 import { filter, take } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
+import { ActionStatus } from '../../state/common/common-state';
 import { addActionId } from '../../state/common/common.actions';
 import { publicLanguageActions } from '../../state/languages/public-language.actions';
 import { publicLanguageReducer } from '../../state/languages/public-language.reducer';
@@ -73,6 +74,10 @@ export class LanguageSelectComponent implements OnInit {
     }
     this.languageSignal.set(this.language);
 
-    this.store.dispatch(publicLanguageActions.loadOneSuccess(addActionId({ payload: this.language })));
+    this.store.dispatch(
+      publicLanguageActions.loadOneSuccess(
+        addActionId({ feedback: new Set([ActionStatus.ERROR]), payload: this.language }),
+      ),
+    );
   }
 }

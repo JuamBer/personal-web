@@ -14,8 +14,12 @@ export abstract class CommonEffect<T extends Resource> {
       delay(0),
       concatMap((props) =>
         from(this.service.getAll(props.payload)).pipe(
-          map((page) => this.actions.loadAllSuccess({ actionId: props.actionId, payload: page })),
-          catchError((err) => of(this.actions.loadAllFail({ actionId: props.actionId, error: err }))),
+          map((page) =>
+            this.actions.loadAllSuccess({ actionId: props.actionId, feedback: props.feedback, payload: page }),
+          ),
+          catchError((err) =>
+            of(this.actions.loadAllFail({ actionId: props.actionId, feedback: props.feedback, error: err })),
+          ),
         ),
       ),
     );
@@ -27,8 +31,12 @@ export abstract class CommonEffect<T extends Resource> {
       delay(0),
       concatMap((props) =>
         from(this.service.getAll(props.payload)).pipe(
-          map((page) => this.actions.loadMoreSuccess({ actionId: props.actionId, payload: page })),
-          catchError((err) => of(this.actions.loadMoreFail({ actionId: props.actionId, error: err }))),
+          map((page) =>
+            this.actions.loadMoreSuccess({ actionId: props.actionId, feedback: props.feedback, payload: page }),
+          ),
+          catchError((err) =>
+            of(this.actions.loadMoreFail({ actionId: props.actionId, feedback: props.feedback, error: err })),
+          ),
         ),
       ),
     );
@@ -40,8 +48,12 @@ export abstract class CommonEffect<T extends Resource> {
       delay(0),
       concatMap((props) =>
         from(this.service.getOne(props.id)).pipe(
-          map((item) => this.actions.loadOneSuccess({ actionId: props.actionId, payload: item })),
-          catchError((err) => of(this.actions.loadOneFail({ actionId: props.actionId, error: err }))),
+          map((item) =>
+            this.actions.loadOneSuccess({ actionId: props.actionId, feedback: props.feedback, payload: item }),
+          ),
+          catchError((err) =>
+            of(this.actions.loadOneFail({ actionId: props.actionId, feedback: props.feedback, error: err })),
+          ),
         ),
       ),
     );
@@ -53,8 +65,12 @@ export abstract class CommonEffect<T extends Resource> {
       delay(0),
       concatMap((props) =>
         from(this.service.create(props.payload)).pipe(
-          map((created) => this.actions.createSuccess({ actionId: props.actionId, payload: created })),
-          catchError((err) => of(this.actions.createFail({ actionId: props.actionId, error: err }))),
+          map((created) =>
+            this.actions.createSuccess({ actionId: props.actionId, feedback: props.feedback, payload: created }),
+          ),
+          catchError((err) =>
+            of(this.actions.createFail({ actionId: props.actionId, feedback: props.feedback, error: err })),
+          ),
         ),
       ),
     );
@@ -69,10 +85,13 @@ export abstract class CommonEffect<T extends Resource> {
           map((updated) =>
             this.actions.updateSuccess({
               actionId: props.actionId,
+              feedback: props.feedback,
               payload: updated,
             }),
           ),
-          catchError((err) => of(this.actions.updateFail({ actionId: props.actionId, error: err }))),
+          catchError((err) =>
+            of(this.actions.updateFail({ actionId: props.actionId, feedback: props.feedback, error: err })),
+          ),
         ),
       ),
     );
@@ -84,8 +103,12 @@ export abstract class CommonEffect<T extends Resource> {
       delay(0),
       concatMap((props) =>
         from(this.service.delete(props.id)).pipe(
-          map(() => this.actions.deleteSuccess({ actionId: props.actionId, id: props.id })),
-          catchError((err) => of(this.actions.deleteFail({ actionId: props.actionId, error: err }))),
+          map(() => this.actions.deleteSuccess({ actionId: props.actionId, feedback: props.feedback, id: props.id })),
+          catchError((err) =>
+            of(
+              this.actions.deleteFail({ actionId: props.actionId, feedback: props.feedback, id: props.id, error: err }),
+            ),
+          ),
         ),
       ),
     );
@@ -97,8 +120,12 @@ export abstract class CommonEffect<T extends Resource> {
       delay(0),
       concatMap((props) =>
         from(this.service.count()).pipe(
-          map((count) => this.actions.countSuccess({ actionId: props.actionId, payload: count })),
-          catchError((err) => of(this.actions.countFail({ actionId: props.actionId, error: err }))),
+          map((count) =>
+            this.actions.countSuccess({ actionId: props.actionId, feedback: props.feedback, payload: count }),
+          ),
+          catchError((err) =>
+            of(this.actions.countFail({ actionId: props.actionId, feedback: props.feedback, error: err })),
+          ),
         ),
       ),
     );

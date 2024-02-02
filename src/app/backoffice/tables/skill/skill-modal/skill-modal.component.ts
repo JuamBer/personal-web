@@ -116,7 +116,7 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
   }
 
   handleLoadData() {
-    this.store.dispatch(skillTypeActions.loadAll(addActionId({})));
+    this.store.dispatch(skillTypeActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
   }
 
   handleParams() {
@@ -127,7 +127,14 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(skillActions.loadOne(addActionId({ id: params.id })));
+        this.store.dispatch(
+          skillActions.loadOne(
+            addActionId({
+              feedback: new Set([ActionStatus.ERROR]),
+              id: params.id,
+            }),
+          ),
+        );
       });
   }
 
@@ -174,10 +181,24 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(skillActions.create(addActionId({ payload: this.form.value as Skill })));
+            this.store.dispatch(
+              skillActions.create(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Skill,
+                }),
+              ),
+            );
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(skillActions.update(addActionId({ payload: this.form.value as Skill })));
+            this.store.dispatch(
+              skillActions.update(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Skill,
+                }),
+              ),
+            );
             break;
         }
       });

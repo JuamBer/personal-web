@@ -146,7 +146,14 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(companyActions.loadOne(addActionId({ id: params.id })));
+        this.store.dispatch(
+          companyActions.loadOne(
+            addActionId({
+              feedback: new Set([ActionStatus.ERROR]),
+              id: params.id,
+            }),
+          ),
+        );
       });
   }
 
@@ -193,10 +200,24 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(companyActions.create(addActionId({ payload: this.form.value as Company })));
+            this.store.dispatch(
+              companyActions.create(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Company,
+                }),
+              ),
+            );
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(companyActions.update(addActionId({ payload: this.form.value as Company })));
+            this.store.dispatch(
+              companyActions.update(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Company,
+                }),
+              ),
+            );
             break;
         }
       });

@@ -96,7 +96,13 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
   ngOnInit() {
     this.skillTypes$.subscribe((skillTypes) => {
       if (!skillTypes.length) {
-        this.store.dispatch(skillTypeActions.loadAll(addActionId({})));
+        this.store.dispatch(
+          skillTypeActions.loadAll(
+            addActionId({
+              feedback: new Set([ActionStatus.ERROR]),
+            }),
+          ),
+        );
       }
     });
   }

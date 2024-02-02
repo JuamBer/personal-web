@@ -140,7 +140,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   ngOnInit() {
     this.positionsGrouped$.pipe(takeUntil(this.destroy$)).subscribe((positionsGrouped) => {
       if (!positionsGrouped.length) {
-        this.store.dispatch(positionActions.loadAll(addActionId({})));
+        this.store.dispatch(positionActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
       }
     });
   }

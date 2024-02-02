@@ -117,7 +117,14 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(languageActions.loadOne(addActionId({ id: params.id })));
+        this.store.dispatch(
+          languageActions.loadOne(
+            addActionId({
+              feedback: new Set([ActionStatus.ERROR]),
+              id: params.id,
+            }),
+          ),
+        );
       });
   }
 
@@ -160,10 +167,24 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(languageActions.create(addActionId({ payload: this.form.value as Language })));
+            this.store.dispatch(
+              languageActions.create(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Language,
+                }),
+              ),
+            );
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(languageActions.update(addActionId({ payload: this.form.value as Language })));
+            this.store.dispatch(
+              languageActions.update(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Language,
+                }),
+              ),
+            );
             break;
         }
       });

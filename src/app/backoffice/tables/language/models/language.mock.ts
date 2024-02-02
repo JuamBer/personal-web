@@ -10,5 +10,5 @@ export const mockLanguage = (): Language => ({
   active: faker.datatype.boolean(),
   createdAt: faker.date.past(),
   updatedAt: new Date(),
-  getDisplayName: (language: Language) => '',
+  getDisplayName: (acronym: string) => '',
 });

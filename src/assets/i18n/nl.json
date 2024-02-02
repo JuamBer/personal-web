@@ -38,22 +38,93 @@
     "info": "Download mijn laatste CV samengevat op één pagina in het Engels/Spaans"
   },
   "messages": {
-    "headers": {
-      "success": "Succes",
-      "warning": "Waarschuwing",
-      "info": "Informatie",
-      "error": "Fout"
-    },
     "confirmation": {
-      "message": "Wilt u de {{name}}?",
-      "header": "Bevestiging verwijderen"
+      "message": "Wilt u de {{collectionName}} genaamd {{entityName}}?",
+      "header": "Bevestiging van verwijdering"
     },
-    "toastDeleted": "Zij {{name}} is succesvol verwijderd",
-    "toastCreated": "Zij {{name}} is succesvol aangemaakt",
-    "toastUpdated": "Zij {{name}} is succesvol gewijzigd",
-    "genericError": {
-      "title": "Er is een fout opgetreden",
-      "message": "Er is een onverwachte fout opgetreden. Probeer het later opnieuw"
+    "count": {
+      "pending": {
+        "summary": "Het verkrijgen van het aantal {{collectionName}}...",
+        "detail": "Wij verkrijgen het aantal {{collectionName}}. "
+      },
+      "success": {
+        "summary": "Het aantal {{collectionName}} correct",
+        "detail": "Het aantal {{collectionName}} correct"
+      },
+      "error": {
+        "summary": "Kon het nummer niet verkrijgen {{collectionName}} correct",
+        "detail": "Er is een onverwachte fout opgetreden bij het verkrijgen van het nummer van {{collectionName}}, Probeer het later opnieuw"
+      }
+    },
+    "create": {
+      "pending": {
+        "summary": "Creëren {{collectionName}}...",
+        "detail": "Wij creëren\"{{entityName}}\". Wacht even alstublieft"
+      },
+      "success": {
+        "summary": "Zij {{collectionName}} correct is aangemaakt",
+        "detail": "\"{{entityName}}\" is succesvol aangemaakt"
+      },
+      "error": {
+        "summary": "Zij {{collectionName}} kon niet correct worden aangemaakt",
+        "detail": "Er is een onverwachte fout opgetreden met \"{{entityName}}\", Probeer het later opnieuw"
+      }
+    },
+    "update": {
+      "pending": {
+        "summary": "Updaten {{collectionName}}...",
+        "detail": "Wij zijn aan het updaten\"{{entityName}}\". Wacht even alstublieft"
+      },
+      "success": {
+        "summary": "Zij {{collectionName}} is succesvol bijgewerkt",
+        "detail": "\"{{entityName}}\" is succesvol bijgewerkt"
+      },
+      "error": {
+        "summary": "Zij {{collectionName}} kon niet correct worden bijgewerkt",
+        "detail": "Er is een onverwachte fout opgetreden met \"{{entityName}}\", Probeer het later opnieuw"
+      }
+    },
+    "delete": {
+      "pending": {
+        "summary": "Verwijderen {{collectionName}}...",
+        "detail": "Wij elimineren\"{{entityName}}\". Wacht even alstublieft"
+      },
+      "success": {
+        "summary": "Zij {{collectionName}} is succesvol verwijderd",
+        "detail": "\"{{entityName}}\" is succesvol verwijderd"
+      },
+      "error": {
+        "summary": "Zij {{collectionName}} kon niet correct worden verwijderd",
+        "detail": "Er is een onverwachte fout opgetreden met \"{{entityName}}\", Probeer het later opnieuw"
+      }
+    },
+    "load": {
+      "pending": {
+        "summary": "Opladen {{collectionName}}...",
+        "detail": "Wacht even alstublieft"
+      },
+      "success": {
+        "summary": "Zij {{collectionName}} correct is geladen",
+        "detail": "\"{{entityName}}\"is correct geladen"
+      },
+      "error": {
+        "summary": "Zij {{collectionName}} kon niet correct worden geladen",
+        "detail": "Er is een onverwachte fout opgetreden met \"{{entityName}}\", Probeer het later opnieuw"
+      }
+    },
+    "loadMany": {
+      "pending": {
+        "summary": "Opladen {{collectionName}}...",
+        "detail": "Wacht even alstublieft"
+      },
+      "success": {
+        "summary": "De {{collectionName}} correct zijn geladen",
+        "detail": "\"{{entityName}}\" zijn correct geladen"
+      },
+      "error": {
+        "summary": "De {{collectionName}} kon niet correct worden geladen",
+        "detail": "Er is een onverwachte fout opgetreden met \"{{entityName}}\", Probeer het later opnieuw"
+      }
     }
   },
   "buttons": {

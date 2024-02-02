@@ -134,7 +134,14 @@ export class CertificateTypeModalComponent
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(certificateTypeActions.loadOne(addActionId({ id: params.id })));
+        this.store.dispatch(
+          certificateTypeActions.loadOne(
+            addActionId({
+              feedback: new Set([ActionStatus.ERROR]),
+              id: params.id,
+            }),
+          ),
+        );
       });
   }
 
@@ -181,12 +188,22 @@ export class CertificateTypeModalComponent
         switch (modalMode) {
           case ModalMode.CREATE:
             this.store.dispatch(
-              certificateTypeActions.create(addActionId({ payload: this.form.value as CertificateType })),
+              certificateTypeActions.create(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as CertificateType,
+                }),
+              ),
             );
             break;
           case ModalMode.UPDATE:
             this.store.dispatch(
-              certificateTypeActions.update(addActionId({ payload: this.form.value as CertificateType })),
+              certificateTypeActions.update(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as CertificateType,
+                }),
+              ),
             );
             break;
         }

@@ -4,7 +4,6 @@ import { Translation, TranslationFormGroup } from 'src/app/shared/models/transla
 import { CertificateGroup } from '../../certificate-group/models/certificate-group.model';
 import { CertificateType } from '../../certificate-type/models/certificate-type.model';
 import { Company } from '../../company/models/company.model';
-import { Language } from '../../language/models/language.model';
 
 export class Certificate extends AuditFields {
   nameTranslations: Translation[];
@@ -40,12 +39,12 @@ export class Certificate extends AuditFields {
     this.certificateType = certificate.certificateType ? new CertificateType(certificate.certificateType) : undefined;
   }
 
-  override getDisplayName(language: Language): string {
+  override getDisplayName(acronym: string): string {
     if (this.nameTranslations.length <= 0) {
       return this.id;
     }
 
-    const translation = this.nameTranslations.find((t) => t.language === language.acronym);
+    const translation = this.nameTranslations.find((t) => t.language === acronym);
 
     if (translation) {
       return translation.value;

@@ -16,7 +16,7 @@ export class Language extends AuditFields {
     this.active = language.active;
   }
 
-  override getDisplayName(language: Language): string {
+  override getDisplayName(acronym: string): string {
     return this.nativeName;
   }
 }

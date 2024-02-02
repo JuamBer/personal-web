@@ -133,7 +133,14 @@ export class CertificateGroupModalComponent
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(certificateGroupActions.loadOne(addActionId({ id: params.id })));
+        this.store.dispatch(
+          certificateGroupActions.loadOne(
+            addActionId({
+              feedback: new Set([ActionStatus.ERROR]),
+              id: params.id,
+            }),
+          ),
+        );
       });
   }
 
@@ -182,12 +189,22 @@ export class CertificateGroupModalComponent
         switch (modalMode) {
           case ModalMode.CREATE:
             this.store.dispatch(
-              certificateGroupActions.create(addActionId({ payload: this.form.value as CertificateGroup })),
+              certificateGroupActions.create(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as CertificateGroup,
+                }),
+              ),
             );
             break;
           case ModalMode.UPDATE:
             this.store.dispatch(
-              certificateGroupActions.update(addActionId({ payload: this.form.value as CertificateGroup })),
+              certificateGroupActions.update(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as CertificateGroup,
+                }),
+              ),
             );
             break;
         }

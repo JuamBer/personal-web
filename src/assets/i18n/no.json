@@ -38,22 +38,93 @@
     "info": "Last ned min siste CV oppsummert på én side på engelsk/spansk"
   },
   "messages": {
-    "headers": {
-      "success": "Suksess",
-      "warning": "Advarsel",
-      "info": "Informasjon",
-      "error": "Feil"
-    },
     "confirmation": {
-      "message": "Vil du slette {{name}}?",
-      "header": "Slett bekreftelse"
+      "message": "Vil du slette {{collectionName}} kalt {{entityName}}?",
+      "header": "Bekreftelse på sletting"
     },
-    "toastDeleted": "Hun {{name}} har blitt slettet",
-    "toastCreated": "Hun {{name}} har blitt opprettet",
-    "toastUpdated": "Hun {{name}} har blitt endret",
-    "genericError": {
-      "title": "Det har oppstått en feil",
-      "message": "En uventet feil har oppstått. Prøv igjen senere"
+    "count": {
+      "pending": {
+        "summary": "Innhenting av antall {{collectionName}}...",
+        "detail": "Vi innhenter antall {{collectionName}}. "
+      },
+      "success": {
+        "summary": "Antallet av {{collectionName}} riktig",
+        "detail": "Antallet av {{collectionName}} riktig"
+      },
+      "error": {
+        "summary": "Kunne ikke hente antall {{collectionName}} riktig",
+        "detail": "Det har oppstått en uventet feil under innhenting av antallet {{collectionName}}, Prøv igjen senere"
+      }
+    },
+    "create": {
+      "pending": {
+        "summary": "Oppretter {{collectionName}}...",
+        "detail": "Vi lager \"{{entityName}}\"Vent litt"
+      },
+      "success": {
+        "summary": "Hun {{collectionName}} er opprettet på riktig måte",
+        "detail": "\"{{entityName}}\" har blitt opprettet"
+      },
+      "error": {
+        "summary": "Hun {{collectionName}} kunne ikke opprettes riktig",
+        "detail": "Det har oppstått en uventet feil med \"{{entityName}}\", Prøv igjen senere"
+      }
+    },
+    "update": {
+      "pending": {
+        "summary": "Oppdaterer {{collectionName}}...",
+        "detail": "Vi oppdaterer\"{{entityName}}\"Vent litt"
+      },
+      "success": {
+        "summary": "Hun {{collectionName}} har blitt oppdatert",
+        "detail": "\"{{entityName}}\" har blitt oppdatert"
+      },
+      "error": {
+        "summary": "Hun {{collectionName}} kunne ikke oppdateres riktig",
+        "detail": "Det har oppstått en uventet feil med \"{{entityName}}\", Prøv igjen senere"
+      }
+    },
+    "delete": {
+      "pending": {
+        "summary": "Fjerner {{collectionName}}...",
+        "detail": "Vi eliminerer\"{{entityName}}\"Vent litt"
+      },
+      "success": {
+        "summary": "Hun {{collectionName}} har blitt fjernet",
+        "detail": "\"{{entityName}}\" har blitt fjernet"
+      },
+      "error": {
+        "summary": "Hun {{collectionName}} kunne ikke slettes riktig",
+        "detail": "Det har oppstått en uventet feil med \"{{entityName}}\", Prøv igjen senere"
+      }
+    },
+    "load": {
+      "pending": {
+        "summary": "Lader {{collectionName}}...",
+        "detail": "Vent litt"
+      },
+      "success": {
+        "summary": "Hun {{collectionName}} har blitt lastet inn riktig",
+        "detail": "\"{{entityName}}\" har blitt lastet inn riktig"
+      },
+      "error": {
+        "summary": "Hun {{collectionName}} kunne ikke lastes inn riktig",
+        "detail": "Det har oppstått en uventet feil med \"{{entityName}}\", Prøv igjen senere"
+      }
+    },
+    "loadMany": {
+      "pending": {
+        "summary": "Lader {{collectionName}}...",
+        "detail": "Vent litt"
+      },
+      "success": {
+        "summary": "De {{collectionName}} har blitt lastet inn riktig",
+        "detail": "\"{{entityName}}\" har blitt lastet inn riktig"
+      },
+      "error": {
+        "summary": "De {{collectionName}} kunne ikke lastes inn riktig",
+        "detail": "Det har oppstått en uventet feil med \"{{entityName}}\", Prøv igjen senere"
+      }
     }
   },
   "buttons": {

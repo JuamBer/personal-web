@@ -18,7 +18,7 @@ export interface EntityList<T extends Resource> {
 
   tableConfig: Signal<GenericTableConfig<T> | undefined>;
 
-  action$: Observable<Action | undefined>;
+  action$: Observable<Action<T> | undefined>;
 
   handleLoadCount: () => void;
   handleMessages: () => void;

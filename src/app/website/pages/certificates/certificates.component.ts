@@ -130,6 +130,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
           this.store.dispatch(
             certificateGroupActions.loadMore(
               addActionId({
+                feedback: new Set([ActionStatus.ERROR]),
                 payload: {
                   first: count,
                   rows: 1,

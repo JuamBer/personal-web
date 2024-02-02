@@ -38,22 +38,93 @@
     "info": "Laden Sie meinen neuesten Lebenslauf herunter, zusammengefasst auf einer Seite auf Englisch/Spanisch"
   },
   "messages": {
-    "headers": {
-      "success": "Erfolg",
-      "warning": "Warnung",
-      "info": "Information",
-      "error": "Fehler"
-    },
     "confirmation": {
-      "message": "Möchten Sie die löschen? {{name}}?",
-      "header": "Bestätigung löschen"
+      "message": "Möchten Sie die löschen? {{collectionName}} angerufen {{entityName}}?",
+      "header": "Löschbestätigung"
     },
-    "toastDeleted": "Sie {{name}} wurde erfolgreich gelöscht",
-    "toastCreated": "Sie {{name}} wurde erfolgreich erstellt",
-    "toastUpdated": "Sie {{name}} wurde erfolgreich geändert",
-    "genericError": {
-      "title": "Ein Fehler ist aufgetreten",
-      "message": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal"
+    "count": {
+      "pending": {
+        "summary": "Ermitteln der Anzahl von {{collectionName}}...",
+        "detail": "Wir erhalten die Anzahl von {{collectionName}}. "
+      },
+      "success": {
+        "summary": "Die Anzahl der {{collectionName}} korrekt",
+        "detail": "Die Anzahl der {{collectionName}} korrekt"
+      },
+      "error": {
+        "summary": "Die Anzahl konnte nicht ermittelt werden {{collectionName}} korrekt",
+        "detail": "Beim Abrufen der Anzahl ist ein unerwarteter Fehler aufgetreten {{collectionName}}, Bitte versuchen Sie es später noch einmal"
+      }
+    },
+    "create": {
+      "pending": {
+        "summary": "Erstellen {{collectionName}}...",
+        "detail": "Wir schaffen“{{entityName}}\". Warten Sie bitte einen Moment"
+      },
+      "success": {
+        "summary": "Sie {{collectionName}} wurde korrekt erstellt",
+        "detail": "\"{{entityName}}„ wurde erfolgreich erstellt"
+      },
+      "error": {
+        "summary": "Sie {{collectionName}} konnte nicht korrekt erstellt werden",
+        "detail": "Es ist ein unerwarteter Fehler aufgetreten mit „{{entityName}}\", Bitte versuchen Sie es später noch einmal"
+      }
+    },
+    "update": {
+      "pending": {
+        "summary": "Aktualisierung {{collectionName}}...",
+        "detail": "Wir aktualisieren“{{entityName}}\". Warten Sie bitte einen Moment"
+      },
+      "success": {
+        "summary": "Sie {{collectionName}} wurde erfolgreich aktualisiert",
+        "detail": "\"{{entityName}}\" wurde erfolgreich aktualisiert"
+      },
+      "error": {
+        "summary": "Sie {{collectionName}} konnte nicht korrekt aktualisiert werden",
+        "detail": "Es ist ein unerwarteter Fehler aufgetreten mit „{{entityName}}\", Bitte versuchen Sie es später noch einmal"
+      }
+    },
+    "load": {
+      "pending": {
+        "summary": "Aufladen {{collectionName}}...",
+        "detail": "Warten Sie bitte einen Moment"
+      },
+      "success": {
+        "summary": "Sie {{collectionName}} wurde korrekt geladen",
+        "detail": "\"{{entityName}}\" wurde korrekt geladen"
+      },
+      "error": {
+        "summary": "Sie {{collectionName}} konnte nicht korrekt geladen werden",
+        "detail": "Es ist ein unerwarteter Fehler aufgetreten mit „{{entityName}}\", Bitte versuchen Sie es später noch einmal"
+      }
+    },
+    "loadMany": {
+      "pending": {
+        "summary": "Aufladen {{collectionName}}...",
+        "detail": "Warten Sie bitte einen Moment"
+      },
+      "success": {
+        "summary": "Der {{collectionName}} korrekt geladen wurden",
+        "detail": "\"{{entityName}}\" wurden korrekt geladen"
+      },
+      "error": {
+        "summary": "Der {{collectionName}} konnte nicht korrekt geladen werden",
+        "detail": "Es ist ein unerwarteter Fehler aufgetreten mit „{{entityName}}\", Bitte versuchen Sie es später noch einmal"
+      }
+    },
+    "delete": {
+      "pending": {
+        "summary": "Entfernen {{collectionName}}...",
+        "detail": "Wir eliminieren“{{entityName}}\". Warten Sie bitte einen Moment"
+      },
+      "success": {
+        "summary": "Sie {{collectionName}} wurde erfolgreich entfernt",
+        "detail": "\"{{entityName}}\" wurde erfolgreich entfernt"
+      },
+      "error": {
+        "summary": "Sie {{collectionName}} konnte nicht korrekt gelöscht werden",
+        "detail": "Es ist ein unerwarteter Fehler aufgetreten mit „{{entityName}}\", Bitte versuchen Sie es später noch einmal"
+      }
     }
   },
   "buttons": {

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { faker } from '@faker-js/faker';
 import { mockTranslations } from 'src/app/shared/models/translation.mock';
-import { Language } from '../../language/models/language.model';
 import { SkillType } from './skill-type.model';
 
 export const mockSkillType = (): SkillType => ({
@@ -10,5 +9,5 @@ export const mockSkillType = (): SkillType => ({
   descriptionTranslations: mockTranslations(),
   createdAt: faker.date.past(),
   updatedAt: new Date(),
-  getDisplayName: (language: Language) => '',
+  getDisplayName: (acronym: string) => '',
 });

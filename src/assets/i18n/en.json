@@ -38,22 +38,93 @@
     "info": "Download my latest resume summarized on one page in English/Spanish"
   },
   "messages": {
-    "headers": {
-      "success": "Success",
-      "warning": "Warning",
-      "info": "Information",
-      "error": "Mistake"
-    },
     "confirmation": {
-      "message": "Do you want to delete the {{name}}?",
-      "header": "Delete Confirmation"
+      "message": "Do you want to delete the {{collectionName}} called {{entityName}}?",
+      "header": "Deletion Confirmation"
     },
-    "toastDeleted": "The {{name}} has been deleted successfully",
-    "toastCreated": "The {{name}} has been created successfully",
-    "toastUpdated": "The {{name}} has been successfully modified",
-    "genericError": {
-      "title": "An error has occurred",
-      "message": "An unexpected error has occurred. Please try again later"
+    "count": {
+      "pending": {
+        "summary": "Obtaining the number of {{collectionName}}...",
+        "detail": "We are obtaining the number of {{collectionName}}. "
+      },
+      "success": {
+        "summary": "The number of {{collectionName}} correctly",
+        "detail": "The number of {{collectionName}} correctly"
+      },
+      "error": {
+        "summary": "Could not obtain the number of {{collectionName}} correctly",
+        "detail": "An unexpected error has occurred while obtaining the number of {{collectionName}}, Please try again later"
+      }
+    },
+    "create": {
+      "pending": {
+        "summary": "Creating {{collectionName}}...",
+        "detail": "We are creating \"{{entityName}}\". Wait a moment please"
+      },
+      "success": {
+        "summary": "She {{collectionName}} has been created correctly",
+        "detail": "\"{{entityName}}\" has been created successfully"
+      },
+      "error": {
+        "summary": "She {{collectionName}} could not be created correctly",
+        "detail": "An unexpected error has occurred with \"{{entityName}}\", Please try again later"
+      }
+    },
+    "update": {
+      "pending": {
+        "summary": "Updating {{collectionName}}...",
+        "detail": "We are updating \"{{entityName}}\". Wait a moment please"
+      },
+      "success": {
+        "summary": "She {{collectionName}} has been successfully updated",
+        "detail": "\"{{entityName}}\" has been successfully updated"
+      },
+      "error": {
+        "summary": "She {{collectionName}} could not be updated correctly",
+        "detail": "An unexpected error has occurred with \"{{entityName}}\", Please try again later"
+      }
+    },
+    "load": {
+      "pending": {
+        "summary": "Charging {{collectionName}}...",
+        "detail": "Wait a moment please"
+      },
+      "success": {
+        "summary": "She {{collectionName}} has been loaded correctly",
+        "detail": "\"{{entityName}}\" has been loaded correctly"
+      },
+      "error": {
+        "summary": "She {{collectionName}} could not be loaded correctly",
+        "detail": "An unexpected error has occurred with \"{{entityName}}\", Please try again later"
+      }
+    },
+    "loadMany": {
+      "pending": {
+        "summary": "Charging {{collectionName}}...",
+        "detail": "Wait a moment please"
+      },
+      "success": {
+        "summary": "The {{collectionName}} have been loaded correctly",
+        "detail": "\"{{entityName}}\" have been loaded correctly"
+      },
+      "error": {
+        "summary": "The {{collectionName}} could not be loaded correctly",
+        "detail": "An unexpected error has occurred with \"{{entityName}}\", Please try again later"
+      }
+    },
+    "delete": {
+      "pending": {
+        "summary": "Removing {{collectionName}}...",
+        "detail": "We are eliminating \"{{entityName}}\". Wait a moment please"
+      },
+      "success": {
+        "summary": "The {{collectionName}} has been successfully removed",
+        "detail": "\"{{entityName}}\" has been successfully removed"
+      },
+      "error": {
+        "summary": "The {{collectionName}} could not be deleted correctly",
+        "detail": "An unexpected error has occurred with \"{{entityName}}\", Please try again later"
+      }
     }
   },
   "buttons": {

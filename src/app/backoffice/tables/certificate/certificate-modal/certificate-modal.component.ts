@@ -145,15 +145,22 @@ export class CertificateModalComponent
   }
 
   handleLoadData() {
-    this.store.dispatch(certificateGroupActions.loadAll(addActionId({})));
-    this.store.dispatch(certificateTypeActions.loadAll(addActionId({})));
-    this.store.dispatch(companyActions.loadAll(addActionId({})));
+    this.store.dispatch(certificateGroupActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
+    this.store.dispatch(certificateTypeActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
+    this.store.dispatch(companyActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
   }
 
   handleParams() {
     this.params$.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       if (!params.id) return;
-      this.store.dispatch(certificateActions.loadOne(addActionId({ id: params.id })));
+      this.store.dispatch(
+        certificateActions.loadOne(
+          addActionId({
+            feedback: new Set([ActionStatus.ERROR]),
+            id: params.id,
+          }),
+        ),
+      );
     });
   }
 
@@ -200,10 +207,24 @@ export class CertificateModalComponent
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(certificateActions.create(addActionId({ payload: this.form.value as Certificate })));
+            this.store.dispatch(
+              certificateActions.create(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Certificate,
+                }),
+              ),
+            );
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(certificateActions.update(addActionId({ payload: this.form.value as Certificate })));
+            this.store.dispatch(
+              certificateActions.update(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Certificate,
+                }),
+              ),
+            );
             break;
         }
       });

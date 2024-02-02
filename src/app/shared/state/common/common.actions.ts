@@ -4,6 +4,7 @@ import { LazyLoadEvent } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { Resource } from '../../models/resource.model';
 import { GlobalUtils } from '../../utils/global.utils';
+import { ActionStatus } from './common-state';
 
 export function addActionId<T>(props: T) {
   return {
@@ -20,6 +21,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Load All',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload?: TableLazyLoadEvent;
     }>(),
   );
@@ -28,6 +30,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Load All Success',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload: Resource[];
     }>(),
   );
@@ -36,6 +39,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Load All Fail',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       error: PostgrestError;
     }>(),
   );
@@ -45,6 +49,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Load More',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload?: LazyLoadEvent;
     }>(),
   );
@@ -53,6 +58,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Load More Success',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload: Resource[];
     }>(),
   );
@@ -61,6 +67,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Load More Fail',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       error: PostgrestError;
     }>(),
   );
@@ -70,6 +77,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Load One',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       id: string;
     }>(),
   );
@@ -78,6 +86,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Load One Success',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload: T;
     }>(),
   );
@@ -86,6 +95,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Load One Fail',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       error: PostgrestError;
     }>(),
   );
@@ -95,6 +105,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Create',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload: T;
     }>(),
   );
@@ -103,6 +114,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Create Success',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload: T;
     }>(),
   );
@@ -111,6 +123,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Create Fail',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       error: PostgrestError;
     }>(),
   );
@@ -120,6 +133,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Update',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload: T;
     }>(),
   );
@@ -128,6 +142,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Update Success',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload: T;
     }>(),
   );
@@ -136,6 +151,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Update Fail',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       error: PostgrestError;
     }>(),
   );
@@ -145,6 +161,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Delete',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       id: string;
     }>(),
   );
@@ -153,6 +170,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Delete Success',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       id: string;
     }>(),
   );
@@ -161,6 +179,8 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Delete Fail',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
+      id: string;
       error: PostgrestError;
     }>(),
   );
@@ -170,6 +190,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Count',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
     }>(),
   );
 
@@ -177,6 +198,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Count Success',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       payload: number;
     }>(),
   );
@@ -185,6 +207,7 @@ export abstract class CommonAction<T extends Resource> {
     '[' + this.entityName + '] Count Fail',
     props<{
       actionId: string;
+      feedback: Set<ActionStatus>;
       error: PostgrestError;
     }>(),
   );

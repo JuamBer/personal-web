@@ -130,7 +130,14 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(skillTypeActions.loadOne(addActionId({ id: params.id })));
+        this.store.dispatch(
+          skillTypeActions.loadOne(
+            addActionId({
+              feedback: new Set([ActionStatus.ERROR]),
+              id: params.id,
+            }),
+          ),
+        );
       });
   }
 
@@ -180,10 +187,24 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(skillTypeActions.create(addActionId({ payload: this.form.value as SkillType })));
+            this.store.dispatch(
+              skillTypeActions.create(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as SkillType,
+                }),
+              ),
+            );
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(skillTypeActions.update(addActionId({ payload: this.form.value as SkillType })));
+            this.store.dispatch(
+              skillTypeActions.update(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as SkillType,
+                }),
+              ),
+            );
             break;
         }
       });

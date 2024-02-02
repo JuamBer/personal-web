@@ -125,7 +125,7 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
   }
 
   handleLoadData() {
-    this.store.dispatch(companyActions.loadAll(addActionId({})));
+    this.store.dispatch(companyActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
   }
 
   handleParams() {
@@ -136,7 +136,14 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(positionActions.loadOne(addActionId({ id: params.id })));
+        this.store.dispatch(
+          positionActions.loadOne(
+            addActionId({
+              feedback: new Set([ActionStatus.ERROR]),
+              id: params.id,
+            }),
+          ),
+        );
       });
   }
 
@@ -183,10 +190,24 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(positionActions.create(addActionId({ payload: this.form.value as Position })));
+            this.store.dispatch(
+              positionActions.create(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Position,
+                }),
+              ),
+            );
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(positionActions.update(addActionId({ payload: this.form.value as Position })));
+            this.store.dispatch(
+              positionActions.update(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  payload: this.form.value as Position,
+                }),
+              ),
+            );
             break;
         }
       });

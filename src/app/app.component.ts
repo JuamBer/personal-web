@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
+import { ActionStatus } from './shared/state/common/common-state';
 import { addActionId } from './shared/state/common/common.actions';
 import { publicLanguageActions } from './shared/state/languages/public-language.actions';
 import { publicLanguageReducer } from './shared/state/languages/public-language.reducer';
@@ -35,7 +36,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   handleLanguage() {
     if (isPlatformBrowser(this.platformId)) {
-      this.store.dispatch(publicLanguageActions.loadAll(addActionId({})));
+      this.store.dispatch(publicLanguageActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
       this.languages$.pipe(take(2)).subscribe((languages) => {
         const userLanguage = (navigator.languages ? navigator.languages[0] : navigator.language).split('-')[0];
         const language = languages.find((l) => l.acronym === userLanguage);
@@ -44,7 +45,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       });
     } else {
-      this.store.dispatch(publicLanguageActions.loadAll(addActionId({})));
+      this.store.dispatch(publicLanguageActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
       this.languages$.pipe(take(2)).subscribe(() => {
         this.store.dispatch(publicLanguageActions.loadOneByAcronym({ acronym: 'es' }));
       });

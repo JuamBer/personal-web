@@ -14,20 +14,22 @@ export enum ActionStatus {
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
 }
-export interface Action {
+export interface Action<T extends Resource> {
   id: string;
   type: ActionType;
   status: ActionStatus;
+  feedback: Set<ActionStatus>;
+  entity?: T;
 }
 export class CommonState<T extends Resource> {
   entities: T[] = [];
   selectedId: string | undefined;
   count: number = 0;
-  action: Action | undefined;
+  action: Action<T> | undefined;
 }
 
-export function hasPendingActions(
-  action$: Observable<Action | undefined>,
+export function hasPendingActions<T extends Resource>(
+  action$: Observable<Action<T> | undefined>,
   actionTypes?: ActionType[],
 ): Observable<boolean> {
   const actionTypesToCheck = actionTypes || Object.values(ActionType);

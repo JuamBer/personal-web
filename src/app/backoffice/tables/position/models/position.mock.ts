@@ -2,7 +2,6 @@
 import { faker } from '@faker-js/faker';
 import { mockTranslations } from 'src/app/shared/models/translation.mock';
 import { mockCompany } from '../../company/models/company.mock';
-import { Language } from '../../language/models/language.model';
 import { Position } from './position.model';
 
 export const mockPosition = (): Position => ({
@@ -16,5 +15,5 @@ export const mockPosition = (): Position => ({
   company: mockCompany(),
   createdAt: faker.date.past(),
   updatedAt: new Date(),
-  getDisplayName: (language: Language) => '',
+  getDisplayName: (acronym: string) => '',
 });

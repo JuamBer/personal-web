@@ -18,7 +18,7 @@ import { defaultGenericTableConfig } from 'src/app/shared/components/generic-tab
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { ActionStatus, ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
 import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
@@ -92,7 +92,7 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
   }
 
   handleLoadCount() {
-    this.store.dispatch(certificateGroupActions.count(addActionId({})));
+    this.store.dispatch(certificateGroupActions.count(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
   }
 
   handleLoadTableConfig() {
@@ -105,7 +105,11 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
 
   handleMessages() {
     this.action$.pipe(takeUntil(this.destroy$)).subscribe((action) => {
-      const message = this.toastSrv.getMessage(action, this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR));
+      const message = this.toastSrv.getMessage(
+        this.translateSrv,
+        action,
+        this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+      );
       if (message) {
         this.messageSrv.add(message);
       }
@@ -113,7 +117,14 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {
-    this.store.dispatch(certificateGroupActions.loadAll(addActionId({ payload: event })));
+    this.store.dispatch(
+      certificateGroupActions.loadAll(
+        addActionId({
+          feedback: new Set([ActionStatus.ERROR]),
+          payload: event,
+        }),
+      ),
+    );
   }
 
   onTableEvent(event: TableEvent<CertificateGroup>) {
@@ -133,14 +144,24 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
       case TableEventType.DELETE: {
         this.confirmationSrv.confirm({
           message: this.translateSrv.instant('messages.confirmation.message', {
-            name: this.translateSrv.instant(`tables.${'certificateGroup'}.singular`),
+            collectionName: this.translateSrv.instant(
+              `tables.${this.names.name(Naming.CAMEL_CASE, NumberMode.SINGULAR)}.singular`,
+            ),
+            entityName: event.value.getDisplayName(this.translateSrv.currentLang),
           }),
           header: this.translateSrv.instant('messages.confirmation.header'),
           icon: 'pi pi-info-circle',
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            this.store.dispatch(certificateGroupActions.delete(addActionId({ id: event.value.id })));
+            this.store.dispatch(
+              certificateGroupActions.delete(
+                addActionId({
+                  feedback: new Set([ActionStatus.PENDING, ActionStatus.SUCCESS, ActionStatus.ERROR]),
+                  id: event.value.id,
+                }),
+              ),
+            );
           },
         });
 

@@ -2,7 +2,6 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { AuditFields } from 'src/app/shared/models/audit-fields.model';
 import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
-import { Language } from '../../language/models/language.model';
 import { Position } from '../../position/models/position.model';
 import { CompanyType } from './company-type.model';
 
@@ -24,7 +23,7 @@ export class Company extends AuditFields {
     this.positions = company.positions?.map((position) => new Position(position));
   }
 
-  override getDisplayName(language: Language): string {
+  override getDisplayName(acronym: string): string {
     return this.name;
   }
 }

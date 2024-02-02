@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 
 export class Resource {
   id: string;
@@ -8,7 +7,7 @@ export class Resource {
     this.id = id;
   }
 
-  getDisplayName(language: Language): string {
+  getDisplayName(acronym: string): string {
     return this.id;
   }
 }

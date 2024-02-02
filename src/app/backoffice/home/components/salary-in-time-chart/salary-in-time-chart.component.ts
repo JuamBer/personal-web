@@ -12,6 +12,7 @@ import { positionActions } from 'src/app/backoffice/tables/position/state/positi
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
+import { ActionStatus } from 'src/app/shared/state/common/common-state';
 import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 
@@ -118,6 +119,6 @@ export class SalaryInTimeChartComponent extends TranslationProvider implements O
   chartData = toSignal(this.chartData$);
 
   ngOnInit() {
-    this.store.dispatch(positionActions.loadAll(addActionId({})));
+    this.store.dispatch(positionActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
   }
 }
