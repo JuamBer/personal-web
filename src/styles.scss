@@ -1,9 +1,10 @@
 @import './reset.scss';
 @import './assets/images/flags/flags.scss';
-@import 'primeng/resources/primeng.css';
+
 @import './assets/sass/_responsive_overrides.scss';
 @import './assets/sass/layout.scss';
 @import './assets/sass/theme.scss';
+
 @import 'swiper/scss';
 @import 'swiper/scss/navigation';
 @import 'swiper/scss/pagination';
@@ -247,12 +248,13 @@ body.light {
 body {
   background-color: var(--bgColor);
   color: var(--textColor);
-  transition:
-    background-color 0.5s ease,
-    color 0.5s ease;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 body {
   a {
     color: var(--textColor);
   }
+}
+.p-float-label label {
+  top: 35%;
 }
