@@ -63,6 +63,7 @@ describe('CertificatesComponent', () => {
     const certificateGroupsWithCertificates = certificateGroupsWithoutCertificates.map((certificateGroup) => ({
       ...certificateGroup,
       certificates: TestUtils.generateManyMocks(mockCertificate, 3),
+      getDisplayName: () => '',
     }));
 
     spyOn(component, 'language').and.returnValue(englishLanguage);
