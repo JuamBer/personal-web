@@ -62,8 +62,8 @@
         [appIsLoading]="loading()"
         class="xs:col-12 md:col-12 lg:col-12 mt-3"
       >
-        <div class="w-full flex align-items-center gap-3">
-          <label [for]="field">
+        <div class="w-full flex flex-column align-items-center gap-3">
+          <label [for]="field" class="w-full">
             {{ 'columns.' + field | translate }} {{ form.get(field) | isRequired }}
             <span class="error">{{ form.get(field) | errors | async }}</span>
           </label>
