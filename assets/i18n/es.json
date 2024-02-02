@@ -38,31 +38,93 @@
     "info": "Descargar mi último currículum resumido en una página en Inglés/Español"
   },
   "messages": {
-    "headers": {
-      "success": "Éxito",
-      "warning": "Advertencia",
-      "info": "Información",
-      "error": "Error"
-    },
     "confirmation": {
-      "message": "¿Quieres borrar el/la {{name}}?",
+      "message": "¿Quieres borrar el/la {{collectionName}} llamado {{entityName}}?",
       "header": "Confirmación de Borrado"
     },
+    "count": {
+      "pending": {
+        "summary": "Obteniendo el numero de {{collectionName}}...",
+        "detail": "Estamos obteniendo el numero de {{collectionName}}. Por favor espere un momento"
+      },
+      "success": {
+        "summary": "Se han obtenido el numero de {{collectionName}} correctamente",
+        "detail": "Se han obtenido el numero de {{collectionName}} correctamente"
+      },
+      "error": {
+        "summary": "No se ha podido obtener el numero de {{collectionName}} correctamente",
+        "detail": "Ha ocurrido un error inesperado al obtener el numero de {{collectionName}}, por favor inténtelo de nuevo más tarde"
+      }
+    },
     "create": {
-      "success": "El/la {{name}} ha sido creado correctamente",
-      "error": "El/la {{name}} no ha podido ser creado correctamente"
+      "pending": {
+        "summary": "Creando {{collectionName}}...",
+        "detail": "Estamos creando \"{{entityName}}\". Por favor espere un momento"
+      },
+      "success": {
+        "summary": "El/la {{collectionName}} ha sido creado correctamente",
+        "detail": "\"{{entityName}}\" ha sido creado correctamente"
+      },
+      "error": {
+        "summary": "El/la {{collectionName}} no ha podido ser creado correctamente",
+        "detail": "Ha ocurrido un error inesperado con \"{{entityName}}\", por favor inténtelo de nuevo más tarde"
+      }
     },
     "update": {
-      "success": "El/la {{name}} ha sido actualizado correctamente",
-      "error": "El/la {{name}} no ha podido ser actualizado correctamente"
+      "pending": {
+        "summary": "Actualizando {{collectionName}}...",
+        "detail": "Estamos actualizando \"{{entityName}}\". Por favor espere un momento"
+      },
+      "success": {
+        "summary": "El/la {{collectionName}} ha sido actualizado correctamente",
+        "detail": "\"{{entityName}}\" ha sido actualizado correctamente"
+      },
+      "error": {
+        "summary": "El/la {{collectionName}} no ha podido ser actualizado correctamente",
+        "detail": "Ha ocurrido un error inesperado con \"{{entityName}}\", por favor inténtelo de nuevo más tarde"
+      }
     },
     "delete": {
-      "success": "El/la {{name}} ha sido borrado correctamente",
-      "error": "El/la {{name}} no ha podido ser borrado correctamente"
+      "pending": {
+        "summary": "Eliminando {{collectionName}}...",
+        "detail": "Estamos eliminando \"{{entityName}}\". Por favor espere un momento"
+      },
+      "success": {
+        "summary": "El/la {{collectionName}} ha sido eliminado correctamente",
+        "detail": "\"{{entityName}}\" ha sido eliminado correctamente"
+      },
+      "error": {
+        "summary": "El/la {{collectionName}} no ha podido ser eliminado correctamente",
+        "detail": "Ha ocurrido un error inesperado con \"{{entityName}}\", por favor inténtelo de nuevo más tarde"
+      }
     },
-    "genericError": {
-      "title": "Un error inesperado ha ocurrido",
-      "message": "Ha ocurrido un error inesperado, por favor inténtelo de nuevo más tarde"
+    "load": {
+      "pending": {
+        "summary": "Cargando {{collectionName}}...",
+        "detail": "Por favor espere un momento"
+      },
+      "success": {
+        "summary": "El/la {{collectionName}} ha sido cargado correctamente",
+        "detail": "\"{{entityName}}\" ha sido cargado correctamente"
+      },
+      "error": {
+        "summary": "El/la {{collectionName}} no ha podido ser cargado correctamente",
+        "detail": "Ha ocurrido un error inesperado con \"{{entityName}}\", por favor inténtelo de nuevo más tarde"
+      }
+    },
+    "loadMany": {
+      "pending": {
+        "summary": "Cargando {{collectionName}}...",
+        "detail": "Por favor espere un momento"
+      },
+      "success": {
+        "summary": "Los/las {{collectionName}} han sido cargados correctamente",
+        "detail": "\"{{entityName}}\" han sido cargados correctamente"
+      },
+      "error": {
+        "summary": "Los/las {{collectionName}} no han podido ser cargados correctamente",
+        "detail": "Ha ocurrido un error inesperado con \"{{entityName}}\", por favor inténtelo de nuevo más tarde"
+      }
     }
   },
   "buttons": {

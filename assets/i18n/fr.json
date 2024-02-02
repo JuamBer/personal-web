@@ -38,22 +38,93 @@
     "info": "Téléchargez mon dernier CV résumé sur une page en anglais/espagnol"
   },
   "messages": {
-    "headers": {
-      "success": "Succès",
-      "warning": "Avertissement",
-      "info": "Information",
-      "error": "Erreur"
-    },
     "confirmation": {
-      "message": "Voulez-vous supprimer le {{name}}?",
-      "header": "Supprimer la confirmation"
+      "message": "Voulez-vous supprimer le {{collectionName}} appelé {{entityName}}?",
+      "header": "Confirmation de suppression"
     },
-    "toastDeleted": "Elle {{name}} a été supprimé avec succès",
-    "toastCreated": "Elle {{name}} a été créé avec succès",
-    "toastUpdated": "Elle {{name}} a été modifié avec succès",
-    "genericError": {
-      "title": "Une erreur imprévue s'est produite",
-      "message": "Une erreur inattendue s'est produite, veuillez réessayer plus tard"
+    "count": {
+      "pending": {
+        "summary": "Obtention du nombre de {{collectionName}}...",
+        "detail": "Nous obtenons le nombre de {{collectionName}}. "
+      },
+      "success": {
+        "summary": "Le nombre de {{collectionName}} correctement",
+        "detail": "Le nombre de {{collectionName}} correctement"
+      },
+      "error": {
+        "summary": "Impossible d'obtenir le nombre de {{collectionName}} correctement",
+        "detail": "Une erreur inattendue s'est produite lors de l'obtention du nombre de {{collectionName}}, Veuillez réessayer plus tard"
+      }
+    },
+    "create": {
+      "pending": {
+        "summary": "Création {{collectionName}}...",
+        "detail": "Nous créons \"{{entityName}}\". Attendez un moment s'il vous plaît"
+      },
+      "success": {
+        "summary": "Elle {{collectionName}} a été créé correctement",
+        "detail": "\"{{entityName}}\" a été créé avec succès"
+      },
+      "error": {
+        "summary": "Elle {{collectionName}} n'a pas pu être créé correctement",
+        "detail": "Une erreur inattendue s'est produite avec \"{{entityName}}\", Veuillez réessayer plus tard"
+      }
+    },
+    "update": {
+      "pending": {
+        "summary": "Mise à jour {{collectionName}}...",
+        "detail": "Nous mettons à jour \"{{entityName}}\". Attendez un moment s'il vous plaît"
+      },
+      "success": {
+        "summary": "Elle {{collectionName}} a été mis à jour avec succès",
+        "detail": "\"{{entityName}}\" a été mis à jour avec succès"
+      },
+      "error": {
+        "summary": "Elle {{collectionName}} n'a pas pu être mis à jour correctement",
+        "detail": "Une erreur inattendue s'est produite avec \"{{entityName}}\", Veuillez réessayer plus tard"
+      }
+    },
+    "delete": {
+      "pending": {
+        "summary": "Suppression {{collectionName}}...",
+        "detail": "Nous éliminons \"{{entityName}}\". Attendez un moment s'il vous plaît"
+      },
+      "success": {
+        "summary": "Elle {{collectionName}} a été supprimé avec succès",
+        "detail": "\"{{entityName}}\" a été supprimé avec succès"
+      },
+      "error": {
+        "summary": "Elle {{collectionName}} n'a pas pu être supprimé correctement",
+        "detail": "Une erreur inattendue s'est produite avec \"{{entityName}}\", Veuillez réessayer plus tard"
+      }
+    },
+    "load": {
+      "pending": {
+        "summary": "Mise en charge {{collectionName}}...",
+        "detail": "Attendez un moment s'il vous plaît"
+      },
+      "success": {
+        "summary": "Elle {{collectionName}} a été chargé correctement",
+        "detail": "\"{{entityName}}\" a été chargé correctement"
+      },
+      "error": {
+        "summary": "Elle {{collectionName}} n'a pas pu être chargé correctement",
+        "detail": "Une erreur inattendue s'est produite avec \"{{entityName}}\", Veuillez réessayer plus tard"
+      }
+    },
+    "loadMany": {
+      "pending": {
+        "summary": "Mise en charge {{collectionName}}...",
+        "detail": "Attendez un moment s'il vous plaît"
+      },
+      "success": {
+        "summary": "Les les {{collectionName}} ont été chargés correctement",
+        "detail": "\"{{entityName}}\" ont été chargés correctement"
+      },
+      "error": {
+        "summary": "Les les {{collectionName}} n'a pas pu être chargé correctement",
+        "detail": "Une erreur inattendue s'est produite avec \"{{entityName}}\", Veuillez réessayer plus tard"
+      }
     }
   },
   "buttons": {
@@ -151,7 +222,7 @@
     "email": "Poster",
     "dateTo": "date de",
     "dateFrom": "Dater de",
-    "percentage": "pourcentage",
+    "percentage": "Pourcentage",
     "url": "Lien",
     "pdf": "pdf",
     "github": "GitHub",

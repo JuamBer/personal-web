@@ -38,22 +38,93 @@
     "info": "Scarica il mio ultimo curriculum riassunto in una pagina in inglese/spagnolo"
   },
   "messages": {
-    "headers": {
-      "success": "Successo",
-      "warning": "Avvertimento",
-      "info": "Informazione",
-      "error": "Errore"
-    },
     "confirmation": {
-      "message": "Vuoi eliminare il file {{name}}?",
-      "header": "Elimina conferma"
+      "message": "Vuoi eliminare il {{collectionName}} chiamato {{entityName}}?",
+      "header": "Conferma di cancellazione"
     },
-    "toastDeleted": "Lei {{name}} è stato eliminato con successo",
-    "toastCreated": "Lei {{name}} è stato creato con successo",
-    "toastUpdated": "Lei {{name}} è stato modificato con successo",
-    "genericError": {
-      "title": "Si è verificato un errore imprevisto",
-      "message": "Si è verificato un errore imprevisto, riprova più tardi"
+    "count": {
+      "pending": {
+        "summary": "Ottenere il numero di {{collectionName}}...",
+        "detail": "Stiamo ottenendo il numero di {{collectionName}}. "
+      },
+      "success": {
+        "summary": "Il numero di {{collectionName}} correttamente",
+        "detail": "Il numero di {{collectionName}} correttamente"
+      },
+      "error": {
+        "summary": "Impossibile ottenere il numero di {{collectionName}} correttamente",
+        "detail": "Si è verificato un errore imprevisto durante il recupero del numero di {{collectionName}}, Per favore riprova più tardi"
+      }
+    },
+    "create": {
+      "pending": {
+        "summary": "Creare {{collectionName}}...",
+        "detail": "Stiamo creando\"{{entityName}}\". Aspetta un momento perfavore"
+      },
+      "success": {
+        "summary": "Lei {{collectionName}} è stato creato correttamente",
+        "detail": "\"{{entityName}}\" è stato creato con successo"
+      },
+      "error": {
+        "summary": "Lei {{collectionName}} non è stato possibile crearlo correttamente",
+        "detail": "Si è verificato un errore imprevisto con \"{{entityName}}\", Per favore riprova più tardi"
+      }
+    },
+    "update": {
+      "pending": {
+        "summary": "In aggiornamento {{collectionName}}...",
+        "detail": "Ci stiamo aggiornando\"{{entityName}}\". Aspetta un momento perfavore"
+      },
+      "success": {
+        "summary": "Lei {{collectionName}} è stato aggiornato con successo",
+        "detail": "\"{{entityName}}\" è stato aggiornato con successo"
+      },
+      "error": {
+        "summary": "Lei {{collectionName}} non è stato possibile aggiornarlo correttamente",
+        "detail": "Si è verificato un errore imprevisto con \"{{entityName}}\", Per favore riprova più tardi"
+      }
+    },
+    "delete": {
+      "pending": {
+        "summary": "Rimozione {{collectionName}}...",
+        "detail": "Stiamo eliminando\"{{entityName}}\". Aspetta un momento perfavore"
+      },
+      "success": {
+        "summary": "Lei {{collectionName}} è stato rimosso con successo",
+        "detail": "\"{{entityName}}\" è stato rimosso con successo"
+      },
+      "error": {
+        "summary": "Lei {{collectionName}} non è stato possibile eliminarlo correttamente",
+        "detail": "Si è verificato un errore imprevisto con \"{{entityName}}\", Per favore riprova più tardi"
+      }
+    },
+    "load": {
+      "pending": {
+        "summary": "In carica {{collectionName}}...",
+        "detail": "Aspetta un momento perfavore"
+      },
+      "success": {
+        "summary": "Lei {{collectionName}} è stato caricato correttamente",
+        "detail": "\"{{entityName}}\" è stato caricato correttamente"
+      },
+      "error": {
+        "summary": "Lei {{collectionName}} non è stato possibile caricarlo correttamente",
+        "detail": "Si è verificato un errore imprevisto con \"{{entityName}}\", Per favore riprova più tardi"
+      }
+    },
+    "loadMany": {
+      "pending": {
+        "summary": "In carica {{collectionName}}...",
+        "detail": "Aspetta un momento perfavore"
+      },
+      "success": {
+        "summary": "IL {{collectionName}} sono stati caricati correttamente",
+        "detail": "\"{{entityName}}\" sono stati caricati correttamente"
+      },
+      "error": {
+        "summary": "IL {{collectionName}} non è stato possibile caricarlo correttamente",
+        "detail": "Si è verificato un errore imprevisto con \"{{entityName}}\", Per favore riprova più tardi"
+      }
     }
   },
   "buttons": {
@@ -151,7 +222,7 @@
     "email": "Posta",
     "dateTo": "data a",
     "dateFrom": "Data da",
-    "percentage": "percentuale",
+    "percentage": "Percentuale",
     "url": "Collegamento",
     "pdf": "PDF",
     "github": "Git Hub",

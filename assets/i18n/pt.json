@@ -38,22 +38,93 @@
     "info": "Baixe meu último currículo resumido em uma página em inglês/espanhol"
   },
   "messages": {
-    "headers": {
-      "success": "Sucesso",
-      "warning": "Aviso",
-      "info": "Informação",
-      "error": "Erro"
-    },
     "confirmation": {
-      "message": "Deseja excluir o {{name}}?",
-      "header": "Excluir confirmação"
+      "message": "Você deseja excluir o {{collectionName}} chamado {{entityName}}?",
+      "header": "Confirmação de exclusão"
     },
-    "toastDeleted": "Ela {{name}} foi excluído com sucesso",
-    "toastCreated": "Ela {{name}} foi criado com sucesso",
-    "toastUpdated": "Ela {{name}} foi modificado com sucesso",
-    "genericError": {
-      "title": "Ocorreu um erro",
-      "message": "Ocorreu um erro ao processar sua solicitação. Tente novamente mais tarde"
+    "count": {
+      "pending": {
+        "summary": "Obtendo o número de {{collectionName}}...",
+        "detail": "Estamos obtendo o número de {{collectionName}}. "
+      },
+      "success": {
+        "summary": "O número de {{collectionName}} corretamente",
+        "detail": "O número de {{collectionName}} corretamente"
+      },
+      "error": {
+        "summary": "Não foi possível obter o número de {{collectionName}} corretamente",
+        "detail": "Ocorreu um erro inesperado ao obter o número de {{collectionName}}, Por favor, tente novamente mais tarde"
+      }
+    },
+    "create": {
+      "pending": {
+        "summary": "Criando {{collectionName}}...",
+        "detail": "Estamos criando \"{{entityName}}\". Espere um momento, por favor"
+      },
+      "success": {
+        "summary": "Ela {{collectionName}} foi criado corretamente",
+        "detail": "\"{{entityName}}\" foi criado com sucesso"
+      },
+      "error": {
+        "summary": "Ela {{collectionName}} não foi possível criar corretamente",
+        "detail": "Ocorreu um erro inesperado com \"{{entityName}}\", Por favor, tente novamente mais tarde"
+      }
+    },
+    "update": {
+      "pending": {
+        "summary": "Atualizando {{collectionName}}...",
+        "detail": "Estamos atualizando\"{{entityName}}\". Espere um momento, por favor"
+      },
+      "success": {
+        "summary": "Ela {{collectionName}} foi atualizado com sucesso",
+        "detail": "\"{{entityName}}\"foi atualizado com sucesso"
+      },
+      "error": {
+        "summary": "Ela {{collectionName}} não foi possível atualizar corretamente",
+        "detail": "Ocorreu um erro inesperado com \"{{entityName}}\", Por favor, tente novamente mais tarde"
+      }
+    },
+    "delete": {
+      "pending": {
+        "summary": "Removendo {{collectionName}}...",
+        "detail": "Estamos eliminando \"{{entityName}}\". Espere um momento, por favor"
+      },
+      "success": {
+        "summary": "Ela {{collectionName}} foi removido com sucesso",
+        "detail": "\"{{entityName}}\"foi removido com sucesso"
+      },
+      "error": {
+        "summary": "Ela {{collectionName}} não foi possível excluir corretamente",
+        "detail": "Ocorreu um erro inesperado com \"{{entityName}}\", Por favor, tente novamente mais tarde"
+      }
+    },
+    "load": {
+      "pending": {
+        "summary": "Carregando {{collectionName}}...",
+        "detail": "Espere um momento, por favor"
+      },
+      "success": {
+        "summary": "Ela {{collectionName}} foi carregado corretamente",
+        "detail": "\"{{entityName}}\"foi carregado corretamente"
+      },
+      "error": {
+        "summary": "Ela {{collectionName}} não foi possível carregar corretamente",
+        "detail": "Ocorreu um erro inesperado com \"{{entityName}}\", Por favor, tente novamente mais tarde"
+      }
+    },
+    "loadMany": {
+      "pending": {
+        "summary": "Carregando {{collectionName}}...",
+        "detail": "Espere um momento, por favor"
+      },
+      "success": {
+        "summary": "Os as {{collectionName}} foram carregados corretamente",
+        "detail": "\"{{entityName}}\"foram carregados corretamente"
+      },
+      "error": {
+        "summary": "Os as {{collectionName}} não foi possível carregar corretamente",
+        "detail": "Ocorreu um erro inesperado com \"{{entityName}}\", Por favor, tente novamente mais tarde"
+      }
     }
   },
   "buttons": {
@@ -151,7 +222,7 @@
     "email": "Correspondência",
     "dateTo": "data para",
     "dateFrom": "Data de",
-    "percentage": "percentagem",
+    "percentage": "Percentagem",
     "url": "Link",
     "pdf": "pdf",
     "github": "GitHub",
