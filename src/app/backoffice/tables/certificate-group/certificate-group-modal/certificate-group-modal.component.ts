@@ -13,7 +13,8 @@ import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ModalParams } from 'src/app/shared/models/modal-params.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
-import { Action, ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { Action, ActionStatus, ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -41,9 +42,11 @@ export const certificateGroupModalTitleResolver: ResolveFn<string> = (route: Act
                 from(certificateGroupSrv.getTitle(route.paramMap.get('id')!)).pipe(
                   map(
                     (selected) =>
-                      `${appRootTitle} | ${table} | ${selected?.nameTranslations?.find(
-                        (translation: Translation) => translation.language === language?.acronym,
-                      )?.value}`,
+                      `${appRootTitle} | ${table} | ${
+                        selected?.nameTranslations?.find(
+                          (translation: Translation) => translation.language === language?.acronym,
+                        )?.value
+                      }`,
                   ),
                 ),
               ),
@@ -76,7 +79,7 @@ export class CertificateGroupModalComponent
   destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
-  loading$: Observable<boolean> = this.store.select(certificateGroupReducer.getLoading);
+  loading$ = hasPendingActions(this.store.select(certificateGroupReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
@@ -128,7 +131,7 @@ export class CertificateGroupModalComponent
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(certificateGroupActions.loadOne({ id: params.id }));
+        this.store.dispatch(certificateGroupActions.loadOne(addActionId({ id: params.id })));
       });
   }
 
@@ -176,10 +179,14 @@ export class CertificateGroupModalComponent
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(certificateGroupActions.create({ payload: this.form.value as CertificateGroup }));
+            this.store.dispatch(
+              certificateGroupActions.create(addActionId({ payload: this.form.value as CertificateGroup })),
+            );
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(certificateGroupActions.update({ payload: this.form.value as CertificateGroup }));
+            this.store.dispatch(
+              certificateGroupActions.update(addActionId({ payload: this.form.value as CertificateGroup })),
+            );
             break;
         }
       });

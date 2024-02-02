@@ -25,6 +25,7 @@ import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-g
 import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOptions } from 'swiper';
 
@@ -127,12 +128,14 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
           previousCertificateGroups.length < currentCertificateGroups.length
         ) {
           this.store.dispatch(
-            certificateGroupActions.loadMore({
-              payload: {
-                first: count,
-                rows: 1,
-              },
-            }),
+            certificateGroupActions.loadMore(
+              addActionId({
+                payload: {
+                  first: count,
+                  rows: 1,
+                },
+              }),
+            ),
           );
         }
 

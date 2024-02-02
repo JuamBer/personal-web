@@ -10,7 +10,8 @@ import { appRootTitle } from 'src/app/app.component';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ModalParams } from 'src/app/shared/models/modal-params.model';
-import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { ActionStatus, ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -66,7 +67,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
-  loading$: Observable<boolean> = this.store.select(languageReducer.getLoading);
+  loading$ = hasPendingActions(this.store.select(languageReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
@@ -114,7 +115,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(languageActions.loadOne({ id: params.id }));
+        this.store.dispatch(languageActions.loadOne(addActionId({ id: params.id })));
       });
   }
 
@@ -157,10 +158,10 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(languageActions.create({ payload: this.form.value as Language }));
+            this.store.dispatch(languageActions.create(addActionId({ payload: this.form.value as Language })));
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(languageActions.update({ payload: this.form.value as Language }));
+            this.store.dispatch(languageActions.update(addActionId({ payload: this.form.value as Language })));
             break;
         }
       });

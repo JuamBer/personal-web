@@ -14,7 +14,8 @@ import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ModalParams } from 'src/app/shared/models/modal-params.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
-import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { ActionStatus, ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -43,9 +44,11 @@ export const skillTypeModalTitleResolver: ResolveFn<string> = (route: ActivatedR
                 from(skillTypeSrv.getTitle(route.paramMap.get('id')!)).pipe(
                   map(
                     (selected) =>
-                      `${appRootTitle} | ${table} | ${selected?.nameTranslations?.find(
-                        (translation: Translation) => translation.language === language?.acronym,
-                      )?.value}`,
+                      `${appRootTitle} | ${table} | ${
+                        selected?.nameTranslations?.find(
+                          (translation: Translation) => translation.language === language?.acronym,
+                        )?.value
+                      }`,
                   ),
                 ),
               ),
@@ -74,7 +77,7 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
   destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
-  loading$: Observable<boolean> = this.store.select(skillTypeReducer.getLoading);
+  loading$ = hasPendingActions(this.store.select(skillTypeReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
@@ -126,7 +129,7 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(skillTypeActions.loadOne({ id: params.id }));
+        this.store.dispatch(skillTypeActions.loadOne(addActionId({ id: params.id })));
       });
   }
 
@@ -176,10 +179,10 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(skillTypeActions.create({ payload: this.form.value as SkillType }));
+            this.store.dispatch(skillTypeActions.create(addActionId({ payload: this.form.value as SkillType })));
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(skillTypeActions.update({ payload: this.form.value as SkillType }));
+            this.store.dispatch(skillTypeActions.update(addActionId({ payload: this.form.value as SkillType })));
             break;
         }
       });

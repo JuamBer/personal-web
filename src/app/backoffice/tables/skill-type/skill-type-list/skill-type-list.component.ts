@@ -19,6 +19,8 @@ import { defaultGenericTableConfig } from 'src/app/shared/components/generic-tab
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { SkillType } from '../models/skill-type.model';
@@ -62,7 +64,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
     initialValue: [],
   });
 
-  loading$ = this.store.select(skillTypeReducer.getLoading);
+  loading$ = hasPendingActions(this.store.select(skillTypeReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
@@ -88,7 +90,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
   }
 
   handleLoadCount() {
-    this.store.dispatch(skillTypeActions.count());
+    this.store.dispatch(skillTypeActions.count(addActionId({})));
   }
 
   handleLoadTableConfig() {
@@ -109,7 +111,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {
-    this.store.dispatch(skillTypeActions.loadAll({ payload: event }));
+    this.store.dispatch(skillTypeActions.loadAll(addActionId({ payload: event })));
   }
 
   onTableEvent(event: TableEvent<SkillType>) {
@@ -138,7 +140,7 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            this.store.dispatch(skillTypeActions.delete({ id: event.value.id }));
+            this.store.dispatch(skillTypeActions.delete(addActionId({ id: event.value.id })));
           },
         });
 

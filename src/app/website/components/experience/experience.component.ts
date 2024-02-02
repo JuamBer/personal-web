@@ -24,6 +24,7 @@ import { positionActions } from 'src/app/backoffice/tables/position/state/positi
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 
 export class PositionGroupedByCompany {
@@ -139,7 +140,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   ngOnInit() {
     this.positionsGrouped$.pipe(takeUntil(this.destroy$)).subscribe((positionsGrouped) => {
       if (!positionsGrouped.length) {
-        this.store.dispatch(positionActions.loadAll({ payload: null }));
+        this.store.dispatch(positionActions.loadAll(addActionId({})));
       }
     });
   }

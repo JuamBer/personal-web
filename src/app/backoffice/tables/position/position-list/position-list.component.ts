@@ -18,6 +18,8 @@ import { defaultGenericTableConfig } from 'src/app/shared/components/generic-tab
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { Position } from '../models/position.model';
@@ -61,7 +63,7 @@ export class PositionListComponent implements OnInit, OnDestroy, EntityList<Posi
     initialValue: [],
   });
 
-  loading$ = this.store.select(positionReducer.getLoading);
+  loading$ = hasPendingActions(this.store.select(positionReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
@@ -87,7 +89,7 @@ export class PositionListComponent implements OnInit, OnDestroy, EntityList<Posi
   }
 
   handleLoadCount() {
-    this.store.dispatch(positionActions.count());
+    this.store.dispatch(positionActions.count(addActionId({})));
   }
 
   handleLoadTableConfig() {
@@ -108,7 +110,7 @@ export class PositionListComponent implements OnInit, OnDestroy, EntityList<Posi
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {
-    this.store.dispatch(positionActions.loadAll({ payload: event }));
+    this.store.dispatch(positionActions.loadAll(addActionId({ payload: event })));
   }
 
   onTableEvent(event: TableEvent<Position>) {
@@ -137,7 +139,7 @@ export class PositionListComponent implements OnInit, OnDestroy, EntityList<Posi
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            this.store.dispatch(positionActions.delete({ id: event.value.id }));
+            this.store.dispatch(positionActions.delete(addActionId({ id: event.value.id })));
           },
         });
 

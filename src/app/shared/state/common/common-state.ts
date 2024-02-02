@@ -1,3 +1,4 @@
+import { Observable, map, tap } from 'rxjs';
 import { Resource } from '../../models/resource.model';
 
 export enum ActionType {
@@ -17,6 +18,7 @@ export enum ActionStatus {
   ERROR = 'ERROR',
 }
 export interface Action {
+  id: string;
   type: ActionType;
   status: ActionStatus;
 }
@@ -24,6 +26,34 @@ export class CommonState<T extends Resource> {
   entities: T[] = [];
   selectedId: string | undefined;
   count: number = 0;
-  loading: boolean = false;
   action: Action | undefined;
+}
+
+export function hasPendingActions(action$: Observable<Action | undefined>): Observable<boolean> {
+  const pendingActions = new Map<string, Set<string>>();
+
+  return action$.pipe(
+    tap((action) => {
+      if (!action) return;
+
+      if (!pendingActions.has(action.type)) {
+        pendingActions.set(action.type, new Set());
+      }
+
+      const actionSet = pendingActions.get(action.type);
+
+      if (actionSet) {
+        if (action.status === ActionStatus.PENDING) {
+          actionSet.add(action.id);
+        } else if (action.status === ActionStatus.SUCCESS || action.status === ActionStatus.ERROR) {
+          actionSet.delete(action.id);
+        }
+
+        if (actionSet.size === 0) {
+          pendingActions.delete(action.type);
+        }
+      }
+    }),
+    map(() => Array.from(pendingActions.values()).some((set) => set.size > 0)),
+  );
 }

@@ -12,6 +12,7 @@ import { positionActions } from 'src/app/backoffice/tables/position/state/positi
 import { positionReducer } from 'src/app/backoffice/tables/position/state/position.reducer';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 
 @Component({
@@ -133,6 +134,6 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
   chartData = toSignal(this.chartData$);
 
   ngOnInit() {
-    this.store.dispatch(positionActions.loadAll({}));
+    this.store.dispatch(positionActions.loadAll(addActionId({})));
   }
 }

@@ -17,15 +17,15 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
     this.initialState,
 
     //LOAD ONE REDUCERS
-    on(this.actions.loadOne, (state): any => ({
+    on(this.actions.loadOne, (state, { actionId }): any => ({
       ...(state as any),
-      loading: true,
       action: {
+        id: actionId,
         type: ActionType.LOAD_ONE,
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.loadOneSuccess, (state, { payload }) => {
+    on(this.actions.loadOneSuccess, (state, { actionId, payload }) => {
       const entities = [...state.entities];
       const index = entities.findIndex((entity) => entity.id === payload.id);
       if (index >= 0) {
@@ -36,39 +36,38 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
 
       return {
         ...state,
-        loading: false,
         selectedId: payload.id,
         entities: entities,
         action: {
+          id: actionId,
           type: ActionType.LOAD_ONE,
           status: ActionStatus.SUCCESS,
         },
       };
     }),
-    on(this.actions.loadOneFail, (state): any => ({
+    on(this.actions.loadOneFail, (state, { actionId }): any => ({
       ...state,
-      loading: false,
       action: {
+        id: actionId,
         type: ActionType.LOAD_ONE,
         status: ActionStatus.ERROR,
       },
     })),
 
     //LOAD ALL REDUCERS
-    on(this.actions.loadAll, (state): any => ({
+    on(this.actions.loadAll, (state, { actionId }): any => ({
       ...state,
-      loading: true,
       action: {
+        id: actionId,
         type: ActionType.LOAD_MANY,
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.loadAllSuccess, (state, { payload }) => {
+    on(this.actions.loadAllSuccess, (state, { actionId, payload }) => {
       const selected = state.entities.find((entity) => entity.id === state.selectedId);
 
       return {
         ...state,
-        loading: false,
         entities: payload.map((entity) => {
           if (entity.id === state.selectedId && selected) {
             return {
@@ -80,91 +79,92 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
           }
         }),
         action: {
+          id: actionId,
           type: ActionType.LOAD_MANY,
           status: ActionStatus.SUCCESS,
         },
       };
     }),
-    on(this.actions.loadAllFail, (state): any => ({
+    on(this.actions.loadAllFail, (state, { actionId }): any => ({
       ...state,
-      loading: false,
+
       action: {
+        id: actionId,
         type: ActionType.LOAD_MANY,
         status: ActionStatus.ERROR,
       },
     })),
 
     //LOAD MORE REDUCERS
-    on(this.actions.loadMore, (state): any => ({
+    on(this.actions.loadMore, (state, { actionId }): any => ({
       ...state,
-      loading: true,
       action: {
+        id: actionId,
         type: ActionType.LOAD_MANY,
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.loadMoreSuccess, (state, { payload }): any => {
+    on(this.actions.loadMoreSuccess, (state, { actionId, payload }): any => {
       return {
         ...state,
-        loading: false,
         entities: [...state.entities, ...payload],
         action: {
+          id: actionId,
           type: ActionType.LOAD_MANY,
           status: ActionStatus.SUCCESS,
         },
       };
     }),
-    on(this.actions.loadMoreFail, (state): any => ({
+    on(this.actions.loadMoreFail, (state, { actionId }): any => ({
       ...state,
-      loading: false,
       action: {
+        id: actionId,
         type: ActionType.LOAD_MANY,
         status: ActionStatus.ERROR,
       },
     })),
 
     //CREATE REDUCERS
-    on(this.actions.create, (state): any => ({
+    on(this.actions.create, (state, { actionId }): any => ({
       ...state,
-      loading: true,
       action: {
+        id: actionId,
         type: ActionType.CREATE_ONE,
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.createSuccess, (state, { payload }): any => {
+    on(this.actions.createSuccess, (state, { actionId, payload }): any => {
       return {
         ...state,
-        loading: false,
         entities: [...state.entities, payload],
         count: state.count + 1,
         action: {
+          id: actionId,
           type: ActionType.CREATE_ONE,
           status: ActionStatus.SUCCESS,
         },
       };
     }),
-    on(this.actions.createFail, (state): any => ({
+    on(this.actions.createFail, (state, { actionId }): any => ({
       ...state,
-      loading: false,
       action: {
+        id: actionId,
         type: ActionType.CREATE_ONE,
         status: ActionStatus.ERROR,
       },
     })),
 
     //UPDATE REDUCERS
-    on(this.actions.update, (state): any => ({
+    on(this.actions.update, (state, { actionId }): any => ({
       ...state,
-      loading: true,
       action: {
+        id: actionId,
         type: ActionType.UPDATE_ONE,
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.updateSuccess, (state, { payload }): any => ({
+    on(this.actions.updateSuccess, (state, { actionId, payload }): any => ({
       ...state,
-      loading: false,
       entities: state.entities.map((entity) => {
         if (entity.id === payload.id) {
           return payload;
@@ -173,31 +173,31 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
         }
       }),
       action: {
+        id: actionId,
         type: ActionType.UPDATE_ONE,
         status: ActionStatus.SUCCESS,
       },
     })),
-    on(this.actions.createFail, (state): any => ({
+    on(this.actions.createFail, (state, { actionId }): any => ({
       ...state,
-      loading: false,
       action: {
+        id: actionId,
         type: ActionType.UPDATE_ONE,
         status: ActionStatus.ERROR,
       },
     })),
 
     //DELETE REDUCERS
-    on(this.actions.delete, (state): any => ({
+    on(this.actions.delete, (state, { actionId }): any => ({
       ...state,
-      loading: true,
       action: {
+        id: actionId,
         type: ActionType.DELETE_ONE,
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.deleteSuccess, (state, { id }): any => ({
+    on(this.actions.deleteSuccess, (state, { actionId, id }): any => ({
       ...state,
-      loading: false,
       count: state.count - 1,
       entities: state.entities.filter((entity) => {
         if (entity.id === id) {
@@ -207,43 +207,44 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
         }
       }),
       action: {
+        id: actionId,
         type: ActionType.DELETE_ONE,
         status: ActionStatus.SUCCESS,
       },
     })),
-    on(this.actions.deleteFail, (state): any => ({
+    on(this.actions.deleteFail, (state, { actionId }): any => ({
       ...state,
-      loading: false,
       action: {
+        id: actionId,
         type: ActionType.DELETE_ONE,
         status: ActionStatus.ERROR,
       },
     })),
 
     //COUNT REDUCERS
-    on(this.actions.count, (state): any => ({
+    on(this.actions.count, (state, { actionId }): any => ({
       ...state,
-      loading: true,
       action: {
+        id: actionId,
         type: ActionType.COUNT,
         status: ActionStatus.PENDING,
       },
     })),
-    on(this.actions.countSuccess, (state, { payload }): any => {
+    on(this.actions.countSuccess, (state, { actionId, payload }): any => {
       return {
         ...state,
-        loading: false,
         count: payload,
         action: {
+          id: actionId,
           type: ActionType.COUNT,
           status: ActionStatus.SUCCESS,
         },
       };
     }),
-    on(this.actions.countFail, (state): any => ({
+    on(this.actions.countFail, (state, { actionId }): any => ({
       ...state,
-      loading: false,
       action: {
+        id: actionId,
         type: ActionType.COUNT,
         status: ActionStatus.ERROR,
       },
@@ -272,7 +273,6 @@ export class CommonReducer<T extends Resource, S extends CommonState<T>> {
   );
   public getCount = createSelector(this.getCommonFeatureState, (state: S) => state.count);
   public getAction = createSelector(this.getCommonFeatureState, (state: S) => state.action);
-  public getLoading = createSelector(this.getCommonFeatureState, (state: S) => state.loading);
 }
 // eslint-disable-next-line @typescript-eslint/no-namespace
 namespace CommonReducer {

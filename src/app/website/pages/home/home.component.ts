@@ -12,6 +12,7 @@ import { skillTypeActions } from 'src/app/backoffice/tables/skill-type/state/ski
 import { skillTypeReducer } from 'src/app/backoffice/tables/skill-type/state/skill-type.reducer';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { SocialNetwork } from '../../components/social-networks/models/social-network.model';
 
@@ -96,7 +97,7 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
   ngOnInit() {
     this.skillTypes$.subscribe((skillTypes) => {
       if (!skillTypes.length) {
-        this.store.dispatch(skillTypeActions.loadAll({ payload: null }));
+        this.store.dispatch(skillTypeActions.loadAll(addActionId({})));
       }
     });
   }

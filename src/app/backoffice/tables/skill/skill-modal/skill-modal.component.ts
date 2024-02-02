@@ -11,7 +11,8 @@ import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ModalParams } from 'src/app/shared/models/modal-params.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
-import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { ActionStatus, ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -70,7 +71,7 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
   destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
-  loading$: Observable<boolean> = this.store.select(skillReducer.getLoading);
+  loading$: Observable<boolean> = hasPendingActions(this.store.select(skillReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
@@ -112,7 +113,7 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
   }
 
   handleLoadData() {
-    this.store.dispatch(skillTypeActions.loadAll({}));
+    this.store.dispatch(skillTypeActions.loadAll(addActionId({})));
   }
 
   handleParams() {
@@ -123,7 +124,7 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(skillActions.loadOne({ id: params.id }));
+        this.store.dispatch(skillActions.loadOne(addActionId({ id: params.id })));
       });
   }
 
@@ -170,10 +171,10 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(skillActions.create({ payload: this.form.value as Skill }));
+            this.store.dispatch(skillActions.create(addActionId({ payload: this.form.value as Skill })));
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(skillActions.update({ payload: this.form.value as Skill }));
+            this.store.dispatch(skillActions.update(addActionId({ payload: this.form.value as Skill })));
             break;
         }
       });

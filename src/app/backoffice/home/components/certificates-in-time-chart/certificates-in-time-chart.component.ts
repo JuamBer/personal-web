@@ -12,6 +12,7 @@ import { certificateActions } from 'src/app/backoffice/tables/certificate/state/
 import { certificateReducer } from 'src/app/backoffice/tables/certificate/state/certificate.reducer';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { LanguagesModule } from 'src/app/shared/modules/languages.module';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 
 @Component({
@@ -139,6 +140,6 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
   chartData = toSignal(this.chartData$);
 
   ngOnInit() {
-    this.store.dispatch(certificateActions.loadAll({}));
+    this.store.dispatch(certificateActions.loadAll(addActionId({})));
   }
 }

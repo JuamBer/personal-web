@@ -18,8 +18,11 @@ import { defaultGenericTableConfig } from 'src/app/shared/components/generic-tab
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
+import { GlobalUtils } from 'src/app/shared/utils/global.utils';
 import { Certificate } from '../models/certificate.model';
 import { certificateActions } from '../state/certificate.actions';
 import { certificateNames } from '../state/certificate.names';
@@ -61,7 +64,7 @@ export class CertificateListComponent implements OnInit, OnDestroy, EntityList<C
     initialValue: [],
   });
 
-  loading$ = this.store.select(certificateReducer.getLoading);
+  loading$ = hasPendingActions(this.store.select(certificateReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
@@ -87,7 +90,7 @@ export class CertificateListComponent implements OnInit, OnDestroy, EntityList<C
   }
 
   handleLoadCount() {
-    this.store.dispatch(certificateActions.count());
+    this.store.dispatch(certificateActions.count(addActionId({})));
   }
 
   handleLoadTableConfig() {
@@ -108,7 +111,7 @@ export class CertificateListComponent implements OnInit, OnDestroy, EntityList<C
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {
-    this.store.dispatch(certificateActions.loadAll({ payload: event }));
+    this.store.dispatch(certificateActions.loadAll(addActionId({ id: GlobalUtils.generateId(), payload: event })));
   }
 
   onTableEvent(event: TableEvent<Certificate>) {
@@ -137,7 +140,7 @@ export class CertificateListComponent implements OnInit, OnDestroy, EntityList<C
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            this.store.dispatch(certificateActions.delete({ id: event.value.id }));
+            this.store.dispatch(certificateActions.delete(addActionId({ id: event.value.id })));
           },
         });
 

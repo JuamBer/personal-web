@@ -12,7 +12,8 @@ import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ModalParams } from 'src/app/shared/models/modal-params.model';
 import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
-import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
+import { ActionStatus, ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -42,9 +43,11 @@ export const positionModalTitleResolver: ResolveFn<string> = (route: ActivatedRo
                 from(positionSrv.getTitle(route.paramMap.get('id')!)).pipe(
                   map(
                     (selected) =>
-                      `${appRootTitle} | ${table} | ${selected?.nameTranslations?.find(
-                        (translation: Translation) => translation.language === language?.acronym,
-                      )?.value}`,
+                      `${appRootTitle} | ${table} | ${
+                        selected?.nameTranslations?.find(
+                          (translation: Translation) => translation.language === language?.acronym,
+                        )?.value
+                      }`,
                   ),
                 ),
               ),
@@ -78,7 +81,7 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
   destroy$ = new Subject<void>();
   params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
 
-  loading$: Observable<boolean> = this.store.select(positionReducer.getLoading);
+  loading$ = hasPendingActions(this.store.select(positionReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
@@ -120,7 +123,7 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
   }
 
   handleLoadData() {
-    this.store.dispatch(companyActions.loadAll({}));
+    this.store.dispatch(companyActions.loadAll(addActionId({})));
   }
 
   handleParams() {
@@ -131,7 +134,7 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
       )
       .subscribe((params) => {
         if (!params.id) return;
-        this.store.dispatch(positionActions.loadOne({ id: params.id }));
+        this.store.dispatch(positionActions.loadOne(addActionId({ id: params.id })));
       });
   }
 
@@ -178,10 +181,10 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
       this.modalMode$.pipe(take(1)).subscribe((modalMode) => {
         switch (modalMode) {
           case ModalMode.CREATE:
-            this.store.dispatch(positionActions.create({ payload: this.form.value as Position }));
+            this.store.dispatch(positionActions.create(addActionId({ payload: this.form.value as Position })));
             break;
           case ModalMode.UPDATE:
-            this.store.dispatch(positionActions.update({ payload: this.form.value as Position }));
+            this.store.dispatch(positionActions.update(addActionId({ payload: this.form.value as Position })));
             break;
         }
       });

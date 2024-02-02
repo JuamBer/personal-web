@@ -18,6 +18,8 @@ import { defaultGenericTableConfig } from 'src/app/shared/components/generic-tab
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { CertificateType } from '../models/certificate-type.model';
@@ -61,7 +63,7 @@ export class CertificateTypeListComponent implements OnInit, OnDestroy, EntityLi
     initialValue: [],
   });
 
-  loading$ = this.store.select(certificateTypeReducer.getLoading);
+  loading$ = hasPendingActions(this.store.select(certificateTypeReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
@@ -87,7 +89,7 @@ export class CertificateTypeListComponent implements OnInit, OnDestroy, EntityLi
   }
 
   handleLoadCount() {
-    this.store.dispatch(certificateTypeActions.count());
+    this.store.dispatch(certificateTypeActions.count(addActionId({})));
   }
 
   handleLoadTableConfig() {
@@ -108,7 +110,7 @@ export class CertificateTypeListComponent implements OnInit, OnDestroy, EntityLi
   }
 
   onLazyLoadEvent(event: TableLazyLoadEvent) {
-    this.store.dispatch(certificateTypeActions.loadAll({ payload: event }));
+    this.store.dispatch(certificateTypeActions.loadAll(addActionId({ payload: event })));
   }
 
   onTableEvent(event: TableEvent<CertificateType>) {
@@ -137,7 +139,7 @@ export class CertificateTypeListComponent implements OnInit, OnDestroy, EntityLi
           rejectLabel: this.translateSrv.instant('buttons.reject'),
           acceptLabel: this.translateSrv.instant('buttons.accept'),
           accept: () => {
-            this.store.dispatch(certificateTypeActions.delete({ id: event.value.id }));
+            this.store.dispatch(certificateTypeActions.delete(addActionId({ id: event.value.id })));
           },
         });
 
