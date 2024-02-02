@@ -313,6 +313,13 @@
     "modal": "Modal"
   },
   "charts": {
+    "positionsInTime": {
+      "title": "Positions over time",
+      "subtitle": "Positions over time",
+      "yAxis": "Positions",
+      "xAxis": "Date",
+      "tooltip": "Positions: {point.y}"
+    },
     "salaryInTime": {
       "title": "salary over time",
       "subtitle": "salary over time",
@@ -323,7 +330,7 @@
     "certificatesInTime": {
       "title": "Certificates over time",
       "subtitle": "Certificates over time",
-      "yAxis": "certificates",
+      "yAxis": "Certificates",
       "xAxis": "Date",
       "tooltip": "Certificates: {point.y}"
     }

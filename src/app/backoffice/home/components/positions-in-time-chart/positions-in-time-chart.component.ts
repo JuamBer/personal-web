@@ -113,7 +113,7 @@ export class PositionsInTimeChartComponent extends TranslationProvider implement
         companyPositions.forEach((position) => {
           const dateFrom = position.dateFrom;
 
-          const dateTo = position.dateTo ? new Date() : new Date();
+          const dateTo = position.dateTo ? position.dateTo : new Date();
           const timeInSeconds = Math.abs(dateTo.getTime() - dateFrom.getTime()) / 1000;
           const timeInYears = timeInSeconds / 31536000;
 

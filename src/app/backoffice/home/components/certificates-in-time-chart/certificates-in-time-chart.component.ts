@@ -105,12 +105,21 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
       const firstCertificateDate = firstCertificate.date;
       const lastCertificateDate = lastCertificate.date;
       for (let d = firstCertificateDate; d <= lastCertificateDate; d.setMonth(d.getMonth() + 1)) {
-        labels.push(`${d.getMonth() + 1}/${d.getFullYear()}`);
-        labelsData.push({
-          key: `${d.getMonth() + 1}/${d.getFullYear()}`,
-          year: d.getFullYear(),
-          month: d.getMonth() + 1,
-        });
+        const monthYearKey = `${d.getMonth() + 1}/${d.getFullYear()}`;
+        const certificatesPerMonth = certificatesSorted.filter((certificate) => {
+          const certificateDate = certificate.date;
+          return (
+            certificateDate.getFullYear() === d.getFullYear() && certificateDate.getMonth() + 1 === d.getMonth() + 1
+          );
+        }).length;
+        if (certificatesPerMonth > 0) {
+          labels.push(monthYearKey);
+          labelsData.push({
+            key: monthYearKey,
+            year: d.getFullYear(),
+            month: d.getMonth() + 1,
+          });
+        }
       }
       let aux = 0;
       const data: any[] = [];
@@ -130,6 +139,26 @@ export class CertificatesInTimeChartComponent extends TranslationProvider implem
         type: 'line',
         data,
       });
+
+      let indicesToRemove = [];
+
+      for (const dataset of datasets) {
+        for (let i = 0; i < dataset.data.length; i++) {
+          if (dataset.data[i] === 0) {
+            indicesToRemove.push(i);
+          }
+        }
+      }
+
+      indicesToRemove = [...new Set(indicesToRemove)];
+      indicesToRemove.sort((a, b) => b - a);
+
+      for (const index of indicesToRemove) {
+        labels.splice(index, 1);
+        for (const dataset of datasets) {
+          dataset.data.splice(index, 1);
+        }
+      }
 
       const res: ChartData<'bar', { key: string; value: number }[]> = {
         labels,
