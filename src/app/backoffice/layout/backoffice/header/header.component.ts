@@ -89,7 +89,6 @@ export class HeaderComponent {
   }
 
   getBreadcrumbsLabel(filteredSplittedUrl: string) {
-    console.log(filteredSplittedUrl);
     switch (filteredSplittedUrl) {
       case 'VIEW':
         return 'View';
