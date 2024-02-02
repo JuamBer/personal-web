@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { faker } from '@faker-js/faker';
 import { Language } from './language.model';
 
@@ -9,4 +10,5 @@ export const mockLanguage = (): Language => ({
   active: faker.datatype.boolean(),
   createdAt: faker.date.past(),
   updatedAt: new Date(),
+  getDisplayName: (language: Language) => '',
 });

@@ -2,6 +2,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { AuditFields } from 'src/app/shared/models/audit-fields.model';
 import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
 import { Company } from '../../company/models/company.model';
+import { Language } from '../../language/models/language.model';
 
 export class Position extends AuditFields {
   nameTranslations: Translation[];
@@ -21,6 +22,20 @@ export class Position extends AuditFields {
     this.hourlyWage = position.hourlyWage;
     this.importance = position.importance;
     this.company = position.company ? new Company(position.company) : undefined;
+  }
+
+  override getDisplayName(language: Language): string {
+    if (this.nameTranslations.length <= 0) {
+      return this.id;
+    }
+
+    const translation = this.nameTranslations.find((t) => t.language === language.acronym);
+
+    if (translation) {
+      return translation.value;
+    }
+
+    return this.nameTranslations[0].value;
   }
 }
 

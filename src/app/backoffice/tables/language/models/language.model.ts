@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuditFields } from 'src/app/shared/models/audit-fields.model';
 
@@ -13,6 +14,10 @@ export class Language extends AuditFields {
     this.name = language.name;
     this.acronym = language.acronym;
     this.active = language.active;
+  }
+
+  override getDisplayName(language: Language): string {
+    return this.nativeName;
   }
 }
 

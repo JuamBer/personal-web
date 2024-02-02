@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuditFields } from 'src/app/shared/models/audit-fields.model';
+import { Language } from '../../language/models/language.model';
 import { SkillType } from '../../skill-type/models/skill-type.model';
 
 export class Skill extends AuditFields {
@@ -12,6 +14,10 @@ export class Skill extends AuditFields {
     this.name = skill.name;
     this.percentage = skill.percentage;
     this.skillType = skill.skillType ? new SkillType(skill.skillType) : undefined;
+  }
+
+  override getDisplayName(language: Language): string {
+    return this.name;
   }
 }
 
