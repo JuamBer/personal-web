@@ -97,7 +97,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
   languagesToFill$!: Observable<Language[]>;
   languagesToFill = signal([] as Language[]);
 
-  disabledLanguages$: Observable<Language[]> = this.store
+  disabledLanguages$ = this.store
     .select(publicLanguageReducer.getAll)
     .pipe(map((languages) => languages.filter((language) => !language.active)));
 

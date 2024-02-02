@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, from } from 'rxjs';
 import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
@@ -79,24 +79,22 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
   });
 
   destroy$ = new Subject<void>();
-  params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
+  params$ = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$ = hasPendingActions(this.store.select(positionReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
-  modalMode$: Observable<ModalMode> = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
+  modalMode$ = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
   modalMode = toSignal(this.modalMode$, {
     initialValue: ModalMode.VIEW,
   });
 
-  entity$: Observable<Position | undefined> = this.store
-    .select(positionReducer.getOne)
-    .pipe(filter((entity) => !!entity));
+  entity$ = this.store.select(positionReducer.getOne).pipe(filter((entity) => !!entity));
   entity = toSignal(this.entity$);
 
-  action$: Observable<Action | undefined> = this.store.select(positionReducer.getAction).pipe(
+  action$ = this.store.select(positionReducer.getAction).pipe(
     skip(1),
     filter(
       (action) =>
@@ -105,9 +103,9 @@ export class PositionModalComponent implements OnInit, OnDestroy, EntityModal<Po
         action.status === ActionStatus.SUCCESS,
     ),
   );
-  showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  showErrors$ = new BehaviorSubject<boolean>(false);
 
-  companies$: Observable<Company[]> = this.store.select(companyReducer.getAll);
+  companies$ = this.store.select(companyReducer.getAll);
 
   ngOnInit() {
     this.handleLoadData();

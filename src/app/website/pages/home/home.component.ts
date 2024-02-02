@@ -5,7 +5,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { skillTypeActions } from 'src/app/backoffice/tables/skill-type/state/skill-type.actions';
@@ -58,7 +57,7 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
     initialValue: [],
   });
 
-  skillTypesActionStatus$: Observable<ActionStatus> = this.store.select(skillTypeReducer.getAction).pipe(
+  skillTypesActionStatus$ = this.store.select(skillTypeReducer.getAction).pipe(
     filter((action) => !!action && action.type === ActionType.LOAD_MANY),
     // eslint-disable-next-line @ngrx/avoid-mapping-selectors
     map((action) => (action ? action.status : ActionStatus.SUCCESS)),

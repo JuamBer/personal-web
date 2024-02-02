@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, from } from 'rxjs';
 import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
@@ -13,13 +13,12 @@ import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ModalParams } from 'src/app/shared/models/modal-params.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { Translation, TranslationFormGroup } from 'src/app/shared/models/translation.model';
-import { Action, ActionStatus, ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { ActionStatus, ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
 import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
-import { Language } from '../../language/models/language.model';
 import { CertificateType, CertificateTypeFormGroup } from '../models/certificate-type.model';
 import { CertificateTypeService } from '../services/certificate-type.service';
 import { certificateTypeActions } from '../state/certificate-type.actions';
@@ -78,24 +77,22 @@ export class CertificateTypeModalComponent
   });
 
   destroy$ = new Subject<void>();
-  params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
+  params$ = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$ = hasPendingActions(this.store.select(certificateTypeReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
-  modalMode$: Observable<ModalMode> = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
+  modalMode$ = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
   modalMode = toSignal(this.modalMode$, {
     initialValue: ModalMode.VIEW,
   });
 
-  entity$: Observable<CertificateType | undefined> = this.store
-    .select(certificateTypeReducer.getOne)
-    .pipe(filter((entity) => !!entity));
+  entity$ = this.store.select(certificateTypeReducer.getOne).pipe(filter((entity) => !!entity));
   entity = toSignal(this.entity$);
 
-  action$: Observable<Action | undefined> = this.store.select(certificateTypeReducer.getAction).pipe(
+  action$ = this.store.select(certificateTypeReducer.getAction).pipe(
     skip(1),
     filter(
       (action) =>
@@ -105,9 +102,9 @@ export class CertificateTypeModalComponent
     ),
   );
 
-  showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  showErrors$ = new BehaviorSubject<boolean>(false);
 
-  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
+  language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
 
   ngOnInit() {

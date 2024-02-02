@@ -3,9 +3,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, from } from 'rxjs';
 import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
@@ -20,7 +20,6 @@ import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
-import { Language } from '../../language/models/language.model';
 import { SkillType, SkillTypeFormGroup } from '../models/skill-type.model';
 import { SkillTypeService } from '../services/skill-type.service';
 import { skillTypeActions } from '../state/skill-type.actions';
@@ -75,24 +74,22 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
   });
 
   destroy$ = new Subject<void>();
-  params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
+  params$ = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$ = hasPendingActions(this.store.select(skillTypeReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
-  modalMode$: Observable<ModalMode> = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
+  modalMode$ = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
   modalMode = toSignal(this.modalMode$, {
     initialValue: ModalMode.VIEW,
   });
 
-  entity$: Observable<SkillType | undefined> = this.store
-    .select(skillTypeReducer.getOne)
-    .pipe(filter((entity) => !!entity));
+  entity$ = this.store.select(skillTypeReducer.getOne).pipe(filter((entity) => !!entity));
   entity = toSignal(this.entity$);
 
-  action$: Observable<Action | undefined> = this.store.select(skillTypeReducer.getAction).pipe(
+  action$ = this.store.select(skillTypeReducer.getAction).pipe(
     skip(1),
     filter(
       (action) =>
@@ -101,9 +98,9 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
         action.status === ActionStatus.SUCCESS,
     ),
   );
-  showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  showErrors$ = new BehaviorSubject<boolean>(false);
 
-  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
+  language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
 
   ngOnInit() {

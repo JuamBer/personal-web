@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { Observable, Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
+import { Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -58,7 +58,7 @@ export class LanguageListComponent implements OnInit, OnDestroy, EntityList<Lang
 
   destroy$ = new Subject<void>();
 
-  entities$: Observable<Language[]> = this.store.select(languageReducer.getAll);
+  entities$ = this.store.select(languageReducer.getAll);
   entities = toSignal(this.entities$, {
     initialValue: [],
   });
@@ -68,7 +68,7 @@ export class LanguageListComponent implements OnInit, OnDestroy, EntityList<Lang
     initialValue: false,
   });
 
-  count$: Observable<number> = this.store.select(languageReducer.getCount);
+  count$ = this.store.select(languageReducer.getCount);
   count = toSignal(this.count$, {
     initialValue: 0,
   });

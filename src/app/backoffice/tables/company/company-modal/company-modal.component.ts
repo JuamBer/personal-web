@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
 import { filter, map, skip, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
@@ -20,7 +20,6 @@ import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 import { RouterUtils } from 'src/app/shared/utils/router.utils';
-import { Language } from '../../language/models/language.model';
 import { CompanyType } from '../models/company-type.model';
 import { Company, CompanyFormGroup } from '../models/company.model';
 import { CompanyService } from '../services/company.service';
@@ -77,24 +76,22 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   });
 
   destroy$ = new Subject<void>();
-  params$: Observable<ModalParams> = this.route.params.pipe(map((params) => params as ModalParams));
+  params$ = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$ = hasPendingActions(this.store.select(companyReducer.getAction));
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
 
-  modalMode$: Observable<ModalMode> = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
+  modalMode$ = this.params$.pipe(map((params) => ModalMode[params.modalMode]));
   modalMode = toSignal(this.modalMode$, {
     initialValue: ModalMode.VIEW,
   });
 
-  entity$: Observable<Company | undefined> = this.store
-    .select(companyReducer.getOne)
-    .pipe(filter((entity) => !!entity));
+  entity$ = this.store.select(companyReducer.getOne).pipe(filter((entity) => !!entity));
   entity = toSignal(this.entity$);
 
-  action$: Observable<Action | undefined> = this.store.select(companyReducer.getAction).pipe(
+  action$ = this.store.select(companyReducer.getAction).pipe(
     skip(1),
     filter(
       (action) =>
@@ -103,9 +100,9 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
         action.status === ActionStatus.SUCCESS,
     ),
   );
-  showErrors$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  showErrors$ = new BehaviorSubject<boolean>(false);
 
-  language$: Observable<Language | undefined> = this.store.select(publicLanguageReducer.getOne);
+  language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
 
   types$: Observable<SelectOption<CompanyType>[]> = this.translateSrv.onLangChange.pipe(

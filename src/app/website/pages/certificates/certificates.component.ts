@@ -58,7 +58,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
 
-  certificateGroups$: Observable<CertificateGroup[]> = this.store.select(certificateGroupReducer.getAll).pipe(
+  certificateGroups$ = this.store.select(certificateGroupReducer.getAll).pipe(
     // eslint-disable-next-line @ngrx/avoid-mapping-selectors
     map((certificateGroups) =>
       [...certificateGroups].sort((a, b) => (b?.certificates?.length || 0) - (a?.certificates?.length || 0)),
