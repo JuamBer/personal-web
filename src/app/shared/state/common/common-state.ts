@@ -6,11 +6,8 @@ export enum ActionType {
   LOAD_ONE = 'LOAD_ONE',
   LOAD_MANY = 'LOAD_MANY',
   CREATE_ONE = 'CREATE_ONE',
-  CREATE_MANY = 'CREATE_MANY',
   UPDATE_ONE = 'UPDATE_ONE',
-  UPDATE_MANY = 'UPDATE_MANY',
   DELETE_ONE = 'DELETE_ONE',
-  DELETE_MANY = 'DELETE_MANY',
 }
 export enum ActionStatus {
   PENDING = 'PENDING',
@@ -29,8 +26,12 @@ export class CommonState<T extends Resource> {
   action: Action | undefined;
 }
 
-export function hasPendingActions(action$: Observable<Action | undefined>): Observable<boolean> {
-  const pendingActions = new Map<string, Set<string>>();
+export function hasPendingActions(
+  action$: Observable<Action | undefined>,
+  actionTypes?: ActionType[],
+): Observable<boolean> {
+  const actionTypesToCheck = actionTypes || Object.values(ActionType);
+  const pendingActions = new Map<ActionType, Set<string>>();
 
   return action$.pipe(
     tap((action) => {
@@ -54,6 +55,16 @@ export function hasPendingActions(action$: Observable<Action | undefined>): Obse
         }
       }
     }),
-    map(() => Array.from(pendingActions.values()).some((set) => set.size > 0)),
+    map(() => {
+      const pendingActionsToCheck = new Map<ActionType, Set<string>>();
+
+      pendingActions.forEach((value, key) => {
+        if (actionTypesToCheck.includes(key)) {
+          pendingActionsToCheck.set(key, value);
+        }
+      });
+
+      return Array.from(pendingActionsToCheck.values()).some((set) => set.size > 0);
+    }),
   );
 }

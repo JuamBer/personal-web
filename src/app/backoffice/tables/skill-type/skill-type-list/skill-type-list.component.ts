@@ -19,7 +19,7 @@ import { defaultGenericTableConfig } from 'src/app/shared/components/generic-tab
 import { EntityList } from 'src/app/shared/models/entity-list.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { hasPendingActions } from 'src/app/shared/state/common/common-state';
+import { ActionType, hasPendingActions } from 'src/app/shared/state/common/common-state';
 import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
@@ -64,7 +64,11 @@ export class SkillTypeListComponent implements OnInit, OnDestroy, EntityList<Ski
     initialValue: [],
   });
 
-  loading$ = hasPendingActions(this.store.select(skillTypeReducer.getAction));
+  loading$ = hasPendingActions(this.store.select(skillTypeReducer.getAction), [
+    ActionType.COUNT,
+    ActionType.LOAD_MANY,
+    ActionType.DELETE_ONE,
+  ]);
   loading = toSignal(this.loading$, {
     initialValue: false,
   });

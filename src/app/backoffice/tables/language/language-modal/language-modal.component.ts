@@ -67,7 +67,11 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   destroy$ = new Subject<void>();
   params$ = this.route.params.pipe(map((params) => params as ModalParams));
 
-  loading$ = hasPendingActions(this.store.select(languageReducer.getAction));
+  loading$ = hasPendingActions(this.store.select(languageReducer.getAction), [
+    ActionType.LOAD_ONE,
+    ActionType.CREATE_ONE,
+    ActionType.UPDATE_ONE,
+  ]);
   loading = toSignal(this.loading$, {
     initialValue: false,
   });

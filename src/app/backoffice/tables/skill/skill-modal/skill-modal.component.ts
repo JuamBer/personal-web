@@ -70,7 +70,11 @@ export class SkillModalComponent extends TranslationProvider implements OnInit, 
   destroy$ = new Subject<void>();
   params$ = this.route.params.pipe(map((params) => params as ModalParams));
 
-  loading$ = hasPendingActions(this.store.select(skillReducer.getAction));
+  loading$ = hasPendingActions(this.store.select(skillReducer.getAction), [
+    ActionType.LOAD_ONE,
+    ActionType.CREATE_ONE,
+    ActionType.UPDATE_ONE,
+  ]);
   loading = toSignal(this.loading$, {
     initialValue: false,
   });
