@@ -261,3 +261,8 @@ body {
 .error {
   padding-left: 1em;
 }
+.p-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -26,12 +26,24 @@
     </div>
   </div>
 </header>
-<p-sidebar [(visible)]="sidebarVisible" position="right" [closeOnEscape]="true">
+<p-sidebar
+  [(visible)]="sidebarVisible"
+  position="right"
+  [closeOnEscape]="true"
+  [style]="{
+    'max-width': '22em'
+  }"
+>
   <ng-template pTemplate="header"
     ><h3 class="p-0 m-0">{{ 'sidebar.title' | translate | titlecase }}</h3></ng-template
   >
   <h4>{{ 'sidebar.languages' | translate | titlecase }}</h4>
-  <div class="language">
+  <div
+    class="language"
+    [style]="{
+      'max-width': '19em'
+    }"
+  >
     <app-language-select type="dropdown" mode="complete"></app-language-select>
   </div>
   <h4>{{ 'sidebar.user' | translate | titlecase }}</h4>
@@ -50,9 +62,9 @@
   <nav>
     <ul>
       @for (menu of menus; track menu) {
-        <li [routerLink]="menu.routerLink" routerLinkActive="active" (click)="sidebarVisible = false">
-          {{ 'breadcrumbs.' + menu.label | translate | titlecase }}
-        </li>
+      <li [routerLink]="menu.routerLink" routerLinkActive="active" (click)="sidebarVisible = false">
+        {{ 'breadcrumbs.' + menu.label | translate | titlecase }}
+      </li>
       }
     </ul>
   </nav>
