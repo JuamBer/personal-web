@@ -73,8 +73,11 @@ export class AuthService {
 
   async sendResetPassword(email: string) {
     return await this.supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${environment.webUrl}/form-reset-password`,
+      redirectTo: `/form-reset-password`,
     });
+    // return await this.supabase.auth.resetPasswordForEmail(email, {
+    //   redirectTo: `${environment.webUrl}/form-reset-password`,
+    // });
   }
 
   async updatePassword(password: string) {
