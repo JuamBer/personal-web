@@ -54,7 +54,8 @@
     "CertificateType",
     "CertificateGroup",
     "Certificate",
-    "Pipes"
+    "Pipes",
+    "Husky"
   ],
   "cSpell.words": [
     "cascadeselect",
