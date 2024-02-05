@@ -16,7 +16,8 @@ This project is a work in progress, and I am constantly updating it with new fea
 4. [Husky 🐶](#husky)
     1. [Commitlint Configuration 🛠️](#commitlint-configuration)
 5. [GitHub Actions 🚀](#github-actions)
-6. [License 🔓](#license)
+6. [Author 🧑‍💻](#author)
+7. [License 🔓](#license)
 
 ## 1. Getting Started 🚀 <a name="getting-started"></a>
 
@@ -287,6 +288,12 @@ An example of our workflows is [github-pages-deploy.yml](.github/workflows/githu
 
 For more information on how to use GitHub Actions, you can consult the [official documentation](https://docs.github.com/en/actions).
 
-## 6. License 🔓 <a name="license"></a>
+## 6. Author 🧑‍💻 <a name="author"></a>
+
+- [Juan Sáez García](https://juamber.com)
+- [GitHub](https://github.com/JuamBer)
+- [LinkedIn](https://www.linkedin.com/in/juamber/)
+
+## 7. License 🔓 <a name="license"></a>
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use and modify the code as you see fit.
