@@ -4,39 +4,29 @@ Welcome to my [personal website](https://juamber.com/home) portfolio! This websi
 
 This project is a work in progress, and I am constantly updating it with new features and improvements. If you have any suggestions or feedback, feel free to open an issue or pull request. I would love to hear from you!
 
-## Table of Contents 📖
+# Table of Contents 📖
 
-  - [Technologies Used 🛠️](#technologies-used)
-  - [Getting Started 🚀](#getting-started)
-    - [Supabase Configuration 🛠️](#supabase-configuration)
-    - [Database Definition 📜](#database-definition)
-    - [Environment Configuration 💻](#environment-configuration)
-    - [Running The Project 🛩️](#running-the-project)
-  - [ESLint ✏️](#eslint)
-  - [Testing 🧪](#testing)
-  - [Husky 🐶](#husky)
-    - [Commitlint Configuration](#commitlint-configuration)
-  - [GitHub Actions 🚀](#github-actions)
-  - [License 🔓](#license)
- 
-## Technologies Used 🛠️
+  1. [Getting Started 🚀](#getting-started)
+    1. [Supabase Configuration 🛠️](#supabase-configuration)
+    2. [Database Definition 📜](#database-definition)
+      1. [Languages](#languages)
+      2. [Skill Types](#skill-types)
+      3. [Skills](#skills)
+      4. [Certificate Groups](#certificate-groups)
+      5. [Certificate Types](#certificate-types)
+      6. [Companies](#companies)
+      7. [Positions](#positions)
+      8. [Certificates](#certificates)
+    3. [Environment Configuration 💻](#environment-configuration)
+    4. [Running The Project 🛩️](#running-the-project)
+  2. [ESLint ✏️](#eslint)
+  3. [Testing 🧪](#testing)
+  4. [Husky 🐶](#husky)
+    1. [Commitlint Configuration](#commitlint-configuration)
+  5. [GitHub Actions 🚀](#github-actions)
+  6. [License 🔓](#license)
 
-  - Front-End
-    - [Angular](https://angular.io/)
-    - [NGRX](https://ngrx.io/)
-  - Back-End
-    - [Supabase](https://supabase.com/)
-  - Database
-    - [PostgreSQL](https://www.postgresql.org/)
-  - Version Control
-    - [Git](https://git-scm.com/)
-    - [GitHub](https://github.com/)
-  - Others
-    - [GitHub Pages](https://pages.github.com/)
-    - [CI/CD: GitHub Actions](https://github.com/readme/guides/sothebys-github-actions)
-
-
-## Getting Started 🚀
+## 1. Getting Started 🚀
 
 To get started with this project, you will need to have Node.js and npm installed on your machine. You can download them from the [official website](https://nodejs.org/).
 
@@ -48,16 +38,16 @@ After installing Node.js and npm, you can clone this repository and install the 
   npm install
 ```
 
-### Supabase Configuration 🛠️
+### 1.1. Supabase Configuration 🛠️
 
 This project uses Supabase as a backend service. Supabase is an open-source alternative to Firebase that provides a powerful set of tools for building web and mobile applications. To use Supabase in this project, you will need to create a Supabase project and obtain the API key and URL.
 
 You can create a Supabase project by following the instructions on the [official website](https://supabase.com/). After creating the project, you can obtain the API key and URL from the project settings.
 
 
-### Database definition 📜
+### 1.2. Database definition 📜
 
-#### Languages
+#### 1.2.1. Languages
 ```sql
 create table
   public.languages (
@@ -78,7 +68,7 @@ update on languages for each row
 execute function moddatetime ('updated_at');
 ```
 
-#### Skill Types
+#### 1.2.2. Skill Types
 ```sql
 create table
   public.skill_types (
@@ -96,7 +86,7 @@ update on skill_types for each row
 execute function moddatetime ('updated_at');
 ```
 
-#### Skills
+#### 1.2.3. Skills
 ```sql
 create table
   public.skills (
@@ -116,7 +106,7 @@ update on skills for each row
 execute function moddatetime ('updated_at');
 ```
 
-#### Certificate Groups
+#### 1.2.4. Certificate Groups
 ```sql
 create table
   public.certificate_groups (
@@ -133,7 +123,7 @@ update on certificate_groups for each row
 execute function moddatetime ('updated_at');
 ```
 
-#### Certificate Types
+#### 1.2.5. Certificate Types
 ```sql
 create table
   public.certificate_types (
@@ -151,7 +141,7 @@ update on certificate_types for each row
 execute function moddatetime ('updated_at');
 ```
 
-#### Companies
+#### 1.2.6. Companies
 ```sql
 create table
   public.companies (
@@ -173,7 +163,7 @@ update on companies for each row
 execute function moddatetime ('updated_at');
 ```
 
-#### Positions
+#### 1.2.7. Positions
 ```sql
 create table
   public.positions (
@@ -196,7 +186,7 @@ update on positions for each row
 execute function moddatetime ('updated_at');
 ```
 
-#### Certificates
+#### 1.2.8. Certificates
 ```sql
 create table
   public.certificates (
@@ -227,7 +217,7 @@ update on certificates for each row
 execute function moddatetime ('updated_at');
 ```
 
-### Environment Configuration 💻
+### 1.3. Environment Configuration 💻
 
 This project uses environment variables for configuration. These variables are defined in the `environment.ts`, `environment.prod.ts`, and `environment.dev.ts` files, which are not uploaded to the repository for security reasons.
 
@@ -245,11 +235,11 @@ You can obtain the `apiKey` and `apiUrl` from your Supabase project. The `google
 
 After creating the environment files, you can run the project using the `npm start` command. This will start the development server and open the website in your default browser.
 
-### Running The Project 🛩️
+### 1.4. Running The Project 🛩️
 
 To run the project, you can use the `npm start` command. This will start the development server and open the website in your default browser.
 
-## ESLint ✏️
+## 2. ESLint ✏️
 
 This project uses ESLint for static code analysis. ESLint helps to find and fix problems in your TypeScript code, and also to maintain a consistent code style.
 
@@ -257,7 +247,7 @@ The ESLint configuration file for this project is `.eslintrc.json`.
 
 To run ESLint, you can use the `npm run lint` command.
 
-## Testing 🧪
+## 3. Testing 🧪
 
 This project uses Karma and Jasmine for unit testing. The relevant configuration file is [`karma.conf.js`]
 
@@ -267,7 +257,7 @@ This project also uses `karma-mocha-reporter` for more descriptive test reports 
 
 To run the tests, you can use the `npm run test` command.
 
-## Husky 🐶
+## 4. Husky 🐶
 
 Husky is a tool that facilitates the execution of scripts before git events like `commit` and `push`. In this project, Husky is used to ensure code quality and prevent issues from being pushed to the repository.
 
@@ -277,13 +267,13 @@ Husky scripts are located in the [.husky](.husky/) folder. Here's a brief descri
 - `pre-push`: This script runs before a `push` is completed. It is used to run tests and ensure that only code that passes all tests is pushed.
 - `commit-msg`: This script runs after a `commit` is completed and is used to validate the commit message using `commitlint`.
 
-### Commitlint Configuration 
+### 4.1. Commitlint Configuration 
 
 `commitlint` is a tool used in this project to enforce a consistent commit message format, following the ["Conventional Commits"](https://www.conventionalcommits.org/) standard. "Conventional Commits" is a commit message convention that facilitates readable commit history, automatic generation of release notes, and semantic versioning. This helps to keep the git history clean and readable. The configuration for `commitlint` is located in the `commitlint.config.js` file.
 
 The `commit-msg` hook uses `commitlint` to check if the commit messages meet the criteria defined in the configuration. If the commit message does not meet the criteria, the commit will be aborted.
 
-## GitHub Actions 🚀
+## 5. GitHub Actions 🚀
 
 GitHub Actions allows us to automate, customize, and execute our software workflows directly in our repository. In this project, we use GitHub Actions for various tasks, such as running tests and deploying our code.
 
@@ -304,6 +294,6 @@ An example of our workflows is [github-pages-deploy.yml](.github/workflows/githu
 
 For more information on how to use GitHub Actions, you can consult the [official documentation](https://docs.github.com/en/actions).
 
-## License 🔓
+## 6. License 🔓
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use and modify the code as you see fit.
