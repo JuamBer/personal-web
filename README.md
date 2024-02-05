@@ -6,17 +6,17 @@ This project is a work in progress, and I am constantly updating it with new fea
 
 # Table of Contents 📖
 
-  1. [Getting Started 🚀](#getting-started)
+1. [Getting Started 🚀](#getting-started)
     1. [Supabase Configuration 🛠️](#supabase-configuration)
     2. [Database Definition 📜](#database-definition)
-    3. [Environment Configuration 💻](#environment-configuration)
+    3. [Environment Configuration 🛠️](#environment-configuration)
     4. [Running The Project 🛩️](#running-the-project)
-  2. [ESLint ✏️](#eslint)
-  3. [Testing 🧪](#testing)
-  4. [Husky 🐶](#husky)
-    1. [Commitlint Configuration](#commitlint-configuration)
-  5. [GitHub Actions 🚀](#github-actions)
-  6. [License 🔓](#license)
+2. [ESLint ✏️](#eslint)
+3. [Testing 🧪](#testing)
+4. [Husky 🐶](#husky)
+    1. [Commitlint Configuration 🛠️](#commitlint-configuration)
+5. [GitHub Actions 🚀](#github-actions)
+6. [License 🔓](#license)
 
 ## 1. Getting Started 🚀 <a name="getting-started"></a>
 
@@ -209,7 +209,7 @@ update on certificates for each row
 execute function moddatetime ('updated_at');
 ```
 
-### 1.3. Environment Configuration 💻 <a name="environment-configuration"></a>
+### 1.3. Environment Configuration 🛠️ <a name="environment-configuration"></a>
 
 This project uses environment variables for configuration. These variables are defined in the `environment.ts`, `environment.prod.ts`, and `environment.dev.ts` files, which are not uploaded to the repository for security reasons.
 
@@ -259,7 +259,7 @@ Husky scripts are located in the [.husky](.husky/) folder. Here's a brief descri
 - `pre-push`: This script runs before a `push` is completed. It is used to run tests and ensure that only code that passes all tests is pushed.
 - `commit-msg`: This script runs after a `commit` is completed and is used to validate the commit message using `commitlint`.
 
-### 4.1. Commitlint Configuration <a name="commitlint-configuration"></a>
+### 4.1. Commitlint Configuration 🛠️ <a name="commitlint-configuration"></a>
 
 `commitlint` is a tool used in this project to enforce a consistent commit message format, following the ["Conventional Commits"](https://www.conventionalcommits.org/) standard. "Conventional Commits" is a commit message convention that facilitates readable commit history, automatic generation of release notes, and semantic versioning. This helps to keep the git history clean and readable. The configuration for `commitlint` is located in the `commitlint.config.js` file.
 
