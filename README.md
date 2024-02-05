@@ -29,9 +29,9 @@ To configure your environment, you will need to create your own `environment.ts`
 
 ```typescript
 export const environment = {
-  apiKey: // SUPABASE API KEY
-  apiUrl: // SUPABASE API URL
-  googleCloudApiKey: //GOOGLE CLOUD API KEY
+  apiKey: 'SUPABASE API KEY',
+  apiUrl: 'SUPABASE API URL',
+  googleCloudApiKey: 'GOOGLE CLOUD API KEY'
 };
 ```
 
