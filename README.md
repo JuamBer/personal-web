@@ -2,11 +2,18 @@
 
 Welcome to my [personal website](https://juamber.com/home) portfolio! This website showcases my skills and projects as a web developer.
 
-## Table of Contents
-  - [Technologies Used](#technologies-used)
-  - [License](#license)
+## Table of Contents 📖
 
-## Technologies Used
+  - [Technologies Used 🛠️](#technologies-used)
+  - [Environment Configuration 💻](#environment-configuration)
+  - [ESLint ✏️](#eslint)
+  - [Testing 🧪](#testing)
+  - [Husky 🐶](#husky)
+  - [GitHub Actions 🚀](#github-actions)
+  - [License 🔓](#license)
+
+## Technologies Used 🛠️
+
   - Front-End
     - [Angular](https://angular.io/)
     - [NGRX](https://ngrx.io/)
@@ -21,7 +28,7 @@ Welcome to my [personal website](https://juamber.com/home) portfolio! This websi
     - [GitHub Pages](https://pages.github.com/)
     - [CI/CD: GitHub Actions](https://github.com/readme/guides/sothebys-github-actions)
 
-## Environment Configuration
+## Environment Configuration 💻
 
 This project uses environment variables for configuration. These variables are defined in the `environment.ts`, `environment.prod.ts`, and `environment.dev.ts` files, which are not uploaded to the repository for security reasons.
 
@@ -35,7 +42,7 @@ export const environment = {
 };
 ```
 
-## ESLint
+## ESLint ✏️
 
 This project uses ESLint for static code analysis. ESLint helps to find and fix problems in your TypeScript code, and also to maintain a consistent code style.
 
@@ -43,7 +50,7 @@ The ESLint configuration file for this project is `.eslintrc.json`.
 
 To run ESLint, you can use the `npm run lint` command.
 
-## Testing
+## Testing 🧪
 
 This project uses Karma and Jasmine for unit testing. The relevant configuration file is [`karma.conf.js`]
 
@@ -53,7 +60,7 @@ This project also uses `karma-mocha-reporter` for more descriptive test reports 
 
 To run the tests, you can use the `npm run test` command.
 
-## Husky
+## Husky 🐶
 
 Husky is a tool that facilitates the execution of scripts before git events like `commit` and `push`. In this project, Husky is used to ensure code quality and prevent issues from being pushed to the repository.
 
@@ -63,13 +70,13 @@ Husky scripts are located in the [.husky](.husky/) folder. Here's a brief descri
 - `pre-push`: This script runs before a `push` is completed. It is used to run tests and ensure that only code that passes all tests is pushed.
 - `commit-msg`: This script runs after a `commit` is completed and is used to validate the commit message using `commitlint`.
 
-### Commitlint Configuration
+### Commitlint Configuration 
 
 `commitlint` is a tool used in this project to enforce a consistent commit message format. This helps to keep the git history clean and readable. The configuration for `commitlint` is located in the `commitlint.config.js` file.
 
 The `commit-msg` hook uses `commitlint` to check if the commit messages meet the criteria defined in the configuration. If the commit message does not meet the criteria, the commit will be aborted.
 
-## GitHub Actions
+## GitHub Actions 🚀
 
 GitHub Actions allows us to automate, customize, and execute our software workflows directly in our repository. In this project, we use GitHub Actions for various tasks, such as running tests and deploying our code.
 
@@ -90,5 +97,6 @@ An example of our workflows is [github-pages-deploy.yml](.github/workflows/githu
 
 For more information on how to use GitHub Actions, you can consult the [official documentation](https://docs.github.com/en/actions).
 
-## License
+## License 🔓
+
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use and modify the code as you see fit.
