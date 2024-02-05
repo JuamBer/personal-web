@@ -134,6 +134,9 @@ execute function moddatetime ('updated_at');
 ```
 
 #### 1.2.6. Companies
+
+The following table requires the creation the enum "CompanyType". Its possible values are "SCHOOL" and "COMPANY".
+
 ```sql
 create table
   public.companies (
@@ -224,8 +227,6 @@ export const environment = {
 ```
 
 You can obtain the `apiKey` and `apiUrl` from your Supabase project. The `googleCloudApiKey` is used to enable the Google Maps API for the translate service. You can obtain it from the [Google Cloud Console](https://console.cloud.google.com/).
-
-After creating the environment files, you can run the project using the `npm start` command. This will start the development server and open the website in your default browser.
 
 ### 1.4. Running The Project 🛩️ <a name="running-the-project"></a>
 
