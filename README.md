@@ -33,6 +33,7 @@ export const environment = {
   apiUrl: // SUPABASE API URL
   googleCloudApiKey: //GOOGLE CLOUD API KEY
 };
+```
 
 ## ESLint
 
