@@ -72,7 +72,7 @@ Husky scripts are located in the [.husky](.husky/) folder. Here's a brief descri
 
 ### Commitlint Configuration 
 
-`commitlint` is a tool used in this project to enforce a consistent commit message format. This helps to keep the git history clean and readable. The configuration for `commitlint` is located in the `commitlint.config.js` file.
+`commitlint` is a tool used in this project to enforce a consistent commit message format, following the ["Conventional Commits"](https://www.conventionalcommits.org/) standard. "Conventional Commits" is a commit message convention that facilitates readable commit history, automatic generation of release notes, and semantic versioning. This helps to keep the git history clean and readable. The configuration for `commitlint` is located in the `commitlint.config.js` file.
 
 The `commit-msg` hook uses `commitlint` to check if the commit messages meet the criteria defined in the configuration. If the commit message does not meet the criteria, the commit will be aborted.
 
