@@ -9,14 +9,6 @@ This project is a work in progress, and I am constantly updating it with new fea
   1. [Getting Started 🚀](#getting-started)
     1. [Supabase Configuration 🛠️](#supabase-configuration)
     2. [Database Definition 📜](#database-definition)
-      1. [Languages](#languages)
-      2. [Skill Types](#skill-types)
-      3. [Skills](#skills)
-      4. [Certificate Groups](#certificate-groups)
-      5. [Certificate Types](#certificate-types)
-      6. [Companies](#companies)
-      7. [Positions](#positions)
-      8. [Certificates](#certificates)
     3. [Environment Configuration 💻](#environment-configuration)
     4. [Running The Project 🛩️](#running-the-project)
   2. [ESLint ✏️](#eslint)
@@ -26,7 +18,7 @@ This project is a work in progress, and I am constantly updating it with new fea
   5. [GitHub Actions 🚀](#github-actions)
   6. [License 🔓](#license)
 
-## 1. Getting Started 🚀
+## 1. Getting Started 🚀 <a name="getting-started"></a>
 
 To get started with this project, you will need to have Node.js and npm installed on your machine. You can download them from the [official website](https://nodejs.org/).
 
@@ -38,14 +30,14 @@ After installing Node.js and npm, you can clone this repository and install the 
   npm install
 ```
 
-### 1.1. Supabase Configuration 🛠️
+### 1.1. Supabase Configuration 🛠️ <a name="supabase-configuration"></a>
 
 This project uses Supabase as a backend service. Supabase is an open-source alternative to Firebase that provides a powerful set of tools for building web and mobile applications. To use Supabase in this project, you will need to create a Supabase project and obtain the API key and URL.
 
 You can create a Supabase project by following the instructions on the [official website](https://supabase.com/). After creating the project, you can obtain the API key and URL from the project settings.
 
 
-### 1.2. Database definition 📜
+### 1.2. Database definition 📜 <a name="database-definition"></a>
 
 #### 1.2.1. Languages
 ```sql
@@ -217,7 +209,7 @@ update on certificates for each row
 execute function moddatetime ('updated_at');
 ```
 
-### 1.3. Environment Configuration 💻
+### 1.3. Environment Configuration 💻 <a name="environment-configuration"></a>
 
 This project uses environment variables for configuration. These variables are defined in the `environment.ts`, `environment.prod.ts`, and `environment.dev.ts` files, which are not uploaded to the repository for security reasons.
 
@@ -235,11 +227,11 @@ You can obtain the `apiKey` and `apiUrl` from your Supabase project. The `google
 
 After creating the environment files, you can run the project using the `npm start` command. This will start the development server and open the website in your default browser.
 
-### 1.4. Running The Project 🛩️
+### 1.4. Running The Project 🛩️ <a name="running-the-project"></a>
 
 To run the project, you can use the `npm start` command. This will start the development server and open the website in your default browser.
 
-## 2. ESLint ✏️
+## 2. ESLint ✏️ <a name="eslint"></a>
 
 This project uses ESLint for static code analysis. ESLint helps to find and fix problems in your TypeScript code, and also to maintain a consistent code style.
 
@@ -247,7 +239,7 @@ The ESLint configuration file for this project is `.eslintrc.json`.
 
 To run ESLint, you can use the `npm run lint` command.
 
-## 3. Testing 🧪
+## 3. Testing 🧪 <a name="testing"></a>
 
 This project uses Karma and Jasmine for unit testing. The relevant configuration file is [`karma.conf.js`]
 
@@ -257,7 +249,7 @@ This project also uses `karma-mocha-reporter` for more descriptive test reports 
 
 To run the tests, you can use the `npm run test` command.
 
-## 4. Husky 🐶
+## 4. Husky 🐶 <a name="husky"></a>
 
 Husky is a tool that facilitates the execution of scripts before git events like `commit` and `push`. In this project, Husky is used to ensure code quality and prevent issues from being pushed to the repository.
 
@@ -267,13 +259,13 @@ Husky scripts are located in the [.husky](.husky/) folder. Here's a brief descri
 - `pre-push`: This script runs before a `push` is completed. It is used to run tests and ensure that only code that passes all tests is pushed.
 - `commit-msg`: This script runs after a `commit` is completed and is used to validate the commit message using `commitlint`.
 
-### 4.1. Commitlint Configuration 
+### 4.1. Commitlint Configuration <a name="commitlint-configuration"></a>
 
 `commitlint` is a tool used in this project to enforce a consistent commit message format, following the ["Conventional Commits"](https://www.conventionalcommits.org/) standard. "Conventional Commits" is a commit message convention that facilitates readable commit history, automatic generation of release notes, and semantic versioning. This helps to keep the git history clean and readable. The configuration for `commitlint` is located in the `commitlint.config.js` file.
 
 The `commit-msg` hook uses `commitlint` to check if the commit messages meet the criteria defined in the configuration. If the commit message does not meet the criteria, the commit will be aborted.
 
-## 5. GitHub Actions 🚀
+## 5. GitHub Actions 🚀 <a name="github-actions"></a>
 
 GitHub Actions allows us to automate, customize, and execute our software workflows directly in our repository. In this project, we use GitHub Actions for various tasks, such as running tests and deploying our code.
 
@@ -294,6 +286,6 @@ An example of our workflows is [github-pages-deploy.yml](.github/workflows/githu
 
 For more information on how to use GitHub Actions, you can consult the [official documentation](https://docs.github.com/en/actions).
 
-## 6. License 🔓
+## 6. License 🔓 <a name="license"></a>
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use and modify the code as you see fit.
