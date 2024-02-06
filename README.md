@@ -16,8 +16,9 @@ This project is a work in progress, and I am constantly updating it with new fea
 4. [Husky 🐶](#husky)
     1. [Commitlint Configuration 🛠️](#commitlint-configuration)
 5. [GitHub Actions 🚀](#github-actions)
-6. [Author 🧑‍💻](#author)
-7. [License 🔓](#license)
+6. [Server Side Rendering (SSR) Support 🖥️](#server-side-rendering-ssr-support)
+7. [Author 🧑‍💻](#author)
+8. [License 🔓](#license)
 
 ## 1. Getting Started 🚀 <a name="getting-started"></a>
 
@@ -288,12 +289,20 @@ An example of our workflows is [github-pages-deploy.yml](.github/workflows/githu
 
 For more information on how to use GitHub Actions, you can consult the [official documentation](https://docs.github.com/en/actions).
 
-## 6. Author 🧑‍💻 <a name="author"></a>
+## 6. Server Side Rendering (SSR) Support 🖥️ <a name="server-side-rendering-ssr-support"></a>
+
+This project is configured to support Server Side Rendering (SSR) with Angular. SSR enhances the performance of the application and makes SEO easier by rendering the application content on the server.
+
+The code for SSR is located in the [server.ts](server.ts) file and in [src/main.server.ts](src/main.server.ts). The `build:ssr` script in the [package.json](package.json) file is used to build the application for SSR.
+
+However, because this project is hosted on GitHub Pages, which is a static host, SSR is not used for deployment. If you want to deploy this project with SSR, you will need a server that can run Node.js.
+
+## 7. Author 🧑‍💻 <a name="author"></a>
 
 - [Juan Sáez García](https://juamber.com)
 - [GitHub](https://github.com/JuamBer)
 - [LinkedIn](https://www.linkedin.com/in/juamber/)
 
-## 7. License 🔓 <a name="license"></a>
+## 8. License 🔓 <a name="license"></a>
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use and modify the code as you see fit.
