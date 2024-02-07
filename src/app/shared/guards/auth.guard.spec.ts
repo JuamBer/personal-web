@@ -1,9 +1,11 @@
-import { PLATFORM_ID } from '@angular/core';
+import { PLATFORM_ID, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { User } from '@supabase/supabase-js';
 import { of } from 'rxjs';
+import { configuration } from 'src/assets/configuration';
 import { AuthService } from '../services/auth.service';
+import { LangService } from '../services/lang.service';
 import { AuthGuard } from './auth.guard';
 
 describe('AuthGuard', () => {
@@ -18,6 +20,13 @@ describe('AuthGuard', () => {
         { provide: AuthService, useValue: { getCurrentUser: () => of({}) } },
         { provide: Router, useValue: { navigate: () => {} } },
         { provide: PLATFORM_ID, useValue: 'browser' },
+        {
+          provide: LangService,
+          useValue: {
+            lang$: of(configuration.defaultLanguage),
+            lang: signal(configuration.defaultLanguage),
+          },
+        },
       ],
     });
     guard = TestBed.inject(AuthGuard);
