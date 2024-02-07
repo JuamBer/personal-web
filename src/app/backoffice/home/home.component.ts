@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { LangService } from 'src/app/shared/services/lang.service';
 import { Naming, NumberMode } from 'src/app/shared/state/common/common.names';
 import { certificateGroupNames } from '../tables/certificate-group/state/certificate-group.names';
 import { certificateTypeNames } from '../tables/certificate-type/state/certificate-type.names';
@@ -23,6 +24,10 @@ export interface Menu {
 })
 export class HomeComponent {
   private router = inject(Router);
+  private langSrv = inject(LangService);
+
+  lang$ = this.langSrv.lang$;
+  lang = this.langSrv.lang;
 
   names: string[] = [
     certificateGroupNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),

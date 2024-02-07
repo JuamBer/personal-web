@@ -1,10 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder } from '@angular/forms';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { startWith } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { LangService } from 'src/app/shared/services/lang.service';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { Page } from './models/page.model';
 
@@ -18,10 +20,30 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
   private fb = inject(FormBuilder);
+  private langSrv = inject(LangService);
 
   colorModeFormControl = this.fb.nonNullable.control<boolean>(true);
 
-  pages: Page[] = [];
+  language$ = this.store.select(publicLanguageReducer.getOne);
+
+  lang$ = this.langSrv.lang$;
+  lang = this.langSrv.lang;
+
+  pages$: Observable<Page[]> = this.lang$.pipe(
+    map((lang) => [
+      {
+        name: this.translateSrv.instant('pages.home.title'),
+        routerLink: `/${lang}/home`,
+      },
+      {
+        name: this.translateSrv.instant('pages.certificates.title'),
+        routerLink: `/${lang}/certificates`,
+      },
+    ]),
+  );
+  pages = toSignal(this.pages$, {
+    initialValue: [],
+  });
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
@@ -31,10 +53,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
     this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
       if (language) this.translateSrv.use(language.acronym);
-    });
-
-    this.translateSrv.onLangChange.pipe(startWith(this.translateSrv.currentLang)).subscribe(() => {
-      this.loadPage();
     });
   }
 
@@ -51,19 +69,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         document.body.classList.add(value ? 'light' : 'dark');
       });
     }
-  }
-
-  loadPage() {
-    this.pages = [
-      {
-        name: this.translateSrv.instant('pages.home.title'),
-        page: 'home',
-      },
-      {
-        name: this.translateSrv.instant('pages.certificates.title'),
-        page: 'certificates',
-      },
-    ];
   }
 
   openNav() {

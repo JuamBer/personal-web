@@ -1,14 +1,14 @@
 <div class="grid p-2">
   @for (name of names; track name; let index = $index) {
-    <div class="xs:col-12 sm:col-12 md:col-3 lg:col-3">
-      <app-entity-card
-        [show]="true"
-        [loading]="false"
-        [title]="'tables.' + name + '.plural' | translate"
-        count="{{ null }}"
-        [url]="'backoffice/' + urls[index]"
-      ></app-entity-card>
-    </div>
+  <div class="xs:col-12 sm:col-12 md:col-3 lg:col-3">
+    <app-entity-card
+      [show]="true"
+      [loading]="false"
+      [title]="'tables.' + name + '.plural' | translate"
+      count="{{ null }}"
+      [url]="lang() + '/backoffice/' + urls[index]"
+    ></app-entity-card>
+  </div>
   }
   <div class="w-full grid p-fluid">
     <div class="xs:col-12 sm:col-12 md:col-12 lg:col-12 min-h-10 p-0 m-0">

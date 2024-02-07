@@ -1,7 +1,7 @@
 <header>
   <div class="company">
     <div class="company-name">
-      <h1 routerLink="/backoffice">Personal Web</h1>
+      <h1 [routerLink]="'/' + lang() + '/backoffice'">Personal Web</h1>
     </div>
   </div>
   <div class="breadcrumb">
@@ -61,7 +61,7 @@
   <h4>{{ 'sidebar.menus' | translate | titlecase }}</h4>
   <nav>
     <ul>
-      @for (menu of menus; track menu) {
+      @for (menu of menus(); track menu) {
       <li [routerLink]="menu.routerLink" routerLinkActive="active" (click)="sidebarVisible = false">
         {{ 'breadcrumbs.' + menu.label | translate | titlecase }}
       </li>

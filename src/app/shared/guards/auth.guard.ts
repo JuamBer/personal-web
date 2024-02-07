@@ -5,16 +5,25 @@ import { Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
+import { LangService } from '../services/lang.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard {
-  constructor(private auth: AuthService, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
+  lang$ = this.langSrv.lang$;
+  lang = this.langSrv.lang;
+
+  constructor(
+    private langSrv: LangService,
+    private auth: AuthService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
     if (!isPlatformBrowser(this.platformId)) {
-      this.router.navigate(['login']);
+      this.router.navigate([this.lang(), 'login']);
     }
 
     return this.auth.getCurrentUser().pipe(
@@ -23,7 +32,7 @@ export class AuthGuard {
         if (isAuthenticated) {
           return true;
         } else {
-          this.router.navigate(['login']);
+          this.router.navigate([`/${this.lang()}/login`]);
           return false;
         }
       }),

@@ -1,13 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { PrimeNGConfig } from 'primeng/api';
@@ -31,7 +23,7 @@ export class LanguageSelectComponent implements OnInit {
   private config = inject(PrimeNGConfig);
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
-  private ref = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
   @Input()
   type: 'dropdown' | 'select-button' = 'dropdown';

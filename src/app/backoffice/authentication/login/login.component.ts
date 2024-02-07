@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { LangService } from 'src/app/shared/services/lang.service';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
 
 export const loginTitleResolver: ResolveFn<string> = () => {
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private supabaseSrv = inject(AuthService);
+  private langSrv = inject(LangService);
 
   formGroup: FormGroup = this.fb.nonNullable.group({
     email: [undefined, [Validators.required, Validators.email]],
@@ -31,6 +33,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
   });
   returnUrl: string = this.route.snapshot.queryParams['returnUrl'] || '/backoffice';
   loading: boolean = false;
+
+  lang$ = this.langSrv.lang$;
+  lang = this.langSrv.lang;
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
@@ -63,7 +68,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       const { error } = await this.supabaseSrv.signInLogin(email, pass);
 
       if (error) throw error;
-      this.router.navigate(['backoffice']);
+      this.router.navigate([this.lang(), 'backoffice']);
     } finally {
       this.formGroup.reset();
       this.loading = false;

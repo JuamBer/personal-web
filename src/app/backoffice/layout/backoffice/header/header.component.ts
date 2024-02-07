@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { LangService } from 'src/app/shared/services/lang.service';
 import { NamingUtils } from 'src/app/shared/utils/naming.utils';
 import { RegexUtils } from 'src/app/shared/utils/regex.utils';
 
@@ -18,6 +19,7 @@ export class HeaderComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private translateSrv = inject(TranslateService);
+  private langSrv = inject(LangService);
 
   sidebarVisible = false;
 
@@ -29,6 +31,8 @@ export class HeaderComponent {
     debounceTime(200),
     map(() => {
       const splittedUrls = this.router.url.split('/');
+      splittedUrls.shift();
+      splittedUrls.shift();
       const filteredSplittedUrls = splittedUrls.filter((i) => i !== '' && !RegexUtils.isId(i));
       return filteredSplittedUrls.map((filteredSplittedUrl, index) => ({
         label: this.getBreadcrumbsLabel(filteredSplittedUrl),
@@ -40,52 +44,60 @@ export class HeaderComponent {
     initialValue: [],
   });
 
-  menus = [
-    {
-      routerLink: '/backoffice/certificates',
-      icon: 'pi pi-fw pi-home',
-      label: 'certificates',
-    },
-    {
-      routerLink: '/backoffice/certificate-types',
-      icon: 'pi pi-fw pi-users',
-      label: 'certificateTypes',
-    },
-    {
-      routerLink: '/backoffice/certificate-groups',
-      icon: 'pi pi-fw pi-user',
-      label: 'certificateGroups',
-    },
-    {
-      routerLink: '/backoffice/companies',
-      icon: 'pi pi-fw pi-lock',
-      label: 'companies',
-    },
-    {
-      routerLink: '/backoffice/languages',
-      icon: 'pi pi-fw pi-lock',
-      label: 'languages',
-    },
-    {
-      routerLink: '/backoffice/positions',
-      icon: 'pi pi-fw pi-lock',
-      label: 'positions',
-    },
-    {
-      routerLink: '/backoffice/skills',
-      icon: 'pi pi-fw pi-lock',
-      label: 'skills',
-    },
-    {
-      routerLink: '/backoffice/skill-types',
-      icon: 'pi pi-fw pi-lock',
-      label: 'skillTypes',
-    },
-  ];
+  lang$ = this.langSrv.lang$;
+  lang = this.langSrv.lang;
+
+  menus$ = this.lang$.pipe(
+    map((lang) => [
+      {
+        routerLink: `/${lang}/backoffice/certificates`,
+        icon: 'pi pi-fw pi-home',
+        label: 'certificates',
+      },
+      {
+        routerLink: `/${lang}/backoffice/certificate-types`,
+        icon: 'pi pi-fw pi-users',
+        label: 'certificateTypes',
+      },
+      {
+        routerLink: `/${lang}/backoffice/certificate-groups`,
+        icon: 'pi pi-fw pi-user',
+        label: 'certificateGroups',
+      },
+      {
+        routerLink: `/${lang}/backoffice/companies`,
+        icon: 'pi pi-fw pi-lock',
+        label: 'companies',
+      },
+      {
+        routerLink: `/${lang}/backoffice/languages`,
+        icon: 'pi pi-fw pi-lock',
+        label: 'languages',
+      },
+      {
+        routerLink: `/${lang}/backoffice/positions`,
+        icon: 'pi pi-fw pi-lock',
+        label: 'positions',
+      },
+      {
+        routerLink: `/${lang}/backoffice/skills`,
+        icon: 'pi pi-fw pi-lock',
+        label: 'skills',
+      },
+      {
+        routerLink: `/${lang}/backoffice/skill-types`,
+        icon: 'pi pi-fw pi-lock',
+        label: 'skillTypes',
+      },
+    ]),
+  );
+  menus = toSignal(this.menus$, {
+    initialValue: [],
+  });
 
   logOut() {
     this.authService.signOut();
-    this.router.navigate(['/login']);
+    this.router.navigate([`/${this.lang()}`, '/login']);
   }
 
   getBreadcrumbsLabel(filteredSplittedUrl: string) {
