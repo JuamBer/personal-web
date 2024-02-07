@@ -22,5 +22,5 @@ export const configuration: Configuration = {
     title: '',
   },
   defaultLanguage: 'es',
-  languages: ['de', 'en', 'es', 'fr', 'it', 'nl', 'no', 'pl'],
+  languages: ['de', 'en', 'es', 'fr', 'it', 'nl', 'no', 'pt'],
 };
