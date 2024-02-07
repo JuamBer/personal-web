@@ -2,6 +2,8 @@ import { GenericTableConfig } from 'src/app/shared/components/generic-table/mode
 
 interface Configuration {
   defaultGenericTableConfig: GenericTableConfig<unknown>;
+  defaultLanguage: string;
+  languages: string[];
 }
 
 export const configuration: Configuration = {
@@ -19,4 +21,6 @@ export const configuration: Configuration = {
     },
     title: '',
   },
+  defaultLanguage: 'es',
+  languages: ['de', 'en', 'es', 'fr', 'it', 'nl', 'no', 'pl'],
 };
