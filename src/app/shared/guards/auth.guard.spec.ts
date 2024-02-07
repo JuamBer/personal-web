@@ -51,7 +51,7 @@ describe('AuthGuard', () => {
     spyOn(router, 'navigate');
     guard.canActivate().subscribe((isAllowed) => {
       expect(isAllowed).toBe(false);
-      expect(router.navigate).toHaveBeenCalledWith(['login']);
+      expect(router.navigate).toHaveBeenCalledWith([`/${configuration.defaultLanguage}/login`]);
       done();
     });
   });
