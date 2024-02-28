@@ -35,9 +35,11 @@
             </div>
             <div class="date">
               <span>{{
-                (position.dateFrom | date : 'MM-yyyy') +
+                (position.dateFrom | date : 'MM-yyyy' : '' : language()?.acronym) +
                   ' - ' +
-                  (position.dateTo ? (position.dateTo | date : 'MM-yyyy') : ('general.present' | translate))
+                  (position.dateTo
+                    ? (position.dateTo | date : 'MM-yyyy' : '' : language()?.acronym)
+                    : ('general.present' | translate))
               }}</span>
             </div>
           </li>

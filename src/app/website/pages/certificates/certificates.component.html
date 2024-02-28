@@ -19,7 +19,7 @@
               <div class="card-image">
                 <div class="overlay">
                   <h4>{{ getTranslation(language()?.acronym, certificate?.nameTranslations) }}</h4>
-                  <h5>{{ certificate.date | date }}</h5>
+                  <h5>{{ certificate.date | date : '' : language()?.acronym }}</h5>
                   <p>{{ getTranslation(language()?.acronym, certificate?.descriptionTranslations) }}</p>
                 </div>
                 <img

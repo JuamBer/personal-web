@@ -1,4 +1,13 @@
+import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import localeDe from '@angular/common/locales/de';
+import localeEn from '@angular/common/locales/en';
+import localeEs from '@angular/common/locales/es';
+import localeFr from '@angular/common/locales/fr';
+import localeIt from '@angular/common/locales/it';
+import localeNo from '@angular/common/locales/nb';
+import localeNl from '@angular/common/locales/nl';
+import localePt from '@angular/common/locales/pt';
 import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
@@ -23,6 +32,15 @@ import { BackofficeModule } from './backoffice/layout/backoffice/backoffice.modu
 import { LanguageSelectModule } from './shared/components/language-select/language-select.module';
 import { LanguagesModule } from './shared/modules/languages.module';
 import { PublicLanguageStateModule } from './shared/state/languages/public-language-state.module';
+
+registerLocaleData(localeDe);
+registerLocaleData(localeEn);
+registerLocaleData(localeEs);
+registerLocaleData(localeFr);
+registerLocaleData(localeIt);
+registerLocaleData(localeNl);
+registerLocaleData(localeNo);
+registerLocaleData(localePt);
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');

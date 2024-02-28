@@ -10,7 +10,7 @@
         <span class="title">
           <span class="title-and-date">
             <h2>{{ project.name }}</h2>
-            <p class="date">{{ project.date | date : 'MMMM, yyyy' }}</p>
+            <p class="date">{{ project.date | date : 'MMMM, yyyy' : '' : language()?.acronym }}</p>
           </span>
         </span>
         <div class="technologies">
