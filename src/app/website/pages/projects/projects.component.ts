@@ -29,7 +29,7 @@ import { generateTechnologyShield } from 'src/app/shared/utils/shield.utils';
 
 export const projectsTitleResolver: ResolveFn<string> = () => {
   const translateSrv = inject(TranslateService);
-  return translateSrv.get('pages.home.projects').pipe(map((title) => `${appRootTitle} | ${title}`));
+  return translateSrv.get('pages.projects.title').pipe(map((title) => `${appRootTitle} | ${title}`));
 };
 
 @Component({
