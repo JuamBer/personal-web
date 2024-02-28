@@ -36,6 +36,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         routerLink: `/${lang}/home`,
       },
       {
+        name: this.translateSrv.instant('pages.projects.title'),
+        routerLink: `/${lang}/projects`,
+      },
+      {
         name: this.translateSrv.instant('pages.certificates.title'),
         routerLink: `/${lang}/certificates`,
       },
@@ -45,13 +49,15 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     initialValue: [],
   });
 
+  publicLanguage$ = this.store.select(publicLanguageReducer.getOne);
+
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     this.handleColorModeChange();
 
-    this.store.select(publicLanguageReducer.getOne).subscribe((language) => {
+    this.publicLanguage$.subscribe((language) => {
       if (language) this.translateSrv.use(language.acronym);
     });
   }

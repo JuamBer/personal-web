@@ -15,6 +15,9 @@
     "certificates": {
       "title": "Certificaten"
     },
+    "projects": {
+      "title": "Projecten"
+    },
     "logIn": {
       "title": "Inloggen",
       "resetPassword": "Wachtwoord vergeten?"
@@ -157,7 +160,8 @@
     "active": "actief",
     "total": "Totaal",
     "translations": "Vertalingen: {{name}}",
-    "present": "Heden"
+    "present": "Heden",
+    "freelancer": "Freelancer"
   },
   "tables": {
     "company": {
@@ -203,6 +207,10 @@
     "curriculum": {
       "singular": "Cv",
       "plural": "cv"
+    },
+    "project": {
+      "singular": "projecteren",
+      "plural": "Projecten"
     }
   },
   "inputTranslations": {
@@ -229,11 +237,13 @@
     "web": "Web",
     "playStore": "Play Store",
     "microsoftStore": "Microsoft Store",
+    "appStore": "App Store",
     "filterType": "Filtertype",
     "value": "Waard",
     "createdAt": "gemaakt in",
     "updatedAt": "bijgewerkt in",
-    "password": "Wachtwoord"
+    "password": "Wachtwoord",
+    "technologies": "Technologieën"
   },
   "enums": {
     "companyType": {

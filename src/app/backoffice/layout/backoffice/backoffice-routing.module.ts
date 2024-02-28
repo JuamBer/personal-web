@@ -8,6 +8,7 @@ import { certificateNames } from '../../tables/certificate/state/certificate.nam
 import { companyNames } from '../../tables/company/state/company.names';
 import { languageNames } from '../../tables/language/state/language.names';
 import { positionNames } from '../../tables/position/state/position.names';
+import { projectNames } from '../../tables/project/state/project.names';
 import { skillTypeNames } from '../../tables/skill-type/state/skill-type.names';
 import { skillNames } from '../../tables/skill/state/skill.names';
 import { MainComponent } from './main/main.component';
@@ -68,6 +69,11 @@ const routes: Routes = [
       {
         path: positionNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
         loadChildren: () => import(`src/app/backoffice/tables/position/position.module`).then((m) => m.PositionModule),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: projectNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+        loadChildren: () => import(`src/app/backoffice/tables/project/project.module`).then((m) => m.ProjectModule),
         canActivate: [AuthGuard],
       },
     ],

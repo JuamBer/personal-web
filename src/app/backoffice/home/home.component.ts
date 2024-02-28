@@ -8,6 +8,7 @@ import { certificateNames } from '../tables/certificate/state/certificate.names'
 import { companyNames } from '../tables/company/state/company.names';
 import { languageNames } from '../tables/language/state/language.names';
 import { positionNames } from '../tables/position/state/position.names';
+import { projectNames } from '../tables/project/state/project.names';
 import { skillTypeNames } from '../tables/skill-type/state/skill-type.names';
 import { skillNames } from '../tables/skill/state/skill.names';
 
@@ -38,6 +39,7 @@ export class HomeComponent {
     positionNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
     skillNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
     skillTypeNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
+    projectNames.name(Naming.CAMEL_CASE, NumberMode.SINGULAR),
   ];
 
   urls: string[] = [
@@ -49,6 +51,7 @@ export class HomeComponent {
     positionNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     skillNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
     skillTypeNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
+    projectNames.name(Naming.KEBAB_CASE, NumberMode.PLURAL),
   ];
 
   goTo(url: string) {

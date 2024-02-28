@@ -1,0 +1,9 @@
+<app-generic-table
+  [entities]="entities()"
+  [loading]="loading()"
+  [count]="count()"
+  [config]="tableConfig()!"
+  (lazyLoadEvent)="onLazyLoadEvent($event)"
+  (tableEvent)="onTableEvent($event)"
+></app-generic-table>
+<router-outlet></router-outlet>

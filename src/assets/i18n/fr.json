@@ -15,6 +15,9 @@
     "certificates": {
       "title": "Certificats"
     },
+    "projects": {
+      "title": "Projets"
+    },
     "logIn": {
       "title": "Connexion",
       "resetPassword": "Vous avez oublié votre mot de passe?"
@@ -157,7 +160,8 @@
     "active": "actif",
     "total": "Total",
     "translations": "Traductions : {{name}}",
-    "present": "Présent"
+    "present": "Présent",
+    "freelancer": "Freelancer"
   },
   "tables": {
     "company": {
@@ -203,6 +207,10 @@
     "curriculum": {
       "singular": "CV",
       "plural": "CV"
+    },
+    "project": {
+      "singular": "Projet",
+      "plural": "Projets"
     }
   },
   "inputTranslations": {
@@ -229,11 +237,13 @@
     "web": "la toile",
     "playStore": "Jouer au magasin",
     "microsoftStore": "Boutique Microsoft",
+    "appStore": "App Store",
     "filterType": "Type de filtre",
     "value": "Valeur",
     "createdAt": "créé en",
     "updatedAt": "mis à jour dans",
-    "password": "Mot de passe"
+    "password": "Mot de passe",
+    "technologies": "Technologies"
   },
   "enums": {
     "companyType": {

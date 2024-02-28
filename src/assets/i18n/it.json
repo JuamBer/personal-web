@@ -15,6 +15,9 @@
     "certificates": {
       "title": "Certificati"
     },
+    "projects": {
+      "title": "Progetti"
+    },
     "logIn": {
       "title": "Accesso",
       "resetPassword": "Hai dimenticato la password?"
@@ -157,7 +160,8 @@
     "active": "attivo",
     "total": "Totale",
     "translations": "Traduzioni: {{name}}",
-    "present": "Presente"
+    "present": "Presente",
+    "freelancer": "Freelancer"
   },
   "tables": {
     "company": {
@@ -203,6 +207,10 @@
     "curriculum": {
       "singular": "Riprendere",
       "plural": "riprendere"
+    },
+    "project": {
+      "singular": "Progetto",
+      "plural": "Progetti"
     }
   },
   "inputTranslations": {
@@ -229,11 +237,13 @@
     "web": "ragnatela",
     "playStore": "Play Store",
     "microsoftStore": "Microsoft Store",
+    "appStore": "App Store",
     "filterType": "Tipo di filtro",
     "value": "Di valore",
     "createdAt": "creato in",
     "updatedAt": "aggiornato in",
-    "password": "Parola d'ordine"
+    "password": "Parola d'ordine",
+    "technologies": "Tecnologie"
   },
   "enums": {
     "companyType": {

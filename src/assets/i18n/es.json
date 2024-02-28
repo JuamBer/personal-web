@@ -15,6 +15,9 @@
     "certificates": {
       "title": "Certificados"
     },
+    "projects": {
+      "title": "Proyectos"
+    },
     "logIn": {
       "title": "Inicio de sesión",
       "resetPassword": "¿Has olvidado tu contraseña?"
@@ -159,7 +162,8 @@
     "active": "Activo/a",
     "total": "Total",
     "translations": "Traducciones: {{name}}",
-    "present": "Actualidad"
+    "present": "Actualidad",
+    "freelancer": "Freelancer"
   },
   "tables": {
     "company": {
@@ -205,6 +209,10 @@
     "curriculum": {
       "singular": "Curriculum",
       "plural": "Curriculums"
+    },
+    "project": {
+      "singular": "Proyecto",
+      "plural": "Proyectos"
     }
   },
   "inputTranslations": {
@@ -231,13 +239,15 @@
     "web": "Web",
     "playStore": "Play Store",
     "microsoftStore": "Microsoft Store",
+    "appStore": "App Store",
     "filterType": "Tipo de Filtro",
     "value": "Valor",
     "createdAt": "Creado en",
     "updatedAt": "Actualizado en",
     "password": "Contraseña",
     "newPassword": "Nueva Contraseña",
-    "repeatNewPassword": "Repetir Nueva Contraseña"
+    "repeatNewPassword": "Repetir Nueva Contraseña",
+    "technologies": "Tecnologías"
   },
   "enums": {
     "companyType": {

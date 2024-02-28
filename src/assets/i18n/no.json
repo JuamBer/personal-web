@@ -15,6 +15,9 @@
     "certificates": {
       "title": "Sertifikater"
     },
+    "projects": {
+      "title": "Prosjekter"
+    },
     "logIn": {
       "title": "Logg inn",
       "resetPassword": "Glemt passordet ditt?"
@@ -157,7 +160,8 @@
     "active": "aktiv",
     "total": "Total",
     "translations": "Oversettelser: {{name}}",
-    "present": "Nåværende"
+    "present": "Nåværende",
+    "freelancer": "Freelancer"
   },
   "tables": {
     "company": {
@@ -203,6 +207,10 @@
     "curriculum": {
       "singular": "Gjenoppta",
       "plural": "gjenoppta"
+    },
+    "project": {
+      "singular": "Prosjekt",
+      "plural": "Prosjekter"
     }
   },
   "inputTranslations": {
@@ -229,11 +237,13 @@
     "web": "Web",
     "playStore": "Play Butikk",
     "microsoftStore": "Microsoft Store",
+    "appStore": "App Store",
     "filterType": "Filtertype",
     "value": "Verdi",
     "createdAt": "opprettet i",
     "updatedAt": "oppdatert i",
-    "password": "Passord"
+    "password": "Passord",
+    "technologies": "teknologier"
   },
   "enums": {
     "companyType": {

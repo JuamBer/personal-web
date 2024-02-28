@@ -15,6 +15,9 @@
     "certificates": {
       "title": "Zertifikate"
     },
+    "projects": {
+      "title": "Projekte"
+    },
     "logIn": {
       "title": "Anmelden",
       "resetPassword": "Haben Sie Ihr Passwort vergessen?"
@@ -157,7 +160,8 @@
     "active": "aktiv",
     "total": "Gesamt",
     "translations": "Übersetzungen: {{name}}",
-    "present": "Gegenwart"
+    "present": "Gegenwart",
+    "freelancer": "Freelancer"
   },
   "tables": {
     "company": {
@@ -203,6 +207,10 @@
     "curriculum": {
       "singular": "Fortsetzen",
       "plural": "fortsetzen"
+    },
+    "project": {
+      "singular": "Projekt",
+      "plural": "Projekte"
     }
   },
   "inputTranslations": {
@@ -229,11 +237,13 @@
     "web": "Netz",
     "playStore": "Spielladen",
     "microsoftStore": "Microsoft Store",
+    "appStore": "App Store",
     "filterType": "Filter Typ",
     "value": "Wert",
     "createdAt": "erstellt in",
     "updatedAt": "aktualisiert in",
-    "password": "Passwort"
+    "password": "Passwort",
+    "technologies": "Technologien"
   },
   "enums": {
     "companyType": {

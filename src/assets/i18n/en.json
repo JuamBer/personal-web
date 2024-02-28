@@ -15,6 +15,9 @@
     "certificates": {
       "title": "Certificates"
     },
+    "projects": {
+      "title": "Projects"
+    },
     "logIn": {
       "title": "Log In",
       "resetPassword": "Forgot your password?"
@@ -157,7 +160,8 @@
     "active": "active",
     "total": "Total",
     "translations": "Translations: {{name}}",
-    "present": "Present"
+    "present": "Present",
+    "freelancer": "Freelancer"
   },
   "tables": {
     "company": {
@@ -203,6 +207,10 @@
     "curriculum": {
       "singular": "Resume",
       "plural": "resume"
+    },
+    "project": {
+      "singular": "Project",
+      "plural": "Projects"
     }
   },
   "inputTranslations": {
@@ -229,11 +237,13 @@
     "web": "Web",
     "playStore": "Play Store",
     "microsoftStore": "Microsoft Store",
+    "appStore": "App Store",
     "filterType": "Filter Type",
     "value": "Worth",
     "createdAt": "created in",
     "updatedAt": "updated in",
-    "password": "Password"
+    "password": "Password",
+    "technologies": "Technologies"
   },
   "enums": {
     "companyType": {
