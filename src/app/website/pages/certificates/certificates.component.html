@@ -8,7 +8,7 @@
         [id]="certificateGroup.id"
         [@certificateGroupEnterAnimation]="getCertificateGroupEnterAnimationState(certificateGroup?.id)"
       >
-        <h3>{{ getTranslation(language()?.acronym, certificateGroup?.nameTranslations) }}</h3>
+        <h3 [innerHTML]="getTranslation(language()?.acronym, certificateGroup?.nameTranslations)"></h3>
       </div>
       @if (certificateGroup && certificateGroup.certificates) {
       <swiper [config]="swiperConfig" [id]="'.swiper' + certificateGroup?.id">
@@ -18,9 +18,9 @@
             <div class="image-content">
               <div class="card-image">
                 <div class="overlay">
-                  <h4>{{ getTranslation(language()?.acronym, certificate?.nameTranslations) }}</h4>
+                  <h4 [innerHTML]="getTranslation(language()?.acronym, certificate?.nameTranslations)"></h4>
                   <h5>{{ certificate.date | date : '' : language()?.acronym }}</h5>
-                  <p>{{ getTranslation(language()?.acronym, certificate?.descriptionTranslations) }}</p>
+                  <p [innerHTML]="getTranslation(language()?.acronym, certificate?.descriptionTranslations)"></p>
                 </div>
                 <img
                   [src]="certificate.image"

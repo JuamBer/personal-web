@@ -24,34 +24,26 @@
     </div>
   </div>
 </div>
-@switch (skillTypesActionStatus()) {
-  @case (ActionStatus.SUCCESS) {
-    @for (skillType of skillTypes(); track skillType) {
-      <div class="my-container" style="margin-bottom: 60px">
-        <div class="container-info" [@enterAnimation]>
-          <div class="title">
-            <h3>{{ getTranslation(language()?.acronym, skillType?.nameTranslations) }}</h3>
-          </div>
-          <app-tools [entities]="skillType.skills!"></app-tools>
-        </div>
-      </div>
-    }
-  }
-  @case (ActionStatus.PENDING) {
-    @for (skillType of [0, 1, 2]; track skillType) {
-      <div class="my-container" style="margin-bottom: 60px">
-        <div class="container-info">
-          <div class="title pb-5">
-            <p-skeleton width="50%" height="1.25em"></p-skeleton>
-          </div>
-          <app-tools [entities]="[]" [loading]="true"></app-tools>
-        </div>
-      </div>
-    }
-  }
-  @case (ActionStatus.ERROR) {
-    <app-generic-error></app-generic-error>
-  }
-}
+@switch (skillTypesActionStatus()) { @case (ActionStatus.SUCCESS) { @for (skillType of skillTypes(); track skillType) {
+<div class="my-container" style="margin-bottom: 60px">
+  <div class="container-info" [@enterAnimation]>
+    <div class="title">
+      <h3 [innerHTML]="getTranslation(language()?.acronym, skillType?.nameTranslations)"></h3>
+    </div>
+    <app-tools [entities]="skillType.skills!"></app-tools>
+  </div>
+</div>
+} } @case (ActionStatus.PENDING) { @for (skillType of [0, 1, 2]; track skillType) {
+<div class="my-container" style="margin-bottom: 60px">
+  <div class="container-info">
+    <div class="title pb-5">
+      <p-skeleton width="50%" height="1.25em"></p-skeleton>
+    </div>
+    <app-tools [entities]="[]" [loading]="true"></app-tools>
+  </div>
+</div>
+} } @case (ActionStatus.ERROR) {
+<app-generic-error></app-generic-error>
+} }
 <br /><br /><br />
 <br /><br /><br />
