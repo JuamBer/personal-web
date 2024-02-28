@@ -3,6 +3,9 @@
   <!-- {{ project.id }} -->
   <div class="project" #project [id]="project.id" [@projectEnterAnimation]="getProjectEnterAnimationState(project.id)">
     <div class="logo">
+      <div class="overlay">
+        <p>{{ getTranslation(language()?.acronym, project?.descriptionTranslations) }}</p>
+      </div>
       <img [src]="project.logo" [alt]="project.name" />
     </div>
     <div class="info">

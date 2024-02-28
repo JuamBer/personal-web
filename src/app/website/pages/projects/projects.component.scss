@@ -9,19 +9,49 @@
     align-items: stretch;
 
     .logo {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 30rem;
       background-color: rgba(229, 229, 229);
-
-      // opacity: 0.5;
       padding: 2rem;
       border-radius: 0.5rem;
+      transition: all 0.15s ease;
 
       img {
         width: 100%;
-        // opacity: 1;
+      }
+
+      .overlay {
+        display: none;
+        position: absolute;
+        padding: 10px;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: transparent;
+
+        img {
+          opacity: 0.1;
+        }
+
+        .overlay {
+          display: flex;
+          justify-content: center;
+          filter: contrast(120%);
+          color: var(--textColor);
+          padding: 0.25rem;
+          text-align: center;
+          align-items: center;
+          height: 100%;
+        }
       }
     }
 
