@@ -27,31 +27,31 @@
         </div>
         <div class="project-links">
           @if (project.urls.web) {
-          <button class="button" [attr.aria-label]="'Web'">
+          <button class="button" [attr.aria-label]="'Web'" pTooltip="Website">
             <a [href]="project.urls.web" target="_blank">
               <fa-icon [icon]="faGlobe"></fa-icon>
             </a>
           </button>
           } @if (project.urls.microsoftStore) {
-          <button class="button" [attr.aria-label]="'Microsoft Store'">
+          <button class="button" [attr.aria-label]="'Microsoft Store'" pTooltip="Microsoft Store">
             <a [href]="project.urls.microsoftStore" target="_blank">
               <fa-icon [icon]="faMicrosoft"></fa-icon>
             </a>
           </button>
           } @if (project.urls.playStore) {
-          <button class="button" [attr.aria-label]="'Google Play Store'">
+          <button class="button" [attr.aria-label]="'Google Play Store'" pTooltip="Google Play Store">
             <a [href]="project.urls.playStore" target="_blank">
               <fa-icon [icon]="faGooglePlay"></fa-icon>
             </a>
           </button>
           } @if (project.urls.appStore) {
-          <button class="button" [attr.aria-label]="'Google Play Store'">
+          <button class="button" [attr.aria-label]="'App Store'" pTooltip="App Store">
             <a [href]="project.urls.appStore" target="_blank">
               <fa-icon [icon]="faAppStore"></fa-icon>
             </a>
           </button>
           }@if (project.urls.github) {
-          <button class="button" [attr.aria-label]="'Github Repository'">
+          <button class="button" [attr.aria-label]="'Github Repository'" pTooltip="Github Repository">
             <a [href]="project.urls.github" target="_blank">
               <fa-icon [icon]="faGithub"></fa-icon>
             </a>

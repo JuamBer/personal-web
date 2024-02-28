@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TooltipModule } from 'primeng/tooltip';
 import { GenericErrorModule } from 'src/app/shared/components/generic-error/generic-error.module';
 import { DirectivesModule } from 'src/app/shared/modules/directives.module';
 import { PipesModule } from 'src/app/shared/modules/pipes.module';
@@ -22,6 +23,7 @@ import { CertificatesComponent } from './certificates.component';
     TranslateModule,
     GenericErrorModule,
     FontAwesomeModule,
+    TooltipModule,
   ],
 })
 export class CertificatesModule {}

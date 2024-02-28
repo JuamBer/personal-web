@@ -33,37 +33,37 @@
             <div class="card-content">
               <div class="buttons">
                 @if (certificate.web) {
-                <button class="button" [attr.aria-label]="'Web'">
+                <button class="button" [attr.aria-label]="'Web'" pTooltip="Website">
                   <a [href]="certificate.web" target="_blank">
                     <fa-icon [icon]="faGlobe"></fa-icon>
                   </a>
                 </button>
                 } @if (certificate.microsoftStore) {
-                <button class="button" [attr.aria-label]="'Microsoft Store'">
+                <button class="button" [attr.aria-label]="'Microsoft Store'" pTooltip="Microsoft Store">
                   <a [href]="certificate.microsoftStore" target="_blank">
                     <fa-icon [icon]="faMicrosoft"></fa-icon>
                   </a>
                 </button>
                 } @if (certificate.playStore) {
-                <button class="button" [attr.aria-label]="'Google Play Store'">
+                <button class="button" [attr.aria-label]="'Google Play Store'" pTooltip="Google Play Store">
                   <a [href]="certificate.playStore" target="_blank">
                     <fa-icon [icon]="faGooglePlay"></fa-icon>
                   </a>
                 </button>
                 } @if (certificate.github) {
-                <button class="button" [attr.aria-label]="'Github Repository'">
+                <button class="button" [attr.aria-label]="'Github Repository'" pTooltip="Github Repository">
                   <a [href]="certificate.github" target="_blank">
                     <fa-icon [icon]="faGithub"></fa-icon>
                   </a>
                 </button>
                 } @if (certificate.url) {
-                <button class="button" [attr.aria-label]="'Certificate URL'">
+                <button class="button" [attr.aria-label]="'Certificate URL'" pTooltip="URL">
                   <a [href]="certificate.url" target="_blank">
                     <fa-icon [icon]="faLink"></fa-icon>
                   </a>
                 </button>
                 } @if (certificate.pdf) {
-                <button class="button" [attr.aria-label]="'Certificate PDF'">
+                <button class="button" [attr.aria-label]="'Certificate PDF'" pTooltip="PDF">
                   <a [href]="certificate.pdf" target="_blank">
                     <fa-icon [icon]="faDownload"></fa-icon>
                   </a>
