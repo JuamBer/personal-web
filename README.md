@@ -38,10 +38,10 @@ This project uses Supabase as a backend service. Supabase is an open-source alte
 
 You can create a Supabase project by following the instructions on the [official website](https://supabase.com/). After creating the project, you can obtain the API key and URL from the project settings.
 
-
 ### 1.2. Database definition 📜 <a name="database-definition"></a>
 
 #### 1.2.1. Languages
+
 ```sql
 create table
   public.languages (
@@ -56,13 +56,10 @@ create table
     constraint languages_acronym_key unique (acronym),
     constraint languages_uid_key unique (id)
   ) tablespace pg_default;
-
-create trigger handle_updated_at_languages before
-update on languages for each row
-execute function moddatetime ('updated_at');
 ```
 
 #### 1.2.2. Skill Types
+
 ```sql
 create table
   public.skill_types (
@@ -74,13 +71,10 @@ create table
     constraint skill_types_pkey primary key (id),
     constraint skill_types_uuid_key unique (id)
   ) tablespace pg_default;
-
-create trigger handle_updated_at_skill_types before
-update on skill_types for each row
-execute function moddatetime ('updated_at');
 ```
 
 #### 1.2.3. Skills
+
 ```sql
 create table
   public.skills (
@@ -94,13 +88,10 @@ create table
     constraint skills_name_key unique (name),
     constraint skills_skill_type_id_fkey foreign key (skill_type_id) references skill_types (id)
   ) tablespace pg_default;
-
-create trigger handle_updated_at_skills before
-update on skills for each row
-execute function moddatetime ('updated_at');
 ```
 
 #### 1.2.4. Certificate Groups
+
 ```sql
 create table
   public.certificate_groups (
@@ -111,13 +102,10 @@ create table
     description_translations jsonb not null default '[]'::jsonb,
     constraint certificate_groups_pkey primary key (id)
   ) tablespace pg_default;
-
-create trigger handle_updated_at_certificate_groups before
-update on certificate_groups for each row
-execute function moddatetime ('updated_at');
 ```
 
 #### 1.2.5. Certificate Types
+
 ```sql
 create table
   public.certificate_types (
@@ -129,10 +117,6 @@ create table
     constraint certificate_types_pkey primary key (id),
     constraint certificate_types_uuid_key unique (id)
   ) tablespace pg_default;
-
-create trigger handle_updated_at_certificate_types before
-update on certificate_types for each row
-execute function moddatetime ('updated_at');
 ```
 
 #### 1.2.6. Companies
@@ -154,13 +138,10 @@ create table
     constraint companies_name_key unique (name),
     constraint companies_uuid_key unique (id)
   ) tablespace pg_default;
-
-create trigger handle_updated_at_companies before
-update on companies for each row
-execute function moddatetime ('updated_at');
 ```
 
 #### 1.2.7. Positions
+
 ```sql
 create table
   public.positions (
@@ -177,13 +158,10 @@ create table
     constraint positions_pkey primary key (id),
     constraint positions_company_id_fkey foreign key (company_id) references companies (id) on delete set null
   ) tablespace pg_default;
-
-create trigger handle_updated_at_positions before
-update on positions for each row
-execute function moddatetime ('updated_at');
 ```
 
 #### 1.2.8. Certificates
+
 ```sql
 create table
   public.certificates (
@@ -208,10 +186,26 @@ create table
     constraint certificates_certificate_type_id_fkey foreign key (certificate_type_id) references certificate_types (id) on delete set null,
     constraint certificates_company_id_fkey foreign key (company_id) references companies (id) on delete set null
   ) tablespace pg_default;
+```
 
-create trigger handle_updated_at_certificates before
-update on certificates for each row
-execute function moddatetime ('updated_at');
+#### 1.2.9. Projects
+
+```sql
+create table
+  public.projects (
+    id uuid not null default gen_random_uuid (),
+    created_at timestamp with time zone not null default now(),
+    name text not null,
+    description_translations json null,
+    date date null,
+    company_id uuid null,
+    urls json null,
+    updated_at timestamp with time zone null,
+    technologies text[] null,
+    logo text null,
+    constraint projects_pkey primary key (id),
+    constraint public_projects_company_id_fkey foreign key (company_id) references companies (id)
+  ) tablespace pg_default;
 ```
 
 ### 1.3. Environment Configuration 🛠️ <a name="environment-configuration"></a>
@@ -279,13 +273,14 @@ An example of our workflows is [github-pages-deploy.yml](.github/workflows/githu
 **Activation**: This workflow is activated when a push is made to the 'main' branch.
 2. **Execution Environment**: The workflow runs on the latest available version of Ubuntu.
 3. **Steps**:
-   - **Checkout**: This step checks out the repository using GitHub's 'checkout' action.
-   - **Setup node.js**: This step sets up a specific Node.js version using GitHub's 'setup-node' action.
-   - **Generate environment file from github secrets**: This step creates an environment file from GitHub secrets for use in the application.
-   - **Install dependencies**: This step installs all the necessary dependencies for the project using `npm install`.
-   - **Run tests**: This step runs all unit tests to ensure the application is working as expected using `npm test`.
-   - **Build app**: This step builds the application for production using `npm run build`.
-   - **Deployment**: This step deploys the 'dist/browser' directory on GitHub Pages using GitHub's 'gh-pages' action.
+
+- **Checkout**: This step checks out the repository using GitHub's 'checkout' action.
+- **Setup node.js**: This step sets up a specific Node.js version using GitHub's 'setup-node' action.
+- **Generate environment file from github secrets**: This step creates an environment file from GitHub secrets for use in the application.
+- **Install dependencies**: This step installs all the necessary dependencies for the project using `npm install`.
+- **Run tests**: This step runs all unit tests to ensure the application is working as expected using `npm test`.
+- **Build app**: This step builds the application for production using `npm run build`.
+- **Deployment**: This step deploys the 'dist/browser' directory on GitHub Pages using GitHub's 'gh-pages' action.
 
 For more information on how to use GitHub Actions, you can consult the [official documentation](https://docs.github.com/en/actions).
 
