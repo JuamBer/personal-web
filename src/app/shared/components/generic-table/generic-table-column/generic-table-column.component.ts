@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
@@ -29,6 +30,8 @@ export class GenericTableColumnComponent<T> {
   }
 
   language$ = this.store.select(publicLanguageReducer.getOne);
+  language = toSignal(this.language$);
+
   translation$ = combineLatest([this.language$, this.value$]).pipe(
     map(([language]) => {
       if (Array.isArray(this.data) && language) {
