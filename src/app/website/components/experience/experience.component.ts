@@ -110,6 +110,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
           const dateTo = position.dateTo ? position.dateTo : new Date();
           const months =
             (dateTo.getFullYear() - dateFrom.getFullYear()) * 12 + (dateTo.getMonth() - dateFrom.getMonth());
+          console.log(months);
           const years = Math.floor(months / 12);
           const monthsLeft = months % 12;
 
@@ -117,16 +118,23 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
             time += ' ';
           }
 
+          if (years === 0 && monthsLeft === 11) {
+            time = `1 ${this.translateSrv.instant('time.year')}`;
+            return time;
+          }
+
           if (years > 0) {
             time += `${years} ${
               years === 1 ? this.translateSrv.instant('time.year') : this.translateSrv.instant('time.years')
             }`;
           }
+
           if (monthsLeft > 0) {
             time += `${years > 0 ? ' ' : ''}${monthsLeft + 1} ${
               monthsLeft === 1 ? this.translateSrv.instant('time.month') : this.translateSrv.instant('time.months')
             }`;
           }
+
           return time;
         }, ''),
       }));
