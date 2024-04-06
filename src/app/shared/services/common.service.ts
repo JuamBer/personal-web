@@ -42,7 +42,6 @@ export class CommonService<T extends Resource> {
   }
 
   async create(payload: T): Promise<T> {
-    console.log(flatObjectsById(camelCaseToSnakeCase(payload)));
     const { data, error } = await this.supabase
       .from(this.table)
       .insert([flatObjectsById(camelCaseToSnakeCase(payload))])

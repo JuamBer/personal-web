@@ -110,7 +110,6 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
           const dateTo = position.dateTo ? position.dateTo : new Date();
           const months =
             (dateTo.getFullYear() - dateFrom.getFullYear()) * 12 + (dateTo.getMonth() - dateFrom.getMonth());
-          console.log(months);
           const years = Math.floor(months / 12);
           const monthsLeft = months % 12;
 
