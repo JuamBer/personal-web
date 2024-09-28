@@ -14,7 +14,11 @@ import { AuthGuard } from './shared/guards/auth.guard';
 
 let userLanguage = undefined;
 
-if (navigator && navigator.language) {
+function isBrowser(): boolean {
+  return typeof window !== 'undefined' && typeof navigator !== 'undefined';
+}
+
+if (isBrowser() && navigator.language) {
   userLanguage = (navigator.languages ? navigator.languages[0] : navigator.language).split('-')[0];
 }
 
