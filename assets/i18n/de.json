@@ -12,15 +12,23 @@
     "home": {
       "title": "Home",
       "meta": {
-        "description": "Juamber - Webanwendungsentwickler",
-        "keywords": "Juamber, Webanwendungsentwickler, Entwickler, Web, Anwendung, Entwickler"
+        "description": "Persönliche Website von Juan Sáez García, Webanwendungsentwickler. Hier finden Sie Informationen zu seinem beruflichen Werdegang, Projekten und Zertifikaten.",
+        "keywords": "Juan Sáez García, JuamBer, Webanwendungsentwickler, Full Stack, Frontend, Backend"
       }
     },
     "certificates": {
-      "title": "Zertifikate"
+      "title": "Zertifikate",
+      "meta": {
+        "description": "Zertifikate von Juan Sáez García, Webanwendungsentwickler. Hier finden Sie Informationen zu seinen Zertifikaten.",
+        "keywords": "Juan Sáez García, JuamBer, Webanwendungsentwickler, Full Stack, Frontend, Backend, Zertifikate"
+      }
     },
     "projects": {
-      "title": "Projekte"
+      "title": "Projekte",
+      "meta": {
+        "description": "Projekte von Juan Sáez García, Webanwendungsentwickler. Hier finden Sie Informationen zu seinen Projekten.",
+        "keywords": "Juan Sáez García, JuamBer, Webanwendungsentwickler, Full Stack, Frontend, Backend, Projekte"
+      }
     },
     "logIn": {
       "title": "Anmelden",
