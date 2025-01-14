@@ -1,24 +1,20 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ResolveFn } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { filter, map } from 'rxjs/operators';
-import { appRootTitle } from 'src/app/app.component';
+import { Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { skillTypeActions } from 'src/app/backoffice/tables/skill-type/state/skill-type.actions';
 import { skillTypeReducer } from 'src/app/backoffice/tables/skill-type/state/skill-type.reducer';
+import { Page } from 'src/app/shared/models/page.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { addActionId } from 'src/app/shared/state/common/common.actions';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { SocialNetwork } from '../../components/social-networks/models/social-network.model';
-
-export const homeTitleResolver: ResolveFn<string> = () => {
-  const translateSrv = inject(TranslateService);
-  return translateSrv.get('pages.home.title').pipe(map((title) => `${appRootTitle} | ${title}`));
-};
 
 @Component({
   selector: 'app-home',
@@ -45,9 +41,13 @@ export const homeTitleResolver: ResolveFn<string> = () => {
     ]),
   ],
 })
-export class HomeComponent extends TranslationProvider implements OnInit, AfterViewInit {
+export class HomeComponent extends TranslationProvider implements OnInit, OnDestroy, AfterViewInit, Page {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
+  private title = inject(Title);
+  private meta = inject(Meta);
+
+  destroy$ = new Subject<void>();
 
   language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
@@ -94,6 +94,7 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
   }
 
   ngOnInit() {
+    this.handleSEO();
     this.skillTypes$.subscribe((skillTypes) => {
       if (!skillTypes.length) {
         this.store.dispatch(
@@ -104,6 +105,29 @@ export class HomeComponent extends TranslationProvider implements OnInit, AfterV
           ),
         );
       }
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  handleSEO() {
+    this.language$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.title.setTitle(this.translateSrv.instant('pages.home.title'));
+      this.meta.updateTag({
+        name: 'description',
+        content: this.translateSrv.instant('pages.home.meta.description'),
+      });
+      this.meta.updateTag({
+        name: 'keywords',
+        content: this.translateSrv.instant('pages.home.meta.keywords'),
+      });
+      this.meta.updateTag({
+        name: 'og:image',
+        content: 'assets/images/meta-image.png',
+      });
     });
   }
 

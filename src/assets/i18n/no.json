@@ -10,13 +10,25 @@
   },
   "pages": {
     "home": {
-      "title": "Home"
+      "title": "Home",
+      "meta": {
+        "description": "Juan Sáez García's personal website, web application developer. Here you can find information about his professional career, projects and certificates.",
+        "keywords": "Juan Sáez García, JuamBer, Web application developer, Full Stack, Frontend, Backend"
+      }
     },
     "certificates": {
-      "title": "Sertifikater"
+      "title": "Sertifikater",
+      "meta": {
+        "description": "Juan Sáez García's certificates, web application developer. Here you can find information about his certificates.",
+        "keywords": "Juan Sáez García, JuamBer, Web application developer, Full Stack, Frontend, Backend, Certificates"
+      }
     },
     "projects": {
-      "title": "Prosjekter"
+      "title": "Prosjekter",
+      "meta": {
+        "description": "Juan Sáez García's projects, web application developer. Here you can find information about his projects.",
+        "keywords": "Juan Sáez García, JuamBer, Web application developer, Full Stack, Frontend, Backend, Projects"
+      }
     },
     "logIn": {
       "title": "Logg inn",

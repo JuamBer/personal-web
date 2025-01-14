@@ -12,17 +12,17 @@ import {
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ResolveFn } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
 import { faGithub, faGooglePlay, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faDownload, faGlobe, faLink } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, Subject, filter, map, pairwise, startWith, takeUntil, zip } from 'rxjs';
-import { appRootTitle } from 'src/app/app.component';
 import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
 import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
 import { Certificate } from 'src/app/backoffice/tables/certificate/models/certificate.model';
+import { Page } from 'src/app/shared/models/page.model';
 import { TranslationProvider } from 'src/app/shared/models/translation-provider.model';
 import { ActionStatus, ActionType } from 'src/app/shared/state/common/common-state';
 import { addActionId } from 'src/app/shared/state/common/common.actions';
@@ -30,11 +30,6 @@ import { publicLanguageReducer } from 'src/app/shared/state/languages/public-lan
 import Swiper, { A11y, Autoplay, Navigation, Pagination, Scrollbar, SwiperOptions } from 'swiper';
 
 Swiper.use([Navigation, A11y, Pagination, Scrollbar, Autoplay]);
-
-export const certificatesTitleResolver: ResolveFn<string> = () => {
-  const translateSrv = inject(TranslateService);
-  return translateSrv.get('pages.certificates.title').pipe(map((title) => `${appRootTitle} | ${title}`));
-};
 
 @Component({
   selector: 'app-certificates',
@@ -49,9 +44,12 @@ export const certificatesTitleResolver: ResolveFn<string> = () => {
     ]),
   ],
 })
-export class CertificatesComponent extends TranslationProvider implements OnInit, AfterViewChecked, OnDestroy {
+export class CertificatesComponent extends TranslationProvider implements OnInit, AfterViewChecked, OnDestroy, Page {
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
+  private title = inject(Title);
+  private meta = inject(Meta);
+  private translateSrv = inject(TranslateService);
 
   destroy$ = new Subject<void>();
 
@@ -120,6 +118,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   certificateElementAnimationsDone: string[] = [];
 
   ngOnInit() {
+    this.handleSEO();
     zip([this.certificateGroups$.pipe(startWith([]), pairwise()), this.certificateGroupCount$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([[previousCertificateGroups, currentCertificateGroups], count]) => {
@@ -182,6 +181,24 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
     this.destroy$.next();
     this.destroy$.complete();
     this.store.dispatch(certificateGroupActions.unloadAll());
+  }
+
+  handleSEO() {
+    this.language$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.title.setTitle(this.translateSrv.instant('pages.certificates.title'));
+      this.meta.updateTag({
+        name: 'description',
+        content: this.translateSrv.instant('pages.certificates.meta.description'),
+      });
+      this.meta.updateTag({
+        name: 'keywords',
+        content: this.translateSrv.instant('pages.certificates.meta.keywords'),
+      });
+      this.meta.updateTag({
+        name: 'og:image',
+        content: 'assets/images/meta-image.png',
+      });
+    });
   }
 
   orderByDate(certificates: Certificate[]): Certificate[] {

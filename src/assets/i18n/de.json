@@ -10,7 +10,11 @@
   },
   "pages": {
     "home": {
-      "title": "Home"
+      "title": "Home",
+      "meta": {
+        "description": "Juamber - Webanwendungsentwickler",
+        "keywords": "Juamber, Webanwendungsentwickler, Entwickler, Web, Anwendung, Entwickler"
+      }
     },
     "certificates": {
       "title": "Zertifikate"

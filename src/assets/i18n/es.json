@@ -10,13 +10,25 @@
   },
   "pages": {
     "home": {
-      "title": "Resumen"
+      "title": "Resumen",
+      "meta": {
+        "description": "Web personal de Juan Sáez García, desarrollador de aplicaciones web. Aquí podrás encontrar información sobre su trayectoria profesional, proyectos y certificados.",
+        "keywords": "Juan Sáez García, JuamBer, Desarrollador de aplicaciones web, Full Stack, Frontend, Backend"
+      }
     },
     "certificates": {
-      "title": "Certificados"
+      "title": "Certificados",
+      "meta": {
+        "description": "Certificados de Juan Sáez García, desarrollador de aplicaciones web. Aquí podrás encontrar información sobre sus certificados.",
+        "keywords": "Juan Sáez García, JuamBer, Desarrollador de aplicaciones web, Full Stack, Frontend, Backend, Certificados"
+      }
     },
     "projects": {
-      "title": "Proyectos"
+      "title": "Proyectos",
+      "meta": {
+        "description": "Proyectos de Juan Sáez García, desarrollador de aplicaciones web. Aquí podrás encontrar información sobre sus proyectos.",
+        "keywords": "Juan Sáez García, JuamBer, Desarrollador de aplicaciones web, Full Stack, Frontend, Backend, Proyectos"
+      }
     },
     "logIn": {
       "title": "Inicio de sesión",
