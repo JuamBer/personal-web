@@ -184,21 +184,27 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   }
 
   handleSEO() {
-    this.language$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.title.setTitle(this.translateSrv.instant('pages.certificates.title'));
-      this.meta.updateTag({
-        name: 'description',
-        content: this.translateSrv.instant('pages.certificates.meta.description'),
+    this.translateSrv.onLangChange
+      .pipe(
+        takeUntil(this.destroy$),
+        map((event) => event.lang),
+        startWith(this.translateSrv.currentLang),
+      )
+      .subscribe(() => {
+        this.title.setTitle(this.translateSrv.instant('pages.certificates.title'));
+        this.meta.updateTag({
+          name: 'description',
+          content: this.translateSrv.instant('pages.certificates.meta.description'),
+        });
+        this.meta.updateTag({
+          name: 'keywords',
+          content: this.translateSrv.instant('pages.certificates.meta.keywords'),
+        });
+        this.meta.updateTag({
+          name: 'og:image',
+          content: 'assets/images/meta-image.png',
+        });
       });
-      this.meta.updateTag({
-        name: 'keywords',
-        content: this.translateSrv.instant('pages.certificates.meta.keywords'),
-      });
-      this.meta.updateTag({
-        name: 'og:image',
-        content: 'assets/images/meta-image.png',
-      });
-    });
   }
 
   orderByDate(certificates: Certificate[]): Certificate[] {

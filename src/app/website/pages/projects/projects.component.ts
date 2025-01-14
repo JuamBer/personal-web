@@ -5,11 +5,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
-  inject,
 } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -18,7 +18,7 @@ import { faAppStore, faGithub, faGooglePlay, faMicrosoft } from '@fortawesome/fr
 import { faBriefcase, faGlobe, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
+import { map, startWith, Subject, takeUntil } from 'rxjs';
 import { projectActions } from 'src/app/backoffice/tables/project/state/project.actions';
 import { projectReducer } from 'src/app/backoffice/tables/project/state/project.reducer';
 import { Page } from 'src/app/shared/models/page.model';
@@ -113,21 +113,27 @@ export class ProjectsComponent extends TranslationProvider implements OnInit, On
   }
 
   handleSEO() {
-    this.language$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.title.setTitle(this.translateSrv.instant('pages.projects.title'));
-      this.meta.updateTag({
-        name: 'description',
-        content: this.translateSrv.instant('pages.projects.meta.description'),
+    this.translateSrv.onLangChange
+      .pipe(
+        takeUntil(this.destroy$),
+        map((event) => event.lang),
+        startWith(this.translateSrv.currentLang),
+      )
+      .subscribe(() => {
+        this.title.setTitle(this.translateSrv.instant('pages.projects.title'));
+        this.meta.updateTag({
+          name: 'description',
+          content: this.translateSrv.instant('pages.projects.meta.description'),
+        });
+        this.meta.updateTag({
+          name: 'keywords',
+          content: this.translateSrv.instant('pages.projects.meta.keywords'),
+        });
+        this.meta.updateTag({
+          name: 'og:image',
+          content: 'assets/images/meta-image.png',
+        });
       });
-      this.meta.updateTag({
-        name: 'keywords',
-        content: this.translateSrv.instant('pages.projects.meta.keywords'),
-      });
-      this.meta.updateTag({
-        name: 'og:image',
-        content: 'assets/images/meta-image.png',
-      });
-    });
   }
 
   getProjectEnterAnimationState(projectId: string | undefined): 'inViewport' | 'notInViewport' {

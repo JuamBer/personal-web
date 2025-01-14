@@ -6,7 +6,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { skillTypeActions } from 'src/app/backoffice/tables/skill-type/state/skill-type.actions';
 import { skillTypeReducer } from 'src/app/backoffice/tables/skill-type/state/skill-type.reducer';
 import { Page } from 'src/app/shared/models/page.model';
@@ -114,21 +114,27 @@ export class HomeComponent extends TranslationProvider implements OnInit, OnDest
   }
 
   handleSEO() {
-    this.language$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.title.setTitle(this.translateSrv.instant('pages.home.title'));
-      this.meta.updateTag({
-        name: 'description',
-        content: this.translateSrv.instant('pages.home.meta.description'),
+    this.translateSrv.onLangChange
+      .pipe(
+        takeUntil(this.destroy$),
+        map((event) => event.lang),
+        startWith(this.translateSrv.currentLang),
+      )
+      .subscribe(() => {
+        this.title.setTitle(this.translateSrv.instant('pages.home.title'));
+        this.meta.updateTag({
+          name: 'description',
+          content: this.translateSrv.instant('pages.home.meta.description'),
+        });
+        this.meta.updateTag({
+          name: 'keywords',
+          content: this.translateSrv.instant('pages.home.meta.keywords'),
+        });
+        this.meta.updateTag({
+          name: 'og:image',
+          content: 'assets/images/meta-image.png',
+        });
       });
-      this.meta.updateTag({
-        name: 'keywords',
-        content: this.translateSrv.instant('pages.home.meta.keywords'),
-      });
-      this.meta.updateTag({
-        name: 'og:image',
-        content: 'assets/images/meta-image.png',
-      });
-    });
   }
 
   get ActionStatus() {
