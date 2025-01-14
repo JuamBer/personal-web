@@ -10,13 +10,25 @@
   },
   "pages": {
     "home": {
-      "title": "Home"
+      "title": "Home",
+      "meta": {
+        "description": "Sito web personale di Juan Sáez García, sviluppatore di applicazioni web. Qui puoi trovare informazioni sulla sua carriera professionale, progetti e certificati.",
+        "keywords": "Juan Sáez García, JuamBer, Sviluppatore di applicazioni web, Full Stack, Frontend, Backend"
+      }
     },
     "certificates": {
-      "title": "Certificati"
+      "title": "Certificati",
+      "meta": {
+        "description": "Certificati di Juan Sáez García, sviluppatore di applicazioni web. Qui puoi trovare informazioni sui suoi certificati.",
+        "keywords": "Juan Sáez García, JuamBer, Sviluppatore di applicazioni web, Full Stack, Frontend, Backend, Certificati"
+      }
     },
     "projects": {
-      "title": "Progetti"
+      "title": "Progetti",
+      "meta": {
+        "description": "Progetti di Juan Sáez García, sviluppatore di applicazioni web. Qui puoi trovare informazioni sui suoi progetti.",
+        "keywords": "Juan Sáez García, JuamBer, Sviluppatore di applicazioni web, Full Stack, Frontend, Backend, Progetti"
+      }
     },
     "logIn": {
       "title": "Accesso",
