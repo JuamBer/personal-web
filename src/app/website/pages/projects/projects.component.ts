@@ -125,7 +125,7 @@ export class ProjectsComponent extends TranslationProvider implements OnInit, Af
         });
         this.meta.updateTag({
           name: 'og:image',
-          content: 'assets/images/meta-image.png',
+          content: 'https://github.com/JuamBer/personal-web/blob/master/src/assets/images/meta-image.png',
         });
       });
   }
