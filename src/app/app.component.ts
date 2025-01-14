@@ -103,6 +103,11 @@ export class AppComponent implements OnInit, AfterViewInit {
         if (urlLanguage !== selectedLanguage?.acronym) {
           this.router.navigate([selectedLanguage.acronym, ...this.router.url.split('/').slice(3)]);
         }
+
+        //change html lang attribute
+        if (isPlatformBrowser(this.platformId)) {
+          document.documentElement.lang = selectedLanguage.acronym;
+        }
       });
   }
 
