@@ -4,21 +4,21 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
-  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Meta, Title } from '@angular/platform-browser';
 import { faAppStore, faGithub, faGooglePlay, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase, faGlobe, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { map, startWith, Subject, takeUntil } from 'rxjs';
+import { map, startWith } from 'rxjs';
 import { projectActions } from 'src/app/backoffice/tables/project/state/project.actions';
 import { projectReducer } from 'src/app/backoffice/tables/project/state/project.reducer';
 import { Page } from 'src/app/shared/models/page.model';
@@ -41,14 +41,13 @@ import { generateTechnologyShield } from 'src/app/shared/utils/shield.utils';
     ]),
   ],
 })
-export class ProjectsComponent extends TranslationProvider implements OnInit, OnDestroy, AfterViewChecked, Page {
+export class ProjectsComponent extends TranslationProvider implements OnInit, AfterViewChecked, Page {
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
   private title = inject(Title);
   private meta = inject(Meta);
   private translateSrv = inject(TranslateService);
-
-  destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   projects$ = this.store.select(projectReducer.getAll);
   projects = toSignal(this.projects$, {
@@ -82,11 +81,6 @@ export class ProjectsComponent extends TranslationProvider implements OnInit, On
     });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   ngAfterViewChecked() {
     if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
       return;
@@ -115,7 +109,7 @@ export class ProjectsComponent extends TranslationProvider implements OnInit, On
   handleSEO() {
     this.translateSrv.onLangChange
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         map((event) => event.lang),
         startWith(this.translateSrv.currentLang),
       )

@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, combineLatest, from } from 'rxjs';
-import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
+import { combineLatest, from } from 'rxjs';
+import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
@@ -55,6 +55,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   private route = inject(ActivatedRoute);
   private store = inject(Store);
   private fb = inject(FormBuilder);
+  private destroyRef = inject(DestroyRef);
 
   visible = true;
   form: LanguageFormGroup = this.fb.nonNullable.group({
@@ -64,7 +65,6 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
     active: this.fb.nonNullable.control<boolean>(true, [Validators.required]),
   });
 
-  destroy$ = new Subject<void>();
   params$ = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$ = hasPendingActions(this.store.select(languageReducer.getAction), [
@@ -102,8 +102,6 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
     this.store.dispatch(languageActions.unload());
   }
 
@@ -112,7 +110,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   handleParams() {
     this.params$
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         filter((params) => !!params.id),
       )
       .subscribe((params) => {
@@ -145,7 +143,7 @@ export class LanguageModalComponent implements OnInit, OnDestroy, EntityModal<La
   }
 
   handleAction() {
-    this.action$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.action$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.hide();
     });
   }

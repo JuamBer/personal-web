@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   OnDestroy,
   OnInit,
@@ -11,13 +12,13 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Meta, Title } from '@angular/platform-browser';
 import { faGithub, faGooglePlay, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 import { faDownload, faGlobe, faLink } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable, Subject, filter, map, pairwise, startWith, takeUntil, zip } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, pairwise, startWith, zip } from 'rxjs';
 import { CertificateGroup } from 'src/app/backoffice/tables/certificate-group/models/certificate-group.model';
 import { certificateGroupActions } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.actions';
 import { certificateGroupReducer } from 'src/app/backoffice/tables/certificate-group/state/certificate-group.reducer';
@@ -50,8 +51,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   private title = inject(Title);
   private meta = inject(Meta);
   private translateSrv = inject(TranslateService);
-
-  destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
@@ -120,7 +120,7 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   ngOnInit() {
     this.handleSEO();
     zip([this.certificateGroups$.pipe(startWith([]), pairwise()), this.certificateGroupCount$])
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([[previousCertificateGroups, currentCertificateGroups], count]) => {
         if (
           currentCertificateGroups.length === 0 ||
@@ -178,15 +178,13 @@ export class CertificatesComponent extends TranslationProvider implements OnInit
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
     this.store.dispatch(certificateGroupActions.unloadAll());
   }
 
   handleSEO() {
     this.translateSrv.onLangChange
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         map((event) => event.lang),
         startWith(this.translateSrv.currentLang),
       )

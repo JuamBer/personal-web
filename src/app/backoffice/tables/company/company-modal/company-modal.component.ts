@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable, Subject, combineLatest, from } from 'rxjs';
-import { filter, map, skip, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, from } from 'rxjs';
+import { filter, map, skip, startWith, switchMap, take } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
@@ -62,6 +62,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
   private fb = inject(FormBuilder);
+  private destroyRef = inject(DestroyRef);
 
   visible = true;
   form: CompanyFormGroup = this.fb.nonNullable.group({
@@ -75,7 +76,6 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
     ]),
   });
 
-  destroy$ = new Subject<void>();
   params$ = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$ = hasPendingActions(this.store.select(companyReducer.getAction), [
@@ -131,8 +131,6 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
     this.store.dispatch(companyActions.unload());
   }
 
@@ -141,7 +139,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   handleParams() {
     this.params$
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         filter((params) => !!params.id),
       )
       .subscribe((params) => {
@@ -159,7 +157,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
 
   handleEntity() {
     combineLatest([this.entity$, this.modalMode$])
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([entity, modalMode]) => {
         if (!entity || !modalMode) return;
 
@@ -176,7 +174,7 @@ export class CompanyModalComponent extends TranslationProvider implements OnInit
   }
 
   handleAction() {
-    this.action$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.action$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.hide();
     });
   }

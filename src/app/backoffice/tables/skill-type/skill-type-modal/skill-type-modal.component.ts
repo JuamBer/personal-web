@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router } from '@angular/router';
 
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Subject, combineLatest, from } from 'rxjs';
-import { filter, map, skip, switchMap, take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, from } from 'rxjs';
+import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { appRootTitle } from 'src/app/app.component';
 import { InputTranslationsType } from 'src/app/shared/components/input-translations/models/input-translations.models';
 import { EntityModal } from 'src/app/shared/models/entity-modal.model';
@@ -66,6 +66,7 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
   private route = inject(ActivatedRoute);
   private store = inject(Store);
   private fb = inject(FormBuilder);
+  private destroyRef = inject(DestroyRef);
 
   visible = true;
   form: SkillTypeFormGroup = this.fb.nonNullable.group({
@@ -73,7 +74,6 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
     descriptionTranslations: this.fb.nonNullable.array<TranslationFormGroup>([]),
   });
 
-  destroy$ = new Subject<void>();
   params$ = this.route.params.pipe(map((params) => params as ModalParams));
 
   loading$ = hasPendingActions(this.store.select(skillTypeReducer.getAction), [
@@ -115,8 +115,6 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
     this.store.dispatch(skillTypeActions.unload());
   }
 
@@ -125,7 +123,7 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
   handleParams() {
     this.params$
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         filter((params) => !!params.id),
       )
       .subscribe((params) => {
@@ -143,7 +141,7 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
 
   handleEntity() {
     combineLatest([this.entity$, this.modalMode$])
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([entity, modalMode]) => {
         if (!entity || !modalMode) return;
 
@@ -163,7 +161,7 @@ export class SkillTypeModalComponent extends TranslationProvider implements OnIn
   }
 
   handleAction() {
-    this.action$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.action$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.hide();
     });
   }

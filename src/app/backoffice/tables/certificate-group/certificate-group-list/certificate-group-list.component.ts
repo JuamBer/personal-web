@@ -1,12 +1,12 @@
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { Subject, filter, map, startWith, switchMap, takeUntil } from 'rxjs';
+import { filter, map, startWith, switchMap } from 'rxjs';
 import { appRootTitle } from 'src/app/app.component';
 import {
   GenericFieldType,
@@ -46,7 +46,7 @@ export const certificateGroupListTitleResolver: ResolveFn<string> = () => {
   styleUrls: ['./certificate-group-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityList<CertificateGroup> {
+export class CertificateGroupListComponent implements OnInit, EntityList<CertificateGroup> {
   private store = inject(Store);
   private confirmationSrv = inject(ConfirmationService);
   private router = inject(Router);
@@ -54,8 +54,7 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
   private titleCasePipe = inject(TitleCasePipe);
   private toastSrv = inject(ToastService);
   private messageSrv = inject(MessageService);
-
-  destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   entities$ = this.store.select(certificateGroupReducer.getAll);
   entities = toSignal(this.entities$, {
@@ -86,25 +85,20 @@ export class CertificateGroupListComponent implements OnInit, OnDestroy, EntityL
     this.handleMessages();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   handleLoadCount() {
     this.store.dispatch(certificateGroupActions.count(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
   }
 
   handleLoadTableConfig() {
     this.translateSrv.onLangChange
-      .pipe(takeUntil(this.destroy$), startWith(this.translateSrv.currentLang))
+      .pipe(takeUntilDestroyed(this.destroyRef), startWith(this.translateSrv.currentLang))
       .subscribe(() => {
         this.loadTableConfig();
       });
   }
 
   handleMessages() {
-    this.action$.pipe(takeUntil(this.destroy$)).subscribe((action) => {
+    this.action$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((action) => {
       const message = this.toastSrv.getMessage(
         this.translateSrv,
         action,

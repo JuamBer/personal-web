@@ -1,12 +1,11 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Meta, Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { filter, map, startWith, takeUntil } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 import { skillTypeActions } from 'src/app/backoffice/tables/skill-type/state/skill-type.actions';
 import { skillTypeReducer } from 'src/app/backoffice/tables/skill-type/state/skill-type.reducer';
 import { Page } from 'src/app/shared/models/page.model';
@@ -41,13 +40,12 @@ import { SocialNetwork } from '../../components/social-networks/models/social-ne
     ]),
   ],
 })
-export class HomeComponent extends TranslationProvider implements OnInit, OnDestroy, AfterViewInit, Page {
+export class HomeComponent extends TranslationProvider implements OnInit, AfterViewInit, Page {
   private store = inject(Store);
   private translateSrv = inject(TranslateService);
   private title = inject(Title);
   private meta = inject(Meta);
-
-  destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
@@ -108,15 +106,10 @@ export class HomeComponent extends TranslationProvider implements OnInit, OnDest
     });
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   handleSEO() {
     this.translateSrv.onLangChange
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         map((event) => event.lang),
         startWith(this.translateSrv.currentLang),
       )

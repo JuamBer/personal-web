@@ -1,7 +1,16 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Subject, map, skip, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, skip, take } from 'rxjs';
 import { ModalMode } from '../../models/modal-mode.model';
 
 @Component({
@@ -10,7 +19,9 @@ import { ModalMode } from '../../models/modal-mode.model';
   styleUrls: ['./entity-modal-buttons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EntityModalButtonsComponent<T> implements OnInit, OnDestroy {
+export class EntityModalButtonsComponent<T> implements OnInit {
+  private destroyRef = inject(DestroyRef);
+
   @Input({
     required: true,
   })
@@ -30,7 +41,6 @@ export class EntityModalButtonsComponent<T> implements OnInit, OnDestroy {
   @Output() cancel = new EventEmitter();
   @Output() submitForm = new EventEmitter();
 
-  destroy$ = new Subject<void>();
   pendingChanges$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   pendingChanges = toSignal(this.pendingChanges$, {
     initialValue: false,
@@ -38,24 +48,19 @@ export class EntityModalButtonsComponent<T> implements OnInit, OnDestroy {
   firstFormValue!: T;
 
   ngOnInit(): void {
-    this.form.valueChanges.pipe(skip(1), take(1), takeUntil(this.destroy$)).subscribe((firstFormValue) => {
+    this.form.valueChanges.pipe(skip(1), take(1), takeUntilDestroyed(this.destroyRef)).subscribe((firstFormValue) => {
       this.firstFormValue = firstFormValue;
     });
 
     this.form.valueChanges
       .pipe(
         skip(2),
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         map((v) => JSON.stringify(v) !== JSON.stringify(this.firstFormValue)),
       )
       .subscribe((pendingChanges) => {
         this.pendingChanges$.next(pendingChanges);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   get ModalMode() {

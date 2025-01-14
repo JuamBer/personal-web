@@ -3,19 +3,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   Input,
-  OnDestroy,
   OnInit,
   ViewEncapsulation,
   inject,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { faLanguage, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
-import { map, startWith, take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { map, startWith, take } from 'rxjs/operators';
 import { Language } from 'src/app/backoffice/tables/language/models/language.model';
 import { publicLanguageReducer } from 'src/app/shared/state/languages/public-language.reducer';
 import { FormUtils } from 'src/app/shared/utils/form-utils';
@@ -31,14 +31,13 @@ import { InputTranslationsService } from './services/input-translations.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class InputTranslationsComponent implements OnInit, OnDestroy {
+export class InputTranslationsComponent implements OnInit {
   private store = inject(Store);
   private fb = inject(FormBuilder);
   private ref = inject(ChangeDetectorRef);
   private inputTranslationsService = inject(InputTranslationsService);
   private capitalizePipe = inject(CapitalizePipe);
-
-  destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   @Input({
     required: true,
@@ -105,7 +104,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
   languagesToAdd = signal([] as Language[]);
 
   ngOnInit(): void {
-    this._showErrors.pipe(takeUntil(this.destroy$)).subscribe((showErrors) => {
+    this._showErrors.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((showErrors) => {
       if (showErrors && this.form.invalid) {
         FormUtils.markAllAsDirtyAndTouched(this.form);
         this.visibility = true;
@@ -114,7 +113,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
 
     this.store
       .select(publicLanguageReducer.getOne)
-      .pipe(take(1), takeUntil(this.destroy$))
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
       .subscribe((language) => {
         if (language) {
           this.language = language;
@@ -123,7 +122,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
 
     this.store
       .select(publicLanguageReducer.getOne)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((language) => {
         if (language) {
           this.publicLanguage = language;
@@ -134,7 +133,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
       this.languages$,
       this.form.valueChanges.pipe(startWith(this.form.value)),
     ]).pipe(
-      takeUntil(this.destroy$),
+      takeUntilDestroyed(this.destroyRef),
       map(([languages, translations]) =>
         languages.filter(
           (language) =>
@@ -150,7 +149,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
       this.disabledLanguages$,
       this.form.valueChanges.pipe(startWith(this.form.value)),
     ]).pipe(
-      takeUntil(this.destroy$),
+      takeUntilDestroyed(this.destroyRef),
       map(([disabledLanguages, translations]) => {
         const languagesToAdd = disabledLanguages.filter(
           (language) => !translations.find((translation) => translation.language === language.acronym),
@@ -163,7 +162,7 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
     });
 
     combineLatest([this.languagesToFill$, this.translations$])
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([languages, translations]) => {
         languages.forEach((language) => {
           if (this.form.value.findIndex((translation) => translation.language === language.acronym) < 0) {
@@ -182,11 +181,6 @@ export class InputTranslationsComponent implements OnInit, OnDestroy {
           }
         });
       });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   onHide() {

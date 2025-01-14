@@ -4,19 +4,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
-  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
   inject,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { faBriefcase, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject, combineLatest } from 'rxjs';
-import { filter, map, startWith, takeUntil } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { filter, map, startWith } from 'rxjs/operators';
 import { CompanyType } from 'src/app/backoffice/tables/company/models/company-type.model';
 import { Company } from 'src/app/backoffice/tables/company/models/company.model';
 import { Position } from 'src/app/backoffice/tables/position/models/position.model';
@@ -45,15 +45,14 @@ export class PositionGroupedByCompany {
     ]),
   ],
 })
-export class ExperienceComponent extends TranslationProvider implements OnInit, AfterViewChecked, OnDestroy {
+export class ExperienceComponent extends TranslationProvider implements OnInit, AfterViewChecked {
   private store = inject(Store);
   private ref = inject(ChangeDetectorRef);
   private translateSrv = inject(TranslateService);
+  private destroyRef = inject(DestroyRef);
 
   @ViewChildren('position') positionElements!: QueryList<ElementRef<HTMLLIElement>>;
   positionElementStates = new Map<string, 'inViewport' | 'notInViewport'>();
-
-  destroy$ = new Subject<void>();
 
   language$ = this.store.select(publicLanguageReducer.getOne);
   language = toSignal(this.language$);
@@ -145,7 +144,7 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
   });
 
   ngOnInit() {
-    this.positionsGrouped$.pipe(takeUntil(this.destroy$)).subscribe((positionsGrouped) => {
+    this.positionsGrouped$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((positionsGrouped) => {
       if (!positionsGrouped.length) {
         this.store.dispatch(positionActions.loadAll(addActionId({ feedback: new Set([ActionStatus.ERROR]) })));
       }
@@ -170,11 +169,6 @@ export class ExperienceComponent extends TranslationProvider implements OnInit, 
       });
       observer.observe(positionElement.nativeElement);
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   getPositionEnterAnimationState(companyId: string | undefined): 'inViewport' | 'notInViewport' {

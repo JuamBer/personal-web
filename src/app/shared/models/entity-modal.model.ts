@@ -1,6 +1,6 @@
 import { Signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ModalMode } from 'src/app/shared/models/modal-mode.model';
 import { ModalParams } from 'src/app/shared/models/modal-params.model';
 import { CommonNames, Naming, NumberMode } from 'src/app/shared/state/common/common.names';
@@ -9,8 +9,6 @@ import { Resource } from './resource.model';
 export interface EntityModal<T extends Resource> {
   visible: boolean;
   form: FormGroup;
-
-  destroy$: Subject<void>;
 
   params$: Observable<ModalParams>;
 
