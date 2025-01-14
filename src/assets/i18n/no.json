@@ -12,22 +12,22 @@
     "home": {
       "title": "Home",
       "meta": {
-        "description": "Juan Sáez García's personal website, web application developer. Here you can find information about his professional career, projects and certificates.",
-        "keywords": "Juan Sáez García, JuamBer, Web application developer, Full Stack, Frontend, Backend"
+        "description": "Personlig nettside til Juan Sáez García, utvikler av nettapplikasjoner. Her kan du finne informasjon om hans yrkeskarriere, prosjekter og sertifikater.",
+        "keywords": "Juan Sáez García, JuamBer, Utvikler av nettapplikasjoner, Full Stack, Frontend, Backend"
       }
     },
     "certificates": {
       "title": "Sertifikater",
       "meta": {
-        "description": "Juan Sáez García's certificates, web application developer. Here you can find information about his certificates.",
-        "keywords": "Juan Sáez García, JuamBer, Web application developer, Full Stack, Frontend, Backend, Certificates"
+        "description": "Juan Sáez García's sertifikater, utvikler av nettapplikasjoner. Her kan du finne informasjon om hans sertifikater.",
+        "keywords": "Juan Sáez García, JuamBer, Utvikler av nettapplikasjoner, Full Stack, Frontend, Backend, Sertifikater"
       }
     },
     "projects": {
       "title": "Prosjekter",
       "meta": {
-        "description": "Juan Sáez García's projects, web application developer. Here you can find information about his projects.",
-        "keywords": "Juan Sáez García, JuamBer, Web application developer, Full Stack, Frontend, Backend, Projects"
+        "description": "Juan Sáez García's prosjekter, utvikler av nettapplikasjoner. Her kan du finne informasjon om hans prosjekter.",
+        "keywords": "Juan Sáez García, JuamBer, Utvikler av nettapplikasjoner, Full Stack, Frontend, Backend, Prosjekter"
       }
     },
     "logIn": {
