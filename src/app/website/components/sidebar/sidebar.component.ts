@@ -29,21 +29,19 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   lang$ = this.langSrv.lang$;
   lang = this.langSrv.lang;
 
+  private readonly pageConfigs = [
+    { translationKey: 'pages.home.title', fallback: 'Home', route: 'home' },
+    { translationKey: 'pages.projects.title', fallback: 'Projects', route: 'projects' },
+    { translationKey: 'pages.certificates.title', fallback: 'Certificates', route: 'certificates' },
+  ] as const;
+
   pages$: Observable<Page[]> = this.lang$.pipe(
-    map((lang) => [
-      {
-        name: this.translateSrv.instant('pages.home.title'),
-        routerLink: `/${lang}/home`,
-      },
-      {
-        name: this.translateSrv.instant('pages.projects.title'),
-        routerLink: `/${lang}/projects`,
-      },
-      {
-        name: this.translateSrv.instant('pages.certificates.title'),
-        routerLink: `/${lang}/certificates`,
-      },
-    ]),
+    map((lang) =>
+      this.pageConfigs.map((config) => ({
+        name: this.getTranslationWithFallback(config.translationKey, config.fallback),
+        routerLink: `/${lang}/${config.route}`,
+      })),
+    ),
   );
   pages = toSignal(this.pages$, {
     initialValue: [],
@@ -89,6 +87,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     if (nav) {
       nav.style.width = '0%';
     }
+  }
+
+  private getTranslationWithFallback(key: string, fallback: string): string {
+    const translation = this.translateSrv.instant(key);
+    return translation && translation !== key ? translation : fallback;
   }
 
   get faBars() {

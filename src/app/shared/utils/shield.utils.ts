@@ -159,6 +159,18 @@ export const generateTechnologyShield = (technology: string) => {
       color = '38b832';
       logoColor = 'white';
       break;
+    case 'astro':
+      color = 'FF5F01';
+      logoColor = 'white';
+      break;
+    case 'tailwindcss':
+      color = '06B6D4';
+      logoColor = 'white';
+      break;
+    case 'github':
+      color = '181717';
+      logoColor = 'white';
+      break;
   }
 
   return `https://img.shields.io/badge/${name}-%23${color}.svg?style=for-the-badge&logo=${logo}&logoColor=${logoColor}`;
